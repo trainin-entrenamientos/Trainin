@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Angular build
+/dist/
+/out-tsc/
+
+# Local environment files
+/.angular/
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage directory
+/coverage/
+
+# Angular CLI specific
+.angular/
+
+# Build output folders
+/dist/
+*.tsbuildinfo
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+/cypress/fixtures/
