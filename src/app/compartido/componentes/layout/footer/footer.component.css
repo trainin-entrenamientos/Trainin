@@ -1,0 +1,35 @@
+footer {
+  background-color: #06131c;
+  text-align: center;
+  margin-top: auto;
+  padding: 30px 0;
+}
+
+.contenedor-footer {
+  width: 90%;
+  margin: auto;
+}
+
+footer a {
+  color: #13ff3a;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1366px) {
+  .contenedor-footer {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    color: #FFFFFF;
+  }
+
+  .redes-ayuda {
+    flex-direction: column;
+    gap: 0 !important;
+  }
+
+  .contenedor-ayuda {
+    display: flex;
+    justify-content: space-between;
+  }
+}
