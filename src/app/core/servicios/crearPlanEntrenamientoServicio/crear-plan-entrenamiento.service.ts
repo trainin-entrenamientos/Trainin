@@ -12,6 +12,6 @@ export class CrearPlanEntrenamientoService {
 
   getPlanesDeEntrenamiento(id: number): Observable<PlanEntrenamiento> {
     //return this.http.get(`http://localhost:8080/plan-entrenamiento/${id}`);
-    return of(new PlanEntrenamiento(1, "Cuerpo completo", true, 1, 1, id));
+    return of(new PlanEntrenamiento(1, "Cuerpo completo", false, 0, 1, id, 1, 5, 45));
   }
 }

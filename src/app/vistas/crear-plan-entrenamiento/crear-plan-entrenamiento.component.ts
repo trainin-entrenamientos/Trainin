@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PlanEntrenamiento } from '../../core/modelos/PlanEntrenamiento';
 import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
@@ -17,7 +17,10 @@ export class CrearPlanEntrenamientoComponent implements OnInit {
   crearPlanEntrenamientoService: CrearPlanEntrenamientoService;
   usuarioService: UsuarioService;
 
-  constructor(CrearPlanEntrenamientoService: CrearPlanEntrenamientoService, UsuarioService: UsuarioService) {
+  constructor(
+    CrearPlanEntrenamientoService: CrearPlanEntrenamientoService,
+    UsuarioService: UsuarioService
+  ) {
     this.crearPlanEntrenamientoService = CrearPlanEntrenamientoService;
     this.usuarioService = UsuarioService;
   }
@@ -53,5 +56,20 @@ export class CrearPlanEntrenamientoComponent implements OnInit {
         console.log('Petición completada');
       },
     });
+  }
+
+  get circulos(): boolean[] {
+    const totalSemanal = this.planEntrenamiento?.totalProgresoSemanal ?? 0;
+    const progresoSemanal = this.planEntrenamiento?.progresoSemanal ?? 0;
+    return Array.from(
+      { length: totalSemanal },
+      (_, index) => index < progresoSemanal
+    );
+  }
+
+  get porcentajeProgreso(): string {
+    const progreso = this.planEntrenamiento?.progresoPlan ?? 0;
+    const total = this.planEntrenamiento?.totalProgresoPlan ?? 1;
+    return `${(progreso / total) * 100}%`;
   }
 }
