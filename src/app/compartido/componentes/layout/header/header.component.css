@@ -1,0 +1,48 @@
+header {
+  background-color: #06131c;
+  padding: 30px 0;
+}
+
+nav {
+  width: 90%;
+  margin: auto;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+nav a {
+  text-decoration: underline;
+  text-decoration-color: #13ff3a;
+}
+
+.usuario {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1366px) {
+  header {
+    font-size: 0.8rem;
+  }
+
+  .logo {
+    width: 80px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    padding: 10px 0;
+  }
+}
