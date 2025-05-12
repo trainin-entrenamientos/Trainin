@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
+import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'politicas-privacidad',
     component: PoliticasPrivacidadComponent
+  },
+  {
+    path: 'preguntas-frecuentes',
+    component: PreguntasFrecuentesComponent
   }
 ];
 
