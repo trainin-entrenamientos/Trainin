@@ -6,12 +6,14 @@ import { CompartidoModule } from './compartido/shared.module';
 import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { provideHttpClient } from '@angular/common/http';
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
+import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CrearPlanEntrenamientoComponent,
-    TerminosCondicionesComponent
+    TerminosCondicionesComponent,
+    PoliticasPrivacidadComponent
   ],
   imports: [
     BrowserModule,
