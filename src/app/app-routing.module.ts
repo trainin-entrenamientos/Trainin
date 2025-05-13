@@ -7,29 +7,6 @@ import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preg
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 
-/* const routes: Routes = [
-  {
-    path: '',
-    component: CrearPlanEntrenamientoComponent,
-  },
-  {
-    path: 'terminos-condiciones',
-    component: TerminosCondicionesComponent
-  },
-  {
-    path: 'politicas-privacidad',
-    component: PoliticasPrivacidadComponent
-  },
-  {
-    path: 'preguntas-frecuentes',
-    component: PreguntasFrecuentesComponent
-  },
-  {
-    path: 'nosotros',
-    component: NosotrosComponent
-  }
-]; */
-
 const routes: Routes = [
   {
     path: '',
@@ -54,6 +31,10 @@ const routes: Routes = [
       {
         path: 'preguntas-frecuentes',
         component: PreguntasFrecuentesComponent
+      },
+      {
+        path: 'nosotros',
+        component: NosotrosComponent
       }
     ]
   }
