@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+}
+
+.contenedor-principal {
+  width: 80%;
+}
+
+.contenedor-texto {
+  width: 60%;
+}
+
+.contenedor-mision-vision {
+  width: 80%;
+}
+
+.contenedor-mision,
+.contenedor-vision {
+  background-color: #111111;
+  border-radius: 20px;
+}
+
+.contenedor-titulo-mision,
+.contenedor-titulo-vision,
+.contenedor-titulo-valores {
+  border-bottom: 2px solid #13ff3a;
+}
+
+.contenedor-titulo-valores {
+  width: 50%;
+}
+
+.img-valor {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.contenedor-imagen-texto {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.imagen-fondo {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  display: flex;
+  margin: auto;
+  border-radius: 20px;
+}
+
+.contenedor-texto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1;
+}
+
+h5 {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .contenedor-mision-vision {
+    flex-direction: column;
+  }
+
+  .texto-chico {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .contenedor-texto h2 {
+    font-size: 0.8rem;
+  }
+
+  .contenedor-texto p {
+    font-size: 0.5rem;
+  }
+
+  h5 {
+    font-size: 0.8rem;
+  }
+
+  .texto-chico {
+    font-size: 0.5rem;
+  }
+}
