@@ -4,8 +4,9 @@ import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamien
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
 import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
+import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 
-const routes: Routes = [
+/* const routes: Routes = [
   {
     path: '',
     component: CrearPlanEntrenamientoComponent,
@@ -21,6 +22,35 @@ const routes: Routes = [
   {
     path: 'preguntas-frecuentes',
     component: PreguntasFrecuentesComponent
+  }
+]; */
+
+const routes: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        component: CrearPlanEntrenamientoComponent
+      },
+      {
+        path: 'crear-plan',
+        component: CrearPlanEntrenamientoComponent
+      },
+      {
+        path: 'terminos-condiciones',
+        component: TerminosCondicionesComponent
+      },
+      {
+        path: 'politicas-privacidad',
+        component: PoliticasPrivacidadComponent
+      },
+      {
+        path: 'preguntas-frecuentes',
+        component: PreguntasFrecuentesComponent
+      }
+    ]
   }
 ];
 

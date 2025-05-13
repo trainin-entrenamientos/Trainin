@@ -15,6 +15,10 @@ footer a {
   text-decoration: none;
 }
 
+footer p {
+  color: #FFFFFF;
+}
+
 @media screen and (max-width: 1366px) {
   .contenedor-footer {
     display: flex;
