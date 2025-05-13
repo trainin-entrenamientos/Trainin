@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './componentes/layout/header/header.component';
 import { FooterComponent } from './componentes/layout/footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule],
-  exports: [HeaderComponent, FooterComponent],
-  declarations: [HeaderComponent, FooterComponent],
+  exports: [HeaderComponent, FooterComponent, EjercicioTarjetaComponent],
+  declarations: [HeaderComponent, FooterComponent, EjercicioTarjetaComponent],
   providers: [],
 })
 export class CompartidoModule {}
