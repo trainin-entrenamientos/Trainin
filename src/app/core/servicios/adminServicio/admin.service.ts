@@ -29,4 +29,9 @@ export class AdminService {
     //return this.http.delete<void>(`http://localhost:3000/ejercicios/${id}`);
     return of (true);
   }
+
+  crearEjercicio(ejercicio: Ejercicio): Observable<Ejercicio> {
+    //return this.http.post<Ejercicio>('http://localhost:3000/ejercicios', ejercicio);
+    return of (ejercicio);
+  }
 }

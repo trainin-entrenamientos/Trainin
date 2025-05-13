@@ -1,0 +1,131 @@
+<body>
+  <main>
+    <section>
+      <article class="pb-5">
+        <div class="contenedor-principal m-auto p-5">
+          <div class="text-center pb-4">
+            <h1>Crear ejercicio</h1>
+          </div>
+          <form [formGroup]="crearEjercicioForm" (ngSubmit)="crearEjercicio()">
+            <div class="d-flex flex-column mb-3">
+              <label for="nombre-ejercicio">Nombre del ejercicio</label>
+              <input
+                class="input"
+                type="text"
+                id="nombre-ejercicio"
+                formControlName="nombreEjercicio"
+                placeholder="Nombre del ejercicio"
+              />
+              <div
+                *ngIf="
+                  crearEjercicioForm.get('nombreEjercicio')?.touched &&
+                  crearEjercicioForm.get('nombreEjercicio')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    crearEjercicioForm
+                      .get('nombreEjercicio')
+                      ?.hasError('required')
+                  "
+                  >El nombre del ejercicio es obligatorio.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex flex-column mb-3">
+              <label for="categoria">Selecciona una categoría:</label>
+              <select
+                class="select"
+                formControlName="categoriaSeleccionada"
+                id="categoria"
+              >
+                <option value="" disabled selected>
+                  Selecciona una categoría
+                </option>
+                <option
+                  class="option"
+                  *ngFor="let categoria of categorias"
+                  [value]="categoria"
+                >
+                  {{ categoria }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  crearEjercicioForm.get('categoriaSeleccionada')?.touched &&
+                  crearEjercicioForm.get('categoriaSeleccionada')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    crearEjercicioForm
+                      .get('categoriaSeleccionada')
+                      ?.hasError('required')
+                  "
+                  >Debe seleccionar una categoría.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex flex-column mb-3">
+              <label for="tipoEjercicio"
+                >Selecciona el tipo de ejercicio:</label
+              >
+              <select
+                class="select"
+                formControlName="tipoEjercicioSeleccionado"
+                id="tipoEjercicio"
+              >
+                <option value="" disabled selected>
+                  Selecciona el tipo de ejercicio
+                </option>
+                <option
+                  class="option"
+                  *ngFor="let tipoEjercicio of tipoEjercicios"
+                  [value]="tipoEjercicio"
+                >
+                  {{ tipoEjercicio }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  crearEjercicioForm.get('tipoEjercicioSeleccionado')
+                    ?.touched &&
+                  crearEjercicioForm.get('tipoEjercicioSeleccionado')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    crearEjercicioForm
+                      .get('tipoEjercicioSeleccionado')
+                      ?.hasError('required')
+                  "
+                  >Debe seleccionar un tipo de ejercicio.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-5">
+               <button
+                class="boton-cancelar text-center p-2"
+                routerLink="/home-admin"
+              >
+                Cancelar
+              </button>
+              <button
+                class="boton-crear-ejercicio text-center p-2"
+                type="submit"
+              >
+                Crear Ejercicio
+              </button>
+            </div>
+          </form>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
