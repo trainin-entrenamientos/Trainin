@@ -8,10 +8,12 @@ import { Component } from '@angular/core';
 })
 export class FinalizacionRutinaComponent {
   ejercicios = [
+    {nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
     {nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
     {nombre: 'Sentadillas', imagen: '/imagenes/Sentadilla.jpg'},
-    {nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
     {nombre: 'Plancha', imagen: '/imagenes/plancha.jpg'},
+    {nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
+    {nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
   ];
   estadisticas = [
     { label: 'Calorías Quemadas', valor: '120 cal' },
