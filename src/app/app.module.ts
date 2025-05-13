@@ -5,10 +5,16 @@ import { AppComponent } from './app.component';
 import { CompartidoModule } from './compartido/compartido.module';
 import { VistasModule } from './vistas/vistas.module';
 import { provideHttpClient } from '@angular/common/http';
+import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CrearPlanEntrenamientoComponent,
+    TerminosCondicionesComponent,
+    PoliticasPrivacidadComponent,
+    PreguntasFrecuentesComponent,
+    NosotrosComponent
   ],
   imports: [
     BrowserModule,

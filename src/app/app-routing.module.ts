@@ -5,6 +5,7 @@ import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/term
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
 import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
+import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 
 /* const routes: Routes = [
   {
@@ -22,6 +23,10 @@ import { LayoutComponent } from './compartido/componentes/layout/layout.componen
   {
     path: 'preguntas-frecuentes',
     component: PreguntasFrecuentesComponent
+  },
+  {
+    path: 'nosotros',
+    component: NosotrosComponent
   }
 ]; */
 
