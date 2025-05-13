@@ -10,7 +10,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
   templateUrl: './crear-plan-entrenamiento.component.html',
   styleUrl: './crear-plan-entrenamiento.component.css',
 })
-export class CrearPlanEntrenamientoComponent implements OnInit {
+export class CrearPlanEntrenamientoComponent {
   idUsuario: number = 1;
   planEntrenamiento?: PlanEntrenamiento;
   usuario?: Usuario;

@@ -1,20 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
 import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-frecuentes.component';
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
+import { HomeAdminComponent } from './home-admin/home-admin.component';
 
 @NgModule({
   declarations: [
     CrearPlanEntrenamientoComponent,
     PoliticasPrivacidadComponent,
     PreguntasFrecuentesComponent,
-    TerminosCondicionesComponent
+    TerminosCondicionesComponent,
+    HomeAdminComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     CrearPlanEntrenamientoComponent,
