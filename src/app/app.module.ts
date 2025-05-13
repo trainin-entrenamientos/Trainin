@@ -7,13 +7,15 @@ import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamien
 import { provideHttpClient } from '@angular/common/http';
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
+import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CrearPlanEntrenamientoComponent,
     TerminosCondicionesComponent,
-    PoliticasPrivacidadComponent
+    PoliticasPrivacidadComponent,
+    FormularioCrearPlanDeEntrenamientoComponent
   ],
   imports: [
     BrowserModule,

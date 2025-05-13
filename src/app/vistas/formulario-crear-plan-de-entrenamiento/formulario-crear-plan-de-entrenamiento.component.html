@@ -1,0 +1,777 @@
+<body>
+  <main>
+    <div class="form-container">
+      <form id="formularioEntrenamiento" action="rutadelbackend" method="POST">
+        <!-- Paso 1 - Datos Personales -->
+        <div class="step step-1 active">
+          <div class="text-center mb-2">Sección 1 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 16.7%"></div>
+          </div>
+          <h4 class="text-center mb-4">Ingresá tus datos</h4>
+          <div class="preguntas-container">
+            <div>
+              <label>¿Cuánto pesas?</label>
+              <div>
+                <input
+                  type="number"
+                  name="peso"
+                  class="form-completarInfo"
+                  style="width: 80px"
+                />kg.
+              </div>
+            </div>
+            <div>
+              <label>¿Cuánto medís?</label>
+              <div>
+                <input
+                  type="number"
+                  name="altura"
+                  class="form-completarInfo"
+                  style="width: 80px"
+                />cm.
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!-- Paso 2 - Objetivos -->
+        <div class="step step-2">
+          <div class="text-center mb-2">Sección 2 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 33.4%"></div>
+          </div>
+          <h3 class="text-white text-center mb-4">
+            ¿Cuál es tu objetivo principal para entrenar?
+          </h3>
+          <div class="mb-4">
+            <p class="text-center text-white mb-3">
+              Seleccioná una única opción
+            </p>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Reducir grasa corporal – Bajar de peso</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo1"
+                value="Reducir grasa corporal"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Tonificar el cuerpo – Mejorar la apariencia muscular</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo2"
+                value="Tonificar el cuerpo"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Ganar masa muscular – Aumentar fuerza</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo3"
+                value="Ganar masa muscular"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Mejorar la flexibilidad y movilidad</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo4"
+                value="Mejorar la flexibilidad"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Mantenerme activo/a y con energía cada día</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo5"
+                value="Mantenerme activo"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
+            >
+              <span>Combatir el sedentarismo</span>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="objetivo"
+                id="objetivo6"
+                value="Combatir el sedentarismo"
+              />
+            </div>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!-- Paso 3 - Nivel del Entrenamiento -->
+        <div class="step step-3">
+          <div class="text-center mb-2">Sección 3 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 50%"></div>
+          </div>
+          <h4 class="text-white text-center mb-2">
+            ¿Con qué frecuencia realizás actividad física?
+          </h4>
+          <p class="text-center text-white mb-3">
+            Seleccioná la opción más acorde
+          </p>
+          <div class="slider-scale-container">
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                min="1"
+                max="5"
+                step="1"
+                value="1"
+                class="custom-range"
+                id="rangoFrecuenciaActividad"
+              />
+              <div class="scale-track">
+                <div class="scale-fill" id="actividadFill"></div>
+                <div class="scale-point-container" style="left: 0%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Ninguna</div>
+                </div>
+                <div class="scale-point-container" style="left: 25%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Muy poca</div>
+                </div>
+                <div class="scale-point-container" style="left: 50%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Moderada</div>
+                </div>
+                <div class="scale-point-container" style="left: 75%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Frecuente</div>
+                </div>
+                <div class="scale-point-container" style="left: 100%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Mucha</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h4 class="text-white text-center mb-2">
+            ¿Qué nivel de exigencia querés que tenga tu entrenamiento?
+          </h4>
+          <p class="text-center text-white mb-3">
+            Seleccioná la opción más acorde
+          </p>
+          <div class="slider-scale-container mb-4">
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                min="1"
+                max="5"
+                step="1"
+                value="1"
+                class="custom-range"
+                id="rangoExigencia"
+              />
+              <div class="scale-track">
+                <div class="scale-fill" id="exigenciaFill"></div>
+                <div class="scale-point-container" style="left: 0%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Muy baja</div>
+                </div>
+                <div class="scale-point-container" style="left: 25%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Baja</div>
+                </div>
+                <div class="scale-point-container" style="left: 50%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Moderada</div>
+                </div>
+                <div class="scale-point-container" style="left: 75%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Alta</div>
+                </div>
+                <div class="scale-point-container" style="left: 100%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">Muy Alta</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!-- Paso 4 - Tipo de Entrenamiento -->
+        <div class="step step-4">
+          <div class="text-center mb-2">Sección 4 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 66.6%"></div>
+          </div>
+          <h4 class="text-white text-center mb-4">
+            ¿Qué tipo de entrenamiento querés realizar?
+          </h4>
+          <div class="cards-container">
+            <!-- Cuerpo completo -->
+            <label class="flip-card" onclick="selectCard(this)">
+              <input
+                type="radio"
+                name="tipoEntrenamiento"
+                value="Cuerpo Completo"
+                hidden
+              />
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img
+                    src="imagenes/cuerpo-completo.png"
+                    alt="Cuerpo completo"
+                  />
+                  <p>Cuerpo completo</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>
+                    Entrenamiento que trabaja todo el cuerpo: tren superior,
+                    inferior y core.
+                  </p>
+                </div>
+              </div>
+            </label>
+            <!-- Tren superior -->
+            <label class="flip-card" onclick="selectCard(this)">
+              <input
+                type="radio"
+                name="tipoEntrenamiento"
+                value="Tren Superior"
+                hidden
+              />
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="imagenes/tren-superior.png" alt="Tren superior" />
+                  <p>Tren superior</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>
+                    Entrenamiento enfocado en pecho, espalda, hombros y brazos.
+                  </p>
+                </div>
+              </div>
+            </label>
+            <!-- Tren inferior -->
+            <label class="flip-card" onclick="selectCard(this)">
+              <input
+                type="radio"
+                name="tipoEntrenamiento"
+                value="Tren Inferior"
+                hidden
+              />
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="imagenes/tren-inferior.png" alt="Tren inferior" />
+                  <p>Tren inferior</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>Trabaja piernas, glúteos y pantorrillas.</p>
+                </div>
+              </div>
+            </label>
+            <!-- Cardio -->
+            <label class="flip-card" onclick="selectCard(this)">
+              <input
+                type="radio"
+                name="tipoEntrenamiento"
+                value="Cardio"
+                hidden
+              />
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="imagenes/cardio.png" alt="Cardio" />
+                  <p>Cardio</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>
+                    Entrenamiento para mejorar la resistencia y salud
+                    cardiovascular.
+                  </p>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!-- Paso 5 - Equipamento Disponible -->
+        <div class="step step-5">
+          <div class="text-center mb-2">Sección 5 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 83.3%"></div>
+          </div>
+          <h3 class="text-white text-center mb-4">
+            ¿Tenés algún equipamiento en casa?
+          </h3>
+          <p class="text-center text-white mb-3">
+            Seleccioná una o más opciones
+          </p>
+          <div class="equipamiento-grid">
+            <div class="equipamiento-item" data-value="Colchoneta">
+              <img src="imagenes/colchoneta.png" alt="Colchoneta" />
+              <span>Colchoneta</span>
+            </div>
+            <div class="equipamiento-item" data-value="Mancuernas">
+              <img src="imagenes/mancuernas.png" alt="Mancuernas" />
+              <span>Mancuernas</span>
+            </div>
+            <div class="equipamiento-item" data-value="Banda Elástica">
+              <img src="imagenes/banda-elastica.png" alt="Banda Elástica" />
+              <span>Banda elástica</span>
+            </div>
+            <div class="equipamiento-item" data-value="Tobilleras">
+              <img src="imagenes/tobilleras.png" alt="Tobilleras" />
+              <span>Tobilleras</span>
+            </div>
+            <div class="equipamiento-item" data-value="Soga">
+              <img src="imagenes/soga.png" alt="Soga" />
+              <span>Soga</span>
+            </div>
+            <div class="equipamiento-item" id="ninguno" data-value="Ninguno">
+              <img src="imagenes/ninguno.png" alt="Ninguno" />
+              <span>Ninguno</span>
+            </div>
+          </div>
+          <br />
+          <input
+            type="hidden"
+            name="equipamientoSeleccionado"
+            id="equipamientoSeleccionado"
+          />
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!-- Paso 6 - Frecuencia del Entrenamiento -->
+        <div class="step step-6">
+          <div class="text-center mb-2">Sección 6 de 6</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 100%"></div>
+          </div>
+          <h4 class="text-white text-center mb-2">
+            ¿Cuántos días a la semana podés entrenar?
+          </h4>
+          <p class="text-center text-white mb-3">
+            Seleccioná la cantidad de días del 1 a 5
+          </p>
+          <div class="slider-scale-container">
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                min="1"
+                max="5"
+                step="1"
+                value="1"
+                class="custom-range"
+                id="rangoDiasSemanales"
+              />
+              <div class="scale-track">
+                <div class="scale-fill" id="diasSemanalesFill"></div>
+                <div class="scale-point-container" style="left: 0%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">1 día</div>
+                </div>
+                <div class="scale-point-container" style="left: 25%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">2 días</div>
+                </div>
+                <div class="scale-point-container" style="left: 50%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">3 días</div>
+                </div>
+                <div class="scale-point-container" style="left: 75%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">4 días</div>
+                </div>
+                <div class="scale-point-container" style="left: 100%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">5 días</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h4 class="text-white text-center mb-2">
+            ¿Qué duración de entrenamiento preferís?
+          </h4>
+          <p class="text-center text-white mb-3">
+            Seleccioná los minutos estimados a entrenar
+          </p>
+          <div class="slider-scale-container mb-4">
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                min="1"
+                max="3"
+                step="1"
+                value="1"
+                class="custom-range"
+                id="rangoMinutos"
+              />
+              <div class="scale-track">
+                <div class="scale-fill" id="minutosFill"></div>
+                <div class="scale-point-container" style="left: 0%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">10 a 15 min.</div>
+                </div>
+                <div class="scale-point-container" style="left: 50%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">15 a 25 min.</div>
+                </div>
+                <div class="scale-point-container" style="left: 100%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">25 a 40 min.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h4 class="text-white text-center mb-2">
+            ¿Cuál es la duración que quiere que tenga su plan?
+          </h4>
+          <p class="text-center text-white mb-3">
+            Seleccioná la cantidad de días de duración de tu plan
+          </p>
+          <div class="slider-scale-container mb-4">
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                min="1"
+                max="3"
+                step="1"
+                value="1"
+                class="custom-range"
+                id="duracionPlan"
+              />
+              <div class="scale-track">
+                <div class="scale-fill" id="duracionPlanFill"></div>
+                <div class="scale-point-container" style="left: 0%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">15 días</div>
+                </div>
+                <div class="scale-point-container" style="left: 50%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">30 días</div>
+                </div>
+                <div class="scale-point-container" style="left: 100%">
+                  <div class="scale-point"></div>
+                  <br />
+                  <div class="scale-label">45 días</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              class="btn btn-custom btn-siguiente"
+              onclick="nextStep()"
+            >
+              Siguiente
+            </button>
+          </div>
+          <div class="volver-al-resumen text-center mt-3" style="display: none">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              onclick="volverAlResumen()"
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </div>
+        <!--RESUMEN FORMULARIO-->
+        <div class="step step-7">
+          <div class="text-center mb-2">Resumen</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 100%"></div>
+          </div>
+          <div class="resumen-container text-white">
+            <!-- Paso 1 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Datos personales</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(1)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>Peso: <span id="resumenPeso"></span> kg</p>
+              <p>Altura: <span id="resumenAltura"></span> cm</p>
+            </div>
+            <!-- Paso 2 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Objetivo</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(2)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>Objetivo seleccionado: <span id="resumenObjetivo"></span></p>
+            </div>
+            <!-- Paso 3 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Actividad y exigencia</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(3)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>
+                Frecuencia actividad física: <span id="resumenActividad"></span>
+              </p>
+              <p>Exigencia deseada: <span id="resumenExigencia"></span></p>
+            </div>
+            <!-- Paso 4 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Tipo de entrenamiento</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(4)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>Tipo: <span id="resumenEntrenamiento"></span></p>
+              <img
+                id="resumenImagenEntrenamiento"
+                src=""
+                alt="Imagen entrenamiento"
+                style="max-width: 150px; display: none"
+              />
+            </div>
+            <!-- Paso 5 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Equipamento</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(5)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>Tipo: <span id="resumenEquipamiento"></span></p>
+              <div
+                id="resumenImagenesEquipamiento"
+                class="d-flex flex-wrap mt-2 gap-2"
+              ></div>
+            </div>
+            <!-- Paso 6 -->
+            <div class="resumen-item mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5>Frecuencia para entrenar</h5>
+                <button
+                  type="button"
+                  class="btn btn-link p-0"
+                  onclick="irAPaso(6)"
+                >
+                  <i class="fas fa-edit text-white"></i>
+                </button>
+              </div>
+              <p>
+                Cantidad de días a la semana:
+                <span id="resumenDiasSemanales"></span>
+              </p>
+              <p>Duración de las rutinas: <span id="resumenMinutos"></span></p>
+              <p>Duración del plan: <span id="resumenDuracionPlan"></span></p>
+            </div>
+          </div>
+          <br />
+          <div class="d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn btn-custom btn-anterior"
+              onclick="previousStep()"
+            >
+              Anterior
+            </button>
+            <button type="submit" class="btn btn-custom btn-siguiente">
+              Finalizar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
