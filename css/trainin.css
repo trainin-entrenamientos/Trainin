@@ -116,12 +116,12 @@ body {
   color: #13FF3A;
   line-height: 1.2;
 }
-
+/*
 @media (min-width: 768px) {
   .why-subtitle {
     white-space: nowrap;
   }
-}
+}*/
 
 /* Párrafos */
 .why-text {
@@ -180,8 +180,8 @@ body {
   }
 
   .why-item.invert .entrenamientodondequieras {
-    margin-left: -11.5rem;
-    width: calc(100% + 11.5rem);
+    margin-left: -9.5rem;
+    width: calc(100% + 9.5rem);
   }
 }
 
@@ -371,6 +371,12 @@ body {
 
 }
 
+@media (max-width:992px) {
+#carruselCorreccion {
+    width: 100% !important;
+  }
+}
+
 /*Botón Unite a TRAININ */
 .correction-section .btn-trainin {
   padding: 0.75rem 2rem;
@@ -456,17 +462,19 @@ body {
   max-width: 280px;
 }
 
-@media (max-width: 767.98px) {
-  .benefit-img {
+@media (max-width:992px) {
+.benefit-img {
+    width: 200px !important;
+    height: 200px;
+  }
+.benefit-img {
     width: 200px;
     height: 200px;
   }
-
-  .benefit-title {
+.benefit-title {
     font-size: 1.25rem;
   }
-
-  .benefit-text {
+.benefit-text {
     font-size: 0.95rem;
     max-width: 100%;
     padding: 0 1rem;
@@ -637,4 +645,141 @@ body {
 .btn-white:hover {
   background-color: #11E835;
   transform: scale(1.05);
+}
+
+
+/* Formulario de Registro */
+.registration-card {
+  background-color: #191919;
+  width: 75%;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.trainin-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #FFF;
+  border-radius: 0;
+  color: #FFF;
+  transition: border-color 0.2s, background-color 0.2s;
+  margin-left: 0;
+  padding-left: 0;
+}
+.trainin-input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.trainin-input:hover {
+  border-bottom-color: #13FF3A;
+}
+.trainin-input:focus {
+  background-color: transparent;
+  color: #ffffff;
+  border-bottom-color: #13FF3A;
+  outline: none;
+  box-shadow: none;
+}
+
+.trainin-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid #13FF3A;
+  border-radius: 3px;
+  background-color: transparent;
+  position: relative;
+  vertical-align: middle;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.trainin-checkbox:checked {
+  background-color: #13FF3A;
+  border-color: #13FF3A;
+}
+
+.trainin-checkbox:checked::after {
+  opacity: 1;
+}
+
+.registration-card .form-label,
+.registration-card .form-check-label {
+  color: #FFF;
+}
+
+.registration-card .trainin-link {
+  color: #13FF3A;
+  text-decoration: none;
+}
+.registration-card .trainin-link:hover {
+  text-decoration: underline;
+}
+
+.campos-registro {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trainin-checkbox {
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid #13FF3A;
+  border-radius: 3px;
+  background-color: transparent;
+  display: flex;
+  
+}
+
+.trainin-checkbox::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFF;
+  font-size: 0.8em;
+  display: none;
+}
+.trainin-checkbox:checked::after {
+  display: block;
+}
+
+.registration-card .form-label,
+.registration-card .form-check-label {
+  text-align: left;
+  display: block;
+}
+.registration-card .form-check {
+  display: flex;
+  align-items: left;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.botones-registro button{
+  margin-right: 2em;
+  margin-left: 2em;
+  margin-top: 8px;
+}
+
+.trainin-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%) !important;
+}
+
+/* Responsive: mobile */
+@media (max-width: 576px) {
+  .registration-card {
+    width: 85%;
+    padding: 1.5rem;
+  }
+
+  .botones-registro{
+    display: flex;
+    justify-content: center;
+  }
+
+  .botones-registro button{
+  margin-right: 8px;
+  margin-left: 8px;
+}
 }

@@ -11,15 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Corrección Carrusel
-  const MOBILE_MAX = 767.98;
+  const SCREEN_MAX = 992;
   const galleryRow = document.querySelector('.row.g-4.mb-5');
   let carouselInitialized = false;
 
-  function toggleMobileCarousel() {
-    const isMobile = window.innerWidth <= MOBILE_MAX;
-    if (isMobile && !carouselInitialized && galleryRow) {
+  function toggleCarousel() {
+    const isMediumScreen = window.innerWidth <= SCREEN_MAX;
+    if (isMediumScreen && !carouselInitialized && galleryRow) {
       const carousel = document.createElement('div');
-      carousel.id = 'mobileCarousel';
+      carousel.id = 'carousel';
       carousel.classList.add('carousel', 'slide', 'carousel-fade');
       carousel.setAttribute('data-bs-ride', 'carousel');
       carousel.setAttribute('data-bs-interval', '3000');
@@ -48,11 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       carouselInitialized = true;
     }
-    else if (!isMobile && carouselInitialized) {
+    else if (!isMediumScreen && carouselInitialized) {
       window.location.reload(); 
     }
   }
 
-  toggleMobileCarousel();
-  window.addEventListener('resize', toggleMobileCarousel);
+  toggleCarousel();
+  window.addEventListener('resize', toggleCarousel);
 });
