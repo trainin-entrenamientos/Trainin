@@ -4,6 +4,7 @@ import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamien
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
 import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
+import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'preguntas-frecuentes',
     component: PreguntasFrecuentesComponent
+  },
+  {
+    path: 'finalizacion-rutina',
+    component: FinalizacionRutinaComponent
   }
 ];
 
