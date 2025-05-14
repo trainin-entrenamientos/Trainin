@@ -7,6 +7,8 @@ import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-p
 import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-frecuentes.component';
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
+import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,14 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
     PoliticasPrivacidadComponent,
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
-    HomeAdminComponent
+    HomeAdminComponent,
+    CrearEjercicioComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     CrearPlanEntrenamientoComponent,

@@ -7,6 +7,7 @@ import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preg
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
+import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
       {
         path: 'home-admin',
         component: HomeAdminComponent
+      },
+      {
+        path: 'crear-ejercicio',
+        component: CrearEjercicioComponent
       }
     ]
   }
