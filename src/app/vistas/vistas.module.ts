@@ -10,7 +10,6 @@ import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-co
 import { FormularioCrearPlanDeEntrenamientoComponent } from './formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
 
@@ -20,18 +19,18 @@ import { CompartidoModule } from '../compartido/compartido.module';
     PoliticasPrivacidadComponent,
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
-    FormularioCrearPlanDeEntrenamientoComponent
+    FormularioCrearPlanDeEntrenamientoComponent,
+    HomeAdminComponent,
+    CrearEjercicioComponent,
+    EditarEjercicioComponent,
   ],
   
-  
+
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    HomeAdminComponent,
-    CrearEjercicioComponent,
-    EditarEjercicioComponent,
     CompartidoModule
   ],
 
