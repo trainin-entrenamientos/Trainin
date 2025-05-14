@@ -1,3 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 80.2vh;
+}
+
 .form-container {
   max-width: 50%;
   margin: 50px auto;
@@ -5,6 +29,7 @@
   padding: 40px 40px;
   border-radius: 15px;
   position: relative;
+  flex: 1;
 }
 .progress {
   height: 5px;
@@ -50,16 +75,79 @@ input.form-control {
 }
 .preguntas-container div {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   align-items: center;
   gap: 1em;
 }
-.form-completarInfo {
+/* Estilo general del input */
+input[type="number"].form-completarInfo {
+  background: transparent;
   border: none;
-  border-radius: 8px;
+  border-bottom: 2px solid white;
+  outline: none;
+  color: white;
+  text-align: center;
+  transition: border-color 0.3s;
+  width: 3em;
 }
+
+/* Cuando el input está enfocado */
+input[type="number"].form-completarInfo:focus {
+  border-bottom: 2px solid #13FF3A;
+}
+
+/* Elimina flechitas en Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Elimina flechitas en Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+input[type="radio"].form-check-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: 2px solid #13FF3A;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Eliminar cualquier punto o contenido interno por defecto */
+input[type="radio"].form-check-input::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* Cuando está seleccionado, lo rellenamos con color */
+input[type="radio"].form-check-input:checked {
+  background-color: #13FF3A;
+  box-shadow: 0 0 0 4px #13FF3A inset;
+}
+
+input[type="radio"].form-check-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(19, 255, 58, 0.5);
+}
+
+
+
 @media screen and (max-width: 768px) {
   .preguntas-container {
     width: 100%;
@@ -116,7 +204,7 @@ input.form-control {
   height: 20px;
   background: #00ff00;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid white; /*VER SI DEJARLE O NO ÉSTO*/
   cursor: pointer;
   z-index: 4;
 }
@@ -125,7 +213,7 @@ input.form-control {
   height: 20px;
   background: #00ff00;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid white;/*VER SI DEJARLE O NO ÉSTO*/
 }
 .scale-track {
   position: relative;
@@ -184,11 +272,11 @@ input.form-control {
 }
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   max-width: 100%;
   justify-items: center;
-  padding: 20px;
+  padding-bottom: 20px;
   align-self: center;
   align-content: center;
 }
@@ -196,13 +284,14 @@ input.form-control {
   background-color: transparent;
   width: 100%;
   max-width: 200px;
+  min-width: 6em; /* Agregado */
   margin: auto;
   height: 250px;
   perspective: 1000px;
   cursor: pointer;
   display: inline-block;
-  min-width: 0;
 }
+
 .flip-card-inner {
   position: relative;
   width: 100%;
@@ -251,13 +340,16 @@ input.form-control {
   border: 2px solid #13ff3a;
   border-radius: 12px;
 }
-@media screen and (max-width: 768px) {
+
+
+
+@media screen and (max-width: 1080px) {
   .cards-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en mobile */
-    gap: 12px; /* un poco menos de espacio */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px; 
   }
   .flip-card {
-    max-width: 150px; /* achica la card para que entren 2 cómodamente */
+    max-width: 150px;
   }
   .flip-card-front img {
     max-width: 100%;
@@ -265,7 +357,7 @@ input.form-control {
   }
   .flip-card-front h5,
   .flip-card-back p {
-    font-size: 14px; /* achica texto si es necesario */
+    font-size: 14px;
   }
 }
 /*PASO 5 RE-DO*/
@@ -299,3 +391,32 @@ input.form-control {
     width: 45%;
   }
 }
+.btn-editar i {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.btn-editar:hover i {
+  color: #13FF3A;
+}
+.titulo-subrayado {
+  display: inline-block;
+  border-bottom: 2px solid #13FF3A;
+  padding-bottom: 4px;
+}
+
+.columna-izquierda,
+.columna-derecha {
+  flex: 1;
+  padding: 20px;
+}
+
+.mensajeErrorForm{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+

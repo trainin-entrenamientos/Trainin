@@ -1,179 +1,108 @@
-<body>
+<body class="aiuda">
   <main>
     <div class="form-container">
-      <form id="formularioEntrenamiento" action="rutadelbackend" method="POST">
+      <form id="formularioEntrenamiento" [formGroup]="formularioForm" (ngSubmit)="verFormulario()" method="POST">
         <!-- Paso 1 - Datos Personales -->
-        <div class="step step-1 active">
+      <div *ngIf="currentStep === 1">
           <div class="text-center mb-2">Sección 1 de 6</div>
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 16.7%"></div>
           </div>
           <h4 class="text-center mb-4">Ingresá tus datos</h4>
-          <div class="preguntas-container">
-            <div>
-              <label>¿Cuánto pesas?</label>
-              <div>
-                <input
-                  type="number"
-                  name="peso"
-                  class="form-completarInfo"
-                  style="width: 80px"
-                />kg.
-              </div>
-            </div>
-            <div>
-              <label>¿Cuánto medís?</label>
-              <div>
-                <input
-                  type="number"
-                  name="altura"
-                  class="form-completarInfo"
-                  style="width: 80px"
-                />cm.
-              </div>
-            </div>
-          </div>
+<div class="preguntas-container text-white">
+  <div class="mensajeErrorForm">
+    <div>
+    <label>¿Cuánto pesas?</label>
+    <span>
+      <input
+        type="number"
+        name="peso"
+        class="form-completarInfo"
+        formControlName="peso"
+      />kg.
+    </span>
+    </div>
+    <div>
+    @if(formularioForm.get('peso')?.hasError('required')&&formularioForm.get('peso')?.touched){
+        <span>Ingresá tu <strong style="color: #13FF3A;">peso</strong> para continuar</span>
+    }
+    </div>
+  </div>
+
+  <div class="mensajeErrorForm">
+    <div>
+    <label>¿Cuánto medís?</label>
+    <span>
+      <input
+        type="number"
+        name="altura"
+        class="form-completarInfo"
+        formControlName="altura"
+      />cm.
+    </span>
+    
+    </div>
+<div>
+
+      @if(formularioForm.get('altura')?.hasError('required')&&formularioForm.get('altura')?.touched){
+        <span>Ingresá tu <strong style="color: #13FF3A;">altura</strong> para continuar</span>
+    }
+    </div>
+  </div>
+</div>
+
+  
           <br />
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
+           <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+  </div>
+
+ <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+</div>
         </div>
         <!-- Paso 2 - Objetivos -->
-        <div class="step step-2">
-          <div class="text-center mb-2">Sección 2 de 6</div>
-          <div class="progress mb-4">
-            <div class="progress-bar" style="width: 33.4%"></div>
+        <div *ngIf="currentStep === 2">
+            <div class="text-center mb-2">Sección 2 de 6</div>
+            <div class="progress mb-4">
+              <div class="progress-bar" style="width: 33.4%"></div>
+            </div>
+            <h3 class="text-white text-center mb-4">
+              ¿Cuál es tu objetivo principal para entrenar?
+            </h3>
+            <div class="mb-4">
+              <p class="text-center text-white mb-3">
+                Seleccioná una única opción
+              </p>
+
+              <div *ngFor="let objetivo of opcionesObjetivo">
+              <div class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2">
+                <span>{{objetivo.nombre}}</span>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="objetivo"
+                  [value]="objetivo.id"
+                  formControlName="objetivo"
+                />
+              </div>
+              </div>
+            </div>
+            @if(formularioForm.get('objetivo')?.hasError('required')&&formularioForm.get('objetivo')?.touched){
+          <span>Selecciona un <strong>objetivo</strong> para continuar</span>
+          }
+            <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+      <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+      <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+    </div>
+
+    <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+    <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+  </div>
           </div>
-          <h3 class="text-white text-center mb-4">
-            ¿Cuál es tu objetivo principal para entrenar?
-          </h3>
-          <div class="mb-4">
-            <p class="text-center text-white mb-3">
-              Seleccioná una única opción
-            </p>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Reducir grasa corporal – Bajar de peso</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo1"
-                value="Reducir grasa corporal"
-              />
-            </div>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Tonificar el cuerpo – Mejorar la apariencia muscular</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo2"
-                value="Tonificar el cuerpo"
-              />
-            </div>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Ganar masa muscular – Aumentar fuerza</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo3"
-                value="Ganar masa muscular"
-              />
-            </div>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Mejorar la flexibilidad y movilidad</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo4"
-                value="Mejorar la flexibilidad"
-              />
-            </div>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Mantenerme activo/a y con energía cada día</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo5"
-                value="Mantenerme activo"
-              />
-            </div>
-            <div
-              class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-            >
-              <span>Combatir el sedentarismo</span>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="objetivo"
-                id="objetivo6"
-                value="Combatir el sedentarismo"
-              />
-            </div>
-          </div>
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
-        </div>
         <!-- Paso 3 - Nivel del Entrenamiento -->
-        <div class="step step-3">
+      <div *ngIf="currentStep === 3">
           <div class="text-center mb-2">Sección 3 de 6</div>
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 50%"></div>
@@ -191,9 +120,9 @@
                 min="1"
                 max="5"
                 step="1"
-                value="1"
                 class="custom-range"
                 id="rangoFrecuenciaActividad"
+                formControlName="frecuenciaActividad"
               />
               <div class="scale-track">
                 <div class="scale-fill" id="actividadFill"></div>
@@ -239,9 +168,9 @@
                 min="1"
                 max="5"
                 step="1"
-                value="1"
                 class="custom-range"
                 id="rangoExigencia"
+                formControlName="exigenciaActividad"
               />
               <div class="scale-track">
                 <div class="scale-fill" id="exigenciaFill"></div>
@@ -273,225 +202,111 @@
               </div>
             </div>
           </div>
-          <br />
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
+          <br /><br>
+         <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+  </div>
+
+ <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+</div>
         </div>
         <!-- Paso 4 - Tipo de Entrenamiento -->
-        <div class="step step-4">
-          <div class="text-center mb-2">Sección 4 de 6</div>
-          <div class="progress mb-4">
-            <div class="progress-bar" style="width: 66.6%"></div>
-          </div>
-          <h4 class="text-white text-center mb-4">
-            ¿Qué tipo de entrenamiento querés realizar?
-          </h4>
-          <div class="cards-container">
-            <!-- Cuerpo completo -->
-            <label class="flip-card" onclick="selectCard(this)">
-              <input
-                type="radio"
-                name="tipoEntrenamiento"
-                value="Cuerpo Completo"
-                hidden
-              />
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img
-                    src="imagenes/cuerpo-completo.png"
-                    alt="Cuerpo completo"
-                  />
-                  <p>Cuerpo completo</p>
-                </div>
-                <div class="flip-card-back">
-                  <p>
-                    Entrenamiento que trabaja todo el cuerpo: tren superior,
-                    inferior y core.
-                  </p>
-                </div>
-              </div>
-            </label>
-            <!-- Tren superior -->
-            <label class="flip-card" onclick="selectCard(this)">
-              <input
-                type="radio"
-                name="tipoEntrenamiento"
-                value="Tren Superior"
-                hidden
-              />
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src="imagenes/tren-superior.png" alt="Tren superior" />
-                  <p>Tren superior</p>
-                </div>
-                <div class="flip-card-back">
-                  <p>
-                    Entrenamiento enfocado en pecho, espalda, hombros y brazos.
-                  </p>
-                </div>
-              </div>
-            </label>
-            <!-- Tren inferior -->
-            <label class="flip-card" onclick="selectCard(this)">
-              <input
-                type="radio"
-                name="tipoEntrenamiento"
-                value="Tren Inferior"
-                hidden
-              />
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src="imagenes/tren-inferior.png" alt="Tren inferior" />
-                  <p>Tren inferior</p>
-                </div>
-                <div class="flip-card-back">
-                  <p>Trabaja piernas, glúteos y pantorrillas.</p>
-                </div>
-              </div>
-            </label>
-            <!-- Cardio -->
-            <label class="flip-card" onclick="selectCard(this)">
-              <input
-                type="radio"
-                name="tipoEntrenamiento"
-                value="Cardio"
-                hidden
-              />
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src="imagenes/cardio.png" alt="Cardio" />
-                  <p>Cardio</p>
-                </div>
-                <div class="flip-card-back">
-                  <p>
-                    Entrenamiento para mejorar la resistencia y salud
-                    cardiovascular.
-                  </p>
-                </div>
-              </div>
-            </label>
-          </div>
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
+<div *ngIf="currentStep === 4">
+  <div class="text-center mb-2">Sección 4 de 6</div>
+  <div class="progress mb-4">
+    <div class="progress-bar" style="width: 66.6%"></div>
+  </div>
+  <h4 class="text-white text-center mb-4">
+    ¿Qué tipo de entrenamiento querés realizar?
+  </h4>
+
+  <div class="cards-container">
+    <label
+      class="flip-card"
+      *ngFor="let opcion of opcionesEntrenamiento"
+      [class.selected]="opcionSeleccionada === opcion.nombre"
+      (mouseenter)="hoverCard(opcion.nombre)"
+      (mouseleave)="leaveCard(opcion.nombre)"
+      (click)="seleccionarCard(opcion.nombre)"
+    >
+      <input
+        type="radio"
+        name="tipoEntrenamiento"
+        [value]="opcion.nombre"
+        hidden
+        formControlName="tipoEntrenamiento"
+        [checked]="opcionSeleccionada === opcion.nombre"
+      />
+      <div
+  class="flip-card-inner"
+  [style.transform]="
+    hoveredCard === opcion.nombre && opcionSeleccionada !== opcion.nombre
+      ? 'rotateY(180deg)'
+      : 'none'
+  "
+>
+
+        <div class="flip-card-front">
+          <img [src]="opcion.imagen" [alt]="opcion.nombre" />
+          <p>{{ opcion.nombre }}</p>
         </div>
+        <div class="flip-card-back">
+          <p>{{ opcion.descripcion }}</p>
+        </div>
+      </div>
+    </label>
+  </div>
+
+  <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+  </div>
+
+  <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+</div>
+</div>
+
         <!-- Paso 5 - Equipamento Disponible -->
-        <div class="step step-5">
-          <div class="text-center mb-2">Sección 5 de 6</div>
-          <div class="progress mb-4">
-            <div class="progress-bar" style="width: 83.3%"></div>
-          </div>
-          <h3 class="text-white text-center mb-4">
-            ¿Tenés algún equipamiento en casa?
-          </h3>
-          <p class="text-center text-white mb-3">
-            Seleccioná una o más opciones
-          </p>
-          <div class="equipamiento-grid">
-            <div class="equipamiento-item" data-value="Colchoneta">
-              <img src="imagenes/colchoneta.png" alt="Colchoneta" />
-              <span>Colchoneta</span>
-            </div>
-            <div class="equipamiento-item" data-value="Mancuernas">
-              <img src="imagenes/mancuernas.png" alt="Mancuernas" />
-              <span>Mancuernas</span>
-            </div>
-            <div class="equipamiento-item" data-value="Banda Elástica">
-              <img src="imagenes/banda-elastica.png" alt="Banda Elástica" />
-              <span>Banda elástica</span>
-            </div>
-            <div class="equipamiento-item" data-value="Tobilleras">
-              <img src="imagenes/tobilleras.png" alt="Tobilleras" />
-              <span>Tobilleras</span>
-            </div>
-            <div class="equipamiento-item" data-value="Soga">
-              <img src="imagenes/soga.png" alt="Soga" />
-              <span>Soga</span>
-            </div>
-            <div class="equipamiento-item" id="ninguno" data-value="Ninguno">
-              <img src="imagenes/ninguno.png" alt="Ninguno" />
-              <span>Ninguno</span>
-            </div>
-          </div>
-          <br />
-          <input
-            type="hidden"
-            name="equipamientoSeleccionado"
-            id="equipamientoSeleccionado"
-          />
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
-        </div>
+      <!-- Paso 5 - Equipamiento -->
+<div *ngIf="currentStep === 5">
+  <div class="text-center mb-2">Sección 5 de 6</div>
+  <div class="progress mb-4">
+    <div class="progress-bar" style="width: 83.3%"></div>
+  </div>
+
+  <h3 class="text-white text-center mb-4">¿Tenés algún equipamiento en casa?</h3>
+  <p class="text-center text-white mb-3">Seleccioná una o más opciones</p>
+
+  <div class="equipamiento-grid">
+    <div
+      *ngFor="let item of equipamientoOpciones"
+      class="equipamiento-item"
+      [class.selected]="estaSeleccionado(item)"
+      (click)="toggleEquipamiento(item)"
+    >
+      <img [src]="item.imagen" [alt]="item.nombre" />
+      <span>{{ item.nombre }}</span>
+    </div>
+  </div>
+
+  <!-- <input type="hidden" name="equipamientoSeleccionado" [value]="equipamientoSeleccionado.join(',')" /> -->
+
+  <br />
+  <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+  </div>
+
+ <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+</div>
+</div>
+
         <!-- Paso 6 - Frecuencia del Entrenamiento -->
-        <div class="step step-6">
+      <div *ngIf="currentStep === 6">
           <div class="text-center mb-2">Sección 6 de 6</div>
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 100%"></div>
@@ -509,9 +324,10 @@
                 min="1"
                 max="5"
                 step="1"
-                value="1"
                 class="custom-range"
                 id="rangoDiasSemanales"
+                formControlName="diasEntrenamiento"
+
               />
               <div class="scale-track">
                 <div class="scale-fill" id="diasSemanalesFill"></div>
@@ -557,9 +373,10 @@
                 min="1"
                 max="3"
                 step="1"
-                value="1"
                 class="custom-range"
                 id="rangoMinutos"
+               formControlName="duracionEntrenamiento"
+
               />
               <div class="scale-track">
                 <div class="scale-fill" id="minutosFill"></div>
@@ -595,9 +412,9 @@
                 min="1"
                 max="3"
                 step="1"
-                value="1"
                 class="custom-range"
                 id="duracionPlan"
+               formControlName="duracionPlanDias"
               />
               <div class="scale-track">
                 <div class="scale-fill" id="duracionPlanFill"></div>
@@ -620,157 +437,135 @@
             </div>
           </div>
           <br />
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
-            </button>
-            <button
-              type="button"
-              class="btn btn-custom btn-siguiente"
-              onclick="nextStep()"
-            >
-              Siguiente
-            </button>
-          </div>
-          <div class="volver-al-resumen text-center mt-3" style="display: none">
-            <button
-              type="button"
-              class="btn btn-outline-light"
-              onclick="volverAlResumen()"
-            >
-              Volver al resumen
-            </button>
-          </div>
+           <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
+  </div>
+<div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
+</div>
         </div>
         <!--RESUMEN FORMULARIO-->
-        <div class="step step-7">
-          <div class="text-center mb-2">Resumen</div>
-          <div class="progress mb-4">
-            <div class="progress-bar" style="width: 100%"></div>
-          </div>
-          <div class="resumen-container text-white">
-            <!-- Paso 1 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Datos personales</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(1)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>Peso: <span id="resumenPeso"></span> kg</p>
-              <p>Altura: <span id="resumenAltura"></span> cm</p>
-            </div>
-            <!-- Paso 2 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Objetivo</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(2)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>Objetivo seleccionado: <span id="resumenObjetivo"></span></p>
-            </div>
-            <!-- Paso 3 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Actividad y exigencia</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(3)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>
-                Frecuencia actividad física: <span id="resumenActividad"></span>
-              </p>
-              <p>Exigencia deseada: <span id="resumenExigencia"></span></p>
-            </div>
-            <!-- Paso 4 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Tipo de entrenamiento</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(4)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>Tipo: <span id="resumenEntrenamiento"></span></p>
-              <img
-                id="resumenImagenEntrenamiento"
-                src=""
-                alt="Imagen entrenamiento"
-                style="max-width: 150px; display: none"
-              />
-            </div>
-            <!-- Paso 5 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Equipamento</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(5)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>Tipo: <span id="resumenEquipamiento"></span></p>
-              <div
-                id="resumenImagenesEquipamiento"
-                class="d-flex flex-wrap mt-2 gap-2"
-              ></div>
-            </div>
-            <!-- Paso 6 -->
-            <div class="resumen-item mb-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Frecuencia para entrenar</h5>
-                <button
-                  type="button"
-                  class="btn btn-link p-0"
-                  onclick="irAPaso(6)"
-                >
-                  <i class="fas fa-edit text-white"></i>
-                </button>
-              </div>
-              <p>
-                Cantidad de días a la semana:
-                <span id="resumenDiasSemanales"></span>
-              </p>
-              <p>Duración de las rutinas: <span id="resumenMinutos"></span></p>
-              <p>Duración del plan: <span id="resumenDuracionPlan"></span></p>
-            </div>
-          </div>
-          <br />
-          <div class="d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-custom btn-anterior"
-              onclick="previousStep()"
-            >
-              Anterior
+     <div *ngIf="currentStep === 7">
+  <div class="text-center mb-2">Resumen del plan</div>
+  <div class="progress mb-4">
+    <div class="progress-bar" style="width: 100%"></div>
+  </div>
+
+  <div class="resumen-container text-white">
+    <div class="row">
+      <!-- Columna izquierda -->
+      <div class="columna-izquierda">
+        <!-- Paso 1 -->
+        <div class="mb-3 text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Datos físicos</h5>
+            <button class="btn btn-editar" (click)="irAPaso(1)">
+              <i class="fas fa-edit"></i>
             </button>
-            <button type="submit" class="btn btn-custom btn-siguiente">
-              Finalizar
-            </button>
+          </div>
+          <div class="card-body">
+            <p><strong>Peso:</strong> {{ formularioForm.get('peso')?.value }} kg</p>
+            <p><strong>Altura:</strong> {{ formularioForm.get('altura')?.value }} cm</p>
           </div>
         </div>
+
+        <!-- Paso 2 -->
+        <div class="text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Objetivo</h5>
+            <button class="btn btn-editar" (click)="irAPaso(2)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <p><strong>Frecuencia:</strong> {{ traducirObjetivo(formularioForm.get('objetivo')?.value) }}</p>
+          </div>
+        </div><br>
+
+        <!-- Paso 3 -->
+        <div class="text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Nivel de Actividad</h5>
+            <button class="btn btn-editar" (click)="irAPaso(3)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <p><strong>Frecuencia:</strong> {{ traducirEscalaActividad(formularioForm.get('frecuenciaActividad')?.value) }}</p>
+            <p><strong>Exigencia:</strong> {{ traducirEscalaExigencia(formularioForm.get('exigenciaActividad')?.value) }}</p>
+          </div>
+        </div><br>
+
+        <!-- Paso 6 (ahora aquí) -->
+        <div class="text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Frecuencia y Duración</h5>
+            <button class="btn btn-editar" (click)="irAPaso(6)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <p><strong>Días por semana:</strong> {{ traducirDias(formularioForm.get('diasEntrenamiento')?.value) }}</p>
+            <p><strong>Minutos por día:</strong> {{ traducirMinutos(formularioForm.get('duracionEntrenamiento')?.value) }}</p>
+            <p><strong>Duración del plan:</strong> {{ traducirDuracion(formularioForm.get('duracionPlanDias')?.value) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="columna-derecha">
+        <!-- Paso 4 -->
+        <div class="text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Tipo de Entrenamiento</h5>
+            <button class="btn btn-editar" (click)="irAPaso(4)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <p>{{ opcionSeleccionada || 'No seleccionado' }}</p>
+            <img
+              *ngIf="imagenEntrenamientoSeleccionado"
+              [src]="imagenEntrenamientoSeleccionado"
+              [alt]="opcionSeleccionada"
+              style="max-width: 100px; height: auto;"
+            />
+          </div>
+        </div><br>
+
+        <!-- Paso 5 -->
+        <div class="text-white">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="titulo-subrayado">Equipamiento</h5>
+            <button class="btn btn-editar" (click)="irAPaso(5)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <p>{{ equipamientoSeleccionado.length > 0 ? equipamientoSeleccionado.join(', ') : 'No seleccionado' }}</p>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <ng-container *ngFor="let item of equipamientoOpciones">
+                <img
+                  *ngIf="equipamientoSeleccionado.includes(item.nombre) && item.nombre !== 'Ninguno'"
+                  [src]="item.imagen"
+                  [alt]="item.nombre"
+                  class="rounded"
+                  style="max-width: 80px;"
+                />
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-custom btn-siguiente" (click)="verFormulario()">Finalizar</button>
+  </div>
+</div>
+
       </form>
     </div>
   </main>

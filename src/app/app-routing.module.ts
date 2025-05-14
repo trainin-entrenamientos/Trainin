@@ -6,6 +6,7 @@ import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/poli
 import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
+import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
       {
         path: 'nosotros',
         component: NosotrosComponent
+      },
+
+       {
+        path: 'formulario-crear-plan',
+        component: FormularioCrearPlanDeEntrenamientoComponent
       }
     ]
   }
