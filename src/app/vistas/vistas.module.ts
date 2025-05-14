@@ -9,6 +9,7 @@ import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-co
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
     HomeAdminComponent,
-    CrearEjercicioComponent
+    CrearEjercicioComponent,
+    EditarEjercicioComponent
   ],
   imports: [
     CommonModule,

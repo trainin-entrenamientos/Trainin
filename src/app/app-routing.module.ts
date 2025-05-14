@@ -8,6 +8,7 @@ import { LayoutComponent } from './compartido/componentes/layout/layout.componen
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
+import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'crear-ejercicio',
         component: CrearEjercicioComponent
+      },
+      {
+        path: 'editar-ejercicio/:id',
+        component: EditarEjercicioComponent
       }
     ]
   }
