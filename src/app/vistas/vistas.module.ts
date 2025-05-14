@@ -10,6 +10,7 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
+import { CompartidoModule } from '../compartido/compartido.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.co
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CompartidoModule
   ],
   exports: [
     CrearPlanEntrenamientoComponent,

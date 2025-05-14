@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/Ejercicio';
 import { AdminService } from '../../core/servicios/adminServicio/admin.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-home-admin',
@@ -38,12 +39,12 @@ export class HomeAdminComponent {
     this.router.navigate(['/editar-ejercicio', id]);
   }
 
-  eliminarEjercicio(id: number): void {
-    const confirmacion = confirm(
-      '¿Estás seguro de que deseas eliminar este ejercicio?'
-    );
-    if (!confirmacion) return;
+  abrirModalEliminarEjercicio() {
+    const modal = new bootstrap.Modal(document.getElementById('bootstrapModal'));
+    modal.show();
+  }
 
+  eliminarEjercicio(id: number): void {
     this.AdminService.eliminarEjercicio(id).subscribe({
       next: (fueEliminado: boolean) => {
         if (fueEliminado) {
