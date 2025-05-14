@@ -26,7 +26,8 @@
             <div class="col-3">{{ ejercicio.tipoEjercicio }}</div>
             <div class="col-2 d-flex gap-2">
               <span class="boton-editar" (click)="editarEjercicio(ejercicio.id)"><i class="fa-regular fa-pen-to-square"></i></span>
-              <span class="boton-eliminar" (click)="eliminarEjercicio(ejercicio.id)"><i class="fa-solid fa-trash"></i></span>
+              <span class="boton-eliminar" (click)="abrirModalEliminarEjercicio()"><i class="fa-solid fa-trash"></i></span>
+              <app-modal-eliminar-ejercicio (confirmarEliminar)="eliminarEjercicio(ejercicio.id)"></app-modal-eliminar-ejercicio>
             </div>
           </div>
         </div>
