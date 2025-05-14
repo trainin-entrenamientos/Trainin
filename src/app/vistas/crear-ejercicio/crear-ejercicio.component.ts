@@ -4,6 +4,7 @@ import { TipoEjercicio } from '../../compartido/enums/TipoEjercicio';
 import { Ejercicio } from '../../core/modelos/Ejercicio';
 import { AdminService } from '../../core/servicios/adminServicio/admin.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-ejercicio',
@@ -21,13 +22,13 @@ export class CrearEjercicioComponent {
   ) as TipoEjercicio[];
   tipoEjercicioSeleccionado: TipoEjercicio = '' as TipoEjercicio;
   nombreEjercicio: string = '';
-  descripcionEjercicio: string = '';
   id: number = 0;
   crearEjercicioForm: FormGroup;
 
   constructor(
     private adminService: AdminService,
-    private formValidate: FormBuilder
+    private formValidate: FormBuilder,
+    private router: Router
   ) {
     this.crearEjercicioForm = this.formValidate.group({
       nombreEjercicio: ['', [Validators.required]],
@@ -65,13 +66,14 @@ export class CrearEjercicioComponent {
     );
 
     this.adminService.crearEjercicio(ejercicioCreado).subscribe({
-      next: (ejercicioCreado) => {
-        console.log('Ejercicio creado:', ejercicioCreado);
+      next: () => {
         this.crearEjercicioForm.reset();
         this.crearEjercicioForm.patchValue({
         categoriaSeleccionada: '',
         tipoEjercicioSeleccionado: ''
       });
+
+      this.router.navigate(['/home-admin']);
       },
       error: (error) => {
         console.error('Error al crear el ejercicio:', error);
