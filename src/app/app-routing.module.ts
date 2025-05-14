@@ -7,6 +7,9 @@ import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preg
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
+import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
+import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
+import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
 
 const routes: Routes = [
   {
@@ -37,10 +40,21 @@ const routes: Routes = [
         path: 'nosotros',
         component: NosotrosComponent
       },
-
        {
         path: 'formulario-crear-plan',
         component: FormularioCrearPlanDeEntrenamientoComponent
+       },
+      {
+        path: 'home-admin',
+        component: HomeAdminComponent
+      },
+      {
+        path: 'crear-ejercicio',
+        component: CrearEjercicioComponent
+      },
+      {
+        path: 'editar-ejercicio/:id',
+        component: EditarEjercicioComponent
       }
     ]
   }
