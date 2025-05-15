@@ -12,6 +12,7 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CompartidoModule } from '../compartido/compartido.module';
     HomeAdminComponent,
     CrearEjercicioComponent,
     EditarEjercicioComponent,
+    CorreccionPosturaComponent,
   ],
   
 

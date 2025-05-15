@@ -10,6 +10,7 @@ import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario
 import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
+import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
       {
         path: 'editar-ejercicio/:id',
         component: EditarEjercicioComponent
+      },
+      {
+        path: 'correccion-postura',
+        component: CorreccionPosturaComponent
       }
     ]
   }

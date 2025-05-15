@@ -1,0 +1,58 @@
+<body>
+    <main>
+        <div class="correccion-postura-container">
+  <button class="cerrar" (click)="cerrar()">×</button>
+  <div class="left">
+    <div class="info-ejercicio">
+    <h2>Práctica: NombreEjercicio<!--{{getNombreEjercicio}}--></h2>
+    <hr/>
+    </div>
+    <div class="gif-ejercicio">
+
+    </div>
+    <div class="repeticiones-pc">
+      <div>
+      <p>Repeticiones Actuales: 3/5<!--{{calcularRepeticiones}}--></p>
+      </div>
+      <div class="contenedor-circulos">
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+      </div>
+    </div>
+    <button class="boton-finalizar" (click)="finalizarPractica()">Continuar Rutina</button>
+  </div>
+
+  <div class="right">
+    <div class="right-top">
+        <div class="camara">
+        </div> 
+   </div>
+   <div class="repeticiones-mobile">
+      <div>
+      <p>Repeticiones Actuales: 3/5<!--{{calcularRepeticiones}}--></p>
+      </div>
+      <div class="contenedor-circulos">
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+        <div class="circulo"></div>
+      </div>
+    </div>
+    <div class="right-bottom">
+    <p class="texto-postura">CORRECCIONES DE POSTURA</p>
+    </div>
+  </div>
+  <div class="info-ejercicio-mobile">
+
+    <h2>Práctica: NombreEjercicio<!--{{getNombreEjercicio}}--></h2>
+    <hr/>
+    </div>
+</div>
+
+    </main>
+</body>
+
