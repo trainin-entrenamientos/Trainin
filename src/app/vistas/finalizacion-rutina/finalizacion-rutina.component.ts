@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Ejercicio, RutinaService} from '../../core/servicios/rutina/rutina.service';
 
 @Component({
   selector: 'app-finalizacion-rutina',
@@ -6,15 +7,17 @@ import { Component } from '@angular/core';
   templateUrl: './finalizacion-rutina.component.html',
   styleUrl: './finalizacion-rutina.component.css'
 })
-export class FinalizacionRutinaComponent {
-  ejercicios = [
-    {nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
-    {nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
-    {nombre: 'Sentadillas', imagen: '/imagenes/Sentadilla.jpg'},
-    {nombre: 'Plancha', imagen: '/imagenes/plancha.jpg'},
-    {nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
-    {nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
-  ];
+export class FinalizacionRutinaComponent implements OnInit {
+
+  ejercicios: Ejercicio[] = [];
+  constructor(private rutinaService: RutinaService) { }
+  
+  ngOnInit(): void {
+    this.rutinaService.ObtenerEjercicios().subscribe((ejercicios: Ejercicio[]) => {
+      this.ejercicios = ejercicios;
+    });
+  }
+
   estadisticas = [
     { label: 'Calorías Quemadas', valor: '120 cal' },
     { label: 'Duración Total', valor: '15 min' },
