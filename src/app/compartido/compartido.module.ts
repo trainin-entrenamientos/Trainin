@@ -5,13 +5,15 @@ import { FooterComponent } from './componentes/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './componentes/layout/layout.component';
 import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eliminar-ejercicio/modal-eliminar-ejercicio.component';
+import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    ModalEliminarEjercicioComponent
+    ModalEliminarEjercicioComponent,
+    EjercicioTarjetaComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eli
   exports: [
     HeaderComponent,
     FooterComponent,
-    ModalEliminarEjercicioComponent
+    ModalEliminarEjercicioComponent,
+    EjercicioTarjetaComponent
   ],
   providers: [],
 })
