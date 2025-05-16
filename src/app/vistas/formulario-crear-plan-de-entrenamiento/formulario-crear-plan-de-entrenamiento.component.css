@@ -1,0 +1,422 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 80.2vh;
+}
+
+.form-container {
+  max-width: 50%;
+  margin: 50px auto;
+  background-color: #1e1e1e;
+  padding: 40px 40px;
+  border-radius: 15px;
+  position: relative;
+  flex: 1;
+}
+.progress {
+  height: 5px;
+  background-color: #333;
+}
+.progress-bar {
+  background-color: #13ff3a;
+}
+.btn-custom {
+  border-radius: 10px;
+  padding: 10px 30px;
+  font-weight: bold;
+}
+.btn-anterior {
+  background-color: transparent;
+  border: 1px solid #13ff3a;
+  color: #13ff3a;
+}
+.btn-outline-light {
+  background-color: #13ff3a;
+  border: none;
+  color: #000;
+}
+.btn-siguiente {
+  background-color: #13ff3a;
+  border: none;
+  color: #000;
+}
+.step {
+  display: none;
+}
+.step.active {
+  display: block;
+}
+input.form-control {
+  text-align: center;
+  font-weight: bold;
+}
+.preguntas-container {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+.preguntas-container div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+/* Estilo general del input */
+input[type="number"].form-completarInfo {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+  outline: none;
+  color: white;
+  text-align: center;
+  transition: border-color 0.3s;
+  width: 3em;
+}
+
+/* Cuando el input está enfocado */
+input[type="number"].form-completarInfo:focus {
+  border-bottom: 2px solid #13FF3A;
+}
+
+/* Elimina flechitas en Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Elimina flechitas en Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+input[type="radio"].form-check-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: 2px solid #13FF3A;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Eliminar cualquier punto o contenido interno por defecto */
+input[type="radio"].form-check-input::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* Cuando está seleccionado, lo rellenamos con color */
+input[type="radio"].form-check-input:checked {
+  background-color: #13FF3A;
+  box-shadow: 0 0 0 4px #13FF3A inset;
+}
+
+input[type="radio"].form-check-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(19, 255, 58, 0.5);
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .preguntas-container {
+    width: 100%;
+  }
+  .preguntas-container .mb-3,
+  .preguntas-container .mb-4 {
+    align-items: center;
+    text-align: center;
+  }
+  .preguntas-container label {
+    margin-bottom: 5px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .form-container {
+    max-width: 95%;
+  }
+  input.form-control {
+    width: 50% !important;
+  }
+}
+
+.slider-scale-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+}
+.label-left,
+.label-right {
+  width: 40px;
+  text-align: center;
+  color: white;
+}
+.slider-wrapper {
+  position: relative;
+  flex-grow: 1;
+}
+.custom-range {
+  width: 100%;
+  height: 30px;
+  background: transparent;
+  appearance: none;
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.custom-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #00ff00;
+  border-radius: 50%;
+  border: 2px solid white; /*VER SI DEJARLE O NO ÉSTO*/
+  cursor: pointer;
+  z-index: 4;
+}
+.custom-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #00ff00;
+  border-radius: 50%;
+  border: 2px solid white;/*VER SI DEJARLE O NO ÉSTO*/
+}
+.scale-track {
+  position: relative;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  margin-top: 10px;
+  z-index: 1;
+}
+.scale-fill {
+  position: absolute;
+  height: 10px;
+  background: #00ff00;
+  border-radius: 5px;
+  top: 0;
+  left: 0;
+  width: 0%;
+  z-index: 2;
+  transition: width 0.3s ease;
+}
+.scale-point {
+  position: absolute;
+  top: -3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: white;
+  transform: translateX(-50%);
+  z-index: 5;
+  transition: background 0.3s, opacity 0.3s;
+}
+.scale-point.inactive {
+  opacity: 0;
+}
+.scale-point.active {
+  background: #00ff00;
+  border-color: #00ff00;
+  opacity: 1;
+}
+.scale-point-container {
+  position: absolute;
+  transform: translateX(-50%);
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px; 
+}
+.scale-label {
+  margin-top: 6px;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  white-space: nowrap;
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  max-width: 100%;
+  justify-items: center;
+  padding-bottom: 20px;
+  align-self: center;
+  align-content: center;
+}
+.flip-card {
+  background-color: transparent;
+  width: 100%;
+  max-width: 200px;
+  min-width: 6em; /* Agregado */
+  margin: auto;
+  height: 250px;
+  perspective: 1000px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+.flip-card.selected .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: #1a1a1a;
+  color: white;
+}
+.flip-card-front img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: 0.9rem;
+}
+.flip-card-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: 0.9rem;
+}
+.flip-card.selected {
+  border: 2px solid #13ff3a;
+  border-radius: 12px;
+}
+
+
+
+@media screen and (max-width: 1080px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px; 
+  }
+  .flip-card {
+    max-width: 150px;
+  }
+  .flip-card-front img {
+    max-width: 100%;
+    height: auto;
+  }
+  .flip-card-front h5,
+  .flip-card-back p {
+    font-size: 14px;
+  }
+}
+/*PASO 5 RE-DO*/
+.equipamiento-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+.equipamiento-item {
+  width: calc(33.33% - 10px);
+  max-width: 200px;
+  background-color: #1e1e1e;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border 0.3s;
+}
+.equipamiento-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.equipamiento-item.selected {
+  border: 2px solid #13ff3a;
+}
+@media (max-width: 768px) {
+  .equipamiento-item {
+    width: 45%;
+  }
+}
+.btn-editar i {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.btn-editar:hover i {
+  color: #13FF3A;
+}
+.titulo-subrayado {
+  display: inline-block;
+  border-bottom: 2px solid #13FF3A;
+  padding-bottom: 4px;
+}
+
+.columna-izquierda,
+.columna-derecha {
+  flex: 1;
+  padding: 20px;
+}
+
+.mensajeErrorForm{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+

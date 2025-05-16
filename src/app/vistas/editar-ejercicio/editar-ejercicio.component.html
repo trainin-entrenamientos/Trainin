@@ -1,0 +1,125 @@
+<body>
+  <main>
+    <section>
+      <article class="pb-5">
+        <div class="contenedor-principal m-auto p-5">
+          <div class="text-center pb-4">
+            <h1>Editar ejercicio</h1>
+          </div>
+          <form [formGroup]="editarEjercicioForm" (ngSubmit)="editarEjercicio()">
+            <div class="d-flex flex-column mb-3">
+              <label for="nombre-ejercicio">Nombre del ejercicio</label>
+              <input
+                class="input"
+                type="text"
+                id="nombre-ejercicio"
+                formControlName="nombreEjercicio"
+                placeholder="Nombre del ejercicio"
+              />
+              <div
+                *ngIf="
+                  editarEjercicioForm.get('nombreEjercicio')?.touched &&
+                  editarEjercicioForm.get('nombreEjercicio')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    editarEjercicioForm
+                      .get('nombreEjercicio')
+                      ?.hasError('required')
+                  "
+                  >El nombre del ejercicio es obligatorio.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex flex-column mb-3">
+              <label for="categoria">Selecciona una categoría:</label>
+              <select
+                class="select"
+                formControlName="categoriaSeleccionada"
+                id="categoria"
+              >
+                <option
+                  class="option"
+                  *ngFor="let categoria of categorias"
+                  [value]="categoria"
+                >
+                  {{ categoria }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  editarEjercicioForm.get('categoriaSeleccionada')?.touched &&
+                  editarEjercicioForm.get('categoriaSeleccionada')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    editarEjercicioForm
+                      .get('categoriaSeleccionada')
+                      ?.hasError('required')
+                  "
+                  >Debe seleccionar una categoría.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex flex-column mb-3">
+              <label for="tipoEjercicio"
+                >Selecciona el tipo de ejercicio:</label
+              >
+              <select
+                class="select"
+                formControlName="tipoEjercicioSeleccionado"
+                id="tipoEjercicio"
+              >
+                <option
+                  class="option"
+                  *ngFor="let tipoEjercicio of tipoEjercicios"
+                  [value]="tipoEjercicio"
+                >
+                  {{ tipoEjercicio }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  editarEjercicioForm.get('tipoEjercicioSeleccionado')
+                    ?.touched &&
+                  editarEjercicioForm.get('tipoEjercicioSeleccionado')?.invalid
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    editarEjercicioForm
+                      .get('tipoEjercicioSeleccionado')
+                      ?.hasError('required')
+                  "
+                  >Debe seleccionar un tipo de ejercicio.</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-5">
+               <button
+                class="boton-cancelar text-center p-2"
+                routerLink="/home-admin"
+              >
+                Cancelar
+              </button>
+              <button
+                class="boton-crear-ejercicio text-center p-2"
+                type="submit"
+              >
+                Editar ejercicio
+              </button>
+            </div>
+          </form>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
