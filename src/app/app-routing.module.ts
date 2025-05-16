@@ -11,6 +11,9 @@ import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
+import { RegistroComponent } from './vistas/registro/registro.component';
+import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
+import { LoginComponent } from './vistas/login/login.component';
 
 const routes: Routes = [
   {
@@ -60,7 +63,20 @@ const routes: Routes = [
       {
         path: 'finalizacion-rutina',
         component: FinalizacionRutinaComponent
+      },
+       {
+        path: 'registro',
+        component: RegistroComponent
+      },
+      {
+        path: 'home-landing-page',
+        component: HomeLandingPageComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       }
+
     ]
   }
 ];

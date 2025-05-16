@@ -13,6 +13,9 @@ import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.compo
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
+import { RegistroComponent } from './registro/registro.component';
+import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-
     HomeAdminComponent,
     CrearEjercicioComponent,
     EditarEjercicioComponent,
-    FinalizacionRutinaComponent
+    FinalizacionRutinaComponent,
+    RegistroComponent,
+    HomeLandingPageComponent,
+    LoginComponent
   ],
   
 
