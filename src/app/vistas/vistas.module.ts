@@ -12,6 +12,9 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { RegistroComponent } from './registro/registro.component';
+import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { CompartidoModule } from '../compartido/compartido.module';
     HomeAdminComponent,
     CrearEjercicioComponent,
     EditarEjercicioComponent,
+    RegistroComponent,
+    HomeLandingPageComponent,
+    LoginComponent
   ],
   
 
@@ -39,7 +45,7 @@ import { CompartidoModule } from '../compartido/compartido.module';
     PoliticasPrivacidadComponent,
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
-    FormularioCrearPlanDeEntrenamientoComponent
+    FormularioCrearPlanDeEntrenamientoComponent,
   ]
 })
 export class VistasModule { }
