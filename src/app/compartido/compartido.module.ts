@@ -4,14 +4,12 @@ import { HeaderComponent } from './componentes/header/header.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './componentes/layout/layout.component';
-import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eliminar-ejercicio/modal-eliminar-ejercicio.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    LayoutComponent,
-    ModalEliminarEjercicioComponent
+    LayoutComponent
   ],
   imports: [
     CommonModule,
@@ -19,8 +17,7 @@ import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eli
   ],
   exports: [
     HeaderComponent,
-    FooterComponent,
-    ModalEliminarEjercicioComponent
+    FooterComponent
   ],
   providers: [],
 })
