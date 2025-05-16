@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { LoginResponseDTO } from '../../modelos/LoginResponseDTO';
+import { RegistroUsuarioDTO } from '../../modelos/RegistroDTO';
 
 
 interface Usuario {
@@ -77,4 +78,10 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
+
+registrarUsuario(dto: RegistroUsuarioDTO): Observable<any> {
+  return this.http.post(`${this.API_URL}/registro`, dto);
+}
+
+
 }

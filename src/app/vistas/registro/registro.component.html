@@ -4,13 +4,14 @@
       <div class="registration-card mx-auto">
         <div class="campos-registro">
           <h2 class="section-title text-center mb-4">Registro</h2>
-          <form>
+          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
             <!-- Nombre -->
             <div class="mb-3">
               <label for="firstName" class="form-label">Nombre</label>
               <input
                 type="text"
                 id="firstName"
+                formControlName="nombre"
                 class="form-control trainin-input"
                 placeholder="Ingresa tu nombre"
                 required
@@ -23,6 +24,7 @@
               <input
                 type="text"
                 id="lastName"
+                formControlName="apellido"
                 class="form-control trainin-input"
                 placeholder="Ingresa tu apellido"
                 required
@@ -35,6 +37,7 @@
               <input
                 type="date"
                 id="birthDate"
+                formControlName="fechaNacimiento"
                 class="form-control trainin-input"
                 required
               >
@@ -46,6 +49,7 @@
               <input
                 type="email"
                 id="email"
+                formControlName="email"
                 class="form-control trainin-input"
                 placeholder="tu@correo.com"
                 required
@@ -58,6 +62,7 @@
               <input
                 type="password"
                 id="password"
+                formControlName="contrasenia"
                 class="form-control trainin-input"
                 placeholder="••••••••"
                 required
@@ -70,6 +75,7 @@
               <input
                 type="password"
                 id="password2"
+                formControlName="repetirContrasenia"
                 class="form-control trainin-input"
                 placeholder="••••••••"
                 required
@@ -99,7 +105,7 @@
             <div class="d-flex justify-content-center">
               <div class="botones-registro">
                 <button type="button" class="btn btn-trainin" routerLink="/home-landing-page">Atrás</button>
-                <button type="submit" class="btn btn-trainin"  routerLink="#">Registrarse</button>
+                <button type="submit" class="btn btn-trainin" >Registrarse</button>
               </div>
             </div>
           </form>
