@@ -5,19 +5,16 @@ import { AppComponent } from './app.component';
 import { CompartidoModule } from './compartido/compartido.module';
 import { VistasModule } from './vistas/vistas.module';
 import { provideHttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CompartidoModule,
-    VistasModule,
-    FormsModule  
+    VistasModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]
