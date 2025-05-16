@@ -14,6 +14,7 @@ import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finali
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
+import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
 
 const routes: Routes = [
   {
@@ -74,7 +75,12 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+      },
+      {
+        path: 'calibracion-camara',
+        component: CalibracionCamaraComponent
+
       }
 
     ]
