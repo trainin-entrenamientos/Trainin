@@ -6,6 +6,11 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
+import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
+import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario-crear-plan-de-entrenamiento',
@@ -18,31 +23,39 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
   totalSteps: number = 7;
   editandoDesdeResumen: boolean = false;
   formularioForm: FormGroup;
+  opcionesEntrenamiento: TipoEntrenamiento[] = [];
+  equipamientosOpciones: Equipamiento[] = [];
 
   constructor(
     private fb: FormBuilder,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private crearPlanDeEntrenamientoService: CrearPlanEntrenamientoService,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.formularioForm = this.fb.group({
-      peso: [null,Validators.required],
-      altura: [null,Validators.required],
+      pesoUsuario: [null, Validators.required],
+      alturaUsuario: [null, Validators.required],
       objetivo: [null, Validators.required],
-      frecuenciaActividad: [1, Validators.required],
-      exigenciaActividad: [1, Validators.required],
-      diasEntrenamiento: [1, Validators.required],
-      duracionEntrenamiento: [1, Validators.required],
-      duracionPlanDias: [1, Validators.required],
+      //frecuenciaActividad: [1, Validators.required],
+      nivelExigencia: [1, Validators.required],
+      diasDisponibles: [1, Validators.required],
+      tiempoDisponible: [1, Validators.required],
+      duracionPlan: [1, Validators.required],
       // diasSemanales: [1, Validators.required],
       //duracionPlan: [1, Validators.required],
       tipoEntrenamiento: [null, Validators.required],
-      equipamientoSeleccionado: [null, Validators.required],
+      equipamientos: [null, Validators.required],
     });
   }
-  equipamientoSeleccionado: string[] = [];
+  equipamientos: string[] = [];
   minutos: string = '';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.obtenerEquipamiento();
+    this.obtenerOpcionesEntrenamiento();
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -52,53 +65,56 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
     });
   }
 
- nextStep(): void {
-  if (!this.esPasoActualValido()) {
-    // Marca los campos del paso actual como tocados para mostrar mensajes de error
-    this.marcarCamposDelPasoComoTocados(this.currentStep);
-    return;
-  }
-
-  if (this.currentStep < this.totalSteps) {
-    this.currentStep++;
-    if (this.currentStep === this.totalSteps) {
-      this.cargarResumen();
+  nextStep(): void {
+    if (!this.esPasoActualValido()) {
+      // Marca los campos del paso actual como tocados para mostrar mensajes de error
+      this.marcarCamposDelPasoComoTocados(this.currentStep);
+      return;
     }
 
-    if (this.currentStep === 3 || this.currentStep === 6) {
-      setTimeout(() => this.configurarSliders(), 0);
+    if (this.currentStep < this.totalSteps) {
+      this.currentStep++;
+      if (this.currentStep === this.totalSteps) {
+        this.cargarResumen();
+      }
+
+      if (this.currentStep === 3 || this.currentStep === 6) {
+        setTimeout(() => this.configurarSliders(), 0);
+      }
     }
   }
-}
-marcarCamposDelPasoComoTocados(paso: number): void {
-  const controles: string[] = [];
+  marcarCamposDelPasoComoTocados(paso: number): void {
+    const controles: string[] = [];
 
-  switch (paso) {
-    case 1:
-      controles.push('peso', 'altura');
-      break;
-    case 2:
-      controles.push('objetivo');
-      break;
-    case 3:
-      controles.push('frecuenciaActividad', 'exigenciaActividad');
-      break;
-    case 4:
-      controles.push('tipoEntrenamiento');
-      break;
-    case 5:
-      controles.push('equipamientoSeleccionado');
-      break;
-    case 6:
-      controles.push('diasEntrenamiento', 'duracionEntrenamiento', 'duracionPlanDias');
-      break;
+    switch (paso) {
+      case 1:
+        controles.push('pesoUsuario', 'alturaUsuario');
+        break;
+      case 2:
+        controles.push('objetivo');
+        break;
+      case 3:
+        controles.push(/*'frecuenciaActividad',*/ 'nivelExigencia');
+        break;
+      case 4:
+        controles.push('tipoEntrenamiento');
+        break;
+      case 5:
+        controles.push('equipamientos');
+        break;
+      case 6:
+        controles.push(
+          'diasDisponibles',
+          'tiempoDisponible',
+          'duracionPlan'
+        );
+        break;
+    }
+
+    controles.forEach((nombre) => {
+      this.formularioForm.get(nombre)?.markAsTouched();
+    });
   }
-
-  controles.forEach(nombre => {
-    this.formularioForm.get(nombre)?.markAsTouched();
-  });
-}
-
 
   previousStep(): void {
     if (this.currentStep > 1) {
@@ -125,29 +141,38 @@ marcarCamposDelPasoComoTocados(paso: number): void {
     this.cargarResumen();
   }
 
-
   esPasoActualValido(): boolean {
-  switch (this.currentStep) {
-    case 1:
-      return !!this.formularioForm.get('peso')?.valid && !!this.formularioForm.get('altura')?.valid;
-    case 2:
-      return !!this.formularioForm.get('objetivo')?.valid;
-    case 3:
-      return !!this.formularioForm.get('frecuenciaActividad')?.valid &&
-             !!this.formularioForm.get('exigenciaActividad')?.valid;
-    case 4:
-      return !!this.formularioForm.get('tipoEntrenamiento')?.valid;
-    case 5:
-      return !!this.formularioForm.get('equipamientoSeleccionado')?.valid;
-    case 6:
-      return !!this.formularioForm.get('diasEntrenamiento')?.valid &&
-             !!this.formularioForm.get('duracionEntrenamiento')?.valid &&
-             !!this.formularioForm.get('duracionPlanDias')?.valid;
-    default:
-      return false;
+    switch (this.currentStep) {
+      case 1:
+        return (
+          !!this.formularioForm.get('pesoUsuario')?.valid &&
+          !!this.formularioForm.get('alturaUsuario')?.valid
+        );
+      case 2:
+        return !!this.formularioForm.get('objetivo')?.valid;
+      case 3:
+        return (
+          //!!this.formularioForm.get('frecuenciaActividad')?.valid &&
+          !!this.formularioForm.get('nivelExigencia')?.valid
+        );
+      case 4:
+        return !!this.formularioForm.get('tipoEntrenamiento')?.valid;
+      case 5:
+        return !!this.formularioForm.get('equipamientos')?.valid;
+      case 6:
+        return (
+          !!this.formularioForm.get('diasDisponibles')?.valid &&
+          !!this.formularioForm.get('tiempoDisponible')?.valid &&
+          !!this.formularioForm.get('duracionPlan')?.valid
+        );
+      default:
+        return false;
+    }
   }
-}
 
+  irAlHome(): void {
+    this.router.navigate(['/crear-plan']);
+  }
 
   configurarSliders(): void {
     // Paso 3
@@ -236,53 +261,43 @@ marcarCamposDelPasoComoTocados(paso: number): void {
     });
   }
 
-  opcionesEntrenamiento = [
-  {
-    id: 1,
-    nombre: 'Cuerpo Completo',
-    imagen: 'imagenes/cuerpo-completo.png',
-    descripcion: 'Entrenamiento que trabaja todo el cuerpo.'
-  },
-  {
-    id: 2,
-    nombre: 'Tren Superior',
-    imagen: 'imagenes/tren-superior.png',
-    descripcion: 'Enfocado en pecho, espalda, hombros y brazos.'
-  },
-  {
-    id: 3,
-    nombre: 'Tren Inferior',
-    imagen: 'imagenes/tren-inferior.png',
-    descripcion: 'Piernas, glúteos y pantorrillas.'
-  },
-  {
-    id: 4,
-    nombre: 'Cardio',
-    imagen: 'imagenes/cardio.png',
-    descripcion: 'Mejora la resistencia y salud cardiovascular.'
+  obtenerOpcionesEntrenamiento(): void {
+    this.crearPlanDeEntrenamientoService
+      .obtenerOpcionesEntrenamiento()
+      .subscribe((tiposEntrenamiento: TipoEntrenamiento[]) => {
+        this.opcionesEntrenamiento = tiposEntrenamiento;
+      });
   }
-];
-opcionesObjetivo = [
-  { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
-  { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
-  { id: 3, nombre: 'Ganar masa muscular – Aumentar fuerza' },
-  { id: 4, nombre: 'Mejorar la flexibilidad y movilidad' },
-  { id: 5, nombre: 'Mantenerme activo/a y con energía cada día' },
-  { id: 6, nombre: 'Combatir el sedentarismo' },
-];
 
+  obtenerEquipamiento(): void {
+    this.crearPlanDeEntrenamientoService
+      .obtenerEquipamiento()
+      .subscribe((equipamientos: Equipamiento[]) => {
+        this.equipamientosOpciones = equipamientos;
+      });
+  }
+
+  opcionesObjetivo = [
+    { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
+    { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
+    { id: 3, nombre: 'Ganar masa muscular – Aumentar fuerza' },
+    { id: 4, nombre: 'Mejorar la flexibilidad y movilidad' },
+    { id: 5, nombre: 'Mantenerme activo/a y con energía cada día' },
+    { id: 6, nombre: 'Combatir el sedentarismo' },
+  ];
 
   opcionSeleccionada: string | null = null;
   hoveredCard: string | null = null;
 
-seleccionarCard(nombre: string): void {
-  this.opcionSeleccionada = nombre;
-  const seleccion = this.opcionesEntrenamiento.find(e => e.nombre === nombre);
-  if (seleccion) {
-    this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
+  seleccionarCard(nombre: string): void {
+    this.opcionSeleccionada = nombre;
+    const seleccion = this.opcionesEntrenamiento.find(
+      (e) => e.descripcion === nombre
+    );
+    if (seleccion) {
+      this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
+    }
   }
-}
-
 
   hoverCard(opcion: string): void {
     this.hoveredCard = opcion;
@@ -294,53 +309,46 @@ seleccionarCard(nombre: string): void {
     }
   }
 
- equipamientoOpciones = [
-  { id: 1, nombre: 'Colchoneta', imagen: 'imagenes/colchoneta.png' },
-  { id: 2, nombre: 'Mancuernas', imagen: 'imagenes/mancuernas.png' },
-  { id: 3, nombre: 'Banda Elástica', imagen: 'imagenes/banda-elastica.png' },
-  { id: 4, nombre: 'Tobilleras', imagen: 'imagenes/tobilleras.png' },
-  { id: 5, nombre: 'Soga', imagen: 'imagenes/soga.png' },
-  { id: 6, nombre: 'Ninguno', imagen: 'imagenes/ninguno.png' }
-];
+  toggleEquipamiento(item: Equipamiento) {
+    const nombre = item.descripcion;
 
-
-  toggleEquipamiento(item: { id: number, nombre: string }) {
-  const nombre = item.nombre;
-
-  if (nombre === 'Ninguno') {
-    this.equipamientoSeleccionado = ['Ninguno'];
-    this.formularioForm.get('equipamientoSeleccionado')?.setValue([item.id]);
-  } else {
-    if (this.equipamientoSeleccionado.includes(nombre)) {
-      this.equipamientoSeleccionado = this.equipamientoSeleccionado.filter(e => e !== nombre);
+    if (nombre === 'Ninguno') {
+      this.equipamientos = ['Ninguno'];
+      this.formularioForm.get('equipamientos')?.setValue([item.id]);
     } else {
-      this.equipamientoSeleccionado.push(nombre);
+      if (this.equipamientos.includes(nombre)) {
+        this.equipamientos = this.equipamientos.filter(
+          (e) => e !== nombre
+        );
+      } else {
+        this.equipamientos.push(nombre);
+      }
+
+      this.equipamientos = this.equipamientos.filter(
+        (e) => e !== 'Ninguno'
+      );
+
+      const ids = this.equipamientosOpciones
+        .filter((e) => this.equipamientos.includes(e.descripcion))
+        .map((e) => e.id);
+
+      this.formularioForm.get('equipamientos')?.setValue(ids);
     }
-
-    this.equipamientoSeleccionado = this.equipamientoSeleccionado.filter(e => e !== 'Ninguno');
-
-    const ids = this.equipamientoOpciones
-      .filter(e => this.equipamientoSeleccionado.includes(e.nombre))
-      .map(e => e.id);
-
-    this.formularioForm.get('equipamientoSeleccionado')?.setValue(ids);
   }
-}
 
-
-  estaSeleccionado(item: { nombre: string }): boolean {
-    return this.equipamientoSeleccionado.includes(item.nombre);
+  estaSeleccionado(item: Equipamiento): boolean {
+    return this.equipamientos.includes(item.descripcion);
   }
 
   cargarResumen(): void {
-    // Paso 1 - Peso y altura
+    // Paso 1 - Peso y alturaUsuario
     const inputsNumber = this.el.nativeElement.querySelectorAll(
       "input[type='number']"
     );
-    const peso = inputsNumber[0]?.value || 'No especificado';
-    const altura = inputsNumber[1]?.value || 'No especificado';
-    this.setTexto('resumenPeso', peso);
-    this.setTexto('resumenAltura', altura);
+    const pesoUsuario = inputsNumber[0]?.value || 'No especificado';
+    const alturaUsuario = inputsNumber[1]?.value || 'No especificado';
+    this.setTexto('resumenPeso', pesoUsuario);
+    this.setTexto('resumenAlturaUsuario', alturaUsuario);
 
     // Paso 2 - Objetivo
     const objetivo = this.el.nativeElement.querySelector(
@@ -359,16 +367,16 @@ seleccionarCard(nombre: string): void {
       this.setTexto('resumenEntrenamiento', this.opcionSeleccionada);
 
       const entrenamiento = this.opcionesEntrenamiento.find(
-        (e) => e.nombre === this.opcionSeleccionada
+        (e) => e.descripcion === this.opcionSeleccionada
       );
       const img = this.el.nativeElement.querySelector(
         '#resumenImagenEntrenamiento'
       ) as HTMLImageElement;
-      if (img && entrenamiento) {
+      /*if (img && entrenamiento) {
         img.src = entrenamiento.imagen;
         img.alt = entrenamiento.nombre;
         img.style.display = 'block';
-      }
+      }*/
     } else {
       this.setTexto('resumenEntrenamiento', 'No seleccionado');
       const img = this.el.nativeElement.querySelector(
@@ -379,8 +387,8 @@ seleccionarCard(nombre: string): void {
 
     // Paso 5 - Equipamiento
     const equipamientoTexto =
-      this.equipamientoSeleccionado.length > 0
-        ? this.equipamientoSeleccionado.join(', ')
+      this.equipamientos.length > 0
+        ? this.equipamientos.join(', ')
         : 'No seleccionado';
     this.setTexto('resumenEquipamiento', equipamientoTexto);
 
@@ -391,16 +399,16 @@ seleccionarCard(nombre: string): void {
       contenedor.innerHTML = '';
 
       if (
-        this.equipamientoSeleccionado.length > 0 &&
-        !this.equipamientoSeleccionado.includes('Ninguno')
+        this.equipamientos.length > 0 &&
+        !this.equipamientos.includes('Ninguno')
       ) {
-        this.equipamientoSeleccionado.forEach((nombre) => {
-          const item = this.equipamientoOpciones.find(
-            (e) => e.nombre === nombre
+        this.equipamientos.forEach((nombre) => {
+          const item = this.equipamientosOpciones.find(
+            (e) => e.descripcion === nombre
           );
           if (item) {
             const img = this.renderer.createElement('img') as HTMLImageElement;
-            img.src = item.imagen;
+            img.src = item.descripcion;
             img.alt = nombre;
             img.title = nombre;
             this.renderer.setStyle(img, 'maxWidth', '80px');
@@ -437,7 +445,7 @@ seleccionarCard(nombre: string): void {
 
   protected traducirObjetivo(valor: string): string {
     const mapa: Record<string, string> = {
-      '1': 'Reducir grasa corporal – Bajar de peso',
+      '1': 'Reducir grasa corporal – Bajar de pesoUsuario',
       '2': 'Tonificar el cuerpo – Mejorar la apariencia muscular',
       '3': 'Ganar masa muscular – Aumentar fuerza',
       '4': 'Mejorar la flexibilidad y movilidad',
@@ -456,7 +464,6 @@ seleccionarCard(nombre: string): void {
     };
     return mapa[valor] || 'No especificado';
   }
-
 
   protected traducirEscalaExigencia(valor: string): string {
     const mapa: Record<string, string> = {
@@ -499,12 +506,33 @@ seleccionarCard(nombre: string): void {
 
   get imagenEntrenamientoSeleccionado(): string | null {
     const entrenamiento = this.opcionesEntrenamiento.find(
-      (e) => e.nombre === this.opcionSeleccionada
+      (e) => e.descripcion === this.opcionSeleccionada
     );
-    return entrenamiento ? entrenamiento.imagen : null;
+    return entrenamiento ? entrenamiento.descripcion : null;
   }
 
-  verFormulario() {
-    console.log(this.formularioForm);
+  enviarFormulario() {
+    console.log(JSON.stringify({
+        ...this.formularioForm.value,
+        email: this.authService.getEmail(),
+      }));
+    if (this.formularioForm.valid) {
+      this.crearPlanDeEntrenamientoService.crearPlanEntrenamiento({
+        ...this.formularioForm.value,
+        email: this.authService.getEmail(),
+      })
+        .subscribe(
+          (response) => {
+            console.log('Plan de entrenamiento creado:', response);
+            // Aquí puedes manejar la respuesta del servidor
+          },
+          (error) => {
+            console.error('Error al crear el plan de entrenamiento:', error);
+            // Aquí puedes manejar el error
+          }
+        );
+    } else {
+      console.log('El formulario no es válido');
+    }
   }
 }

@@ -1,7 +1,7 @@
 <body class="aiuda">
   <main>
     <div class="form-container">
-      <form id="formularioEntrenamiento" [formGroup]="formularioForm" (ngSubmit)="verFormulario()" method="POST">
+      <form id="formularioEntrenamiento" [formGroup]="formularioForm" method="POST">
         <!-- Paso 1 - Datos Personales -->
       <div *ngIf="currentStep === 1">
           <div class="text-center mb-2">Sección 1 de 6</div>
@@ -16,14 +16,14 @@
     <span>
       <input
         type="number"
-        name="peso"
+        name="pesoUsuario"
         class="form-completarInfo"
-        formControlName="peso"
+        formControlName="pesoUsuario"
       />kg.
     </span>
     </div>
     <div>
-    @if(formularioForm.get('peso')?.hasError('required')&&formularioForm.get('peso')?.touched){
+    @if(formularioForm.get('pesoUsuario')?.hasError('required')&&formularioForm.get('pesoUsuario')?.touched){
         <span>Ingresá tu <strong style="color: #13FF3A;">peso</strong> para continuar</span>
     }
     </div>
@@ -35,16 +35,16 @@
     <span>
       <input
         type="number"
-        name="altura"
+        name="alturaUsuario"
         class="form-completarInfo"
-        formControlName="altura"
+        formControlName="alturaUsuario"
       />cm.
     </span>
     
     </div>
 <div>
 
-      @if(formularioForm.get('altura')?.hasError('required')&&formularioForm.get('altura')?.touched){
+      @if(formularioForm.get('alturaUsuario')?.hasError('required')&&formularioForm.get('alturaUsuario')?.touched){
         <span>Ingresá tu <strong style="color: #13FF3A;">altura</strong> para continuar</span>
     }
     </div>
@@ -54,7 +54,7 @@
   
           <br />
            <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-anterior" (click)="irAlHome()">Cancelar</button>
     <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
   </div>
 
@@ -83,7 +83,7 @@
                   class="form-check-input"
                   type="radio"
                   name="objetivo"
-                  [value]="objetivo.id"
+                  [value]="objetivo.nombre"
                   formControlName="objetivo"
                 />
               </div>
@@ -107,7 +107,7 @@
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 50%"></div>
           </div>
-          <h4 class="text-white text-center mb-2">
+          <!--<h4 class="text-white text-center mb-2">
             ¿Con qué frecuencia realizás actividad física?
           </h4>
           <p class="text-center text-white mb-3">
@@ -154,7 +154,7 @@
               </div>
             </div>
           </div>
-          <br />
+          <br />-->
           <h4 class="text-white text-center mb-2">
             ¿Qué nivel de exigencia querés que tenga tu entrenamiento?
           </h4>
@@ -170,7 +170,7 @@
                 step="1"
                 class="custom-range"
                 id="rangoExigencia"
-                formControlName="exigenciaActividad"
+                formControlName="nivelExigencia"
               />
               <div class="scale-track">
                 <div class="scale-fill" id="exigenciaFill"></div>
@@ -234,7 +234,7 @@
       <input
         type="radio"
         name="tipoEntrenamiento"
-        [value]="opcion.nombre"
+        [value]="opcion.id"
         hidden
         formControlName="tipoEntrenamiento"
         [checked]="opcionSeleccionada === opcion.nombre"
@@ -282,13 +282,13 @@
 
   <div class="equipamiento-grid">
     <div
-      *ngFor="let item of equipamientoOpciones"
+      *ngFor="let item of equipamientosOpciones"
       class="equipamiento-item"
       [class.selected]="estaSeleccionado(item)"
       (click)="toggleEquipamiento(item)"
     >
-      <img [src]="item.imagen" [alt]="item.nombre" />
-      <span>{{ item.nombre }}</span>
+      <img [src]="item.imagen" [alt]="item.descripcion" />
+      <span>{{ item.descripcion }}</span>
     </div>
   </div>
 
@@ -326,7 +326,7 @@
                 step="1"
                 class="custom-range"
                 id="rangoDiasSemanales"
-                formControlName="diasEntrenamiento"
+                formControlName="diasDisponibles"
 
               />
               <div class="scale-track">
@@ -375,7 +375,7 @@
                 step="1"
                 class="custom-range"
                 id="rangoMinutos"
-               formControlName="duracionEntrenamiento"
+               formControlName="tiempoDisponible"
 
               />
               <div class="scale-track">
@@ -414,7 +414,7 @@
                 step="1"
                 class="custom-range"
                 id="duracionPlan"
-               formControlName="duracionPlanDias"
+               formControlName="duracionPlan"
               />
               <div class="scale-track">
                 <div class="scale-fill" id="duracionPlanFill"></div>
@@ -465,8 +465,8 @@
             </button>
           </div>
           <div class="card-body">
-            <p><strong>Peso:</strong> {{ formularioForm.get('peso')?.value }} kg</p>
-            <p><strong>Altura:</strong> {{ formularioForm.get('altura')?.value }} cm</p>
+            <p><strong>Peso:</strong> {{ formularioForm.get('pesoUsuario')?.value }} kg</p>
+            <p><strong>Altura:</strong> {{ formularioForm.get('alturaUsuario')?.value }} cm</p>
           </div>
         </div>
 
@@ -493,7 +493,7 @@
           </div>
           <div class="card-body">
             <p><strong>Frecuencia:</strong> {{ traducirEscalaActividad(formularioForm.get('frecuenciaActividad')?.value) }}</p>
-            <p><strong>Exigencia:</strong> {{ traducirEscalaExigencia(formularioForm.get('exigenciaActividad')?.value) }}</p>
+            <p><strong>Exigencia:</strong> {{ traducirEscalaExigencia(formularioForm.get('nivelExigencia')?.value) }}</p>
           </div>
         </div><br>
 
@@ -506,9 +506,9 @@
             </button>
           </div>
           <div class="card-body">
-            <p><strong>Días por semana:</strong> {{ traducirDias(formularioForm.get('diasEntrenamiento')?.value) }}</p>
-            <p><strong>Minutos por día:</strong> {{ traducirMinutos(formularioForm.get('duracionEntrenamiento')?.value) }}</p>
-            <p><strong>Duración del plan:</strong> {{ traducirDuracion(formularioForm.get('duracionPlanDias')?.value) }}</p>
+            <p><strong>Días por semana:</strong> {{ traducirDias(formularioForm.get('diasDisponibles')?.value) }}</p>
+            <p><strong>Minutos por día:</strong> {{ traducirMinutos(formularioForm.get('tiempoDisponible')?.value) }}</p>
+            <p><strong>Duración del plan:</strong> {{ traducirDuracion(formularioForm.get('duracionPlan')?.value) }}</p>
           </div>
         </div>
       </div>
@@ -543,13 +543,13 @@
             </button>
           </div>
           <div class="card-body">
-            <p>{{ equipamientoSeleccionado.length > 0 ? equipamientoSeleccionado.join(', ') : 'No seleccionado' }}</p>
+            <p>{{ equipamientos.length > 0 ? equipamientos.join(', ') : 'No seleccionado' }}</p>
             <div class="d-flex flex-wrap gap-2 mt-2">
-              <ng-container *ngFor="let item of equipamientoOpciones">
+              <ng-container *ngFor="let item of equipamientosOpciones">
                 <img
-                  *ngIf="equipamientoSeleccionado.includes(item.nombre) && item.nombre !== 'Ninguno'"
+                  *ngIf="equipamientos.includes(item.descripcion) && item.descripcion !== 'Ninguno'"
                   [src]="item.imagen"
-                  [alt]="item.nombre"
+                  [alt]="item.descripcion"
                   class="rounded"
                   style="max-width: 80px;"
                 />
@@ -562,7 +562,7 @@
   </div>
 
   <div class="text-center mt-4">
-    <button class="btn btn-custom btn-siguiente" (click)="verFormulario()">Finalizar</button>
+    <button class="btn btn-custom btn-siguiente" (click)="enviarFormulario()">Finalizar</button>
   </div>
 </div>
 

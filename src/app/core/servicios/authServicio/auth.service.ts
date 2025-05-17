@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { LoginResponseDTO } from '../../modelos/LoginResponseDTO';
+import { RegistroDTO } from '../../modelos/RegistroDTO';
 
 
 interface Usuario {
@@ -12,7 +13,7 @@ interface Usuario {
 
 interface AuthResponse {
   token: string;
-  usuario: Usuario;
+  email: string;
 }
 
 @Injectable({
@@ -20,7 +21,7 @@ interface AuthResponse {
 })
 export class AuthService {
   private readonly API_URL = 'http://localhost:5010/api/Usuario';
-  private usuarioSignal = signal<Usuario | null>(null);
+  private usuarioSignal = signal<string | null>(null);
   private readonly TOKEN_KEY = 'token';
   private readonly USER_KEY = 'user';
 
@@ -57,8 +58,8 @@ export class AuthService {
   private almacenarSesion(response: AuthResponse) {
     localStorage.removeItem('token');
     localStorage.setItem('token', response.token);
-    localStorage.setItem('usuario', JSON.stringify(response.usuario));
-    this.usuarioSignal.set(response.usuario);
+    localStorage.setItem('usuario', JSON.stringify(response.email));
+    this.usuarioSignal.set(response.email);
   }
 
   cerrarSesion() {
@@ -70,11 +71,20 @@ export class AuthService {
 
   estaAutenticado(): boolean {
   const token = this.getToken();
-  return !!token;  // Básico: solo verifica si hay token
+  return !!token;  
 }
 
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  registrarUsuario(dto: RegistroDTO): Observable<any> {
+      return this.http.post<any>(`${this.API_URL}/registro`, dto);
+    }
+
+  getEmail(): string | null {
+    const usuario = localStorage.getItem("email");
+    return usuario;
   }
 }

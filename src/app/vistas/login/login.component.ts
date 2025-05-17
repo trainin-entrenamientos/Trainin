@@ -32,10 +32,9 @@ export class LoginComponent {
       console.log('Login exitoso:', data);
 
       if (data.exito && !data.requiereActivacion) {
-        // Guardar token en localStorage si querés
         localStorage.setItem('token', data.token);
+        localStorage.setItem('email', data.email);
 
-        // Redireccionar al dashboard
         console.log('Redirigiendo a crear-plan-entrenamiento...');
         this.router.navigate(['/crear-plan']);
       } else if (data.requiereActivacion) {

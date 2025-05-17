@@ -20,5 +20,37 @@
     </div>
   </div>
 
-  <button class="btn btn-success btn-lg">Finalizar rutina</button>
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+  Finalizar rutina
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white rounded">
+      <div class="modal-body text-center">
+        <h5 class="fw-bold">Ayudanos a mejorar tu entrenamiento</h5>
+        <p class="fw-bold">Tu feedback nos ayuda a ajustar tu plan<br>
+        <em>Seleccioná la opción más acorde</em></p>
+
+        <div class="d-flex justify-content-around my-3">
+          <div>
+            <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_facil" class="form-check-input">
+            <label for="facil" class="form-label d-block text-success">Muy fácil</label>
+          </div>
+          <div>
+            <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada" value="equilibrado" class="form-check-input">
+            <label for="equilibrado" class="form-label d-block text-white">Bien equilibrado</label>
+          </div>
+          <div>
+            <input type="radio" id="exigente" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_exigente" class="form-check-input">
+            <label for="exigente" class="form-label d-block text-white">Muy exigente</label>
+          </div>
+        </div>
+
+        <button class="btn btn-success" (click)="enviarFeedback()">Enviar y continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>

@@ -14,9 +14,11 @@ import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finali
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
+import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { authGuard } from './core/guards/auth.guards';
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
-
+import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
+import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
 
 const routes: Routes = [
   {
@@ -89,11 +91,22 @@ const routes: Routes = [
         path: 'detalle-plan',
         component: DetallePlanComponent
         //canActivate: [authGuard]
+      },
+      {
+        path:'realizar-ejercicio-por-tiempo',
+        component: RealizarEjercicioPorTiempoComponent
+      },
+      {
+        path: 'premium',
+        component: PlanPremiumComponent
+      },
+      {
+        path: 'informacion-ejercicio',
+        component: InformacionEjercicioComponent
       }
-
     ]
   },
-    { path: '**', component: LoginComponent } 
+    {  path: '**', redirectTo: 'login', pathMatch: 'full' } 
 ];
 
 @NgModule({
