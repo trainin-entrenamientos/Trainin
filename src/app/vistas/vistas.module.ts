@@ -16,7 +16,6 @@ import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-
 import { RegistroComponent } from './registro/registro.component';
 import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
 import { LoginComponent } from './login/login.component';
-import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,6 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     RegistroComponent,
     HomeLandingPageComponent,
     LoginComponent,
-    CalibracionCamaraComponent,
   ],
   
 
@@ -41,7 +39,7 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    CompartidoModule
+    CompartidoModule,
   ],
 
   exports: [
