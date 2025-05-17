@@ -12,6 +12,7 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
 import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
 import { LoginComponent } from './login/login.component';
@@ -27,6 +28,7 @@ import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-ti
     HomeAdminComponent,
     CrearEjercicioComponent,
     EditarEjercicioComponent,
+    FinalizacionRutinaComponent,
     RegistroComponent,
     HomeLandingPageComponent,
     LoginComponent,
@@ -48,6 +50,7 @@ import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-ti
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
     FormularioCrearPlanDeEntrenamientoComponent,
+    FinalizacionRutinaComponent
   ]
 })
 export class VistasModule { }

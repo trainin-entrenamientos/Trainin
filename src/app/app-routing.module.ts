@@ -10,10 +10,12 @@ import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario
 import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
+import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
+import { authGuard } from './core/guards/auth.guards';
 
 const routes: Routes = [
   {
@@ -22,11 +24,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CrearPlanEntrenamientoComponent
+        component: HomeLandingPageComponent,
       },
       {
         path: 'crear-plan',
-        component: CrearPlanEntrenamientoComponent
+        component: CrearPlanEntrenamientoComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'terminos-condiciones',
@@ -46,19 +49,28 @@ const routes: Routes = [
       },
        {
         path: 'formulario-crear-plan',
-        component: FormularioCrearPlanDeEntrenamientoComponent
+        component: FormularioCrearPlanDeEntrenamientoComponent,
+        canActivate: [authGuard]
        },
       {
         path: 'home-admin',
-        component: HomeAdminComponent
+        component: HomeAdminComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'crear-ejercicio',
-        component: CrearEjercicioComponent
+        component: CrearEjercicioComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'editar-ejercicio/:id',
-        component: EditarEjercicioComponent
+        component: EditarEjercicioComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'finalizacion-rutina',
+        component: FinalizacionRutinaComponent,
+        canActivate: [authGuard]
       },
        {
         path: 'registro',
@@ -78,7 +90,8 @@ const routes: Routes = [
       }
 
     ]
-  }
+  },
+    { path: '**', component: LoginComponent } 
 ];
 
 @NgModule({

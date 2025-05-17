@@ -3,7 +3,7 @@
     <div class="container" id="loginForm">
       <div class="registration-card">
         <h2 class="section-title text-center mb-4">Iniciar sesión</h2>
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
           <!-- Email -->
           <div class="mb-3">
             <label for="loginEmail" class="form-label">Email:</label>
@@ -11,6 +11,7 @@
                    id="loginEmail"
                    class="form-control trainin-input"
                    placeholder=""
+                   formControlName="email"
                    required>
           </div>
           <!-- Contraseña -->
@@ -20,6 +21,7 @@
                    id="loginPassword"
                    class="form-control trainin-input"
                    placeholder=""
+                   formControlName="contrasenia"
                    required>
           </div>
 
