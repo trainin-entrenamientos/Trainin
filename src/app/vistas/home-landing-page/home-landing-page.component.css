@@ -26,6 +26,10 @@ body {
   display: block;
 }
 
+.row {
+  margin-right: 0 !important;
+}
+
 .text-nowrap {
   white-space: nowrap;
 }
