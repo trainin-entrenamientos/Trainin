@@ -1,4 +1,4 @@
-export interface RegistroUsuarioDTO {
+export interface RegistroDTO {
   nombre: string;
   apellido: string;
   email: string;
@@ -6,4 +6,3 @@ export interface RegistroUsuarioDTO {
   repetirContrasenia: string;
   fechaNacimiento: Date;
 }
-

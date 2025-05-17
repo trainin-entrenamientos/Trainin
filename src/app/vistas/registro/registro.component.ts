@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
-import { RegistroUsuarioDTO } from '../../core/modelos/RegistroDTO';
+import { RegistroDTO } from '../../core/modelos/RegistroDTO';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -35,16 +35,37 @@ export class RegistroComponent {
   }
 
   onSubmit() {
-    if (this.registroForm.invalid) {
-      this.toastr.error('Por favor, complete todos los campos correctamente.', 'Formulario inválido');
-      return;
-    }
-
-    const datos: RegistroUsuarioDTO = this.registroForm.value;
-
-    this.authService.registrarUsuario(datos).subscribe({
-      next: () => this.toastr.success('Registro enviado correctamente (¡aún sin guardar en DB!)'),
-      error: err => this.toastr.error('Error al registrar: ' + err.message)
-    });
+  if (this.registroForm.invalid) {
+    this.toastr.error('Por favor, complete todos los campos correctamente.', 'Formulario inválido');
+    return;
   }
+
+  const formValues = this.registroForm.value;
+
+  const datos: RegistroDTO = {
+    ...formValues,
+    fechaNacimiento: this.formatearFecha(formValues.fechaNacimiento)
+  };
+
+      console.log(JSON.stringify(datos));
+
+  this.authService.registrarUsuario(datos).subscribe({
+    next: (mensaje: string) => {
+      // El backend siempre responde OK o BadRequest con mensaje string
+      this.toastr.success(mensaje);
+      // Podés limpiar formulario o redirigir si querés
+    },
+    error: (err) => {
+      // El error.error es el mensaje string devuelto por el backend
+      const errorMsg = err.error || 'Error al registrar';
+      this.toastr.error(errorMsg);
+    }
+  });
+}
+
+
+  private formatearFecha(fecha: Date | string): string {
+  return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
+}
+
 }
