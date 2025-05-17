@@ -16,6 +16,7 @@ import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landin
 import { LoginComponent } from './vistas/login/login.component';
 import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { authGuard } from './core/guards/auth.guards';
+import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
 
 const routes: Routes = [
@@ -90,9 +91,12 @@ const routes: Routes = [
         component: RealizarEjercicioPorTiempoComponent
       },
       {
+        path: 'premium',
+        component: PlanPremiumComponent
+      },
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent
-      },
+      }
     ]
   },
     {  path: '**', redirectTo: 'login', pathMatch: 'full' } 

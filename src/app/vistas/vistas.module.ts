@@ -17,6 +17,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
+import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     HomeLandingPageComponent,
     LoginComponent,
     RealizarEjercicioPorTiempoComponent,
+    PlanPremiumComponent,
     InformacionEjercicioComponent
   ],
   
