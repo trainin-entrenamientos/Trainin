@@ -13,6 +13,7 @@ import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejerc
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
+import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path:'realizar-ejercicio-por-tiempo',
+        component: RealizarEjercicioPorTiempoComponent
       }
 
     ]
