@@ -79,8 +79,8 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  registrarUsuario(dto: RegistroDTO): Observable<string> {
-      return this.http.post<string>(`${this.API_URL}/registro`, dto);
+  registrarUsuario(dto: RegistroDTO): Observable<any> {
+      return this.http.post<any>(`${this.API_URL}/registro`, dto);
     }
 
   getEmail(): string | null {

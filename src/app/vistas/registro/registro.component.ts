@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-registro',
   standalone: false,
   templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css'
+  styleUrl: './registro.component.css',
 })
 export class RegistroComponent {
   registroForm: FormGroup;
@@ -18,16 +18,24 @@ export class RegistroComponent {
     private authService: AuthService,
     private toastr: ToastrService
   ) {
-    this.registroForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      apellido: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[\W_]).{6,}$/)]],
-      repetirContrasenia: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required],
-      aceptarTerminos: [false, Validators.requiredTrue] 
-
-    }, { validators: this.verificarContraseniasIguales });
+    this.registroForm = this.fb.group(
+      {
+        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+        apellido: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        contrasenia: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^(?=.*[0-9])(?=.*[\W_]).{6,}$/),
+          ],
+        ],
+        repetirContrasenia: ['', Validators.required],
+        fechaNacimiento: ['', Validators.required],
+        aceptarTerminos: [false, Validators.requiredTrue],
+      },
+      { validators: this.verificarContraseniasIguales }
+    );
   }
 
   verificarContraseniasIguales(form: FormGroup) {
@@ -39,7 +47,10 @@ export class RegistroComponent {
   onSubmit() {
   if (this.registroForm.invalid) {
     this.marcarCamposComoTocados();
-    this.toastr.error('Por favor, completá todos los campos correctamente.', 'Formulario inválido');
+    this.toastr.error(
+      'Por favor, completá todos los campos correctamente.',
+      'Formulario inválido'
+    );
     return;
   }
 
@@ -47,29 +58,32 @@ export class RegistroComponent {
 
   const datos: RegistroDTO = {
     ...formValues,
-    fechaNacimiento: this.formatearFecha(formValues.fechaNacimiento)
+    fechaNacimiento: this.formatearFecha(formValues.fechaNacimiento),
   };
 
-      console.log(JSON.stringify(datos));
-
   this.authService.registrarUsuario(datos).subscribe({
-    next: (mensaje: string) => {
-      this.toastr.success(mensaje);
+    next: (response: any) => {
+      this.toastr.success(response.mensaje, 'Se ha registrado con éxito');
+      this.registroForm.reset(); 
     },
     error: (err) => {
-      const errorMsg = err.error || 'Error al registrar';
-      this.toastr.error(errorMsg);
+      const errorMsg =
+        err.error?.mensaje ??
+        (typeof err.error === 'string' ? err.error : 'Ocurrió un error inesperado al registrar el usuario.');
+
+      this.toastr.error(errorMsg, 'Error de registro');
     }
+
   });
 }
 
 
   private formatearFecha(fecha: Date | string): string {
-  return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
-}
+    return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
+  }
 
-marcarCamposComoTocados(): void {
-    Object.keys(this.registroForm.controls).forEach(control => {
+  marcarCamposComoTocados(): void {
+    Object.keys(this.registroForm.controls).forEach((control) => {
       this.registroForm.get(control)?.markAsTouched();
     });
   }
