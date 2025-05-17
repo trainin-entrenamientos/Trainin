@@ -15,6 +15,8 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { authGuard } from './core/guards/auth.guards';
+import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
+
 
 const routes: Routes = [
   {
@@ -82,6 +84,11 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'detalle-plan',
+        component: DetallePlanComponent
+        //canActivate: [authGuard]
       }
 
     ]
