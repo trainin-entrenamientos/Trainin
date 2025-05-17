@@ -24,7 +24,9 @@ export class RegistroComponent {
       email: ['', [Validators.required, Validators.email]],
       contrasenia: ['', [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[\W_]).{6,}$/)]],
       repetirContrasenia: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required]
+      fechaNacimiento: ['', Validators.required],
+      aceptarTerminos: [false, Validators.requiredTrue] 
+
     }, { validators: this.verificarContraseniasIguales });
   }
 
@@ -36,7 +38,8 @@ export class RegistroComponent {
 
   onSubmit() {
   if (this.registroForm.invalid) {
-    this.toastr.error('Por favor, complete todos los campos correctamente.', 'Formulario inválido');
+    this.marcarCamposComoTocados();
+    this.toastr.error('Por favor, completá todos los campos correctamente.', 'Formulario inválido');
     return;
   }
 
@@ -51,12 +54,9 @@ export class RegistroComponent {
 
   this.authService.registrarUsuario(datos).subscribe({
     next: (mensaje: string) => {
-      // El backend siempre responde OK o BadRequest con mensaje string
       this.toastr.success(mensaje);
-      // Podés limpiar formulario o redirigir si querés
     },
     error: (err) => {
-      // El error.error es el mensaje string devuelto por el backend
       const errorMsg = err.error || 'Error al registrar';
       this.toastr.error(errorMsg);
     }
@@ -68,4 +68,13 @@ export class RegistroComponent {
   return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
 }
 
+marcarCamposComoTocados(): void {
+    Object.keys(this.registroForm.controls).forEach(control => {
+      this.registroForm.get(control)?.markAsTouched();
+    });
+  }
+
+  esFormularioValido(): boolean {
+    return this.registroForm.valid;
+  }
 }
