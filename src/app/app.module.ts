@@ -20,7 +20,12 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+       easeTime: 300,
+       extendedTimeOut: 15000,
+       toastClass: 'ngx-toastr toast-custom',
+       positionClass: 'toast-top-right',
+    })
   ],
   providers: [
     provideHttpClient(withInterceptors([authInterceptor]))
