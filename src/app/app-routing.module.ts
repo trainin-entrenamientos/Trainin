@@ -86,7 +86,7 @@ const routes: Routes = [
 
     ]
   },
-    { path: '**', component: LoginComponent } 
+    {path: '**', redirectTo: 'login', pathMatch: 'full'} // Redirigir a la página de inicio si la ruta no coincide
 ];
 
 @NgModule({
