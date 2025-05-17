@@ -14,6 +14,7 @@ import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finali
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
+import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { authGuard } from './core/guards/auth.guards';
 
 const routes: Routes = [
@@ -82,6 +83,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path:'realizar-ejercicio-por-tiempo',
+        component: RealizarEjercicioPorTiempoComponent
       }
 
     ]
