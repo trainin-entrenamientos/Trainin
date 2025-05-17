@@ -6,47 +6,65 @@
 
           <div class="col-12 col-md-4 px-0 d-flex justify-content-center">
             <div class="video-cuadrado">
-              <iframe #exerciseVideo id="exerciseVideo" class="trainin-video"
+              <iframe
+                #exerciseVideo
+                id="exerciseVideo"
+                class="trainin-video"
                 src="https://www.youtube.com/embed/eFsbK8VinKI?autoplay=1&mute=1&loop=1&playlist=eFsbK8VinKI&controls=0&modestbranding=1&rel=0"
-                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
               </iframe>
             </div>
           </div>
 
+          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
 
+            <!-- ICONOS DE PAUSA / CERRAR -->
+            <div class="iconosPausaClose">
+              <i
+                id="pauseBtn"
+                class="bi bi-pause-circle-fill fs-4 cursor-pointer"
+                (click)="togglePause()">
+              </i>
+              <i
+                id="closeBtn"
+                class="bi bi-x fs-4 cursor-pointer"
+                (click)="closeSession()">
+              </i>
+            </div>
 
-          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0">
-            <div class="contenedorTimer d-flex justify-content-center align-items-center mb-2">
+            <!-- BLOQUE DE “TIEMPO TOTAL” -->
+            <div class="contenedorTimer mb-2 text-center">
               <small class="text-muted-white">
                 Tiempo Total <span id="totalTime">{{ elapsedTimeDisplay }}</span>
               </small>
-              <div>
-                <i id="pauseBtn" class="fs-4 cursor-pointer"
-                  [ngClass]="isPaused ? 'bi bi-play-circle-fill' : 'bi bi-pause-circle-fill'" (click)="togglePause()">
-                </i>
-                <i id="closeBtn" class="bi bi-x fs-4 cursor-pointer ms-3" (click)="closeSession()">
-                </i>
-              </div>
             </div>
 
-            <div class="contenedorTimer d-flex justify-content-center align-items-center mb-2">
-
-              <h3 class="mb-1 titulo-ejercicio">Saltos de Tijera</h3>
+            <div class="contenedorTimer mb-2 text-center">
+              <h3 class="mb-1">Saltos de Tijera</h3>
             </div>
-            <div class="contenedorTimer d-flex justify-content-center align-items-center mb-2">
 
+            <div class="contenedorTimer mb-2 text-center">
               <h5 class="text-muted-white mb-3">Tiempo Restante</h5>
             </div>
 
-            <div class="contenedorTimer d-flex justify-content-center align-items-center mb-2">
-
-              <div id="countdown" class="display-4 mb-3" [ngClass]="{ 'countdown-warning': isWarning }">
+            <!-- CONTADOR -->
+            <div class="contenedorTimer mb-2 text-center">
+              <div
+                id="countdown"
+                class="display-4 mb-3"
+                [ngClass]="{ 'countdown-warning': isWarning }">
                 {{ countdownDisplay }}
               </div>
             </div>
 
+            <!-- BARRA DE PROGRESO -->
             <div class="progress">
-              <div id="progressBar" class="progress-bar bg-success" role="progressbar"
+              <div
+                id="progressBar"
+                class="progress-bar bg-success"
+                role="progressbar"
                 [style.width]="progressPercent + '%'">
               </div>
             </div>
