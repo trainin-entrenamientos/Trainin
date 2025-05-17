@@ -1,0 +1,84 @@
+<body>
+<section class="exercise-preview py-5">
+  <div class="container">
+    <div class="card session-card p-4 text-white border-0 mx-auto">
+      <div class="row align-items-center gx-4">
+
+        <div class="col-12 col-md-4">
+          <div class="exercise-image">
+            <img src="/imagenes/Sentadilla.avif" alt="Sentadillas">
+          </div>
+        </div>
+
+        <div class="col-12 col-md-5">
+          <small class="text-muted-white d-block mb-1">
+            Siguiente Ejercicio (1/5)
+          </small>
+          <h3 class="mb-1">
+            Sentadillas
+            <small class="text-muted-white fs-6">
+              (3 Series de 12 repeticiones)
+            </small>
+          </h3>
+          <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
+          <p class="text-muted-white">
+            De pie, con los pies separados al ancho de los hombros y la espalda
+            recta. Se flexionan las rodillas y se baja la cadera como si se
+            fuera a sentar, manteniendo el pecho erguido. Los muslos deben
+            quedar paralelos al suelo y las rodillas no deben pasar la punta de
+            los pies. Se sube empujando con los talones para volver a la posición
+            inicial.
+          </p>
+        </div>
+
+        <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
+                 <div class="iconosPausaClose">
+              <i
+                id="pauseBtn"
+                class="bi bi-pause-circle-fill fs-4 cursor-pointer"
+                (click)="togglePause()">
+              </i>
+              <i
+                id="closeBtn"
+                class="bi bi-x fs-4 cursor-pointer"
+                (click)="closeSession()">
+              </i>
+            </div>
+
+          <div class="preview-timer text-center">
+<h3 class="mb-1">              La rutina comienza en
+</h3>
+
+            <div class="contenedorTimer mb-2 text-center">
+              <div
+                id="countdown"
+                class="display-4 mb-3"
+                [ngClass]="{ 'countdown-warning': isWarning }">
+                {{ countdownDisplay }}
+              </div>
+            </div>
+
+
+            <div class="progress">
+              <div
+                id="progressBar"
+                class="progress-bar bg-success"
+                role="progressbar"
+                [style.width]="progressPercent + '%'"
+              ></div>
+            </div>
+
+            <div class="practicar">
+            <button class="btn btn-outline-success" routerLink="#">
+              Practicar
+            </button>
+            <i class="bi bi-question-circle-fill help-icon"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+</body>

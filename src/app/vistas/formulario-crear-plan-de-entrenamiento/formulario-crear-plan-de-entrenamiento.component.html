@@ -54,7 +54,7 @@
   
           <br />
            <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+    <button type="button" class="btn btn-custom btn-anterior" (click)="irAlHome()">Cancelar</button>
     <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
   </div>
 

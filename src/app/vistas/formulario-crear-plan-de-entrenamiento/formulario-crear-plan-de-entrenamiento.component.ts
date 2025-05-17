@@ -6,10 +6,11 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Equipamiento } from '../../compartido/interfaces/equipamiento';
+import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
 import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
 import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario-crear-plan-de-entrenamiento',
@@ -30,7 +31,8 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
     private renderer: Renderer2,
     private el: ElementRef,
     private crearPlanDeEntrenamientoService: CrearPlanEntrenamientoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [null, Validators.required],
@@ -166,6 +168,10 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
       default:
         return false;
     }
+  }
+
+  irAlHome(): void {
+    this.router.navigate(['/crear-plan']);
   }
 
   configurarSliders(): void {

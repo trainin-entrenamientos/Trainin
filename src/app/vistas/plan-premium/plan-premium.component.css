@@ -1,0 +1,87 @@
+.premium-container {
+  background-color: #1e1e1e;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: 2rem auto;
+
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .green {
+    color: #00ff4c;
+  }
+
+  .green-italic {
+    color: #00ff4c;
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .price {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .premium-features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .feature {
+      width: 250px;
+      background: #121212;
+      padding: 1rem;
+      border-radius: 10px;
+
+      .icon-box {
+        font-size: 3rem;
+        border: 2px solid #00ff4c;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .image-frame {
+        border: 5px solid #00ff4c;
+        padding: 5px;
+        margin-bottom: 1rem;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      img {
+        width: 100%;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  .subscribe-btn {
+    background: #00ff4c;
+    border: none;
+    color: black;
+    padding: 0.7rem 2rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+  } 
+}
+.icon-box{
+  height: 7.5rem;
+}
+.trofeos-img{
+  height: 10rem;
+}
