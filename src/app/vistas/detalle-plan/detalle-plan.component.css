@@ -43,7 +43,7 @@ html {
 }
 
 .dia-semana.activo {
-  background-color: #13ff3a;
+  background-color: #00ff00;
   color: black;
 }
 
@@ -71,6 +71,39 @@ html {
   text-align: center;
   width: 180px;
 }
+
+.fa-chevron-left,
+.fa-chevron-right {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.fa-chevron-left:hover,
+.fa-chevron-right:hover {
+  transform: scale(1.2);
+}
+
+.dia-semana {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.dia-semana:hover {
+  background-color: #00ff00;
+  transform: scale(1.05);
+  color:#00060c
+}
+
+.btn-iniciar-rutina{
+  cursor:pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-iniciar-rutina:hover{
+  transform: scale(1.05);
+}
+
+
 
 /* Responsive */
 @media (max-width: 576px) {
