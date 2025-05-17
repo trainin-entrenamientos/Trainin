@@ -15,6 +15,7 @@ import { RegistroComponent } from './vistas/registro/registro.component';
 import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
+import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
 
 const routes: Routes = [
   {
@@ -80,7 +81,10 @@ const routes: Routes = [
       {
         path: 'calibracion-camara',
         component: CalibracionCamaraComponent
-
+      },
+      {
+        path: 'correccion-postura',
+        component: CorreccionPosturaComponent
       }
 
     ]

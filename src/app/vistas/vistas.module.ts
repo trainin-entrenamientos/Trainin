@@ -16,6 +16,7 @@ import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-
 import { RegistroComponent } from './registro/registro.component';
 import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
 import { LoginComponent } from './login/login.component';
+import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoginComponent } from './login/login.component';
     RegistroComponent,
     HomeLandingPageComponent,
     LoginComponent,
+    CorreccionPosturaComponent,
   ],
   
 
