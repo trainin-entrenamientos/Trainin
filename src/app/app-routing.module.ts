@@ -90,7 +90,7 @@ const routes: Routes = [
         component: RealizarEjercicioPorTiempoComponent
       },
       {
-        path: 'plan-premium',
+        path: 'premium',
         component: PlanPremiumComponent
       }
       
