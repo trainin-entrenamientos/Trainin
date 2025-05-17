@@ -16,6 +16,7 @@ import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-
 import { RegistroComponent } from './registro/registro.component';
 import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.component';
 import { LoginComponent } from './login/login.component';
+import { DetallePlanComponent } from './detalle-plan/detalle-plan.component';
 import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
@@ -34,6 +35,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     RegistroComponent,
     HomeLandingPageComponent,
     LoginComponent,
+    DetallePlanComponent,
     RealizarEjercicioPorTiempoComponent,
     PlanPremiumComponent,
     InformacionEjercicioComponent
