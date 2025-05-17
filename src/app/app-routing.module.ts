@@ -94,6 +94,7 @@ const routes: Routes = [
         path: 'premium',
         component: PlanPremiumComponent
       },
+      {
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent
       }
