@@ -9,13 +9,22 @@ import { Ejercicio, RutinaService} from '../../core/servicios/rutina/rutina.serv
 })
 export class FinalizacionRutinaComponent implements OnInit {
 
+  opcionSeleccionada: string = '';
   ejercicios: Ejercicio[] = [];
-  constructor(private rutinaService: RutinaService) { }
+    constructor(private rutinaService: RutinaService) { }
   
   ngOnInit(): void {
     this.rutinaService.ObtenerEjercicios().subscribe((ejercicios: Ejercicio[]) => {
       this.ejercicios = ejercicios;
     });
+  }
+  enviarFeedback() {
+    if(!this.opcionSeleccionada) {
+      alert('Por favor, selecciona una opción.');
+      return;
+    }
+    
+    
   }
 
   estadisticas = [

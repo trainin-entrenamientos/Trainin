@@ -33,6 +33,7 @@ export class LoginComponent {
 
       if (data.exito && !data.requiereActivacion) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('email', data.email);
 
         console.log('Redirigiendo a crear-plan-entrenamiento...');
         this.router.navigate(['/crear-plan']);
