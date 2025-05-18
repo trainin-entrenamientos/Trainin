@@ -7,13 +7,13 @@ import { Component,
 declare const bootstrap: any;
 
 @Component({
-  selector: 'home-landing-page',
+  selector: 'app-inicio',
   templateUrl: 'inicio.component.html',
   styleUrls: ['inicio.component.css'],
   standalone: false,
 })
 
-export class HomeLandingPageComponent implements AfterViewInit {
+export class InicioComponent implements AfterViewInit {
   @ViewChild('heroCarousel', { static: true }) heroCarousel!: ElementRef;
   @ViewChild('galleryRow',    { static: true }) galleryRow!:    ElementRef;
 

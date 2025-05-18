@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         authService.cerrarSesion();
         toastr.error('Por favor, inicie sesión nuevamente', 'Su sesión ha expirado');
 
-        router.navigate(['/login'], {
+        router.navigate(['/iniciar-sesion'], {
           queryParams: { 
             sessionExpired: 'true' 
           }
