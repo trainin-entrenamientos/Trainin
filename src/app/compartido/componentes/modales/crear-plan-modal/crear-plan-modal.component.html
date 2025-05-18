@@ -1,0 +1,22 @@
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="custom-modal shadow-lg" (click)="$event.stopPropagation()">
+    <h1>¡Bienvenido usuario a TRAININ!</h1>
+    <h2>
+      Gracias por confiar en nosotros para acompañarte en tu camino de
+      entrenamiento
+    </h2>
+    <p>
+      Antes de comenzar, necesitamos conocerte un poco mejor. Te haremos algunas
+      preguntas para personalizar tu entrenamiento. ¡No te tomará más de 5
+      minutos!
+    </p>
+    <div class="modal-footer d-flex justify-content-end gap-3">
+      <a routerLink="/formulario-crear-plan" class="btn custom-btn-fill"
+        >Iniciar cuestionario</a
+      >
+      <button (click)="cerrarModal()" class="btn btn-secondary">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

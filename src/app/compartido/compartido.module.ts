@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './componentes/layout/layout.component';
 import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eliminar-ejercicio/modal-eliminar-ejercicio.component';
 import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
+import { CrearPlanModalComponent } from './componentes/modales/crear-plan-modal/crear-plan-modal.component';
+import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-creado/modal-plan-creado.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejerc
     FooterComponent,
     LayoutComponent,
     ModalEliminarEjercicioComponent,
-    EjercicioTarjetaComponent
+    EjercicioTarjetaComponent,
+    CrearPlanModalComponent,
+    ModalPlanCreadoComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejerc
     HeaderComponent,
     FooterComponent,
     ModalEliminarEjercicioComponent,
-    EjercicioTarjetaComponent
+    EjercicioTarjetaComponent,
+    CrearPlanModalComponent,
+    ModalPlanCreadoComponent
   ],
   providers: [],
 })
