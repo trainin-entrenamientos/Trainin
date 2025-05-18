@@ -7,12 +7,12 @@ import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preg
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
-import { HomeAdminComponent } from './vistas/home-admin/home-admin.component';
+import { HomeAdminComponent } from './vistas/inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
-import { HomeLandingPageComponent } from './vistas/home-landing-page/home-landing-page.component';
+import { HomeLandingPageComponent } from './vistas/inicio/inicio.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { authGuard } from './core/guards/auth.guards';

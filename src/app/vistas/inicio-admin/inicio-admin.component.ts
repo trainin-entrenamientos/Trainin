@@ -7,8 +7,8 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-home-admin',
   standalone: false,
-  templateUrl: './home-admin.component.html',
-  styleUrl: './home-admin.component.css',
+  templateUrl: './inicio-admin.component.html',
+  styleUrl: './inicio-admin.component.css',
 })
 export class HomeAdminComponent {
   ejercicios: Ejercicio[] = [];
