@@ -1,7 +1,7 @@
-import { HomeLandingPageComponent } from './inicio.component'
+import { InicioComponent } from './inicio.component'
 
 describe('HomeLandingPageComponent', () => {
   it('should mount', () => {
-    cy.mount(HomeLandingPageComponent)
+    cy.mount(InicioComponent)
   })
 })

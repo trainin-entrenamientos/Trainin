@@ -4,12 +4,12 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  selector: 'app-iniciar-sesion',
+  templateUrl: './iniciar-sesion.component.html',
+  styleUrl: './iniciar-sesion.component.css',
   standalone:false
 })
-export class LoginComponent {
+export class IniciarSesionComponent {
   loginForm: FormGroup;
 
   constructor(
@@ -36,7 +36,7 @@ export class LoginComponent {
         localStorage.setItem('email', data.email);
 
         console.log('Redirigiendo a crear-plan-entrenamiento...');
-        this.router.navigate(['/crear-plan']);
+        this.router.navigate(['/planes']);
       } else if (data.requiereActivacion) {
         alert('Debes activar tu cuenta antes de iniciar sesión.');
       }

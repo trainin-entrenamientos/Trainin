@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
+import { PlanesComponent } from './vistas/planes/planes.component';
 import { TerminosCondicionesComponent } from './vistas/terminos-condiciones/terminos-condiciones.component';
 import { PoliticasPrivacidadComponent } from './vistas/politicas-privacidad/politicas-privacidad.component';
 import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preguntas-frecuentes.component';
 import { LayoutComponent } from './compartido/componentes/layout/layout.component';
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
-import { FormularioCrearPlanDeEntrenamientoComponent } from './vistas/formulario-crear-plan-de-entrenamiento/formulario-crear-plan-de-entrenamiento.component';
-import { HomeAdminComponent } from './vistas/inicio-admin/inicio-admin.component';
+import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
+import { InicioAdminComponent } from './vistas/inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
-import { HomeLandingPageComponent } from './vistas/inicio/inicio.component';
-import { LoginComponent } from './vistas/login/login.component';
+import { InicioComponent } from './vistas/inicio/inicio.component';
+import { IniciarSesionComponent } from './vistas/iniciar-sesion/iniciar-sesion.component';
 import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { authGuard } from './core/guards/auth.guards';
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
@@ -27,11 +27,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeLandingPageComponent,
+        component: InicioComponent,
       },
       {
-        path: 'crear-plan',
-        component: CrearPlanEntrenamientoComponent,
+        path: 'planes',
+        component: PlanesComponent,
         canActivate: [authGuard]
       },
       {
@@ -52,12 +52,12 @@ const routes: Routes = [
       },
        {
         path: 'formulario-crear-plan',
-        component: FormularioCrearPlanDeEntrenamientoComponent,
+        component: CrearPlanEntrenamientoComponent,
         canActivate: [authGuard]
        },
       {
-        path: 'home-admin',
-        component: HomeAdminComponent,
+        path: 'inicio-admin',
+        component: InicioAdminComponent,
         canActivate: [authGuard]
       },
       {
@@ -80,12 +80,12 @@ const routes: Routes = [
         component: RegistroComponent
       },
       {
-        path: 'home-landing-page',
-        component: HomeLandingPageComponent
+        path: 'inicio',
+        component: InicioComponent
       },
       {
-        path: 'login',
-        component: LoginComponent
+        path: 'iniciar-sesion',
+        component: IniciarSesionComponent
       },
       {
         path: 'detalle-plan',
@@ -106,7 +106,7 @@ const routes: Routes = [
       }
     ]
   },
-    {  path: '**', redirectTo: 'login', pathMatch: 'full' } 
+    {  path: '**', redirectTo: 'iniciar-sesion', pathMatch: 'full' } 
 ];
 
 @NgModule({
