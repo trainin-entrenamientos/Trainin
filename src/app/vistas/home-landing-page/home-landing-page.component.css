@@ -26,6 +26,10 @@ body {
   display: block;
 }
 
+.row {
+  margin-right: 0 !important;
+}
+
 .text-nowrap {
   white-space: nowrap;
 }
@@ -648,4 +652,22 @@ body {
 .btn-white:hover {
   background-color: #11E835;
   transform: scale(1.05);
+}
+
+@media screen and (max-width: 540px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2, h3 {
+    font-size: 1.2rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+  }
+
+  .hero-img {
+    height: 350px !important;
+  }
 }

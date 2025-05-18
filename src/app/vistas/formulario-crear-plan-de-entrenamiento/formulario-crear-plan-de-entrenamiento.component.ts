@@ -52,10 +52,7 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
   equipamientos: string[] = [];
   minutos: string = '';
 
-  ngOnInit(): void {
-    this.obtenerEquipamiento();
-    this.obtenerOpcionesEntrenamiento();
-  }
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -63,6 +60,8 @@ export class FormularioCrearPlanDeEntrenamientoComponent {
         this.configurarSliders();
       }
     });
+    this.obtenerEquipamiento();
+    this.obtenerOpcionesEntrenamiento();
   }
 
   nextStep(): void {
