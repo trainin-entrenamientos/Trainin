@@ -24,6 +24,17 @@ export class PlanesComponent {
     this.crearPlanEntrenamientoService = CrearPlanEntrenamientoService;
     this.usuarioService = UsuarioService;
   }
+  
+mostrarModalCrearPlan: boolean = false;
+
+abrirModal() {
+  this.mostrarModalCrearPlan = true;
+}
+
+cerrarModal() {
+  this.mostrarModalCrearPlan = false;
+}
+
 
   ngOnInit(): void {
     this.obtenerUsuario(this.idUsuario);
@@ -43,6 +54,7 @@ export class PlanesComponent {
       },
     });
   }
+  
 
   obtenerUsuario(id: number): void {
     this.usuarioService.obtenerUsuarioPorId(id).subscribe({
@@ -72,4 +84,7 @@ export class PlanesComponent {
     const total = this.planEntrenamiento?.totalProgresoPlan ?? 1;
     return `${(progreso / total) * 100}%`;
   }
+
+  
+
 }
