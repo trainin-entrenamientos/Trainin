@@ -10,6 +10,7 @@ import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamien
 import { InicioAdminComponent } from './vistas/inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './vistas/crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejercicio.component';
+import { InicioRutinaComponent } from './vistas/inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
 import { InicioComponent } from './vistas/inicio/inicio.component';
@@ -67,8 +68,10 @@ const routes: Routes = [
       },
       {
         path: 'editar-ejercicio/:id',
-        component: EditarEjercicioComponent,
-        canActivate: [authGuard]
+        component: EditarEjercicioComponent
+      },
+      { path: 'inicio-rutina', 
+        component: InicioRutinaComponent
       },
       {
         path: 'finalizacion-rutina',

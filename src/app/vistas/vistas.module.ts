@@ -12,6 +12,7 @@ import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -31,6 +32,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     InicioAdminComponent,
     CrearEjercicioComponent,
     EditarEjercicioComponent,
+    InicioRutinaComponent,
     FinalizacionRutinaComponent,
     RegistroComponent,
     InicioComponent,
