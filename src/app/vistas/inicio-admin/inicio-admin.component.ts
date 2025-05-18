@@ -5,12 +5,12 @@ import { AdminService } from '../../core/servicios/adminServicio/admin.service';
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-home-admin',
+  selector: 'app-inicio-admin',
   standalone: false,
-  templateUrl: './home-admin.component.html',
-  styleUrl: './home-admin.component.css',
+  templateUrl: './inicio-admin.component.html',
+  styleUrl: './inicio-admin.component.css',
 })
-export class HomeAdminComponent {
+export class InicioAdminComponent {
   ejercicios: Ejercicio[] = [];
 
   constructor(private AdminService: AdminService, private router: Router) {

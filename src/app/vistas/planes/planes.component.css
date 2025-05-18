@@ -1,0 +1,313 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+p {
+  margin: unset;
+}
+
+.contenedor-plan {
+  text-decoration: none;
+}
+
+.plan-card {
+  background-color: #191919;
+  border-radius: 10px;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  transition: transform 0.3s;
+  gap: 40px;
+}
+
+.plan-card:hover {
+  transform: scale(1.02);
+}
+
+.plan-card p {
+  font-size: 1.5rem;
+}
+
+.icon {
+  font-size: 5rem;
+  color: #13ff3a;
+}
+
+.contenedor-titulo {
+  width: 90%;
+}
+
+#imagen-plan {
+  width: 100px;
+  border-radius: 50%;
+}
+
+#ultimo-entrenamiento {
+  background-color: #191919;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+#racha-semanal {
+  background-color: #191919;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+.contenedor-principal-planes {
+  width: 90%;
+  gap: 2rem;
+  margin: auto;
+}
+
+.icono-fuego {
+  font-size: 3rem;
+  color: #13ff3a;
+}
+
+.contenedor-progreso {
+  max-width: 300px;
+}
+
+.circulo {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #13ff3a;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.circulo.activo {
+  background-color: #13ff3a;
+}
+
+.barra-progreso {
+  background-color: #333;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.barra-progreso .relleno {
+  background-color: #13ff3a;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.contenedor-info-plan-imagen {
+  gap: 5rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .contenedor-progresos {
+    flex-direction: unset !important;
+  }
+
+  .contenedor-info-plan-imagen {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #nombre-plan, #realizado {
+    font-size: 1rem;
+  }
+
+  #progreso-semanal,
+  #progreso-plan {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contenedor-titulo {
+    padding-top: 10px !important;
+  }
+
+  .contenedor-principal-planes {
+    margin-top: 2rem !important;
+  }
+
+  .plan-card p {
+    font-size: 1.2rem;
+  }
+
+  .icon {
+    font-size: 4rem;
+  }
+
+  .contenedor-ultimo-entrenamiento h4 {
+    font-size: 1rem;
+  }
+
+  .contenedor-ultimo-entrenamiento h5 {
+    font-size: 0.8rem;
+  }
+
+  .contenedor-ultimo-entrenamiento span {
+    font-size: 0.6rem;
+  }
+
+  .contenedor-racha h4 {
+    font-size: 1rem;
+  }
+
+  .contenedor-racha span {
+    font-size: 0.8rem;
+  }
+  
+  .icono-fuego {
+    font-size: 2rem;
+  }
+
+  #progreso-semanal,
+  #progreso-plan {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .contenedor-principal-planes {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+ .contenedor-ultimo-entrenamiento h4 {
+    font-size: 1.2rem;
+  }
+
+  .contenedor-ultimo-entrenamiento h5 {
+    font-size: 1rem;
+  }
+
+  .contenedor-ultimo-entrenamiento span {
+    font-size: 0.8rem;
+  }
+
+  .contenedor-racha h4 {
+    font-size: 1.2rem;
+  }
+
+  .contenedor-racha span {
+    font-size: 1rem;
+  }
+  
+  .icono-fuego {
+    font-size: 2rem;
+  }
+
+  #realizado, #nombre-plan {
+    font-size: 1rem;
+  }
+
+  #progreso-semanal,
+  #progreso-plan {
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .contenedor-titulo {
+    padding-top: 10px !important;
+  }
+
+  .contenedor-principal-planes {
+    margin-top: 2rem !important;
+  }
+
+  .plan-card p {
+    font-size: 0.8rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .plan-card {
+    width: 100%;
+    padding: 1rem;
+    gap: 0;
+  }
+
+  .contenedor-ultimo-entrenamiento h4 {
+    font-size: 1.2rem;
+  }
+
+  .contenedor-ultimo-entrenamiento h5 {
+    font-size: 1rem;
+  }
+
+  .contenedor-ultimo-entrenamiento span {
+    font-size: 0.8rem;
+  }
+
+  .contenedor-racha h4 {
+    font-size: 1.2rem;
+  }
+
+  .contenedor-racha span {
+    font-size: 0.8rem;
+  }
+
+  .icono-fuego {
+    font-size: 2rem;
+  }
+
+  .contenedor-principal-planes {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #nombre-plan, #realizado {
+    font-size: 0.8rem;
+  }
+
+  #progreso-semanal,
+  #progreso-plan {
+    font-size: 0.6rem;
+  }
+
+  .contendor-imagen-plan,
+  .contenedor-info-plan {
+    gap: 0.5rem !important;
+  }
+
+  #imagen-plan {
+    width: 70px;
+  }
+
+  .contenedor-info-plan-imagen {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contenedor-progresos {
+    flex-direction: unset !important;
+  }
+}
