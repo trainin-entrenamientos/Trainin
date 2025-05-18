@@ -3,6 +3,8 @@ import { PlanEntrenamiento } from '../../core/modelos/PlanEntrenamiento';
 import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-planes',
@@ -12,49 +14,52 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 })
 export class PlanesComponent {
   idUsuario: number = 1;
-  planEntrenamiento?: PlanEntrenamiento;
+  planEntrenamiento?: any;
   usuario?: Usuario;
   crearPlanEntrenamientoService: CrearPlanEntrenamientoService;
   usuarioService: UsuarioService;
+  authService: AuthService;
+  router: Router;
 
   constructor(
     CrearPlanEntrenamientoService: CrearPlanEntrenamientoService,
-    UsuarioService: UsuarioService
+    UsuarioService: UsuarioService,
+    authService: AuthService,
+    router: Router
   ) {
     this.crearPlanEntrenamientoService = CrearPlanEntrenamientoService;
     this.usuarioService = UsuarioService;
+    this.authService = authService;
+    this.router = router;
   }
 
-  ngOnInit(): void {
-    this.obtenerUsuario(this.idUsuario);
-    this.obtenerPlanEntrenamiento(this.idUsuario);
+  ngAfterViewInit(): void {
+    this.obtenerUsuario(this.authService.getEmail());
   }
 
   obtenerPlanEntrenamiento(id: number): void {
     this.crearPlanEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: PlanEntrenamiento) => {
+      next: (planObtenido: any) => {
         this.planEntrenamiento = planObtenido;
+        console.log('Plan de entrenamiento obtenido:', planObtenido);
       },
       error: (err: any) => {
         console.error('Error al obtener el plan:', err);
-      },
-      complete: () => {
-        console.log('Petición completada');
-      },
+      }
     });
   }
 
-  obtenerUsuario(id: number): void {
-    this.usuarioService.obtenerUsuarioPorId(id).subscribe({
-      next: (usuarioObtenido: Usuario) => {
+  obtenerUsuario(email: string | null): void {
+    this.usuarioService.obtenerUsuarioPorId(email).subscribe({
+      next: (usuarioObtenido: any) => {
+        console.log('Usuario obtenido:', usuarioObtenido);
         this.usuario = usuarioObtenido;
+        this.idUsuario = usuarioObtenido.id;
+        this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
-      },
-      complete: () => {
-        console.log('Petición completada');
-      },
+      }
     });
   }
 
@@ -67,9 +72,15 @@ export class PlanesComponent {
     );
   }
 
-  get porcentajeProgreso(): string {
-    const progreso = this.planEntrenamiento?.progresoPlan ?? 0;
-    const total = this.planEntrenamiento?.totalProgresoPlan ?? 1;
-    return `${(progreso / total) * 100}%`;
+ get porcentajeProgreso(): (plan: any) => string {
+    return (plan: any) => {
+        const progreso = plan.cantidadRutinasHechas ?? 0;
+        const total = plan.cantidadRutinas ?? 1;
+        return `${(progreso / total) * 100}%`;
+    };
   }
+
+  irAlDetallePlan() {
+        this.router.navigate(['/detalle-plan', /*this.planEntrenamiento.id*/]);
+    }
 }
