@@ -68,10 +68,12 @@ const routes: Routes = [
       },
       {
         path: 'editar-ejercicio/:id',
-        component: EditarEjercicioComponent
+        component: EditarEjercicioComponent,
+        canActivate: [authGuard]
       },
       { path: 'inicio-rutina', 
-        component: InicioRutinaComponent
+        component: InicioRutinaComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'finalizacion-rutina',
@@ -92,12 +94,13 @@ const routes: Routes = [
       },
       {
         path: 'detalle-plan',
-        component: DetallePlanComponent
-        //canActivate: [authGuard]
+        component: DetallePlanComponent,
+        canActivate: [authGuard]
       },
       {
         path:'realizar-ejercicio-por-tiempo',
-        component: RealizarEjercicioPorTiempoComponent
+        component: RealizarEjercicioPorTiempoComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'premium',
@@ -105,7 +108,8 @@ const routes: Routes = [
       },
       {
         path: 'informacion-ejercicio',
-        component: InformacionEjercicioComponent
+        component: InformacionEjercicioComponent,
+        canActivate: [authGuard]
       }
     ]
   },
