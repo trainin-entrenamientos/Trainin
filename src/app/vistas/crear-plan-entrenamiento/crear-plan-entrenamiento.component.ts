@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class CrearPlanEntrenamientoComponent {
   currentStep: number = 1;
-  totalSteps: number = 7;
+  totalSteps: number = 6;
   editandoDesdeResumen: boolean = false;
   formularioForm: FormGroup;
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
@@ -38,13 +38,10 @@ export class CrearPlanEntrenamientoComponent {
       pesoUsuario: [null, Validators.required],
       alturaUsuario: [null, Validators.required],
       objetivo: [null, Validators.required],
-      //frecuenciaActividad: [1, Validators.required],
       nivelExigencia: [1, Validators.required],
       diasDisponibles: [1, Validators.required],
       tiempoDisponible: [1, Validators.required],
       duracionPlan: [1, Validators.required],
-      // diasSemanales: [1, Validators.required],
-      //duracionPlan: [1, Validators.required],
       tipoEntrenamiento: [null, Validators.required],
       equipamientos: [null, Validators.required],
     });
@@ -56,7 +53,7 @@ export class CrearPlanEntrenamientoComponent {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.currentStep === 3 || this.currentStep === 6) {
+      if (this.currentStep === 5) {
         this.configurarSliders();
       }
     });
@@ -66,7 +63,6 @@ export class CrearPlanEntrenamientoComponent {
 
   nextStep(): void {
     if (!this.esPasoActualValido()) {
-      // Marca los campos del paso actual como tocados para mostrar mensajes de error
       this.marcarCamposDelPasoComoTocados(this.currentStep);
       return;
     }
@@ -77,7 +73,7 @@ export class CrearPlanEntrenamientoComponent {
         this.cargarResumen();
       }
 
-      if (this.currentStep === 3 || this.currentStep === 6) {
+      if (this.currentStep === 5) {
         setTimeout(() => this.configurarSliders(), 0);
       }
     }
@@ -93,16 +89,14 @@ export class CrearPlanEntrenamientoComponent {
         controles.push('objetivo');
         break;
       case 3:
-        controles.push(/*'frecuenciaActividad',*/ 'nivelExigencia');
-        break;
-      case 4:
         controles.push('tipoEntrenamiento');
         break;
-      case 5:
+      case 4:
         controles.push('equipamientos');
         break;
-      case 6:
-        controles.push(
+      case 5:
+         controles.push(
+          'nivelExigencia',
           'diasDisponibles',
           'tiempoDisponible',
           'duracionPlan'
@@ -119,7 +113,7 @@ export class CrearPlanEntrenamientoComponent {
     if (this.currentStep > 1) {
       this.currentStep--;
 
-      if (this.currentStep === 3 || this.currentStep === 6) {
+      if (this.currentStep === 5) {
         setTimeout(() => this.configurarSliders(), 0);
       }
     }
@@ -129,7 +123,7 @@ export class CrearPlanEntrenamientoComponent {
     this.currentStep = numero;
     this.editandoDesdeResumen = true;
 
-    if (this.currentStep === 3 || this.currentStep === 6) {
+    if (this.currentStep === 5) {
       setTimeout(() => this.configurarSliders(), 0);
     }
   }
@@ -150,16 +144,12 @@ export class CrearPlanEntrenamientoComponent {
       case 2:
         return !!this.formularioForm.get('objetivo')?.valid;
       case 3:
-        return (
-          //!!this.formularioForm.get('frecuenciaActividad')?.valid &&
-          !!this.formularioForm.get('nivelExigencia')?.valid
-        );
-      case 4:
         return !!this.formularioForm.get('tipoEntrenamiento')?.valid;
-      case 5:
+      case 4:
         return !!this.formularioForm.get('equipamientos')?.valid;
-      case 6:
+      case 5:
         return (
+          !!this.formularioForm.get('nivelExigencia')?.valid &&
           !!this.formularioForm.get('diasDisponibles')?.valid &&
           !!this.formularioForm.get('tiempoDisponible')?.valid &&
           !!this.formularioForm.get('duracionPlan')?.valid
@@ -174,14 +164,7 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   configurarSliders(): void {
-    // Paso 3
-    this.configurarSlider(
-      'rangoFrecuenciaActividad',
-      'actividadFill',
-      '#rangoFrecuenciaActividad + .scale-track .scale-point',
-      1,
-      5
-    );
+  
     this.configurarSlider(
       'rangoExigencia',
       'exigenciaFill',
@@ -190,7 +173,6 @@ export class CrearPlanEntrenamientoComponent {
       5
     );
 
-    // Paso 6
     this.configurarSlider(
       'rangoDiasSemanales',
       'diasSemanalesFill',
@@ -355,13 +337,7 @@ export class CrearPlanEntrenamientoComponent {
     ) as HTMLInputElement;
     this.setTexto('resumenObjetivo', objetivo?.name || 'No seleccionado');
 
-    // Paso 3 - Actividad y Exigencia
-    const actividad = this.getInputValueById('rangoFrecuenciaActividad');
-    const exigencia = this.getInputValueById('rangoExigencia');
-    this.setTexto('resumenActividad', this.traducirEscalaActividad(actividad));
-    this.setTexto('resumenExigencia', this.traducirEscalaExigencia(exigencia));
-
-    // Paso 4 - Tipo de entrenamiento (card seleccionada)
+    // Paso 3 - Tipo de entrenamiento (card seleccionada)
     if (this.opcionSeleccionada) {
       this.setTexto('resumenEntrenamiento', this.opcionSeleccionada);
 
@@ -384,7 +360,7 @@ export class CrearPlanEntrenamientoComponent {
       if (img) img.style.display = 'none';
     }
 
-    // Paso 5 - Equipamiento
+    // Paso 4 - Equipamiento
     const equipamientoTexto =
       this.equipamientos.length > 0
         ? this.equipamientos.join(', ')
@@ -420,11 +396,14 @@ export class CrearPlanEntrenamientoComponent {
       }
     }
 
-    // Paso 6 - Sliders
+    // Paso 5 - Sliders
+
+    const exigencia = this.getInputValueById('rangoExigencia');
     const dias = this.getInputValueById('rangoDiasSemanales');
     const minutos = this.getInputValueById('rangoMinutos');
     const duracion = this.getInputValueById('duracionPlan');
 
+    this.setTexto('resumenExigencia', this.traducirEscalaExigencia(exigencia));
     this.setTexto('resumenDiasSemanales', this.traducirDias(dias));
     this.setTexto('resumenMinutos', this.traducirMinutos(minutos));
     this.setTexto('resumenDuracionPlan', this.traducirDuracion(duracion));
@@ -442,27 +421,7 @@ export class CrearPlanEntrenamientoComponent {
     if (el) el.innerText = value;
   }
 
-  protected traducirObjetivo(valor: string): string {
-    const mapa: Record<string, string> = {
-      '1': 'Reducir grasa corporal – Bajar de pesoUsuario',
-      '2': 'Tonificar el cuerpo – Mejorar la apariencia muscular',
-      '3': 'Ganar masa muscular – Aumentar fuerza',
-      '4': 'Mejorar la flexibilidad y movilidad',
-      '5': 'Mantenerme activo/a y con energía cada día',
-      '6': 'Combatir el sedentarismo',
-    };
-    return mapa[valor] || 'No especificado';
-  }
-  protected traducirEscalaActividad(valor: string): string {
-    const mapa: Record<string, string> = {
-      '1': 'Ninguna',
-      '2': 'Muy poca',
-      '3': 'Moderada',
-      '4': 'Frecuente',
-      '5': 'Mucha',
-    };
-    return mapa[valor] || 'No especificado';
-  }
+ 
 
   protected traducirEscalaExigencia(valor: string): string {
     const mapa: Record<string, string> = {
@@ -523,11 +482,9 @@ export class CrearPlanEntrenamientoComponent {
         .subscribe(
           (response) => {
             console.log('Plan de entrenamiento creado:', response);
-            // Aquí puedes manejar la respuesta del servidor
           },
           (error) => {
             console.error('Error al crear el plan de entrenamiento:', error);
-            // Aquí puedes manejar el error
           }
         );
     } else {
