@@ -1,4 +1,4 @@
-import { HomeAdminComponent } from './home-admin.component'
+import { HomeAdminComponent } from './inicio-admin.component'
 
 describe('HomeAdminComponent', () => {
   it('should mount', () => {

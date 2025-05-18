@@ -8,8 +8,8 @@ declare const bootstrap: any;
 
 @Component({
   selector: 'home-landing-page',
-  templateUrl: 'home-landing-page.component.html',
-  styleUrls: ['home-landing-page.component.css'],
+  templateUrl: 'inicio.component.html',
+  styleUrls: ['inicio.component.css'],
   standalone: false,
 })
 

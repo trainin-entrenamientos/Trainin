@@ -1,11 +1,11 @@
 .premium-container {
-  background-color: #1e1e1e;
+  background-color: #191919;
   padding: 2rem;
   text-align: center;
   color: white;
   border-radius: 10px;
   max-width: 1000px;
-  margin: 2rem auto;
+  margin: auto;
 
   .title {
     font-size: 2rem;
@@ -84,4 +84,8 @@
 }
 .trofeos-img{
   height: 10rem;
+}
+
+.contenedor-principal-premium {
+  background-color: #00060c;
 }

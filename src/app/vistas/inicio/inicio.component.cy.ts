@@ -1,4 +1,4 @@
-import { HomeLandingPageComponent } from './home-landing-page.component'
+import { HomeLandingPageComponent } from './inicio.component'
 
 describe('HomeLandingPageComponent', () => {
   it('should mount', () => {
