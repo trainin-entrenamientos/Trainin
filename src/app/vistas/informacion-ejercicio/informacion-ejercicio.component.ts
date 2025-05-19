@@ -5,6 +5,8 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Rutina } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 
@@ -17,6 +19,8 @@ import { Router } from '@angular/router';
 })
 
 export class InformacionEjercicioComponent implements OnInit, OnDestroy {
+
+  /*Inicio rutina*/
   @ViewChild('exerciseVideo', { static: true })
   exerciseVideo!: ElementRef<HTMLIFrameElement>;
 
@@ -61,8 +65,7 @@ get isWarning(): boolean {
   }
   }
 
-
-
+/*Timer*/
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
