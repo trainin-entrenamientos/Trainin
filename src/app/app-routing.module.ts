@@ -71,7 +71,7 @@ const routes: Routes = [
         component: EditarEjercicioComponent,
         canActivate: [authGuard]
       },
-      { path: 'inicio-rutina', 
+      { path: 'inicio-rutina/:PlanId', 
         component: InicioRutinaComponent,
         canActivate: [authGuard]
       },

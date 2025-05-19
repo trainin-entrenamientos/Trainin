@@ -25,6 +25,8 @@ export class CrearPlanEntrenamientoComponent {
   formularioForm: FormGroup;
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
   equipamientosOpciones: Equipamiento[] = [];
+  planIdCreado: number | undefined;
+  mostrarModal: boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +51,7 @@ export class CrearPlanEntrenamientoComponent {
   equipamientos: string[] = [];
   minutos: string = '';
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -95,7 +97,7 @@ export class CrearPlanEntrenamientoComponent {
         controles.push('equipamientos');
         break;
       case 5:
-         controles.push(
+        controles.push(
           'nivelExigencia',
           'diasDisponibles',
           'tiempoDisponible',
@@ -164,7 +166,6 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   configurarSliders(): void {
-  
     this.configurarSlider(
       'rangoExigencia',
       'exigenciaFill',
@@ -245,7 +246,7 @@ export class CrearPlanEntrenamientoComponent {
   obtenerOpcionesEntrenamiento(): void {
     this.crearPlanDeEntrenamientoService
       .obtenerOpcionesEntrenamiento()
-      .subscribe((tiposEntrenamiento: TipoEntrenamiento[]) => {
+      .subscribe((tiposEntrenamiento: any[]) => {
         this.opcionesEntrenamiento = tiposEntrenamiento;
       });
   }
@@ -253,7 +254,7 @@ export class CrearPlanEntrenamientoComponent {
   obtenerEquipamiento(): void {
     this.crearPlanDeEntrenamientoService
       .obtenerEquipamiento()
-      .subscribe((equipamientos: Equipamiento[]) => {
+      .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
   }
@@ -298,16 +299,12 @@ export class CrearPlanEntrenamientoComponent {
       this.formularioForm.get('equipamientos')?.setValue([item.id]);
     } else {
       if (this.equipamientos.includes(nombre)) {
-        this.equipamientos = this.equipamientos.filter(
-          (e) => e !== nombre
-        );
+        this.equipamientos = this.equipamientos.filter((e) => e !== nombre);
       } else {
         this.equipamientos.push(nombre);
       }
 
-      this.equipamientos = this.equipamientos.filter(
-        (e) => e !== 'Ninguno'
-      );
+      this.equipamientos = this.equipamientos.filter((e) => e !== 'Ninguno');
 
       const ids = this.equipamientosOpciones
         .filter((e) => this.equipamientos.includes(e.descripcion))
@@ -421,8 +418,6 @@ export class CrearPlanEntrenamientoComponent {
     if (el) el.innerText = value;
   }
 
- 
-
   protected traducirEscalaExigencia(valor: string): string {
     const mapa: Record<string, string> = {
       '1': 'Muy baja',
@@ -469,26 +464,38 @@ export class CrearPlanEntrenamientoComponent {
     return entrenamiento ? entrenamiento.descripcion : null;
   }
 
-  enviarFormulario() {
-    console.log(JSON.stringify({
-        ...this.formularioForm.value,
-        email: this.authService.getEmail(),
-      }));
-    if (this.formularioForm.valid) {
-      this.crearPlanDeEntrenamientoService.crearPlanEntrenamiento({
-        ...this.formularioForm.value,
-        email: this.authService.getEmail(),
-      })
-        .subscribe(
-          (response) => {
-            console.log('Plan de entrenamiento creado:', response);
-          },
-          (error) => {
-            console.error('Error al crear el plan de entrenamiento:', error);
-          }
-        );
-    } else {
-      console.log('El formulario no es válido');
-    }
+ enviarFormulario() {
+  console.log(JSON.stringify({
+    ...this.formularioForm.value,
+    email: this.authService.getEmail(),
+  }));
+
+  if (this.formularioForm.valid) {
+    this.crearPlanDeEntrenamientoService.crearPlanEntrenamiento({
+      ...this.formularioForm.value,
+      email: this.authService.getEmail(),
+    }).subscribe(
+      (response) => {
+        console.log('Plan creado', response);
+        this.planIdCreado = response.planId; 
+        this.mostrarModal = true;           
+      },
+      (error) => {
+        console.error('Error al crear el plan de entrenamiento:', error);
+      }
+    );
+  } else {
+    console.log('El formulario no es válido');
   }
+}
+
+
+  iniciarRutina() {
+  if (this.planIdCreado) {
+    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+  } else {
+    console.error('No hay un ID de plan creado.');
+  }
+}
+
 }
