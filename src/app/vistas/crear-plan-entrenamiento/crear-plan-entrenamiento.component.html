@@ -492,17 +492,12 @@
 </div>
 
       </form>
-    <!-- Modal personalizado -->
-<div class="modal-backdrop" *ngIf="mostrarModal">
-  <div class="modal-content">
-    <h2>¡Plan creado con éxito!</h2>
-    <p>¿Qué te gustaría hacer a continuación?</p>
 
-    <div class="modal-buttons">
-      <button class="btn btn-primary" (click)="iniciarRutina()">Iniciar Rutina</button>
-    </div>
-  </div>
-</div>
+<app-modal-plan-creado
+  *ngIf="mostrarModal"
+  (aceptar)="iniciarRutina()">
+</app-modal-plan-creado>
+
 </div>
   </main>
 </body>

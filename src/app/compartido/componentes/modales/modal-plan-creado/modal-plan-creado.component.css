@@ -53,6 +53,20 @@
   background-color: #00d83a;
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Más alto que la mayoría de los elementos */
+}
+
+
 @media (max-width: 576px) {
   .btn-group {
     flex-direction: column;

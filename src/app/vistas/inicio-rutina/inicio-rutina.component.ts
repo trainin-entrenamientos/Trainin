@@ -51,11 +51,13 @@ export class InicioRutinaComponent implements OnInit {
     );
   }
   
-    iniciarRutina() {
-      if (this.rutina) {
-        this.rutinaCompartida.setRutina(this.rutina);
-        this.router.navigate(['/informacion-ejercicio']);
-      }
-    }
+   iniciarRutina() {
+  if (this.rutina) {
+    localStorage.setItem('rutina', JSON.stringify(this.rutina));
+    this.router.navigate(['/informacion-ejercicio']);
+  }
+}
+
+
   
 }
