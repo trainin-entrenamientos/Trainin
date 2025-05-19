@@ -6,11 +6,12 @@
       </div>
 
       <article
-        *ngIf="planEntrenamiento && usuario?.esPremium"
+        *ngIf="planEntrenamiento.length && usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
       >
         <div id="contenedor-planes" class="w-100">
-          <a
+          <div
+            *ngFor="let plan of planEntrenamiento; let i = index"
             routerLink="/detalle-plan"
             class="w-100 d-flex contenedor-plan text-white"
           >
@@ -28,14 +29,10 @@
                 />
                 <div>
                   <h3 id="nombre-plan">
-                    {{ planEntrenamiento.nombrePlanEntrenamiento }}
+                    {{ plan.tipoEntrenamiento }}
                   </h3>
                   <h4 id="realizado" style="color: #13ff3a">
-                    {{
-                      planEntrenamiento.fueRealizado
-                        ? "Realizado hoy"
-                        : "Continuar entrenamiento"
-                    }}
+                    Continuar entrenamiento
                   </h4>
                 </div>
               </div>
@@ -45,32 +42,16 @@
                 <div
                   class="d-flex flex-column align-items-center justify-content-center gap-3"
                 >
-                  <div>
-                    <div>
-                      <span id="progreso-semanal"
-                        >Progreso semanal ({{
-                          planEntrenamiento.progresoSemanal
-                        }}/{{ planEntrenamiento.totalProgresoSemanal }})</span
-                      >
-                    </div>
-                    <div class="d-flex justify-content-center gap-2 mt-2">
-                      <div
-                        *ngFor="let activo of circulos"
-                        class="circulo"
-                        [class.activo]="activo"
-                      ></div>
-                    </div>
-                  </div>
                   <div class="progreso-plan">
                     <span id="progreso-plan"
-                      >Progreso del plan ({{
-                        planEntrenamiento.progresoPlan
-                      }}/{{ planEntrenamiento.totalProgresoPlan }})</span
+                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
+                        plan.cantidadRutinas
+                      }})</span
                     >
                     <div class="barra-progreso">
                       <div
                         class="relleno"
-                        [ngStyle]="{ width: porcentajeProgreso }"
+                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
                       ></div>
                     </div>
                   </div>
@@ -78,16 +59,17 @@
                 <div
                   class="d-flex flex-column align-items-center justify-content-center gap-5"
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <i
+                    class="fa-solid fa-trash"
+                    (click)="desactivarPlan(plan.id)"
+                  ></i>
                   <span style="color: #13ff3a"
-                    >{{ planEntrenamiento.id }}/{{
-                      planEntrenamiento.totalPlanes
-                    }}</span
+                    >{{ i + 1 }}/{{ planEntrenamiento.length }}</span
                   >
                 </div>
               </div>
             </div>
-          </a>
+          </div>
 
           <a
             routerLink="/formulario-crear-plan"
@@ -140,7 +122,7 @@
         </div>
       </article>
       <article
-        *ngIf="!planEntrenamiento && !usuario?.esPremium"
+        *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
       >
         <div id="contenedor-planes" class="w-100">
@@ -176,103 +158,63 @@
         </div>
       </article>
       <article
-        *ngIf="!planEntrenamiento && usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
-      >
-        <div id="contenedor-planes" class="w-100">
-          <a
-            routerLink="/formulario-crear-plan"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
-            <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
-            >
-              <p style="color: #ffffff; font-style: italic">
-                Creá <span style="color: #13ff3a">tu plan</span> para empezar a
-                entrenar
-              </p>
-              <div class="icon">+</div>
-            </div>
-          </a>
-        </div>
-      </article>
-      <article
-        *ngIf="planEntrenamiento && !usuario?.esPremium"
+        *ngIf="planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
       >
         <div id="contenedor-planes" class="w-100">
           <div
+            *ngFor="let plan of planEntrenamiento; let i = index"
             class="w-100 d-flex contenedor-plan text-white"
-            (click)="irAlDetallePlan()"
           >
             <div
               class="plan-card d-flex align-items-center justify-content-between mb-3"
-              *ngFor="let plan of planEntrenamiento; let i = index"
             >
-              <div class="d-flex contenedor-info-plan-imagen">
-                <div
-                  class="d-flex align-items-center gap-5 contendor-imagen-plan"
-                >
-                  <img
-                    id="imagen-plan"
-                    [src]="'imagenes/cuerpo-completo.png'"
-                    alt="Entrenamiento de cuerpo completo"
-                    class="img-fluid"
-                  />
-                  <div>
-                    <h3 id="nombre-plan">{{ plan.tipoEntrenamiento }}</h3>
-                    <h4 id="realizado" style="color: #13ff3a">
-                      {{
-                        plan.fueRealizado
-                          ? "Realizado hoy"
-                          : "Continuar entrenamiento"
-                      }}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-
               <div
-                class="d-flex flex-column align-items-center justify-content-center gap-3 contenedor-progresos"
+                routerLink="/detalle-plan"
+                class="d-flex align-items-center gap-5 contendor-imagen-plan"
               >
+                <img
+                  id="imagen-plan"
+                  [src]="'imagenes/cuerpo-completo.png'"
+                  alt="Entrenamiento de cuerpo completo"
+                  class="img-fluid"
+                />
                 <div>
-                  <div>
-                    <span id="progreso-semanal">
-                      Progreso semanal ({{ plan.progresoSemanal }}/{{
-                        plan.totalProgresoSemanal
-                      }})
-                    </span>
-                  </div>
-                  <div class="d-flex justify-content-center gap-2 mt-2">
-                    <div
-                      *ngFor="let activo of circulos"
-                      class="circulo"
-                      [class.activo]="activo"
-                    ></div>
-                  </div>
-                </div>
-                <div class="progreso-plan">
-                  <span id="progreso-plan">
-                    Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
-                      plan.cantidadRutinas
-                    }})
-                  </span>
-                  <div class="barra-progreso">
-                    <div
-                      class="relleno"
-                      [ngStyle]="{ width: porcentajeProgreso(plan) }"
-                    ></div>
-                  </div>
+                  <h3 id="nombre-plan">
+                    {{ plan.tipoEntrenamiento }}
+                  </h3>
+                  <h4 id="realizado" style="color: #13ff3a">
+                    Continuar entrenamiento
+                  </h4>
                 </div>
               </div>
-
               <div
                 class="d-flex align-items-center justify-content-between gap-5 contenedor-info-plan"
               >
                 <div
+                  class="d-flex flex-column align-items-center justify-content-center gap-3"
+                >
+                  <div class="progreso-plan">
+                    <span id="progreso-plan"
+                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
+                        plan.cantidadRutinas
+                      }})</span
+                    >
+                    <div class="barra-progreso">
+                      <div
+                        class="relleno"
+                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
                   class="d-flex flex-column align-items-center justify-content-center gap-5"
                 >
-                  <i class="fa-solid fa-trash" routerLink="/eliminar-plan-entrenamiento"></i>
+                  <i
+                    class="fa-solid fa-trash"
+                    (click)="desactivarPlan(plan.id)"
+                  ></i>
                   <span style="color: #13ff3a"
                     >{{ i + 1 }}/{{ planEntrenamiento.length }}</span
                   >
@@ -329,6 +271,28 @@
               <i class="fa-solid fa-fire icono-fuego"></i>
             </div>
           </div>
+        </div>
+      </article>
+
+      <article
+        *ngIf="!planEntrenamiento.length && usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
+      >
+        <div id="contenedor-planes" class="w-100">
+          <a
+            routerLink="/formulario-crear-plan"
+            class="w-100 d-flex justify-content-center contenedor-plan"
+          >
+            <div
+              class="plan-card d-flex align-items-center justify-content-between mb-3"
+            >
+              <p style="color: #ffffff; font-style: italic">
+                Creá <span style="color: #13ff3a">tu plan</span> para empezar a
+                entrenar
+              </p>
+              <div class="icon">+</div>
+            </div>
+          </a>
         </div>
       </article>
     </section>
