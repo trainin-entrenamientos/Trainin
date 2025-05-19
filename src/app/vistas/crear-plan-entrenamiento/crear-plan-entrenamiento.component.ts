@@ -246,7 +246,7 @@ export class CrearPlanEntrenamientoComponent {
   obtenerOpcionesEntrenamiento(): void {
     this.crearPlanDeEntrenamientoService
       .obtenerOpcionesEntrenamiento()
-      .subscribe((tiposEntrenamiento: TipoEntrenamiento[]) => {
+      .subscribe((tiposEntrenamiento: any[]) => {
         this.opcionesEntrenamiento = tiposEntrenamiento;
       });
   }
@@ -254,7 +254,7 @@ export class CrearPlanEntrenamientoComponent {
   obtenerEquipamiento(): void {
     this.crearPlanDeEntrenamientoService
       .obtenerEquipamiento()
-      .subscribe((equipamientos: Equipamiento[]) => {
+      .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
   }

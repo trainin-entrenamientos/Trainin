@@ -57,6 +57,5 @@ export class InicioRutinaComponent implements OnInit {
         this.router.navigate(['/informacion-ejercicio']);
       }
     }
-
   
 }
