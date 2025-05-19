@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-modal-plan-creado',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './modal-plan-creado.component.css'
 })
 export class ModalPlanCreadoComponent {
+ @Output() aceptar = new EventEmitter<void>();
 
+  onAceptar() {
+    this.aceptar.emit();
+  }
 }

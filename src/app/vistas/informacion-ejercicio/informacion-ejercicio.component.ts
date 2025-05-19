@@ -5,6 +5,9 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -33,6 +36,10 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
 get isWarning(): boolean {
   return this.remaining <= 5;
 }
+ constructor(
+    private rutinaCompartida: RutinaService,
+    private router: Router,
+   ) {}
 
   get totalTimeDisplay(): string { return this.fmt(this.totalTime); }
   get countdownDisplay(): string { return this.fmt(this.remaining); }
@@ -44,7 +51,17 @@ get isWarning(): boolean {
     this.totalTime = this.durations.reduce((a, b) => a + b, 0);
     this.remaining = this.durations[0];
     this.startTimer();
+     const rutinaGuardada = localStorage.getItem('rutina');
+  if (rutinaGuardada) {
+    this.rutinaCompartida = JSON.parse(rutinaGuardada);
+    console.log(this.rutinaCompartida);
+  } else {
+    console.error('No se encontró la rutina. Redirigiendo...');
+    this.router.navigate(['/ruta-de-error-o-plan']); 
   }
+  }
+
+
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);

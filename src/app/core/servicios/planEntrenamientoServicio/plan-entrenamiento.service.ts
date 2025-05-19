@@ -14,15 +14,15 @@ export class PlanEntrenamientoService {
   }
 
   obtenerOpcionesEntrenamiento(): Observable<any> {
-    return this.http.get('http://localhost:5010/api/CategoriaEjercicio/obtenerCategorias');
+    return this.http.get('http://localhost:5010/api/categoriaejercicio/obtenerCategorias');
   }
 
   obtenerEquipamiento(): Observable<any> {
-    return this.http.get('http://localhost:5010/api/Equipamiento/obtenerEquipamientos');
+    return this.http.get('http://localhost:5010/api/equipamiento/obtenerEquipamientos');
   }
 
   crearPlanEntrenamiento(planEntrenamiento: any): Observable<any> {
-    return this.http.post('http://localhost:5010/api/Plan/crearPlan', planEntrenamiento);
+    return this.http.post('http://localhost:5010/api/plan/crearPlan', planEntrenamiento);
   }
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {

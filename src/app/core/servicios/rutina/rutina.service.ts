@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Rutina } from '../../modelos/RutinaDTO';
 
 export interface Ejercicio {
   id: number;
@@ -26,4 +27,22 @@ export class RutinaService {
   ];
   
     return of(ejercicios);
-  }}
+  }
+
+
+  private rutina: Rutina | null = null;
+
+  setRutina(rutina: Rutina) {
+    this.rutina = rutina;
+  }
+
+  getRutina(): Rutina | null {
+    return this.rutina;
+  }
+
+  clearRutina() {
+    this.rutina = null;
+  }
+
+
+}
