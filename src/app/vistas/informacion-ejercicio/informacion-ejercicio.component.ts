@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
 
 
 @Component({
@@ -19,61 +20,70 @@ import { Router } from '@angular/router';
 })
 
 export class InformacionEjercicioComponent implements OnInit, OnDestroy {
+  @ViewChild('exerciseVideo', { static: true }) exerciseVideo!: ElementRef<HTMLIFrameElement>;
+  @ViewChild('sessionCard', { static: true }) sessionCard!: ElementRef<HTMLElement>;
 
-  /*Inicio rutina*/
-  @ViewChild('exerciseVideo', { static: true })
-  exerciseVideo!: ElementRef<HTMLIFrameElement>;
-
-  @ViewChild('sessionCard', { static: true })
-  sessionCard!: ElementRef<HTMLElement>;
-
-  durations = [15];
-  totalTime = 0;
+  rutina: Rutina | null = null;
+  ejercicios: Ejercicio[] = [];
+  tiempoTotal = 0;
   remaining = 0;
   isPaused = false;
   intervalId: any;
+  ejercicio: Ejercicio | null = null;
+  
 
-  get elapsedTimeDisplay(): string {
-  return this.fmt(this.totalTime - this.remaining);
-}
-
-get isWarning(): boolean {
-  return this.remaining <= 5;
-}
- constructor(
-    private rutinaCompartida: RutinaService,
-    private router: Router,
-   ) {}
-
-  get totalTimeDisplay(): string { return this.fmt(this.totalTime); }
-  get countdownDisplay(): string { return this.fmt(this.remaining); }
-  get progressPercent(): number {
-  return ((this.totalTime - this.remaining) / this.totalTime) * 100;
-}
+  constructor(private rutinaService: RutinaService, private router: Router) {}
 
   ngOnInit(): void {
-    this.totalTime = this.durations.reduce((a, b) => a + b, 0);
-    this.remaining = this.durations[0];
+    this.rutina = this.rutinaService.getRutina();
+
+    if (!this.rutina) {
+      console.error('No se encontró la rutina. Redirigiendo...');
+      this.router.navigate(['/ruta-de-error-o-plan']);
+      return;
+    }
+    this.ejercicios = this.conseguirEjercicios
+    this.ejercicio = this.ejercicioActual
+    this.tiempoTotal = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
+    this.remaining = this.tiempoTotal;
+
     this.startTimer();
-     const rutinaGuardada = localStorage.getItem('rutina');
-  if (rutinaGuardada) {
-    this.rutinaCompartida = JSON.parse(rutinaGuardada);
-    console.log(this.rutinaCompartida);
-  } else {
-    console.error('No se encontró la rutina. Redirigiendo...');
-    this.router.navigate(['/ruta-de-error-o-plan']); 
-  }
   }
 
-/*Timer*/
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
 
+  traducirDuracionEstimada(valor: number): number {
+    switch (valor) {
+      case 1: return 15 * 60;
+      case 2: return 30 * 60;
+      default: return 45 * 60;
+    }
+  }
+
+  get elapsedTimeDisplay(): string {
+    return this.fmt(this.tiempoTotal - this.remaining);
+  }
+
+  get totalTimeDisplay(): string {
+    return this.fmt(this.tiempoTotal);
+  }
+
+  get countdownDisplay(): string {
+    return this.fmt(this.remaining);
+  }
+
+  get progressPercent(): number {
+    return ((this.tiempoTotal - this.remaining) / this.tiempoTotal) * 100;
+  }
+
+  get isWarning(): boolean {
+    return this.remaining <= 5;
+  }
+
   private fmt(seconds: number): string {
-    const m = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, '0');
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
     const s = (seconds % 60).toString().padStart(2, '0');
     return `${m}:${s}`;
   }
@@ -96,5 +106,11 @@ get isWarning(): boolean {
   closeSession(): void {
     clearInterval(this.intervalId);
     this.sessionCard.nativeElement.style.display = 'none';
+  }
+  get conseguirEjercicios(): Ejercicio[] {
+  return this.rutina?.ejercicios || [];
+  }
+  get ejercicioActual(): Ejercicio | null {
+    return this.rutina?.ejercicios[0] || null;
   }
 }

@@ -10,7 +10,7 @@
 
         <div class="col-12 col-md-4">
           <div class="exercise-image">
-            <img src="/imagenes/Sentadilla.avif" alt="Sentadillas">
+            <img [src]="ejercicio?.imagen" alt="Ejercicio" class="img-fluid">          
           </div>
         </div>
 
@@ -21,18 +21,13 @@
           <h3 class="mb-1">
             Sentadillas
             <small class="text-muted-white fs-6">
-              (3 Series de 12 repeticiones)
+              ({{ejercicio?.series}} series de {{ ejercicio?.repeticiones }} repeticiones)
             </small>
           </h3>
           <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
           <p class="text-muted-white">
-            De pie, con los pies separados al ancho de los hombros y la espalda
-            recta. Se flexionan las rodillas y se baja la cadera como si se
-            fuera a sentar, manteniendo el pecho erguido. Los muslos deben
-            quedar paralelos al suelo y las rodillas no deben pasar la punta de
-            los pies. Se sube empujando con los talones para volver a la posición
-            inicial.
-          </p>
+            ({{ ejercicio?.descripcion }})
+          </p>  
         </div>
 
         <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
