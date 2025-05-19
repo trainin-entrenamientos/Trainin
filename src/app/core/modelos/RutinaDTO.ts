@@ -9,14 +9,15 @@ export interface Ejercicio {
   nombre: string;
   repeticiones: number | null;
   duracion: number | null;
+  imagen: string;
   descripcion: string;
-  grupo_muscular: GrupoMuscular[];
+  grupoMuscular: GrupoMuscular[];
 }
 
 export interface Rutina {
   id: number;
   numeroRutina: number;
-  duracion_estimada: number;
+  duracionEstimada: number;
   nombre: string;
   ejercicios: Ejercicio[];
 }
