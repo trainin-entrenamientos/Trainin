@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlanEntrenamiento } from '../../core/modelos/PlanEntrenamiento';
-import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-planes',
@@ -12,79 +13,75 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 })
 export class PlanesComponent {
   idUsuario: number = 1;
-  planEntrenamiento?: PlanEntrenamiento;
+  planEntrenamiento: any[] = [];
   usuario?: Usuario;
-  crearPlanEntrenamientoService: CrearPlanEntrenamientoService;
+  planEntrenamientoService: PlanEntrenamientoService;
   usuarioService: UsuarioService;
+  authService: AuthService;
+  router: Router;
+  email: string | null = null;
 
   constructor(
-    CrearPlanEntrenamientoService: CrearPlanEntrenamientoService,
-    UsuarioService: UsuarioService
+    planEntrenamientoService: PlanEntrenamientoService,
+    UsuarioService: UsuarioService,
+    authService: AuthService,
+    router: Router
   ) {
-    this.crearPlanEntrenamientoService = CrearPlanEntrenamientoService;
+    this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
+    this.authService = authService;
+    this.router = router;
   }
-  
-mostrarModalCrearPlan: boolean = false;
 
-abrirModal() {
-  this.mostrarModalCrearPlan = true;
-}
-
-cerrarModal() {
-  this.mostrarModalCrearPlan = false;
-}
-
-
-  ngOnInit(): void {
-    this.obtenerUsuario(this.idUsuario);
-    this.obtenerPlanEntrenamiento(this.idUsuario);
+  ngAfterViewInit(): void {
+    this.email = this.authService.getEmail();
+    this.obtenerUsuario();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
-    this.crearPlanEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: PlanEntrenamiento) => {
-        this.planEntrenamiento = planObtenido;
+    this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
+      next: (planObtenido: any) => {
+        this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
       },
       error: (err: any) => {
         console.error('Error al obtener el plan:', err);
-      },
-      complete: () => {
-        console.log('Petición completada');
-      },
+      }
     });
   }
-  
 
-  obtenerUsuario(id: number): void {
-    this.usuarioService.obtenerUsuarioPorId(id).subscribe({
-      next: (usuarioObtenido: Usuario) => {
+  obtenerUsuario(): void {
+    this.usuarioService.obtenerUsuarioPorId(this.email).subscribe({
+      next: (usuarioObtenido: any) => {
         this.usuario = usuarioObtenido;
+        this.idUsuario = usuarioObtenido.id;
+        this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
-      },
-      complete: () => {
-        console.log('Petición completada');
-      },
+      }
     });
   }
 
-  get circulos(): boolean[] {
-    const totalSemanal = this.planEntrenamiento?.totalProgresoSemanal ?? 0;
-    const progresoSemanal = this.planEntrenamiento?.progresoSemanal ?? 0;
-    return Array.from(
-      { length: totalSemanal },
-      (_, index) => index < progresoSemanal
-    );
+ calcularPorcentajeProgreso(plan: any): string {
+  if (!plan) return '0%';
+  const progreso = plan.cantidadRutinasHechas ?? 0;
+  const total = plan.cantidadRutinas ?? 1;
+  return `${((progreso / total) * 100).toFixed(2)}%`;
+}
+
+  irAlDetallePlan() {
+    this.router.navigate(['/detalle-plan', /*this.planEntrenamiento.id*/]);
   }
 
-  get porcentajeProgreso(): string {
-    const progreso = this.planEntrenamiento?.progresoPlan ?? 0;
-    const total = this.planEntrenamiento?.totalProgresoPlan ?? 1;
-    return `${(progreso / total) * 100}%`;
-  }
-
-  
-
+  desactivarPlan(idPlan: number): void {
+    this.planEntrenamientoService.desactivarPlanPorId(idPlan, this.idUsuario).subscribe({
+      next: (response) => {
+        console.log('Plan desactivado:', response);
+        this.obtenerPlanEntrenamiento(this.idUsuario);
+      },
+      error: (err) => {
+        console.error('Error al desactivar el plan:', err);
+      }
+    });
+  };
 }

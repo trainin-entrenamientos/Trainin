@@ -11,9 +11,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerUsuarioPorId(id: number): Observable<Usuario> {
-    //return this.http.get(`http://localhost:8080/usuario/${id}`);
-    return of(new Usuario(id, "Juan", "Pérez", "juan@gmail.com", "contraseña123", true));
+  obtenerUsuarioPorId(email: string | null): Observable<any> {
+    return this.http.get(`http://localhost:5010/api/Usuario/obtenerUsuario/${email}`);
   }
 
   /*iniciarSesion(usuario:LoginDTO){

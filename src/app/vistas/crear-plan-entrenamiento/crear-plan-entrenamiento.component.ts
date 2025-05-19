@@ -8,7 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
 import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
-import { CrearPlanEntrenamientoService } from '../../core/servicios/crearPlanEntrenamientoServicio/crear-plan-entrenamiento.service';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 
@@ -32,7 +32,7 @@ export class CrearPlanEntrenamientoComponent {
     private fb: FormBuilder,
     private renderer: Renderer2,
     private el: ElementRef,
-    private crearPlanDeEntrenamientoService: CrearPlanEntrenamientoService,
+    private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -244,7 +244,7 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   obtenerOpcionesEntrenamiento(): void {
-    this.crearPlanDeEntrenamientoService
+    this.planDeEntrenamientoService
       .obtenerOpcionesEntrenamiento()
       .subscribe((tiposEntrenamiento: any[]) => {
         this.opcionesEntrenamiento = tiposEntrenamiento;
@@ -252,7 +252,7 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   obtenerEquipamiento(): void {
-    this.crearPlanDeEntrenamientoService
+    this.planDeEntrenamientoService
       .obtenerEquipamiento()
       .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
@@ -471,12 +471,11 @@ export class CrearPlanEntrenamientoComponent {
   }));
 
   if (this.formularioForm.valid) {
-    this.crearPlanDeEntrenamientoService.crearPlanEntrenamiento({
+    this.planDeEntrenamientoService.crearPlanEntrenamiento({
       ...this.formularioForm.value,
       email: this.authService.getEmail(),
     }).subscribe(
       (response) => {
-        console.log('Plan creado', response);
         this.planIdCreado = response.planId; 
         this.mostrarModal = true;           
       },
@@ -488,7 +487,6 @@ export class CrearPlanEntrenamientoComponent {
     console.log('El formulario no es válido');
   }
 }
-
 
   iniciarRutina() {
   if (this.planIdCreado) {

@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { PlanEntrenamiento } from '../../modelos/PlanEntrenamiento';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CrearPlanEntrenamientoService {
+export class PlanEntrenamientoService {
 
   constructor(private http: HttpClient) { }
 
-  getPlanesDeEntrenamiento(id: number): Observable<PlanEntrenamiento> {
-    //return this.http.get(`http://localhost:8080/plan-entrenamiento/${id}`);
-    return of(new PlanEntrenamiento(1, "Cuerpo completo", false, 0, 1, id, 1, 5, 45));
+  getPlanesDeEntrenamiento(id: number): Observable<any> {
+    return this.http.get(`http://localhost:5010/api/Plan/obtenerPlanes/${id}`);
   }
 
   obtenerOpcionesEntrenamiento(): Observable<any> {
@@ -25,5 +23,9 @@ export class CrearPlanEntrenamientoService {
 
   crearPlanEntrenamiento(planEntrenamiento: any): Observable<any> {
     return this.http.post('http://localhost:5010/api/plan/crearPlan', planEntrenamiento);
+  }
+
+  desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
+    return this.http.patch(`http://localhost:5010/api/Plan/desactivarPlan/${idPlan}`, { idUsuario });
   }
 }
