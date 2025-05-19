@@ -8,6 +8,7 @@ export interface Ejercicio {
   id: number;
   nombre: string;
   repeticiones: number | null;
+  series: number | null;
   duracion: number | null;
   imagen: string;
   descripcion: string;
