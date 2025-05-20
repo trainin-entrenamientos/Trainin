@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-calibracion-camara',
+  imports: [RouterModule],
   templateUrl: './calibracion-camara.component.html',
   styleUrls: ['./calibracion-camara.component.css']
 })
@@ -161,6 +163,6 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   }
 
   practicarEjercicio() {
-    // Lógica para iniciar práctica
+    
   }
 }

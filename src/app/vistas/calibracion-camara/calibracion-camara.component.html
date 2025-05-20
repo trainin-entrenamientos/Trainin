@@ -9,7 +9,8 @@
         <p>Encendé la luz</p>
         <p>Limpíá el lente</p>
         <p>Todo tu cuerpo debe verse en la pantalla</p>
-        <button class="boton-practica" (click)="practicarEjercicio()">Practicar Ejercicio</button>
+        <p><strong>Realiza las repeticiones de manera controlada</strong></p>
+        <button class="boton-practica" [routerLink]="['/correccion-postura']" routerLinkActive="router-link-active">Practicar Ejercicio</button>
       </div>
 
       <div class="right">
