@@ -31,6 +31,10 @@ nav a {
   text-decoration: none;
 }
 
+.user-icon {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1366px) {
   header {
     font-size: 0.8rem;
