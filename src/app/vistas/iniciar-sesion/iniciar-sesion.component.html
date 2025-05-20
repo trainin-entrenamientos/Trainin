@@ -1,0 +1,42 @@
+<main class="inicio-sesion-body">
+  <section class="login-section py-5">
+    <div class="container" id="loginForm">
+      <div class="registration-card">
+        <h2 class="section-title text-center mb-4">Iniciar sesión</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+
+          <div class="mb-3">
+            <label for="loginEmail" class="form-label">Email:</label>
+            <input type="email"
+                   id="loginEmail"
+                   class="form-control trainin-input"
+                   placeholder=""
+                   formControlName="email"
+                   required>
+          </div>
+
+          <div class="mb-4">
+            <label for="loginPassword" class="form-label">Contraseña:</label>
+            <input type="password"
+                   id="loginPassword"
+                   class="form-control trainin-input"
+                   placeholder=""
+                   formControlName="contrasenia"
+                   required>
+          </div>
+
+
+          <div class="text-center mb-4">
+            <button type="submit" class="btn btn-trainin">Iniciar Sesión</button>
+          </div>
+
+
+          <div class="login-links pb-2 mb-0">
+            <a routerLink="#" class="trainin-link">¿Olvidaste tu contraseña?</a>
+            <a routerLink="/registro" class="trainin-link">Registrate</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>

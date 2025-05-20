@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Rutina } from '../../modelos/RutinaDTO';
+import { HttpClient } from '@angular/common/http';
 
 export interface Ejercicio {
   id: number;
@@ -12,7 +14,9 @@ export interface Ejercicio {
 })
 export class RutinaService {
 
-  constructor() { }
+  constructor(private http:HttpClient){
+
+   }
 
 
   ObtenerEjercicios(): Observable<Ejercicio[]> {
@@ -26,4 +30,29 @@ export class RutinaService {
   ];
   
     return of(ejercicios);
-  }}
+  }
+
+getDetalleEjercicios(planId: number): Observable<Rutina[]> {
+  return this.http.get<Rutina[]>(
+    `http://localhost:5010/api/rutina/obtenerPorPlan/${planId}`
+  );
+}
+
+
+  private rutina: Rutina | null = null;
+
+  setRutina(rutina: Rutina) {
+    this.rutina = rutina;
+  }
+
+  getRutina(): Rutina | null {
+    return this.rutina;
+  }
+
+  clearRutina() {
+    this.rutina = null;
+  }
+
+
+
+}

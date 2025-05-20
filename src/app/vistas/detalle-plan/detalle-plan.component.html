@@ -1,0 +1,102 @@
+<body>
+  <main class="container py-4 mt-5">
+    <div class="position-relative text-center mb-3">
+      <a
+        routerLink="/planes"
+        class="position-absolute start-0 top-50 translate-middle-y text-white fs-1 ms-2"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <h1 class="h1 fw-semibold m-0">Detalle sobre tu plan de entrenamiento</h1>
+    </div>
+
+    <div class="container my-4 contenedor-semana">
+      <div
+        class="d-flex justify-content-between align-items-center px-3 py-3 rounded-top semana-header"
+      >
+        <i class="fa-solid fa-chevron-left" (click)="cambiarSemana(-1)"></i>
+        <span class="fw-normal text-white semana-label">
+          Semana {{ semanaSeleccionada.numero }}
+        </span>
+        <i class="fa-solid fa-chevron-right" (click)="cambiarSemana(1)"></i>
+      </div>
+
+      <div
+        class="d-flex flex-wrap text-white text-center rounded-bottom semana-dias"
+      >
+        <div
+          *ngFor="let dia of semanaSeleccionada.dias; let i = index"
+          class="dia-semana"
+          [ngClass]="{ activo: i === diaActivo }"
+          (click)="seleccionarDia(i)"
+        >
+          {{ dia }}
+        </div>
+      </div>
+    </div>
+
+    <section class="detalle-plan-section">
+      <p class="text-center fs-5 fst-italic mb-4">
+        Duración estimada de la rutina: <strong>15 min</strong>
+      </p>
+
+      <div class="d-flex flex-wrap justify-content-center gap-4">
+        <div class="card-ejercicio">
+          <div class="image-placeholder rounded mb-2"></div>
+          <h5>Sentadillas</h5>
+          <div class="fw-semibold mb-1 pb-1">Grupo muscular</div>
+          <div class="w-50 mx-auto mb-2 subrayado-grup-musc"></div>
+          <ul class="list-unstyled fst-italic small">
+            <li>Glúteos</li>
+            <li>Cuádriceps</li>
+            <li>Core</li>
+          </ul>
+        </div>
+
+        <div class="card-ejercicio">
+          <div class="image-placeholder rounded mb-2"></div>
+          <h5>Plancha</h5>
+          <div class="fw-semibold mb-1 pb-1">Grupo muscular</div>
+          <div class="w-50 mx-auto mb-2 subrayado-grup-musc"></div>
+          <ul class="list-unstyled fst-italic small">
+            <li>Abdomen</li>
+            <li>Espalda baja</li>
+            <li>Hombros</li>
+          </ul>
+        </div>
+
+        <div class="card-ejercicio">
+          <div class="image-placeholder rounded mb-2"></div>
+          <h5>Abdominales</h5>
+          <div class="fw-semibold mb-1 pb-1">Grupo muscular</div>
+          <div class="w-50 mx-auto mb-2 subrayado-grup-musc"></div>
+          <ul class="list-unstyled fst-italic small">
+            <li>Recto abdominal</li>
+          </ul>
+        </div>
+
+        <div class="card-ejercicio">
+          <div class="image-placeholder rounded mb-2"></div>
+          <h5>Flexiones</h5>
+          <div class="fw-semibold mb-1 pb-1">Grupo muscular</div>
+          <div class="w-50 mx-auto mb-2 subrayado-grup-musc"></div>
+          <ul class="list-unstyled fst-italic small">
+            <li>Pecho</li>
+            <li>Tríceps</li>
+            <li>Core</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button
+          class="btn fw-bold text-black px-4 py-2 btn-iniciar-rutina"
+          style="background-color: #00ff00;"
+          routerLink="/inicio-rutina"
+        >
+          Iniciar Rutina
+        </button>
+      </div>
+    </section>
+  </main>
+</body>

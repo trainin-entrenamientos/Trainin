@@ -1,0 +1,122 @@
+.inicio-sesion-body {
+  font-family: 'Merriweather Sans', sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centrado vertical */
+  background-color: #00060C;
+}
+
+
+.login-section{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-title {
+  display: table;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  border-bottom: 4px solid #13FF3A;
+  padding-bottom: 0.25rem;
+}
+
+#loginForm{
+  width: 60%;
+}
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 4px solid #FFF;
+}
+.login-links .trainin-link {
+  color: #FFF;
+  transition: color 0.2s;
+}
+.login-links .trainin-link:hover {
+  color: #13FF3A;
+}
+
+.registration-card {
+  background-color: #191919;
+  width: 75%;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.registration-card .form-label,
+.registration-card .form-check-label {
+  color: #FFF;
+}
+
+.registration-card .trainin-link {
+  color: #13FF3A;
+  text-decoration: none;
+}
+.registration-card .trainin-link:hover {
+  text-decoration: underline;
+}
+
+.trainin-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #FFF;
+  border-radius: 0;
+  color: #FFF;
+  transition: border-color 0.2s, background-color 0.2s;
+  margin-left: 0;
+  padding-left: 0;
+}
+.trainin-input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.trainin-input:hover {
+  border-bottom-color: #13FF3A;
+}
+.trainin-input:focus {
+  background-color: transparent;
+  color: #ffffff;
+  border-bottom-color: #13FF3A;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-trainin {
+  background-color: #13FF3A;
+  color: #000;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-trainin:hover {
+  background-color: #11E835;
+  transform: scale(1.05);
+}
+@media (max-width: 767.98px) {
+
+  h2.section-title {
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration-color: #13FF3A;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .registration-card {
+    width: 85%;
+    padding: 1.5rem;
+  }
+  
+}
