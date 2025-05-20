@@ -23,6 +23,7 @@ import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
 
 @NgModule({
+
   declarations: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
@@ -42,14 +43,13 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     PlanPremiumComponent,
     InformacionEjercicioComponent
   ],
-  
 
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    CompartidoModule
+    CompartidoModule,
   ],
 
   exports: [
