@@ -54,6 +54,7 @@ export class InicioRutinaComponent implements OnInit {
    iniciarRutina() {
   if (this.rutina) {
     localStorage.setItem('rutina', JSON.stringify(this.rutina));
+    this.rutinaCompartida.setIndiceActual(0)
     this.router.navigate(['/informacion-ejercicio']);
   }
 }

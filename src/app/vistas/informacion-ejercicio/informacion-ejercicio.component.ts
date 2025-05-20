@@ -30,6 +30,7 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   isPaused = false;
   intervalId: any;
   ejercicio: Ejercicio | null = null;
+  indiceActual: number = 0;
   
 
   constructor(private rutinaService: RutinaService, private router: Router) {}
@@ -43,10 +44,14 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
       return;
     }
     this.ejercicios = this.conseguirEjercicios
-    this.ejercicio = this.ejercicioActual
+    this.ejercicio = this.conseguirEjercicioActual(this.indiceActual)
     this.tiempoTotal = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
     this.remaining = this.tiempoTotal;
-
+    
+    
+    this.indiceActual = this.rutinaService.getIndiceActual()
+    console.log(this.indiceActual);
+    
     this.startTimer();
   }
 
@@ -58,7 +63,7 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
     switch (valor) {
       case 1: return 15 * 60;
       case 2: return 30 * 60;
-      default: return 45 * 60;
+      default: return 10;
     }
   }
 
@@ -89,15 +94,18 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   }
 
   private startTimer(): void {
-    this.intervalId = setInterval(() => {
-      if (!this.isPaused && this.remaining > 0) {
-        this.remaining--;
-      }
-      if (this.remaining <= 0) {
-        clearInterval(this.intervalId);
-      }
-    }, 1000);
-  }
+  this.intervalId = setInterval(() => {
+    if (!this.isPaused && this.remaining > 0) {
+      this.remaining--;
+    }
+
+    if (this.remaining <= 0) {
+      clearInterval(this.intervalId);  
+      this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+    
+    }
+  }, 1000);
+}
 
   togglePause(): void {
     this.isPaused = !this.isPaused;
@@ -110,7 +118,7 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   get conseguirEjercicios(): Ejercicio[] {
   return this.rutina?.ejercicios || [];
   }
-  get ejercicioActual(): Ejercicio | null {
-    return this.rutina?.ejercicios[0] || null;
+  conseguirEjercicioActual(i : number): Ejercicio | null {
+    return this.rutina?.ejercicios[i] || null;
   }
 }

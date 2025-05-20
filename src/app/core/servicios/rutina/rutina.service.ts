@@ -3,17 +3,13 @@ import { Observable, of } from 'rxjs';
 import { Rutina } from '../../modelos/RutinaDTO';
 import { HttpClient } from '@angular/common/http';
 
-export interface Ejercicio {
-  id: number;
-  nombre: string;
-  imagen: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class RutinaService {
   private rutina: Rutina | null = null;
+   private indiceActual: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -23,27 +19,33 @@ export class RutinaService {
     );
   }
 
-  setRutina(rutina: Rutina) {
-    this.rutina = rutina;
-    localStorage.setItem('rutina', JSON.stringify(rutina));
+  setRutina(r: Rutina) {
+    this.rutina = r;
+    localStorage.setItem('rutina', JSON.stringify(r));
   }
 
   getRutina(): Rutina | null {
-    if (!this.rutina) {
-      const rutinaGuardada = localStorage.getItem('rutina');
-      if (rutinaGuardada) {
-        this.rutina = JSON.parse(rutinaGuardada);
-      }
+    if (this.rutina) return this.rutina;
+    const raw = localStorage.getItem('rutina');
+    if (raw) {
+      this.rutina = JSON.parse(raw);
+      return this.rutina;
     }
-    return this.rutina;
+    return null;
   }
 
-  getEjercicios(): Ejercicio[] {
-    return this.rutina?.ejercicios || [];
+  setIndiceActual(i: number) {
+    this.indiceActual = i;
+    localStorage.setItem('indiceActual', i.toString());
   }
 
-  clearRutina() {
-    this.rutina = null;
-    localStorage.removeItem('rutina');
+  getIndiceActual(): number {
+    if (this.indiceActual) return this.indiceActual;
+    const raw = localStorage.getItem('indiceActual');
+    if (raw) {
+      this.indiceActual = parseInt(raw);
+      return this.indiceActual;
+    }
+    return 0;
   }
 }

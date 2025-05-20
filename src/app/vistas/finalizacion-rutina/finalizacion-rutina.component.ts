@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Ejercicio, RutinaService} from '../../core/servicios/rutina/rutina.service';
+
+import { Router } from '@angular/router';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
+import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 
 @Component({
   selector: 'app-finalizacion-rutina',
@@ -11,8 +14,10 @@ export class FinalizacionRutinaComponent implements OnInit {
   opcionSeleccionada: string = '';
   ejercicios: Ejercicio[] = [];
 
-  constructor(private rutinaService: RutinaService) {}
-
+  constructor(
+    private rutinaService: RutinaService,
+    private router: Router  
+  ) {}
   ngOnInit(): void {
     const rutina = this.rutinaService.getRutina();
     if (rutina) {
@@ -27,7 +32,7 @@ export class FinalizacionRutinaComponent implements OnInit {
       alert('Por favor, selecciona una opción.');
       return;
     }
-
+    this.router.navigate(['/planes']);
     console.log('Feedback seleccionado:', this.opcionSeleccionada);
   }
 
