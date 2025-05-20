@@ -9,16 +9,40 @@
       /></a>
     </div>
     <div>
-      <a routerLink="/premium" routerLinkActive="router-link-active" class="text-white me-3">Premium</a>
-      <a routerLink="/nosotros" class="text-white me-3"
-        >Nosotros</a
-      >
       <a
-        class="text-white user-icon usuario"
+        routerLink="/premium"
+        routerLinkActive="router-link-active"
+        class="text-white me-3"
+        >Premium</a
+      >
+      <a routerLink="/nosotros" class="text-white me-3">Nosotros</a>
+
+      <a
+        class="dropdown"
+        *ngIf="estaLogueado(); else noLogueado"
+        class="text-white user-icon usuario dropdown-toggle"
+        href="#"
+        role="button"
+        id="userDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
       >
         <i class="fas fa-user me-1"></i>
-        <i class="fas fa-caret-down"></i>
       </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="userDropdown"
+      >
+        <li>
+          <a class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</a>
+        </li>
+      </ul>
+
+      <ng-template #noLogueado>
+        <a routerLink="/iniciar-sesion" class="text-white me-3"
+          >Iniciar sesión</a
+        >
+      </ng-template>
     </div>
   </nav>
 </header>

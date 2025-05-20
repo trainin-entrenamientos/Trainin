@@ -37,8 +37,8 @@ export class CrearPlanEntrenamientoComponent {
     private router: Router
   ) {
     this.formularioForm = this.fb.group({
-      pesoUsuario: [null, Validators.required],
-      alturaUsuario: [null, Validators.required],
+      pesoUsuario: [null, [Validators.required, Validators.min(35), Validators.max(220)]],
+      alturaUsuario: [null, [Validators.required, Validators.min(115), Validators.max(235)]],
       objetivo: [null, Validators.required],
       nivelExigencia: [1, Validators.required],
       diasDisponibles: [1, Validators.required],

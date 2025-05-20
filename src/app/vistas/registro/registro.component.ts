@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { RegistroDTO } from '../../core/modelos/RegistroDTO';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +17,7 @@ export class RegistroComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private router: Router,
     private toastr: ToastrService
   ) {
     this.registroForm = this.fb.group(
@@ -63,8 +65,8 @@ export class RegistroComponent {
 
   this.authService.registrarUsuario(datos).subscribe({
     next: (response: any) => {
-      this.toastr.success(response.mensaje, 'Se ha registrado con éxito');
-      this.registroForm.reset(); 
+      this.toastr.success(response.mensaje, 'Se ha registrado con éxito. ¡Iniciá sesión!');
+      this.router.navigate(['/login']);
     },
     error: (err) => {
       const errorMsg =
