@@ -51,7 +51,7 @@ export class InicioRutinaComponent implements OnInit {
     );
   }
   
-   iniciarRutina() {
+  iniciarRutina() {
   if (this.rutina) {
     localStorage.setItem('rutina', JSON.stringify(this.rutina));
     this.rutinaCompartida.setIndiceActual(0)

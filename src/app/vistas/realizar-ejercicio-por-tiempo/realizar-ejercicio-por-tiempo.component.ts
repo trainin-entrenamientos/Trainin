@@ -6,6 +6,7 @@ import {
   ElementRef,
   ɵɵqueryRefresh
 } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio, Rutina } from '../../core/modelos/RutinaDTO';
@@ -34,7 +35,10 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
   isPaused: boolean = false;
   intervalId: any;
 
-  constructor(private rutinaService: RutinaService, private router: Router) {}
+  videoUrl?: SafeResourceUrl;
+
+
+  constructor(private rutinaService: RutinaService, private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.rutina = this.rutinaService.getRutina();
@@ -56,6 +60,7 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
     this.totalTime = this.ejercicioActual.duracion ?? 30; //Por ahora aca la duracion devuelve null, asi que los ejercicios duran 30 seg
     this.remaining = this.totalTime;
 
+    this.setVideoUrl(this.ejercicioActual.video ?? '');
     this.startTimer();
   }
 
@@ -119,8 +124,29 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
       this.rutinaService.setIndiceActual(0)
       this.router.navigate(['/finalizacion-rutina']);
     } else {
-      window.location.reload();
-      this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+      //window.location.reload();
+      //this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+      this.rutinaService.setIndiceActual(this.indexActual);
+      this.router.navigate(['/informacion-ejercicio']);
     }
+  }
+
+  private setVideoUrl(videoLink: string): void {
+    const videoId = this.extractVideoId(videoLink);
+    const startSeconds = this.extractStartTime(videoLink); // opcional, si querés parsear el &t=xxs
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?start=${startSeconds}&autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0`;
+
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  }
+
+  private extractVideoId(link: string): string{
+    const regex = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = link.match(regex);
+    return match ? match[1] : '';
+  }
+
+  private extractStartTime(link: string): number {
+    const match = link.match(/[?&]t=(\d+)s?/);
+    return match ? parseInt(match[1], 10) : 0;
   }
 }

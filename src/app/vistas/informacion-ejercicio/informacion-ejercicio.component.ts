@@ -31,6 +31,9 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   intervalId: any;
   ejercicio: Ejercicio | null = null;
   indiceActual: number = 0;
+  esPrimerEjercicio: boolean = true;
+  mensaje: string = '';
+  duracionDescanso = 10;
   
 
   constructor(private rutinaService: RutinaService, private router: Router) {}
@@ -43,15 +46,23 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
       this.router.navigate(['/ruta-de-error-o-plan']);
       return;
     }
-    this.ejercicios = this.conseguirEjercicios
-    this.ejercicio = this.conseguirEjercicioActual(this.indiceActual)
+    this.indiceActual = this.rutinaService.getIndiceActual();
+    console.log(this.indiceActual);
+    this.ejercicios = this.conseguirEjercicios;
+    this.ejercicio = this.conseguirEjercicioActual(this.indiceActual);
+    /*if(this.indiceActual === 0){
+      this.mensaje = '¡Comenzamos en';
+      this.remaining = 5; // tiempo previo al primer ejercicio
+    } else {
+      this.mensaje = `Descanso. Próximo ejercicio: ${this.ejercicio?.nombre} en`;
+      this.remaining = this.duracionDescanso;
+    }*/
+
     this.tiempoTotal = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
     this.remaining = this.tiempoTotal;
     
-    
-    this.indiceActual = this.rutinaService.getIndiceActual()
-    console.log(this.indiceActual);
-    
+    //this.esPrimerEjercicio = this.indiceActual === 0;
+
     this.startTimer();
   }
 
@@ -65,6 +76,23 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
       case 2: return 30 * 60;
       default: return 10;
     }
+  }
+
+  get tipoEjercicio(): string {
+    if (!this.ejercicio) return '';
+    if (this.ejercicio.duracion !== null) {
+      return `${this.ejercicio.duracion} segundos`;
+    }
+    if (this.ejercicio.repeticiones !== null){
+      return `${this.ejercicio.repeticiones} repeticiones`;
+    }
+    return '';
+  }
+
+  get progresoEjercicio(): string {
+    const total = this.ejercicios.length;
+    const actual = this.indiceActual + 1; // +1 porque arranca en 0
+    return `${actual}/${total}`;
   }
 
   get elapsedTimeDisplay(): string {
@@ -86,6 +114,18 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   get isWarning(): boolean {
     return this.remaining <= 5;
   }
+
+  get mensajeCuentaRegresiva(): string {
+  if (this.indiceActual === 0) {
+    return '¡Comenzamos en';
+  } else {
+    const siguienteNombre = this.ejercicio?.nombre ?? 'el siguiente ejercicio';
+    return `Descanso. Próximo ejercicio: ${siguienteNombre} en`;
+  }
+
+  
+}
+
 
   private fmt(seconds: number): string {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');

@@ -3,83 +3,92 @@
     <div {{ rutina.id }} – Día {{ rutina.numeroRutina }}></div>
 -->
 <body>
-<section class="exercise-preview py-5">
-  <div class="container">
-    <div class="card session-card p-4 text-white border-0 mx-auto">
-      <div class="row align-items-center gx-4">
-
-        <div class="col-12 col-md-4">
-          <div class="exercise-image">
-            <img [src]="ejercicio?.imagen" alt="Ejercicio" class="img-fluid">          
-          </div>
-        </div>
-
-        <div class="col-12 col-md-5">
-          <small class="text-muted-white d-block mb-1">
-            Siguiente Ejercicio (1/5)
-          </small>
-          <h3 class="mb-1">
-            Sentadillas
-            <small class="text-muted-white fs-6">
-              ({{ejercicio?.series}} series de {{ ejercicio?.repeticiones }} repeticiones)
-            </small>
-          </h3>
-          <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
-          <p class="text-muted-white">
-            ({{ ejercicio?.descripcion }})
-          </p>  
-        </div>
-
-        <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
-                 <div class="iconosPausaClose">
+  <section class="exercise-preview py-5">
+    <div class="container">
+      <div class="card session-card p-4 text-white border-0 mx-auto position-relative">
+        <div class="iconosPausaClose">
               <i
                 id="pauseBtn"
                 class="bi bi-pause-circle-fill fs-4 cursor-pointer"
-                (click)="togglePause()">
+                (click)="togglePause()"
+              >
               </i>
               <i
                 id="closeBtn"
                 class="bi bi-x fs-4 cursor-pointer"
-                (click)="closeSession()">
+                (click)="closeSession()"
+              >
               </i>
+        </div>
+
+        <div class="row align-items-center gx-4">
+          <div class="col-12 col-md-4">
+            <div class="exercise-image">
+              <img
+                [src]="ejercicio?.imagen"
+                alt="Ejercicio"
+                class="img-fluid"
+              />
             </div>
+          </div>
 
-          <div class="preview-timer text-center">
-<h3 class="mb-1">              La rutina comienza en
-</h3>
+          <div class="col-12 col-md-5">
+            <small class="text-muted-white d-block mb-1">
+              {{
+                indiceActual === 0 ? "Primer Ejercicio" : "Siguiente Ejercicio"
+              }}
+              ({{ progresoEjercicio }})
+            </small>
+            <h3 class="mb-1">
+              {{ ejercicio?.nombre }}
+              <small class="text-muted-white fs-6">
+                ({{ tipoEjercicio }})
+              </small>
+            </h3>
+            <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
+            <p class="text-muted-white">({{ ejercicio?.descripcion }})</p>
+          </div>
 
-            <div class="contenedorTimer mb-2 text-center">
-              <div
-                id="countdown"
-                class="display-4 mb-3"
-                [ngClass]="{ 'countdown-warning': isWarning }">
-                {{ countdownDisplay }}
+          <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
+            
+
+            <div class="preview-timer text-center">
+              <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
+
+              <div class="contenedorTimer mb-2 text-center">
+                <div
+                  id="countdown"
+                  class="display-4 mb-3"
+                  [ngClass]="{ 'countdown-warning': isWarning }"
+                >
+                  {{ countdownDisplay }}
+                </div>
               </div>
-            </div>
 
+              <div class="progress">
+                <div
+                  id="progressBar"
+                  class="progress-bar bg-success"
+                  role="progressbar"
+                  [style.width]="progressPercent + '%'"
+                ></div>
+              </div>
 
-            <div class="progress">
-              <div
-                id="progressBar"
-                class="progress-bar bg-success"
-                role="progressbar"
-                [style.width]="progressPercent + '%'"
-              ></div>
-            </div>
-
-            <div class="practicar">
-            <button class="btn btn-outline-success" routerLink="/calibracion-camara">
-              Practicar
-            </button>
-            <i class="bi bi-question-circle-fill help-icon"></i>
+              <div class="practicar">
+                <button
+                  class="btn btn-outline-success"
+                  routerLink="/calibracion-camara"
+                >
+                  Practicar
+                </button>
+                <i class="bi bi-question-circle-fill help-icon"></i>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </body>
 <!--
 </main>

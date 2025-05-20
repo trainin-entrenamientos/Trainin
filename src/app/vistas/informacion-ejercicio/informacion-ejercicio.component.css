@@ -2,12 +2,37 @@ body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centrado vertical */
 }
 
 .session-card {
   background-color: #1e1e1e;
+  width: 100%;
+  max-width: 1140px;
+  min-height: 80vh;
   border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.exercise-preview {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .exercise-image img {
   width: 100%;
   height: auto;
@@ -168,5 +193,19 @@ body {
  body{
     text-align: center;
  }
- 
+ .session-card {
+    padding: 1rem;
+  }
+  .col-12.col-md-4,
+  .col-12.col-md-5,
+  .col-12.col-md-3 {
+    text-align: center;
+  }
+  .col-12.col-md-5 {
+    margin-top: 1rem;
+  }
+  .exercise-image img {
+    max-height: 200px;
+    object-fit: contain;
+  }
 }
