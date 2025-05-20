@@ -13,6 +13,8 @@ import { EditarEjercicioComponent } from './vistas/editar-ejercicio/editar-ejerc
 import { InicioRutinaComponent } from './vistas/inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './vistas/registro/registro.component';
+import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
+import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
 import { InicioComponent } from './vistas/inicio/inicio.component';
 import { IniciarSesionComponent } from './vistas/iniciar-sesion/iniciar-sesion.component';
 import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
@@ -87,6 +89,18 @@ const routes: Routes = [
       {
         path: 'inicio',
         component: InicioComponent
+      },
+      {
+        path: 'iniciar-sesion',
+        component: IniciarSesionComponent
+      },
+      {
+        path: 'calibracion-camara',
+        component: CalibracionCamaraComponent
+      },
+      {
+        path: 'correccion-postura',
+        component: CorreccionPosturaComponent
       },
       {
         path: 'iniciar-sesion',

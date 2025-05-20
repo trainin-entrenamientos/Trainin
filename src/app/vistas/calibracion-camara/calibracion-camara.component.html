@@ -1,0 +1,28 @@
+<body>
+  <main>
+    <div class="calibracion-camara-container">
+      <button class="cerrar" (click)="cerrar()">×</button>
+
+      <div class="left">
+        <h2>Calibración de Cámara</h2>
+        <hr />
+        <p>Encendé la luz</p>
+        <p>Limpíá el lente</p>
+        <p>Todo tu cuerpo debe verse en la pantalla</p>
+        <p><strong>Realiza las repeticiones de manera controlada</strong></p>
+        <button class="boton-practica" [routerLink]="['/correccion-postura']" routerLinkActive="router-link-active">Practicar Ejercicio</button>
+      </div>
+
+      <div class="right">
+        <div class="right-top">
+          <video #webcam autoplay playsinline></video>
+          <canvas #outputCanvas></canvas>
+        </div>
+        <div class="right-bottom">
+          <p class="texto-postura">Aquí verás las correcciones de postura</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</body>

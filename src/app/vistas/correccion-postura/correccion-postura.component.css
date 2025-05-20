@@ -1,0 +1,508 @@
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  min-height: 80.2vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.correccion-postura-container {
+  max-width: 75%;
+/*   height: 70vh; */
+  margin: 50px auto;
+  background-color: #191919;
+  padding: 40px 45px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  /**/
+  height: auto;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.left,
+.center,
+.right {
+  padding: 2rem;
+}
+
+.left {
+  flex: 1.5;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right {
+  flex: 3.3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0c0f12;
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.right-top {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+}
+
+.right-bottom {
+  width: 100%;
+  /* height: 10vh; */
+  background-color: #06131C;
+  border-top: #13ff3a 0.1px solid;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 5px;
+  /**/
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.right-bottom #feedback {
+  margin-top: 0.5rem;
+}
+
+video,
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.cerrar {
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  background: transparent;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.cerrar:hover {
+  color: #13ff3a;
+}
+
+.boton-finalizar {
+  margin-top: 2rem;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  color: #13ff3a;
+  background: transparent;
+  border: 2px solid #13ff3a;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.boton-finalizar:hover {
+  background-color: #13ff3a;
+  color: black;
+}
+
+.info-ejercicio h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  align-self: center;
+  text-align: center;
+}
+
+hr {
+  width: 100%;
+  height: 3px;
+  background-color: #13ff3a;
+  border: none;
+  margin: 0.5rem 0 1.5rem;
+  opacity: 100%;
+}
+
+p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.camara {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.texto-postura {
+  margin-top: 10px;
+  color: #13ff3a;
+}
+
+.contenedor-circulos {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+}
+
+.circulo {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #13ff3a;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.gif-ejercicio {
+  height: 40vh;
+  background-color: #00060c;
+  border-radius: 20px;
+}
+
+.repeticiones-mobile,
+.info-ejercicio-mobile {
+  display: none;
+}
+
+header {
+  display: none !important;
+}
+
+/* RESPONSIVE - TABLET */
+@media screen and (max-width: 1200px) {
+  .correccion-postura-container {
+    flex-direction: column-reverse;
+    height: auto;
+    padding: 30px;
+    max-width: 85%;
+  }
+
+  .info-ejercicio {
+    display: none;
+  }
+
+  .info-ejercicio-mobile {
+    display: inline;
+  }
+
+  .info-ejercicio-mobile h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .repeticiones-mobile {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    background-color: #00060c;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .repeticiones-pc {
+    display: none;
+  }
+
+  .left {
+    flex-grow: 1;
+    padding-top: 15px;
+    padding-bottom: 0;
+  }
+
+  .left p {
+    font-size: 0.8rem;
+  }
+
+  .left h2 {
+    font-size: 1rem;
+  }
+
+  .gif-ejercicio {
+    height: 30vh;
+  }
+
+  .boton-finalizar {
+    margin: 0;
+  }
+
+  .right-bottom {
+    height: 7vh;
+  } 
+
+  .camara {
+    height: 40vh;
+  }
+
+  .cerrar {
+    font-size: 1.5rem;
+    right: 10px;
+  }
+}
+
+/* RESPONSIVE - MOBILE */
+@media screen and (max-width: 768px) {
+  .correccion-postura-container {
+    max-width: 95%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    padding: 0;
+  }
+
+  .left p {
+    margin: 0;
+  }
+
+  .right {
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  hr {
+    display: none;
+  }
+
+  .camara {
+    height: 47vh;
+  }
+
+  .right-bottom {
+    height: 6vh;
+    border-radius: 0;
+  }
+
+  .texto-postura {
+    margin-top: 10px;
+  }
+
+  .boton-finalizar {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .circulo,
+  .circulo-completo {
+    width: 15px;
+    height: 15px;
+  }
+
+  .gif-ejercicio {
+    height: 30vh;
+  }
+
+  .left {
+    padding: 10px;
+  }
+
+  .info-ejercicio-mobile h2 {
+    margin: 10px;
+    font-size: 20px;
+  }
+
+/* ESTILOS - FABIO*/
+  .correccion-postura-container {
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+
+  .left {
+    margin-top: 1rem;
+  }
+}
+
+.right.repeticion-correcta {
+  box-shadow: 0 0 20px 5px limegreen;
+  transition: box-shadow 0.3s;
+}
+
+.circulo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: inline-block;
+  margin: 3px;
+}
+
+.circulo.activo {
+  background-color: limegreen;
+}
+
+.right.active.bien {
+  box-shadow: 0 0 8px 2px rgba( 76, 175,  80, 0.7);
+}
+
+.right.active.mal {
+  box-shadow: 0 0 8px 2px rgba(244,  67,  54, 0.7);
+}
+
+.circulo.activo.correcto {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+.circulo.activo.incorrecto {
+  background-color: #f44336;
+  border-color: #f44336;
+}
+
+#feedback {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* #feedback strong {
+  display: block;
+  margin-bottom: 0.5rem;
+} */
+
+#feedback .resultado {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+#feedback .tips-inline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#feedback .tips-inline li {
+  display: inline-block;
+}
+
+#feedback {
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+.right {
+  height: 100%;
+  min-height: 0;
+}
+
+
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.play-overlay:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.play-overlay::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.play-overlay:hover::after {
+  opacity: 1;
+}
+
+/* ESTILOS - FABIO*/
+.resumen-container {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.resumen-titulo {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: x-large;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.columna .tip {
+  margin-bottom: 0.5rem;
+}
+
+.resultado {
+  font-weight: bold;
+  color: white;
+}
+
+.countdown {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  transition: opacity 0.3s ease;
+}
+
+
+.color-green  { color: #13ff3a;  }
+.color-orange { color: orange; }
+.color-red    { color: red;    }
