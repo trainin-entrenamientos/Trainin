@@ -36,8 +36,7 @@
             <!-- BLOQUE DE “TIEMPO TOTAL” -->
             <div class="contenedorTimer mb-2 text-center">
               <small class="text-muted-white">
-                Tiempo Total
-                <span id="totalTime">{{ elapsedTimeDisplay }}</span>
+                <app-temporizador [isPaused]="isPaused"></app-temporizador>
               </small>
             </div>
 

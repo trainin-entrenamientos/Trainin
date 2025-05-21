@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class InicioRutinaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private rutinaService: RutinaService 
+    private rutinaService: RutinaService,
+    private temporizadorService: TemporizadorService
    ) {}
 
   ngOnInit(): void {
@@ -52,6 +54,7 @@ export class InicioRutinaComponent implements OnInit {
   iniciarRutina() {
   if (this.rutina) {
     localStorage.setItem('rutina', JSON.stringify(this.rutina));
+    this.temporizadorService.start(); 
     this.rutinaService.setIndiceActual(0)
     this.router.navigate(['/informacion-ejercicio']);
   }

@@ -11,6 +11,7 @@ import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio, Rutina } from '../../core/modelos/RutinaDTO';
 import { Location } from '@angular/common';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 @Component({
   selector: 'app-realizar-ejercicio-por-tiempo',
@@ -38,7 +39,7 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
   videoUrl?: SafeResourceUrl;
 
 
-  constructor(private rutinaService: RutinaService, private router: Router, private sanitizer: DomSanitizer) {}
+  constructor(private rutinaService: RutinaService, private router: Router, private sanitizer: DomSanitizer, private temporizadorService: TemporizadorService) {}
 
   ngOnInit(): void {
     this.rutina = this.rutinaService.getRutina();
@@ -108,8 +109,14 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
   }
 
   togglePause(): void {
-    this.isPaused = !this.isPaused;
+  this.isPaused = !this.isPaused;
+
+  if (this.isPaused) {
+    this.temporizadorService.pause();
+  } else {
+    this.temporizadorService.resume();
   }
+}
 
   closeSession(): void {
     clearInterval(this.intervalId);

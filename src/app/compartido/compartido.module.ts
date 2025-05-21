@@ -8,6 +8,7 @@ import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eli
 import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
 import { CrearPlanModalComponent } from './componentes/modales/crear-plan-modal/crear-plan-modal.component';
 import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-creado/modal-plan-creado.component';
+import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-cread
     ModalEliminarEjercicioComponent,
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
-    ModalPlanCreadoComponent
+    ModalPlanCreadoComponent,
+    TemporizadorComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-cread
     ModalEliminarEjercicioComponent,
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
-    ModalPlanCreadoComponent
+    ModalPlanCreadoComponent,
+    TemporizadorComponent
   ],
   providers: [],
 })
