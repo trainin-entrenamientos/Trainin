@@ -2,6 +2,8 @@ import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild, ViewEncapsu
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 import type { Keypoint } from '@tensorflow-models/pose-detection';
+import { Router } from '@angular/router';
+import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 
 @Component({
   selector: 'app-correccion-postura',
@@ -80,7 +82,10 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
 
   ultimoErrorHombro = false;
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private rutinaServicio: RutinaService
+  ) {
     this.corrigiendo = false;
     this.mostrarBotonIniciar = true;
     this.mostrarBotonReintentar = false;
@@ -354,9 +359,12 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     return Math.acos(dot / mag) * (180 / Math.PI);
   }
 
-  finalizarPractica() {
-    console.log('Práctica finalizada');
-  }
+ finalizarPractica() {
+  this.detenerCamara();
+  const nuevoIndice = this.rutinaServicio.getIndiceActual() + 1;
+  this.rutinaServicio.setIndiceActual(nuevoIndice);
+  this.router.navigate(['/informacion-ejercicio']);
+}
 
   cerrarModal() {
     console.log('Modal cerrado');
@@ -544,5 +552,10 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     this.chosenVoice = voices.find(v =>
       v.name.toLowerCase().includes('elena')
     ) || null;
+  }
+
+  volverARutina() {
+    this.detenerCamara();
+    this.router.navigate(['/informacion-ejercicio']);
   }
 }

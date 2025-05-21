@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PlanesComponent } from './planes/planes.component';
 import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
@@ -50,6 +51,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     FormsModule,
     ReactiveFormsModule,
     CompartidoModule,
+    NgbTooltipModule
   ],
 
   exports: [

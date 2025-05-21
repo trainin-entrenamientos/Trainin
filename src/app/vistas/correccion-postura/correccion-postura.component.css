@@ -506,3 +506,23 @@ header {
 .color-green  { color: #13ff3a;  }
 .color-orange { color: orange; }
 .color-red    { color: red;    }
+
+.boton-volver {
+    /* background-color: #13ff3a;
+    color: black;
+    border-radius: 8px;
+    padding: 8px; */
+    padding: 8px;
+    color: #13ff3a;
+    background: transparent;
+    border: 2px solid #13ff3a;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+  }
+
+  .contenedor-volver {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;  
+  }
