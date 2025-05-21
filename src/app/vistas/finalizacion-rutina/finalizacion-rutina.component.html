@@ -1,28 +1,32 @@
 <body>
-<main class="container mt-5 text-center">
+  <main class="container mt-5 text-center">
+
+  <div class="fondo-entrenamiento">
   <h2 class="mb-4 text-white">
     ¡Buen trabajo Usuario,<br class="d-none d-md-block">finalizaste tu entrenamiento!
   </h2>
 
-<div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 justify-content-center">
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 justify-content-center" id="ctn-ejercicios">
   <div class="col" *ngFor="let ejercicio of ejercicios">
     <app-ejercicio-tarjeta
-      [nombre]="ejercicio.nombre" 
-      [imagen]="ejercicio.imagen">
-    </app-ejercicio-tarjeta>
-  </div>
+    [nombre]="ejercicio.nombre" 
+    [imagen]="ejercicio.imagen">
+  </app-ejercicio-tarjeta>
 </div>
-
+</div>
+<button type="button" class="btn-trainin" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+Finalizar rutina
+</button>
+  </div>
+<!--
   <div class="row justify-content-center text-center mb-4">
     <div class="col-6 col-sm-4 col-md-2 mb-3" *ngFor="let estadistica of estadisticas">
       <p class="mb-1 fw-bold">{{ estadistica.valor }}</p>
       <small>{{ estadistica.label }}</small>
     </div>
   </div>
-
-  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
-  Finalizar rutina
-</button>
+  -->
+  
 
 <!-- Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
