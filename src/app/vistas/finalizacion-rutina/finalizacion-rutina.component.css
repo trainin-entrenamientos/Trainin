@@ -5,7 +5,7 @@ body {
   min-height: 40rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centrado vertical */
+  justify-content: center; 
 }
 * {
   margin: 0;
@@ -65,5 +65,4 @@ body {
   padding: 4em;
   margin: 0 auto;
   min-height: 60vh;
-
 }
