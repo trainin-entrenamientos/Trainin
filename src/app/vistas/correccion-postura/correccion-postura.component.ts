@@ -48,7 +48,7 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
   mostrarBotonReintentar = false;
   contador = 0;
   lastPorcentaje = 0;              // almacena el último % calculado
-  reintentos = 3;                  // cuántas veces ya intentó continuar
+  reintentos = 0;                  // cuántas veces ya intentó continuar
   readonly maxReintentos = 3;      // tope de reintentos
   private errorRepeticionEnFrame = false;
   private mensajePorDefectoMostrado = false;
