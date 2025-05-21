@@ -3,7 +3,7 @@
 
   <div class="fondo-entrenamiento">
   <h2 class="mb-4 text-white">
-    ¡Buen trabajo Usuario,<br class="d-none d-md-block">finalizaste tu entrenamiento!
+    ¡Buen trabajo!<br class="d-none d-md-block">¡Finalizaste tu entrenamiento!
   </h2>
 
 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 justify-content-center" id="ctn-ejercicios">
@@ -40,7 +40,7 @@ Finalizar rutina
         <div class="d-flex justify-content-around my-3">
           <div>
             <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_facil" class="form-check-input">
-            <label for="facil" class="form-label d-block text-success">Muy fácil</label>
+            <label for="facil" class="form-label d-block text-white">Muy fácil</label>
           </div>
           <div>
             <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada" value="equilibrado" class="form-check-input">
@@ -52,7 +52,7 @@ Finalizar rutina
           </div>
         </div>
 
-        <button class="btn btn-success" (click)="enviarFeedback()">Enviar y continuar</button>
+        <button class="btn-trainin" (click)="enviarFeedback()">Enviar y continuar</button>
       </div>
     </div>
   </div>
