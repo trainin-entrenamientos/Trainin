@@ -44,6 +44,7 @@ export class InicioRutinaComponent implements OnInit {
         console.log('Rutina recibida:', rutina);
         this.traducirDuracionEstimada(rutina);
         this.rutina = rutina;
+        this.rutinaCompartida.setRutina(this.rutina);
       },
       (error) => {
         console.error('Error al obtener la rutina:', error);
@@ -59,6 +60,13 @@ export class InicioRutinaComponent implements OnInit {
   }
 }
 
+setRutina(rutina: Rutina) {
+  this.rutina = rutina;
+}
+
+getRutina(): Rutina | null {
+  return this.rutina;
+}
 
   
 }
