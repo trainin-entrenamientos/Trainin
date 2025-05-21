@@ -5,7 +5,7 @@
         <div class="iconosPausaClose">
           <i
             id="pauseBtn"
-            class="fs-4 cursor-pointer"
+            class="fs-1 cursor-pointer"
             [ngClass]="{
               'bi bi-pause-circle-fill': !isPaused,
               'bi bi-play-circle-fill': isPaused
@@ -13,7 +13,7 @@
             (click)="togglePause()"
           >
           </i>
-        </div>
+        </div>        
         <div class="row align-items-center gx-4">
           <div class="col-12 col-md-4 px-0 d-flex justify-content-center">
             <div class="video-cuadrado">
@@ -29,24 +29,15 @@
               </iframe>
             </div>
           </div>
-
-          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
-            <!-- ICONOS DE PAUSA / CERRAR -->
-
-            <!-- BLOQUE DE “TIEMPO TOTAL” -->
-            <div class="contenedorTimer mb-2 text-center">
-              <small class="text-muted-white">
-                Tiempo Total
-                <span id="totalTime">{{ elapsedTimeDisplay }}</span>
-              </small>
+          
+          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative mb-5">
+            
+            <div class="contenedorTimer text-center">
+              <h3 class="font-weight-bold fs-1">{{ ejercicioActual?.nombre }}</h3>
             </div>
 
             <div class="contenedorTimer mb-2 text-center">
-              <h3 class="mb-1 font-weight-bold">{{ ejercicioActual?.nombre }}</h3>
-            </div>
-
-            <div class="contenedorTimer mb-2 text-center">
-              <h5 class="text-muted-white mb-3">Tiempo Restante</h5>
+              <h5 class="text-muted-white fw-normal mt-5 fs-3">Tiempo Restante</h5>
             </div>
 
             <!-- CONTADOR -->
