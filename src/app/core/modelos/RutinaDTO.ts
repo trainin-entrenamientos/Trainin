@@ -11,7 +11,9 @@ export interface Ejercicio {
   series: number | null;
   duracion: number | null;
   imagen: string;
+  video: string;
   descripcion: string;
+  tieneCorrecion: boolean;
   grupoMuscular: GrupoMuscular[];
 }
 

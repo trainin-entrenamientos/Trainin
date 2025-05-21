@@ -3,56 +3,49 @@ import { Observable, of } from 'rxjs';
 import { Rutina } from '../../modelos/RutinaDTO';
 import { HttpClient } from '@angular/common/http';
 
-export interface Ejercicio {
-  id: number;
-  nombre: string;
-  imagen: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class RutinaService {
+  private rutina: Rutina | null = null;
+   private indiceActual: number = 0;
 
-  constructor(private http:HttpClient){
+  constructor(private http: HttpClient) {}
 
-   }
-
-
-  ObtenerEjercicios(): Observable<Ejercicio[]> {
-    const ejercicios: Ejercicio[] = [
-    {id:1, nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
-    {id:2, nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
-    {id:3, nombre: 'Sentadillas', imagen: '/imagenes/Sentadilla.jpg'},
-    {id:4, nombre: 'Plancha', imagen: '/imagenes/plancha.jpg'},
-    {id:5, nombre: 'Abdominales', imagen: '/imagenes/abdominales.jpg'},
-    {id:6, nombre: 'Flexiones', imagen: '/imagenes/Flexiones.jpeg'},
-  ];
-  
-    return of(ejercicios);
+  getDetalleEjercicios(planId: number): Observable<Rutina> {
+    return this.http.get<Rutina>(
+      `http://localhost:5010/api/rutina/obtenerPorPlan/${planId}`
+    );
   }
 
-getDetalleEjercicios(planId: number): Observable<Rutina[]> {
-  return this.http.get<Rutina[]>(
-    `http://localhost:5010/api/rutina/obtenerPorPlan/${planId}`
-  );
-}
-
-
-  private rutina: Rutina | null = null;
-
-  setRutina(rutina: Rutina) {
-    this.rutina = rutina;
+  setRutina(r: Rutina) {
+    this.rutina = r;
+    localStorage.setItem('rutina', JSON.stringify(r));
   }
 
   getRutina(): Rutina | null {
-    return this.rutina;
+    if (this.rutina) return this.rutina;
+    const raw = localStorage.getItem('rutina');
+    if (raw) {
+      this.rutina = JSON.parse(raw);
+      return this.rutina;
+    }
+    return null;
   }
 
-  clearRutina() {
-    this.rutina = null;
+  setIndiceActual(i: number) {
+    this.indiceActual = i;
+    localStorage.setItem('indiceActual', i.toString());
   }
 
-
-
+  getIndiceActual(): number {
+    if (this.indiceActual) return this.indiceActual;
+    const raw = localStorage.getItem('indiceActual');
+    if (raw) {
+      this.indiceActual = parseInt(raw);
+      return this.indiceActual;
+    }
+    return 0;
+  }
 }

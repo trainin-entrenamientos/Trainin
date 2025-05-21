@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Ejercicio, RutinaService} from '../../core/servicios/rutina/rutina.service';
+
+import { Router } from '@angular/router';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
+import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 
 @Component({
   selector: 'app-finalizacion-rutina',
@@ -8,24 +11,31 @@ import { Ejercicio, RutinaService} from '../../core/servicios/rutina/rutina.serv
   styleUrl: './finalizacion-rutina.component.css'
 })
 export class FinalizacionRutinaComponent implements OnInit {
-
   opcionSeleccionada: string = '';
   ejercicios: Ejercicio[] = [];
-    constructor(private rutinaService: RutinaService) { }
-  
+
+  constructor(
+    private rutinaService: RutinaService,
+    private router: Router  
+  ) {}
   ngOnInit(): void {
-    this.rutinaService.ObtenerEjercicios().subscribe((ejercicios: Ejercicio[]) => {
-      this.ejercicios = ejercicios;
-    });
+    const rutina = this.rutinaService.getRutina();
+    if (rutina) {
+      this.ejercicios = rutina.ejercicios;
+    } else {
+      console.error('No se encontró la rutina.');
+    }
   }
+
   enviarFeedback() {
-    if(!this.opcionSeleccionada) {
+    if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;
     }
-    
-    
+    this.router.navigate(['/planes']);
+    console.log('Feedback seleccionado:', this.opcionSeleccionada);
   }
+
 
   estadisticas = [
     { label: 'Calorías Quemadas', valor: '120 cal' },

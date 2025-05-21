@@ -1,10 +1,10 @@
-
-<main class="container my-5 text-center">
-  <h2 class="mb-4">
+<body>
+<main class="container mt-5 text-center">
+  <h2 class="mb-4 text-white">
     ¡Buen trabajo Usuario,<br class="d-none d-md-block">finalizaste tu entrenamiento!
   </h2>
 
-<div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mx-auto">
   <div class="col" *ngFor="let ejercicio of ejercicios">
     <app-ejercicio-tarjeta
       [nombre]="ejercicio.nombre" 
@@ -54,3 +54,5 @@
   </div>
 </div>
 </main>
+</body>
+

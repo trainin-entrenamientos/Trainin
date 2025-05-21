@@ -70,7 +70,7 @@ export class PlanesComponent {
 }
 
   irAlDetallePlan() {
-    this.router.navigate(['/detalle-plan', /*this.planEntrenamiento.id*/]);
+    this.router.navigate(['/inicio-rutina/75', /*this.planEntrenamiento.id*/]);
   }
 
   desactivarPlan(idPlan: number): void {
