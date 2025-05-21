@@ -12,8 +12,8 @@
         <div id="contenedor-planes" class="w-100">
           <div
             *ngFor="let plan of planEntrenamiento; let i = index"
-            routerLink="/detalle-plan"
             class="w-100 d-flex contenedor-plan text-white"
+            (click)="irAlDetalleDelPlan(plan.id)"
           >
             <div
               class="plan-card d-flex align-items-center justify-content-between mb-3"
@@ -32,7 +32,7 @@
                     {{ plan.tipoEntrenamiento }}
                   </h3>
                   <h4 id="realizado" style="color: #13ff3a">
-                    Continuar entrenamiento
+                    {{ plan.estadoRutinaDelDia }}
                   </h4>
                 </div>
               </div>
@@ -170,7 +170,7 @@
               class="plan-card d-flex align-items-center justify-content-between mb-3"
             >
               <div
-                routerLink="/inicio-rutina/75"
+                (click)="irAlDetalleDelPlan(plan.id)"
                 class="d-flex align-items-center gap-5 contendor-imagen-plan"
               >
                 <img
@@ -184,7 +184,7 @@
                     {{ plan.tipoEntrenamiento }}
                   </h3>
                   <h4 id="realizado" style="color: #13ff3a">
-                    Continuar entrenamiento
+                    {{ plan.estadoRutinaDelDia }}
                   </h4>
                 </div>
               </div>
