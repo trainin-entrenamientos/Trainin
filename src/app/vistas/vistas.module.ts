@@ -13,6 +13,7 @@ import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -22,6 +23,8 @@ import { DetallePlanComponent } from './detalle-plan/detalle-plan.component';
 import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
+import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
+import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 
 @NgModule({
 
@@ -42,7 +45,9 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     DetallePlanComponent,
     RealizarEjercicioPorTiempoComponent,
     PlanPremiumComponent,
-    InformacionEjercicioComponent
+    InformacionEjercicioComponent,
+    CorreccionPosturaComponent,
+    CalibracionCamaraComponent
   ],
 
   imports: [
@@ -51,7 +56,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
     FormsModule,
     ReactiveFormsModule,
     CompartidoModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
 
   exports: [

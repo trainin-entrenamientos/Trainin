@@ -8,6 +8,8 @@ import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eli
 import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
 import { CrearPlanModalComponent } from './componentes/modales/crear-plan-modal/crear-plan-modal.component';
 import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-creado/modal-plan-creado.component';
+import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
+import { LoaderComponent } from './componentes/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -17,19 +19,21 @@ import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-cread
     ModalEliminarEjercicioComponent,
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
-    ModalPlanCreadoComponent
+    ModalPlanCreadoComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
     RouterModule
-  ],
+    ],
   exports: [
     HeaderComponent,
     FooterComponent,
     ModalEliminarEjercicioComponent,
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
-    ModalPlanCreadoComponent
+    ModalPlanCreadoComponent,
+    LoaderComponent
   ],
   providers: [],
 })
