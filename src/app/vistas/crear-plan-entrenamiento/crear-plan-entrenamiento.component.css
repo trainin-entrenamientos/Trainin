@@ -23,7 +23,7 @@ body {
 }
 
 .form-container {
-  max-width: 50%;
+  max-width: 60%;
   margin: 50px auto;
   background-color: #1e1e1e;
   padding: 40px 40px;
@@ -408,7 +408,7 @@ input[type="radio"].form-check-input:focus {
 .columna-izquierda,
 .columna-derecha {
   flex: 1;
-  padding: 20px;
+  padding: 50px;
 }
 
 .mensajeErrorForm{

@@ -526,3 +526,10 @@ header {
     justify-content: center;
     margin-top: 15px;  
   }
+
+  .gif-ejercicio iframe {
+  width: 100%;
+  height: 100%;
+  display: block; /* evita espacio extra debajo del iframe */
+  border: none;
+}
