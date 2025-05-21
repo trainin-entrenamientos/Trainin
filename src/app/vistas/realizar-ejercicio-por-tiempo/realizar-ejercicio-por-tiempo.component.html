@@ -2,7 +2,13 @@
   <section class="exercise-session py-5">
     <div class="container">
       <div class="card session-card p-4 text-white border-0 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+        </div>
         <div class="iconosPausaClose">
+          <div class="text-muted-white fs-5 text-center">
+            <app-temporizador [isPaused]="isPaused"></app-temporizador>
+          </div>
           <i
             id="pauseBtn"
             class="fs-1 cursor-pointer"
@@ -13,7 +19,8 @@
             (click)="togglePause()"
           >
           </i>
-        </div>        
+        </div>
+
         <div class="row align-items-center gx-4">
           <div class="col-12 col-md-4 px-0 d-flex justify-content-center">
             <div class="video-cuadrado">
@@ -28,25 +35,20 @@
               >
               </iframe>
             </div>
+
           </div>
 
-
-            <!-- ICONOS DE PAUSA / CERRAR -->
-
+          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
             <!-- BLOQUE DE “TIEMPO TOTAL” -->
-            <div class="contenedorTimer mb-2 text-center">
-              <small class="text-muted-white">
-                <app-temporizador [isPaused]="isPaused"></app-temporizador>
-              </small>
-          
-          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative mb-5">
-            
-            <div class="contenedorTimer text-center">
-              <h3 class="font-weight-bold fs-1">{{ ejercicioActual?.nombre }}</h3>
+
+            <div class="contenedorTimer mb-5 text-center">
+              <h3 class="mb-1 font-weight-bold fs-1">
+                {{ ejercicioActual?.nombre }}
+              </h3>
             </div>
 
             <div class="contenedorTimer mb-2 text-center">
-              <h5 class="text-muted-white fw-normal mt-5 fs-3">Tiempo Restante</h5>
+              <h5 class="text-muted-white mb-3">Tiempo Restante</h5>
             </div>
 
             <!-- CONTADOR -->
