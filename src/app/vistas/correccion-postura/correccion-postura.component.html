@@ -1,14 +1,22 @@
 <body>
   <main>
     <div class="correccion-postura-container">
-      <button class="cerrar" (click)="cerrar()">×</button>
       <div class="left">
         <div class="info-ejercicio">
           <h2>Práctica: Press Militar</h2>
           <hr />
         </div>
         <div class="gif-ejercicio">
-
+          <iframe
+                #exerciseVideo
+                id="exerciseVideo"
+                class="trainin-video"
+                [src]="videoUrl"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+              >
+              </iframe>
         </div>
         <div class="repeticiones-pc">
           <div>
@@ -27,6 +35,14 @@
         <div class="contenedor-volver">
             <button class="boton-volver" (click)="volverARutina()">← Volver a rutina</button>
         </div>
+
+        <div style="margin-top: 10px;">
+        @if(lastPorcentaje < 60 && reintentos > 0 && reintentos <= maxReintentos){
+          <p>Tu porcentaje fue <strong>{{ lastPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para continuar.</p>
+          <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
+        }
+        </div>
+        
       </div>
 
       <div class="right" [class.active]="corrigiendo"
@@ -35,7 +51,9 @@
         <div class="right-top">
           <video #webcam autoplay playsinline></video>
           <canvas #outputCanvas></canvas>
-
+          @if(cargandoCamara){
+            <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
+          }
           @if(mostrarBotonIniciar){
 
           <button class="play-overlay" (click)="iniciar()"
