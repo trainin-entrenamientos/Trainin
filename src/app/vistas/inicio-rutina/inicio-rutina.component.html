@@ -3,8 +3,8 @@
 
 <main *ngIf="rutina" class="text-white p-4 rounded-4 mx-auto my-4" style="width: 60%; height:100%; background-color: #191919">
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <i routerLink="/planes" class="fa-solid fa-arrow-left fa-xl"></i>
-    <h2 class="m-0 text-center flex-grow-1">Plan #{{ rutina.id }} – Día {{ rutina.numeroRutina }}</h2>
+    <i routerLink="/planes" class="fa-solid fa-arrow-left fa-xl" ></i>
+    <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina - 1}}</h2>
     <!--<h2 class="m-0 text-center flex-grow-1">Plan #1 – Día 1</h2>-->
     <span style="width: 24px"></span>
   </div>

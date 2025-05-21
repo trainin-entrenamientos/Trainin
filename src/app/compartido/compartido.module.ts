@@ -10,6 +10,7 @@ import { CrearPlanModalComponent } from './componentes/modales/crear-plan-modal/
 import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-creado/modal-plan-creado.component';
 import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
 import { LoaderComponent } from './componentes/loader/loader.component';
+import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoaderComponent } from './componentes/loader/loader.component';
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
     ModalPlanCreadoComponent,
-    LoaderComponent
+    LoaderComponent,
+    TemporizadorComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { LoaderComponent } from './componentes/loader/loader.component';
     EjercicioTarjetaComponent,
     CrearPlanModalComponent,
     ModalPlanCreadoComponent,
-    LoaderComponent
+    LoaderComponent,
+    TemporizadorComponent
   ],
   providers: [],
 })

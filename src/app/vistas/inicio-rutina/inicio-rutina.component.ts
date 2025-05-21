@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
-import { InicioRutinaService } from '../../core/servicios/inicioRutinaServicio/inicio-rutina.service';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 
 @Component({
@@ -17,10 +17,10 @@ export class InicioRutinaComponent implements OnInit {
   rutina: Rutina | null = null;
 
   constructor(
-    private rutinaService: InicioRutinaService,
     private route: ActivatedRoute,
     private router: Router,
-    private rutinaCompartida: RutinaService 
+    private rutinaService: RutinaService,
+    private temporizadorService: TemporizadorService
    ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class InicioRutinaComponent implements OnInit {
       }
 
   obtenerRutina(idPlan: number) {
-    this.rutinaService.obtenerRutina(idPlan).subscribe(
+    this.rutinaService.getDetalleEjercicios(idPlan).subscribe(
       (rutina) => {
         console.log('Rutina recibida:', rutina);
         this.traducirDuracionEstimada(rutina);
@@ -54,7 +54,8 @@ export class InicioRutinaComponent implements OnInit {
   iniciarRutina() {
   if (this.rutina) {
     localStorage.setItem('rutina', JSON.stringify(this.rutina));
-    this.rutinaCompartida.setIndiceActual(0)
+    this.temporizadorService.start(); 
+    this.rutinaService.setIndiceActual(0)
     this.router.navigate(['/informacion-ejercicio']);
   }
 }
