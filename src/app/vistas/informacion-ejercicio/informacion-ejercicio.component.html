@@ -1,28 +1,59 @@
-<!--
-<main *ngIf="rutina">
-    <div {{ rutina.id }} – Día {{ rutina.numeroRutina }}></div>
--->
 <body>
   <section class="exercise-preview py-5">
     <div class="container">
-      <div
-        class="card session-card p-4 text-white border-0 mx-auto position-relative"
-      >
+      <div class="session-card">
+
+        <!-- Botón de pausa: NO TOCAR -->
         <div class="iconosPausaClose">
           <i
             id="pauseBtn"
-            class="fs-4 cursor-pointer"
+            class="fs-1 cursor-pointer"
             [ngClass]="{
               'bi bi-pause-circle-fill': !isPaused,
               'bi bi-play-circle-fill': isPaused
             }"
             (click)="togglePause()"
-          >
-          </i>
+          ></i>
         </div>
 
-        <div class="row align-items-center gx-4">
-          <div class="col-12 col-md-4" style="display:flex; flex-direction:column; gap:1.4em">
+        <!-- Encabezado centrado con info de próximo ejercicio -->
+        <div class="text-center mb-4">
+          <h4>
+            {{ indiceActual === 0 ? "Primer Ejercicio" : "Próximo Ejercicio" }}: <strong>{{ ejercicio?.nombre }}</strong>
+          </h4>
+          <small class="text-muted-white d-block">
+            Duración: {{ tipoEjercicio }}
+          </small>
+        </div>
+
+        <!-- Cuenta regresiva y barra -->
+        <div class="preview-timer text-center mb-4">
+          <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
+
+          <div class="contenedorTimer mb-2 text-center">
+            <div
+              id="countdown"
+              class="display-4 mb-3"
+              [ngClass]="{ 'countdown-warning': isWarning }"
+            >
+              {{ countdownDisplay }}
+            </div>
+          </div>
+
+          <div class="progress">
+            <div
+              id="progressBar"
+              class="progress-bar bg-success"
+              role="progressbar"
+              [style.width]="progressPercent + '%'"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Contenido principal en dos columnas -->
+        <div class="row gx-5 gy-4 align-items-center justify-content-center mb-4">
+          <!-- Imagen -->
+          <div class="col-12 col-md-5 text-center">
             <div class="exercise-image">
               <img
                 [src]="ejercicio?.imagen"
@@ -30,73 +61,45 @@
                 class="img-fluid"
               />
             </div>
-            <app-temporizador [isPaused]="isPaused"></app-temporizador>
           </div>
-            <!-- Solo donde quieras mostrar el tiempo -->
 
+          <!-- Descripción -->
           <div class="col-12 col-md-5">
-            <small class="text-muted-white d-block mb-1">
-              {{
-                indiceActual === 0 ? "Primer Ejercicio" : "Siguiente Ejercicio"
-              }}
-              ({{ progresoEjercicio }})
-            </small>
-            <h3 class="mb-3 mt-1 h1">
-              {{ ejercicio?.nombre }}
-              <small class="text-muted-white mx-2 fs-6">
-                ({{ tipoEjercicio }})
-              </small>
-            </h3>
             <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
-            <p class="font-weight-light font-italic">({{ ejercicio?.descripcion }})</p>
-          </div>
-
-          <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
-            <div class="preview-timer text-center">
-              <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
-
-              <div class="contenedorTimer mb-2 text-center">
-                <div
-                  id="countdown"
-                  class="display-4 mb-3"
-                  [ngClass]="{ 'countdown-warning': isWarning }"
-                >
-                  {{ countdownDisplay }}
-                </div>
-              </div>
-
-              <div class="progress">
-                <div
-                  id="progressBar"
-                  class="progress-bar bg-success"
-                  role="progressbar"
-                  [style.width]="progressPercent + '%'"
-                ></div>
-              </div>
-
-              <div class="practicar">
-                <button
-                  class="btn btn-outline-success"
-                  [disabled]="!ejercicio?.tieneCorrecion"
-                  [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null" (click)="togglePause()">
-                  Practicar
-                </button>
-                 <i class="bi bi-question-circle-fill help-icon" ngbTooltip="Practicá tu técnica usando la cámara"
-                  placement="top"
-                  container="body"></i>
-              </div>
-                <h6 class="mt-2" style="color: #13ff1a" *ngIf="!ejercicio?.tieneCorrecion">
-                  Este ejercicio no cuenta con corrección.
-                </h6>
-            </div>
+            <p class="font-weight-light font-italic">
+              {{ ejercicio?.descripcion }}
+            </p>
           </div>
         </div>
+
+        <!-- Botón de práctica y aviso -->
+        <div class="practicar">
+          <button
+            class="btn btn-outline-success"
+            [disabled]="!ejercicio?.tieneCorrecion"
+            [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null"
+            (click)="togglePause()"
+          >
+            Practicar
+          </button>
+          <i
+            class="bi bi-question-circle-fill help-icon"
+            ngbTooltip="Practicá tu técnica usando la cámara"
+            placement="top"
+            container="body"
+          ></i>
+        </div>
+
+        <h6 class="mt-2 text-center" style="color: #13ff1a" *ngIf="!ejercicio?.tieneCorrecion">
+          Este ejercicio no cuenta con corrección gratuita.
+        </h6>
+
+        <!-- Timer global centrado abajo -->
+        <div class="text-center mt-4">
+          <app-temporizador [isPaused]="isPaused"></app-temporizador>
+        </div>
+
       </div>
     </div>
   </section>
-
-  
 </body>
-<!--
-</main>
--->

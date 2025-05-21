@@ -29,3 +29,15 @@ cursor:pointer;
 .fa-arrow-left:hover{
   color:#13ff3a;
 }
+
+.rutina-card {
+  background-color: #1e1e1e;
+  width: 70%;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding: 4em;
+  margin: 0 auto;
+}

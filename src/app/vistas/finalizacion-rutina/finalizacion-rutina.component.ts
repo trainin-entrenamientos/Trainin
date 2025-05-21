@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 declare var bootstrap: any;
 @Component({
@@ -17,11 +18,14 @@ export class FinalizacionRutinaComponent implements OnInit {
   ejercicios: Ejercicio[] = [];
   rutina: any;
   email: string | null = null;
+  tiempoTotal: string = '';
+
   
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private temporizadorService: TemporizadorService
   ) {}
   ngOnInit(): void {
   const rutinaGuardada = localStorage.getItem('rutina');
@@ -32,7 +36,20 @@ export class FinalizacionRutinaComponent implements OnInit {
   } else {
     console.error('No se encontró la rutina en el localStorage.');
   }
+// ⏱️ Detener el timer y obtener los segundos
+  this.temporizadorService.pause();
+  const segundosTotales = this.temporizadorService.getElapsedSeconds();
+
+  // ⏳ Convertir a formato legible (por ejemplo: mm:ss)
+  this.tiempoTotal = this.formatTiempo(segundosTotales);
 }
+
+formatTiempo(segundos: number): string {
+  const minutos = Math.floor(segundos / 60);
+  const segundosRestantes = segundos % 60;
+  return `${minutos}m ${segundosRestantes}s`;
+}
+
 
   /*enviarFeedback() {
     if (!this.opcionSeleccionada) {

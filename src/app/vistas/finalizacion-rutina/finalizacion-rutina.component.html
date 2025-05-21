@@ -1,62 +1,56 @@
 <body>
-  <main class="container mt-5 text-center">
+  <main class="rutina-card text-white my-5">
 
-  <div class="fondo-entrenamiento">
-  <h2 class="mb-4 text-white">
-    ¡Buen trabajo Usuario,<br class="d-none d-md-block">finalizaste tu entrenamiento!
-  </h2>
+    <h2 class="mb-4 text-center">
+      ¡Buen trabajo!<br class="d-none d-md-block"> ¡Finalizaste tu entrenamiento!
+    </h2>
 
-<div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 justify-content-center" id="ctn-ejercicios">
-  <div class="col" *ngFor="let ejercicio of ejercicios">
-    <app-ejercicio-tarjeta
-    [nombre]="ejercicio.nombre" 
-    [imagen]="ejercicio.imagen">
-  </app-ejercicio-tarjeta>
-</div>
-</div>
-<button type="button" class="btn-trainin" data-bs-toggle="modal" data-bs-target="#feedbackModal">
-Finalizar rutina
-</button>
-  </div>
-<!--
-  <div class="row justify-content-center text-center mb-4">
-    <div class="col-6 col-sm-4 col-md-2 mb-3" *ngFor="let estadistica of estadisticas">
-      <p class="mb-1 fw-bold">{{ estadistica.valor }}</p>
-      <small>{{ estadistica.label }}</small>
-    </div>
-  </div>
-  -->
-  
-
-<!-- Modal -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white rounded">
-      <div class="modal-body text-center">
-        <h5 class="fw-bold">Ayudanos a mejorar tu entrenamiento</h5>
-        <p class="fw-bold">Tu feedback nos ayuda a ajustar tu plan<br>
-        <em>Seleccioná la opción más acorde</em></p>
-
-        <div class="d-flex justify-content-around my-3">
-          <div>
-            <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_facil" class="form-check-input">
-            <label for="facil" class="form-label d-block text-success">Muy fácil</label>
-          </div>
-          <div>
-            <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada" value="equilibrado" class="form-check-input">
-            <label for="equilibrado" class="form-label d-block text-white">Bien equilibrado</label>
-          </div>
-          <div>
-            <input type="radio" id="exigente" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_exigente" class="form-check-input">
-            <label for="exigente" class="form-label d-block text-white">Muy exigente</label>
-          </div>
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+      <div class="text-center" *ngFor="let ejercicio of ejercicios" style="width: 180px">
+        <div class="image-placeholder rounded mb-2" style="height: 120px; background-color: #666">
+          <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-
-        <button class="btn btn-success" (click)="enviarFeedback()">Enviar y continuar</button>
+        <h5>{{ ejercicio.nombre }}</h5>
       </div>
     </div>
-  </div>
-</div>
-</main>
-</body>
 
+    <div class="text-center mt-4">
+  <p class="fw-bold">⏱ Duración total de la rutina: {{ tiempoTotal }}</p><br>
+  <button type="button" class="btn fw-bold text-black px-4 py-2" style="background-color: #13ff3a;" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+    Finalizar rutina
+  </button>
+</div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white rounded">
+          <div class="modal-body text-center">
+            <h5 class="fw-bold">Ayudanos a mejorar tu entrenamiento</h5>
+            <p class="fw-bold">Tu feedback nos ayuda a ajustar tu plan<br>
+              <em>Seleccioná la opción más acorde</em>
+            </p>
+
+            <div class="d-flex justify-content-around my-3 text-start">
+              <div>
+                <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_facil" class="form-check-input me-1">
+                <label for="facil" class="form-label text-success">Muy fácil</label>
+              </div>
+              <div>
+                <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada" value="equilibrado" class="form-check-input me-1">
+                <label for="equilibrado" class="form-label text-white">Bien equilibrado</label>
+              </div>
+              <div>
+                <input type="radio" id="exigente" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_exigente" class="form-check-input me-1">
+                <label for="exigente" class="form-label text-white">Muy exigente</label>
+              </div>
+            </div>
+              
+            <button class="btn btn-success" (click)="enviarFeedback()">Enviar y continuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
