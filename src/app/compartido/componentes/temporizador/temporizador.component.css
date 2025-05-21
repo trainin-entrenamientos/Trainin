@@ -1,0 +1,8 @@
+.timer{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.timer:hover{
+    color:#13ff3a;
+}

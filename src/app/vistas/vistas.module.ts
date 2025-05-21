@@ -10,6 +10,7 @@ import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
 import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
 import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -22,6 +23,8 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio/informaci
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
+import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 
 @NgModule({
 
@@ -42,7 +45,9 @@ import { RouterModule } from '@angular/router';
     DetallePlanComponent,
     RealizarEjercicioPorTiempoComponent,
     PlanPremiumComponent,
-    InformacionEjercicioComponent
+    InformacionEjercicioComponent,
+    CorreccionPosturaComponent,
+    CalibracionCamaraComponent
   ],
 
   imports: [

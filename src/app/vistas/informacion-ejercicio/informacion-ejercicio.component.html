@@ -22,7 +22,7 @@
         </div>
 
         <div class="row align-items-center gx-4">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4" style="display:flex; flex-direction:column; gap:1.4em">
             <div class="exercise-image">
               <img
                 [src]="ejercicio?.imagen"
@@ -30,7 +30,9 @@
                 class="img-fluid"
               />
             </div>
+            <app-temporizador [isPaused]="isPaused"></app-temporizador>
           </div>
+            <!-- Solo donde quieras mostrar el tiempo -->
 
           <div class="col-12 col-md-5">
             <small class="text-muted-white d-block mb-1">
@@ -76,22 +78,24 @@
                 <button
                   class="btn btn-outline-success"
                   [disabled]="!ejercicio?.tieneCorrecion"
-                  [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null">
+                  [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null" (click)="togglePause()">
                   Practicar
                 </button>
                  <i class="bi bi-question-circle-fill help-icon" ngbTooltip="Practicá tu técnica usando la cámara"
                   placement="top"
                   container="body"></i>
+              </div>
                 <h6 class="mt-2" style="color: #13ff1a" *ngIf="!ejercicio?.tieneCorrecion">
                   Este ejercicio no cuenta con corrección.
                 </h6>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  
 </body>
 <!--
 </main>

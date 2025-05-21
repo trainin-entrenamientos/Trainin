@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InicioRutinaService } from './inicio-rutina.service';
+import { TemporizadorService } from './temporizador.service';
 
-describe('InicioRutina', () => {
-  let service: InicioRutinaService;
+describe('TemporizadorService', () => {
+  let service: TemporizadorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(InicioRutinaService);
+    service = TestBed.inject(TemporizadorService);
   });
 
   it('should be created', () => {

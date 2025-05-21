@@ -4,13 +4,16 @@ import '@tensorflow/tfjs-backend-webgl';
 import type { Keypoint } from '@tensorflow-models/pose-detection';
 import { Router } from '@angular/router';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalReintentoCorreccionComponent } from '../../compartido/componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-correccion-postura',
   standalone: false,
   templateUrl: './correccion-postura.component.html',
   styleUrls: ['./correccion-postura.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
 
@@ -20,9 +23,11 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
   detector: poseDetection.PoseDetector | null = null;
   camaraActiva = false;
   corrigiendo = false;
+  videoUrl?: SafeResourceUrl;
 
   private contexto!: CanvasRenderingContext2D;
   private idFrameAnimacion: number | null = null;
+  cargandoCamara = true;
   totalRepeticiones: number;
   estado: 'arriba' | 'abajo';
   resultados: (boolean | 'hombro' | 'codo' | 'espalda' | 'rango' | 'otro')[] = [];
@@ -42,37 +47,40 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
   mostrarBotonIniciar = true;
   mostrarBotonReintentar = false;
   contador = 0;
+  lastPorcentaje = 0;              // almacena el último % calculado
+  reintentos = 0;                  // cuántas veces ya intentó continuar
+  readonly maxReintentos = 3;      // tope de reintentos
   private errorRepeticionEnFrame = false;
   private mensajePorDefectoMostrado = false;
   private contextoAudio!: AudioContext;
   private contadorIntervalo: any;
   private feedbackConfig = [
-  {
-    minPct: 100,
-    titles: ['¡Técnica Impecable!', '¡Sos muy bueno en esto!', 'Excelente ejecución'],
-    tips: ['Mantené este nivel.', 'Segui así.']
-  },
-  {
-    minPct: 90,
-    titles: ['Muy Buena Técnica', '¡Buen Trabajo!', 'Casi perfecto'],
-    tips: ['Revisá tu alineación de hombros.', 'Controlá tu respiración al subir.']
-  },
-  {
-    minPct: 80,
-    titles: ['Técnica Sólida', '¡Vas Muy Bien!', 'Buen Ritmo'],
-    tips: ['No abras demasiado los codos.', 'Mantené la espalda neutra.']
-  },
-  {
-    minPct: 70,
-    titles: ['Técnica Aceptable', '¡Vas Mejorando!', 'Seguí Practicando'],
-    tips: ['Trabajá tu rango completo de movimiento.', 'Cuidá la posición de tu torso.']
-  },
-  {
-    minPct: 0,
-    titles: ['Técnica a Mejorar', '¡Ánimo y Más Práctica!', 'Enfoca tu Postura'],
-    tips: ['Empezá con menos peso.', 'Usá un espejo o compañero para feedback.']
-  },
-];
+    {
+      minPct: 100,
+      titles: ['¡Técnica Impecable!', '¡Sos muy bueno en esto!', 'Excelente ejecución'],
+      tips: ['Mantené este nivel.', 'Segui así.']
+    },
+    {
+      minPct: 90,
+      titles: ['Muy Buena Técnica', '¡Buen Trabajo!', 'Casi perfecto'],
+      tips: ['Revisá tu alineación de hombros.', 'Controlá tu respiración al subir.']
+    },
+    {
+      minPct: 80,
+      titles: ['Técnica Sólida', '¡Vas Muy Bien!', 'Buen Ritmo'],
+      tips: ['No abras demasiado los codos.', 'Mantené la espalda neutra.']
+    },
+    {
+      minPct: 70,
+      titles: ['Técnica Aceptable', '¡Vas Mejorando!', 'Seguí Practicando'],
+      tips: ['Trabajá tu rango completo de movimiento.', 'Cuidá la posición de tu torso.']
+    },
+    {
+      minPct: 0,
+      titles: ['Técnica a Mejorar', '¡Ánimo y Más Práctica!', 'Enfoca tu Postura'],
+      tips: ['Empezá con menos peso.', 'Usá un espejo o compañero para feedback.']
+    },
+  ];
 
 
   /*SOLO DE PRUEBA*/
@@ -84,7 +92,9 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private rutinaServicio: RutinaService
+    private rutinaServicio: RutinaService,
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer
   ) {
     this.corrigiendo = false;
     this.mostrarBotonIniciar = true;
@@ -94,11 +104,14 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     this.repeticionesActuales = 0;
     this.retroalimentacion = '';
     this.resumen = '';
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    'https://www.youtube.com/embed/mbIhJZ2Sbcc?si=dOyisz_cXOi395wJ&autoplay=1&mute=1&loop=1&playlist=mbIhJZ2Sbcc&controls=0&modestbranding=1&rel=0'
+  );
   }
 
   async ngAfterViewInit() {
 
-     // 1) forzamos la carga inicial
+    // 1) forzamos la carga inicial
     speechSynthesis.getVoices();
     // 2) cuando cambian —es decir, ya están disponibles— elegimos “Tomas”
     speechSynthesis.onvoiceschanged = () => this.pickVoice();
@@ -200,7 +213,10 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       video.srcObject = stream;
-      video.onloadedmetadata = () => this.ajustarTamanoCanvas();
+      video.onloadedmetadata = () => {
+        this.ajustarTamanoCanvas();
+        this.cargandoCamara = false;
+      }
       await video.play();
       this.ajustarTamanoCanvas();
       this.camaraActiva = true;
@@ -359,12 +375,39 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     return Math.acos(dot / mag) * (180 / Math.PI);
   }
 
- finalizarPractica() {
-  this.detenerCamara();
-  const nuevoIndice = this.rutinaServicio.getIndiceActual() + 1;
-  this.rutinaServicio.setIndiceActual(nuevoIndice);
-  this.router.navigate(['/informacion-ejercicio']);
-}
+  /*  finalizarPractica() {
+    this.detenerCamara();
+    this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+  } */
+  finalizarPractica() {
+    if (this.lastPorcentaje < 60) {
+      if (this.reintentos < this.maxReintentos) {
+        this.reintentos++;
+        return;
+      }
+
+      const modalRef = this.modalService.open(ModalReintentoCorreccionComponent, {
+        centered: true
+      });
+
+      modalRef.result.then((result) => {
+        if (result === 'continuar') {
+          this.detenerCamara();
+          this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+        }
+      }, () => {
+        // Se cerró el modal sin confirmar, no hacer nada o manejar si querés
+      });
+
+      return;
+    }
+
+    this.detenerCamara();
+    this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+  }
+
+
+
 
   cerrarModal() {
     console.log('Modal cerrado');
@@ -403,54 +446,55 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     this.indicadorRepeticionActivo = true;
   }
 
- private mostrarResumen() {
-  // 1) Cálculo de aciertos y porcentaje
-  const exitosas = this.resultados.filter(r => r === true).length;
-  const porcentaje = Math.round((exitosas / this.REPETICIONES_EVALUACION) * 100);
+  private mostrarResumen() {
+    // 1) Cálculo de aciertos y porcentaje
+    const exitosas = this.resultados.filter(r => r === true).length;
+    const porcentaje = Math.round((exitosas / this.REPETICIONES_EVALUACION) * 100);
+    this.lastPorcentaje = porcentaje;
 
-  // 2) Conteo de errores por tipo
-  const errores = {
-    hombros: this.resultados.filter(r => r === 'hombro').length,
-    codos:    this.resultados.filter(r => r === 'codo').length,
-    espalda:  this.resultados.filter(r => r === 'espalda').length,
-    rango:    this.resultados.filter(r => r === 'rango').length,
-    otros:    this.resultados.filter(r => r === 'otro').length,
-  };
+    // 2) Conteo de errores por tipo
+    const errores = {
+      hombros: this.resultados.filter(r => r === 'hombro').length,
+      codos: this.resultados.filter(r => r === 'codo').length,
+      espalda: this.resultados.filter(r => r === 'espalda').length,
+      rango: this.resultados.filter(r => r === 'rango').length,
+      otros: this.resultados.filter(r => r === 'otro').length,
+    };
 
-  // 3) Obtengo la configuración que corresponde a este porcentaje
-  const cfg = this.feedbackConfig
-    .sort((a, b) => b.minPct - a.minPct)
-    .find(f => porcentaje >= f.minPct)!;
+    // 3) Obtengo la configuración que corresponde a este porcentaje
+    const cfg = this.feedbackConfig
+      .sort((a, b) => b.minPct - a.minPct)
+      .find(f => porcentaje >= f.minPct)!;
 
-  // 4) Elijo un título al azar
-  const titulo = cfg.titles[
-    Math.floor(Math.random() * cfg.titles.length)
-  ];
+    // 4) Elijo un título al azar
+    const titulo = cfg.titles[
+      Math.floor(Math.random() * cfg.titles.length)
+    ];
 
-  // 5) Selecciono dos consejos base al azar
-  const shuffledBase = [...cfg.tips].sort(() => 0.5 - Math.random());
-  const baseTips = shuffledBase.slice(0, 2);
+    // 5) Selecciono dos consejos base al azar
+    const shuffledBase = [...cfg.tips].sort(() => 0.5 - Math.random());
+    const baseTips = shuffledBase.slice(0, 2);
 
-  // 6) Genero consejos de errores detectados
-  const errorTips: string[] = [];
-  if (errores.hombros) errorTips.push(`Corrige la alineación de hombros (${errores.hombros} error(es)).`);
-  if (errores.codos)   errorTips.push(`Evita abrir demasiado los codos (${errores.codos} error(es)).`);
-  if (errores.espalda) errorTips.push(`Mantén la espalda recta (${errores.espalda} error(es)).`);
-  if (errores.rango)   errorTips.push(`Completa todo el rango de movimiento (${errores.rango} error(es)).`);
-  if (errores.otros)   errorTips.push(`Otros errores: ${errores.otros}.`);
+    // 6) Genero consejos de errores detectados
+    const errorTips: string[] = [];
+    if (errores.hombros) errorTips.push(`Corrige la alineación de hombros (${errores.hombros} error(es)).`);
+    if (errores.codos) errorTips.push(`Evita abrir demasiado los codos (${errores.codos} error(es)).`);
+    if (errores.espalda) errorTips.push(`Mantén la espalda recta (${errores.espalda} error(es)).`);
+    if (errores.rango) errorTips.push(`Completa todo el rango de movimiento (${errores.rango} error(es)).`);
+    if (errores.otros) errorTips.push(`Otros errores: ${errores.otros}.`);
 
-  // 7) Combino todos los consejos
-  const consejos = [...baseTips, ...errorTips];
+    // 7) Combino todos los consejos
+    const consejos = [...baseTips, ...errorTips];
 
-  // 8) Color según rango
-  const claseColor = porcentaje === 100
-    ? 'color-green'
-    : porcentaje >= 70
-      ? 'color-orange'
-      : 'color-red';
+    // 8) Color según rango
+    const claseColor = porcentaje === 100
+      ? 'color-green'
+      : porcentaje >= 70
+        ? 'color-orange'
+        : 'color-red';
 
-  // 9) Construyo el HTML final
-  const html = `
+    // 9) Construyo el HTML final
+    const html = `
     <div class="resumen-container">
       <strong class="resumen-titulo ${claseColor}">
         ${titulo}
@@ -464,12 +508,12 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     </div>
   `;
 
-  // 10) Pinto y actualizo estado
-  this.establecerRetroalimentacion(html, '');
-  this.corrigiendo = false;
-  this.mostrarBotonReintentar = true;
-  this.mostrarBotonIniciar = false;
-}
+    // 10) Pinto y actualizo estado
+    this.establecerRetroalimentacion(html, '');
+    this.corrigiendo = false;
+    this.mostrarBotonReintentar = true;
+    this.mostrarBotonIniciar = false;
+  }
 
   /*private establecerRetroalimentacion(mensaje: string, color: string) {
     this.retroalimentacion = mensaje;

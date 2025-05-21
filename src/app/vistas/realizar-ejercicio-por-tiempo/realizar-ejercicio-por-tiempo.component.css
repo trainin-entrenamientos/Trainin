@@ -148,11 +148,17 @@ body {
 
 .iconosPausaClose {
   position: absolute;
-  top: 0.5rem;       
-  right: 0.5rem;     
+  top: 2rem;       
+  right: 1rem;
   display: flex;
   gap: 0.5rem;
   z-index: 10;
+}
+
+.iconosPausaClose div{
+  position: relative;
+  top: 1rem;
+  right: 6rem;
 }
 
 .iconosPausaClose i {
