@@ -161,4 +161,12 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   conseguirEjercicioActual(i : number): Ejercicio | null {
     return this.rutina?.ejercicios[i] || null;
   }
+
+  get tooltipTexto(): string {
+  if (this.ejercicio?.tieneCorrecion) {
+    return 'Este botón te permite practicar el ejercicio con la cámara y recibir correcciones.';
+  } else {
+    return 'Este botón te permite practicar el ejercicio con la cámara. Este ejercicio no cuenta con corrección.';
+  }
+}
 }

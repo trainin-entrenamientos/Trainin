@@ -5,20 +5,20 @@
 <body>
   <section class="exercise-preview py-5">
     <div class="container">
-      <div class="card session-card p-4 text-white border-0 mx-auto position-relative">
+      <div
+        class="card session-card p-4 text-white border-0 mx-auto position-relative"
+      >
         <div class="iconosPausaClose">
-              <i
-                id="pauseBtn"
-                class="bi bi-pause-circle-fill fs-4 cursor-pointer"
-                (click)="togglePause()"
-              >
-              </i>
-              <i
-                id="closeBtn"
-                class="bi bi-x fs-4 cursor-pointer"
-                (click)="closeSession()"
-              >
-              </i>
+          <i
+            id="pauseBtn"
+            class="fs-4 cursor-pointer"
+            [ngClass]="{
+              'bi bi-pause-circle-fill': !isPaused,
+              'bi bi-play-circle-fill': isPaused
+            }"
+            (click)="togglePause()"
+          >
+          </i>
         </div>
 
         <div class="row align-items-center gx-4">
@@ -39,19 +39,17 @@
               }}
               ({{ progresoEjercicio }})
             </small>
-            <h3 class="mb-1">
+            <h3 class="mb-3 mt-1 h1">
               {{ ejercicio?.nombre }}
-              <small class="text-muted-white fs-6">
+              <small class="text-muted-white mx-2 fs-6">
                 ({{ tipoEjercicio }})
               </small>
             </h3>
             <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
-            <p class="text-muted-white">({{ ejercicio?.descripcion }})</p>
+            <p class="font-weight-light font-italic">({{ ejercicio?.descripcion }})</p>
           </div>
 
           <div class="col-12 col-md-3 position-relative pt-3 pt-md-0">
-            
-
             <div class="preview-timer text-center">
               <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
 
@@ -74,15 +72,38 @@
                 ></div>
               </div>
 
-              <div class="practicar">
-                <button
-                  class="btn btn-outline-success"
-                  [disabled]="!ejercicio?.tieneCorrecion"
-                  [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null"
+              <div class="practicar d-flex flex-column align-items-start">
+                <div class="d-flex mx-auto">
+                  <button
+                    class="btn"
+                    [ngClass]="{
+                      'btn-outline-success': ejercicio?.tieneCorrecion,
+                      'btn-secondary': !ejercicio?.tieneCorrecion
+                    }"
+                    XZ
+                    [disabled]="!ejercicio?.tieneCorrecion"
+                    [routerLink]="
+                      ejercicio?.tieneCorrecion ? '/calibracion-camara' : null
+                    "
+                  >
+                    Practicar
+                  </button>
+                  <i
+                    #tooltipIcon
+                    class="bi bi-question-circle-fill help-icon ms-2"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    [attr.title]="tooltipTexto"
+                    tabindex="0"
+                  ></i>
+                </div>
+                <h6
+                  class="mt-2"
+                  style="color: #13ff1a"
+                  *ngIf="!ejercicio?.tieneCorrecion"
                 >
-                  Practicar
-                </button>
-                <i class="bi bi-question-circle-fill help-icon"></i>
+                  Este ejercicio no cuenta con corrección.
+                </h6>
               </div>
             </div>
           </div>
