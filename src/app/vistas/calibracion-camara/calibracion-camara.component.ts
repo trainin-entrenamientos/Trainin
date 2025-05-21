@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-calibracion-camara',
@@ -21,6 +21,12 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D;
   private animationFrameId: number | null = null;
 
+  constructor(
+    private router: Router
+  ){
+
+  }
+
   async ngAfterViewInit() {
     await this.createDetector();
     await this.startCam();
@@ -29,7 +35,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.stopCam();
+    this.detenerCamara();
     window.removeEventListener('resize', this.handleResize);
   }
 
@@ -87,7 +93,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  stopCam() {
+  detenerCamara() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
@@ -158,11 +164,12 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   }
 
   cerrar() {
-    this.stopCam();
+    this.detenerCamara();
     // Logica para cerrar o navegar
   }
 
-  practicarEjercicio() {
-    
+  volverARutina() {
+    this.detenerCamara();
+    this.router.navigate(['/informacion-ejercicio']);
   }
 }

@@ -11,6 +11,9 @@
         <p>Todo tu cuerpo debe verse en la pantalla</p>
         <p><strong>Realiza las repeticiones de manera controlada</strong></p>
         <button class="boton-practica" [routerLink]="['/correccion-postura']" routerLinkActive="router-link-active">Practicar Ejercicio</button>
+        <div class="contenedor-volver">
+            <button class="boton-volver" (click)="volverARutina()">← Volver a rutina</button>
+        </div>
       </div>
 
       <div class="right">

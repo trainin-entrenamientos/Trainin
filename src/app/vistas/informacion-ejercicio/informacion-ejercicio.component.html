@@ -72,36 +72,17 @@
                 ></div>
               </div>
 
-              <div class="practicar d-flex flex-column align-items-start">
-                <div class="d-flex mx-auto">
-                  <button
-                    class="btn"
-                    [ngClass]="{
-                      'btn-outline-success': ejercicio?.tieneCorrecion,
-                      'btn-secondary': !ejercicio?.tieneCorrecion
-                    }"
-                    XZ
-                    [disabled]="!ejercicio?.tieneCorrecion"
-                    [routerLink]="
-                      ejercicio?.tieneCorrecion ? '/calibracion-camara' : null
-                    "
-                  >
-                    Practicar
-                  </button>
-                  <i
-                    #tooltipIcon
-                    class="bi bi-question-circle-fill help-icon ms-2"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    [attr.title]="tooltipTexto"
-                    tabindex="0"
-                  ></i>
-                </div>
-                <h6
-                  class="mt-2"
-                  style="color: #13ff1a"
-                  *ngIf="!ejercicio?.tieneCorrecion"
-                >
+              <div class="practicar">
+                <button
+                  class="btn btn-outline-success"
+                  [disabled]="!ejercicio?.tieneCorrecion"
+                  [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null">
+                  Practicar
+                </button>
+                 <i class="bi bi-question-circle-fill help-icon" ngbTooltip="Practicá tu técnica usando la cámara"
+                  placement="top"
+                  container="body"></i>
+                <h6 class="mt-2" style="color: #13ff1a" *ngIf="!ejercicio?.tieneCorrecion">
                   Este ejercicio no cuenta con corrección.
                 </h6>
               </div>
