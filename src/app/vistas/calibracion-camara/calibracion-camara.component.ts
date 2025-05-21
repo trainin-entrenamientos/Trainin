@@ -4,8 +4,8 @@ import '@tensorflow/tfjs-backend-webgl';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-calibracion-camara',
-  imports: [RouterModule],
   templateUrl: './calibracion-camara.component.html',
   styleUrls: ['./calibracion-camara.component.css']
 })
@@ -17,6 +17,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   detector: poseDetection.PoseDetector | null = null;
   webcamRunning = false;
   correcting = false;
+  cargandoCamara = true;
 
   private ctx!: CanvasRenderingContext2D;
   private animationFrameId: number | null = null;
@@ -73,6 +74,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
 
       video.onloadedmetadata = () => {
         this.adjustCanvasSize();
+        this.cargandoCamara = false;
       };
 
       await video.play();

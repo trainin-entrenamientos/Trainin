@@ -13,13 +13,17 @@
         <button class="boton-practica" [routerLink]="['/correccion-postura']" routerLinkActive="router-link-active">Practicar Ejercicio</button>
         <div class="contenedor-volver">
             <button class="boton-volver" (click)="volverARutina()">← Volver a rutina</button>
-        </div>
+        </div>  
       </div>
 
       <div class="right">
         <div class="right-top">
           <video #webcam autoplay playsinline></video>
           <canvas #outputCanvas></canvas>
+          @if(cargandoCamara){
+            <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
+          }
+
         </div>
         <div class="right-bottom">
           <p class="texto-postura">Aquí verás las correcciones de postura</p>
