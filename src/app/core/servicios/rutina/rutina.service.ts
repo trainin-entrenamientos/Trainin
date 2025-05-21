@@ -48,4 +48,8 @@ export class RutinaService {
     }
     return 0;
   }
+
+  fueRealizada(idRutina: number, email: string): Observable<any> {
+    return this.http.patch<any>(`http://localhost:5010/api/rutina/fueRealizada/${idRutina}`, { email });
+  }
 }

@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PlanesComponent } from './planes/planes.component';
 import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-privacidad.component';
@@ -23,6 +20,9 @@ import { DetallePlanComponent } from './detalle-plan/detalle-plan.component';
 import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
 import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 
@@ -56,7 +56,7 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     FormsModule,
     ReactiveFormsModule,
     CompartidoModule,
-    NgbTooltipModule,
+    NgbTooltipModule
   ],
 
   exports: [

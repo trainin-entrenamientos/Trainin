@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 declare var bootstrap: any;
 @Component({
@@ -14,19 +16,40 @@ declare var bootstrap: any;
 export class FinalizacionRutinaComponent implements OnInit {
   opcionSeleccionada: string = '';
   ejercicios: Ejercicio[] = [];
+  rutina: any;
+  email: string | null = null;
+  tiempoTotal: string = '';
+
   
   constructor(
     private rutinaService: RutinaService,
-    private router: Router  
+    private router: Router,
+    private auth: AuthService,
+    private temporizadorService: TemporizadorService
   ) {}
   ngOnInit(): void {
-    const rutina = this.rutinaService.getRutina();
-    if (rutina) {
-      this.ejercicios = rutina.ejercicios;
-    } else {
-      console.error('No se encontró la rutina.');
-    }
+  const rutinaGuardada = localStorage.getItem('rutina');
+  if (rutinaGuardada) {
+    this.rutina = this.rutinaService.getRutina();
+    this.ejercicios = this.rutina.ejercicios;
+    this.email = this.auth.getEmail();
+  } else {
+    console.error('No se encontró la rutina en el localStorage.');
   }
+// ⏱️ Detener el timer y obtener los segundos
+  this.temporizadorService.pause();
+  const segundosTotales = this.temporizadorService.getElapsedSeconds();
+
+  // ⏳ Convertir a formato legible (por ejemplo: mm:ss)
+  this.tiempoTotal = this.formatTiempo(segundosTotales);
+}
+
+formatTiempo(segundos: number): string {
+  const minutos = Math.floor(segundos / 60);
+  const segundosRestantes = segundos % 60;
+  return `${minutos}m ${segundosRestantes}s`;
+}
+
 
   /*enviarFeedback() {
     if (!this.opcionSeleccionada) {
@@ -38,6 +61,14 @@ export class FinalizacionRutinaComponent implements OnInit {
   }*/
 
       enviarFeedback() {
+        this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
+          next: (response) => {
+            console.log('Rutina marcada como realizada:', response);
+          },
+          error: (error) => {
+            console.error('Error al marcar la rutina como realizada:', error);
+          }
+        });
     if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;

@@ -121,7 +121,7 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
     return '¡Comenzamos en';
   } else {
     const siguienteNombre = this.ejercicio?.nombre ?? 'el siguiente ejercicio';
-    return `Descanso. Próximo ejercicio: ${siguienteNombre} en`;
+    return `Descanso. Continuá tu entrenamiento en:`;
   }
 
   

@@ -44,7 +44,8 @@ export class PlanesComponent {
         this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
       },
       error: (err: any) => {
-        console.error('Error al obtener el plan:', err);
+        this.planEntrenamiento = [];
+        console.error('No existen planes de entrenamiento', err);
       }
     });
   }
@@ -69,8 +70,8 @@ export class PlanesComponent {
   return `${((progreso / total) * 100).toFixed(2)}%`;
 }
 
-  irAlDetallePlan() {
-    this.router.navigate(['/inicio-rutina/75', /*this.planEntrenamiento.id*/]);
+  irAlDetalleDelPlan(idPlan: number): void {
+    this.router.navigate(['/inicio-rutina', idPlan]);
   }
 
   desactivarPlan(idPlan: number): void {
