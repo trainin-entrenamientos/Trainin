@@ -10,6 +10,7 @@ import { Rutina } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   duracionDescanso = 10;
   
 
-  constructor(private rutinaService: RutinaService, private router: Router) {}
+  constructor(private rutinaService: RutinaService, private router: Router, private temporizadorService: TemporizadorService) {}
 
   ngOnInit(): void {
     this.rutina = this.rutinaService.getRutina();
@@ -147,9 +148,16 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
   }, 1000);
 }
 
-  togglePause(): void {
-    this.isPaused = !this.isPaused;
+ togglePause(): void {
+  this.isPaused = !this.isPaused;
+
+  if (this.isPaused) {
+    this.temporizadorService.pause();
+  } else {
+    this.temporizadorService.resume();
   }
+}
+
 
   closeSession(): void {
     clearInterval(this.intervalId);
