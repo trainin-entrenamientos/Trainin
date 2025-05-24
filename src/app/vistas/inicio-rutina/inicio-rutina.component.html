@@ -1,5 +1,12 @@
 <body>
-  
+  <main *ngIf="!rutina">
+    <section>
+      <article class="text-center">
+        <h2 class="p-4 m-4">Ya realizaste la rutina de hoy!</h2>
+        <h3>Vuelve mañana para seguir con la rutina!</h3>
+      </article>
+    </section>
+  </main>
 
 <main *ngIf="rutina" class="rutina-card text-white my-4">
   <div class="d-flex align-items-center justify-content-between mb-3">
