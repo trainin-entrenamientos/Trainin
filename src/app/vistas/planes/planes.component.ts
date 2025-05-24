@@ -71,7 +71,11 @@ export class PlanesComponent {
   return `${((progreso / total) * 100).toFixed(2)}%`;
 }
 
-  irAlDetalleDelPlan(idPlan: number): void {
+  irAlPlan(idPlan: number, estado: string): void {
+    if (estado === 'Realizada hoy') {
+      this.router.navigate(['/detalle-plan'/*, idPlan*/]);
+      return;
+    }
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 
