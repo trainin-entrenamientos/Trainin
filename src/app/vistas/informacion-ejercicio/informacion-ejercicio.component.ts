@@ -73,9 +73,9 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
 
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
-      case 1: return 1;
-      case 2: return 1;
-      default: return 1;
+      case 1: return 15 * 60;
+      case 2: return 30 * 60;
+      default: return 10;
     }
   }
 
