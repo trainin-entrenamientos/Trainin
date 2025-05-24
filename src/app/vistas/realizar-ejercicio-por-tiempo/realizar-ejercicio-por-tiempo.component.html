@@ -37,7 +37,9 @@
 
           <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
             <!-- BLOQUE DE “TIEMPO TOTAL” -->
-
+     <div class="text-muted-white fs-5 text-center">
+            <app-temporizador [isPaused]="isPaused"></app-temporizador>
+          </div>
             <div class="contenedorTimer mb-5 text-center">
               <h3 class="mb-1 font-weight-bold fs-1">
                 {{ ejercicioActual?.nombre }}
