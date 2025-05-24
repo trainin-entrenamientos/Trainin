@@ -42,6 +42,7 @@ export class PlanesComponent {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
         this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
+        console.log('Planes de entrenamiento obtenidos:', this.planEntrenamiento);
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
