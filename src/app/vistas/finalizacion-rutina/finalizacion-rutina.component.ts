@@ -19,6 +19,7 @@ export class FinalizacionRutinaComponent implements OnInit {
   rutina: any;
   email: string | null = null;
   tiempoTotal: string = '';
+  modalInstance: any;
 
   
   constructor(
@@ -49,6 +50,14 @@ formatTiempo(segundos: number): string {
   const segundosRestantes = segundos % 60;
   return `${minutos}m ${segundosRestantes}s`;
 }
+abrirModalFeedback() {
+  const modalElement = document.getElementById('feedbackModal');
+  if (modalElement) {
+    this.modalInstance = new bootstrap.Modal(modalElement);
+    this.modalInstance.show();
+  }
+}
+
 
 
   /*enviarFeedback() {
@@ -60,41 +69,30 @@ formatTiempo(segundos: number): string {
     console.log('Feedback seleccionado:', this.opcionSeleccionada);
   }*/
 
-      enviarFeedback() {
-        this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
-          next: (response) => {
-            console.log('Rutina marcada como realizada:', response);
-          },
-          error: (error) => {
-            console.error('Error al marcar la rutina como realizada:', error);
-          }
-        });
-    if (!this.opcionSeleccionada) {
-      alert('Por favor, selecciona una opción.');
-      return;
-    }
-
-    // Obtener el modal por id
-    const modalElement = document.getElementById('feedbackModal');
-    if (modalElement) {
-      // Obtener instancia del modal con Bootstrap JS
-      const modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-      if (modalInstance) {
-        // Cerrar el modal
-        modalInstance.hide();
-
-        // Esperar un poco para que se cierre el modal (animación)
-        setTimeout(() => {
-          this.router.navigate(['/planes']);
-        }, 300);
-      } else {
-        // Si no hay instancia (por si acaso), navegar directamente
-        this.router.navigate(['/planes']);
-      }
-    }
-    console.log('Feedback seleccionado:', this.opcionSeleccionada);
+     enviarFeedback() {
+  if (!this.opcionSeleccionada) {
+    alert('Por favor, seleccioná una opción.');
+    return;
   }
+
+  this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
+    next: (response) => console.log('Rutina marcada como realizada:', response),
+    error: (error) => console.error('Error al marcar la rutina como realizada:', error)
+  });
+
+  if (this.modalInstance) {
+    this.modalInstance.hide();
+
+    setTimeout(() => {
+      this.router.navigate(['/planes']);
+    }, 300);
+  } else {
+    this.router.navigate(['/planes']);
+  }
+
+  console.log('Feedback seleccionado:', this.opcionSeleccionada);
+}
+
 
 
   estadisticas = [
