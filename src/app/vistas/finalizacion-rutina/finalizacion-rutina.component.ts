@@ -20,10 +20,6 @@ export class FinalizacionRutinaComponent implements OnInit {
   email: string | null = null;
   tiempoTotal: string = '';
   modalInstance: any;
-<<<<<<< HEAD
-
-=======
->>>>>>> 07f76e0c5ac6f4a75aded086e767e92dd956a662
   
   constructor(
     private rutinaService: RutinaService,
@@ -77,10 +73,6 @@ abrirModalFeedback() {
     this.router.navigate(['/planes']);
     console.log('Feedback seleccionado:', this.opcionSeleccionada);
   }*/
-<<<<<<< HEAD
-
-     enviarFeedback() {
-=======
 /*
       enviarFeedback() {
         this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
@@ -119,7 +111,6 @@ abrirModalFeedback() {
   }*/
 /*
     enviarFeedback() {
->>>>>>> 07f76e0c5ac6f4a75aded086e767e92dd956a662
   if (!this.opcionSeleccionada) {
     alert('Por favor, seleccioná una opción.');
     return;
@@ -142,11 +133,6 @@ abrirModalFeedback() {
 
   console.log('Feedback seleccionado:', this.opcionSeleccionada);
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 07f76e0c5ac6f4a75aded086e767e92dd956a662
 
   estadisticas = [
     { label: 'Calorías Quemadas', valor: '120 cal' },
