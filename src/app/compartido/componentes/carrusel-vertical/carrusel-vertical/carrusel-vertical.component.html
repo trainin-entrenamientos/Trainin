@@ -1,0 +1,23 @@
+<div class="carrusel-container"
+     (mousedown)="onMouseDown($event)"
+     (mousemove)="onMouseMove($event)"
+     (mouseup)="onMouseUp()"
+     (mouseleave)="onMouseUp()">
+
+  <div class="linea-verde superior"></div>
+
+  <div class="carrusel-contenido" #contenido>
+  <div *ngFor="let item of items; let i = index" 
+     class="item"
+     [class.seleccionado]="selectedIndex !== null && (i % (items.length / 3)) === selectedIndex"
+     (click)="seleccionarItem(i)">
+
+      <ng-container [ngSwitch]="item.tipo">
+        <div *ngSwitchCase="'texto'">{{ item.contenido }}</div>
+        <img *ngSwitchCase="'imagen'" [src]="item.contenido" alt="Imagen carrusel" />
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="linea-verde inferior"></div>
+</div>
