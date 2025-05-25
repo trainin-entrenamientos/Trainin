@@ -13,7 +13,7 @@
           <div
             *ngFor="let plan of planEntrenamiento; let i = index"
             class="w-100 d-flex contenedor-plan text-white"
-            (click)="irAlDetalleDelPlan(plan.id)"
+            (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
           >
             <div
               class="plan-card d-flex align-items-center justify-content-between mb-3"
@@ -31,7 +31,7 @@
                   <h3 id="nombre-plan">
                     {{ plan.tipoEntrenamiento }}
                   </h3>
-                  <h4 id="realizado" style="color: #13ff3a">
+                  <h4 [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : 'red' }">
                     {{ plan.estadoRutinaDelDia }}
                   </h4>
                 </div>
@@ -101,9 +101,9 @@
             >
               Cuerpo completo
             </h5>
-            <span>21-05-2025</span><br />
-            <span>150 cal.</span><br />
-            <span>8 min.</span>
+            <span>2025-01-01</span><br />
+            <span>500 cal.</span><br />
+            <span>60 min.</span>
           </div>
           <div
             id="racha-semanal"
@@ -113,7 +113,7 @@
               class="d-flex flex-column justify-content-center contenedor-racha"
             >
               <h4>Racha actual:</h4>
-              <span>Semana 0</span>
+              <span>1 semana</span>
             </div>
             <div>
               <i class="fa-solid fa-fire icono-fuego"></i>
@@ -169,8 +169,8 @@
             <div
               class="plan-card d-flex align-items-center justify-content-between mb-3"
             >
-              <div
-                (click)="irAlDetalleDelPlan(plan.id)"
+              <div 
+                (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
                 class="d-flex align-items-center gap-5 contendor-imagen-plan"
               >
                 <img
@@ -183,7 +183,7 @@
                   <h3 id="nombre-plan">
                     {{ plan.tipoEntrenamiento }}
                   </h3>
-                  <h4 id="realizado" style="color: #13ff3a">
+                  <h4 [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : 'red' }">
                     {{ plan.estadoRutinaDelDia }}
                   </h4>
                 </div>

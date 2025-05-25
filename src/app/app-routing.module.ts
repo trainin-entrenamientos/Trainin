@@ -30,7 +30,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: InicioComponent,
+        component: InicioComponent
       },
       {
         path: 'planes',

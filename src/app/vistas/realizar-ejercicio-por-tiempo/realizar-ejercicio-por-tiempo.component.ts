@@ -58,7 +58,7 @@ export class RealizarEjercicioPorTiempoComponent implements OnInit, OnDestroy {
     }
 
     this.ejercicioActual = this.rutina.ejercicios[this.indexActual];
-    this.totalTime = 15; //Por ahora aca la duracion devuelve null, asi que los ejercicios duran 30 seg
+    this.totalTime = this.ejercicioActual.duracion ?? 30; //Por ahora aca la duracion devuelve null, asi que los ejercicios duran 30 seg
     this.remaining = this.totalTime;
 
     this.setVideoUrl(this.ejercicioActual.video ?? '');

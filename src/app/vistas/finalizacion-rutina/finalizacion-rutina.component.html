@@ -16,66 +16,41 @@
 
     <div class="text-center mt-4">
   <p class="fw-bold">⏱ Duración total de la rutina: {{ tiempoTotal }}</p><br>
- <button type="button" class="btn fw-bold text-black px-4 py-2" style="background-color: #13ff3a;" (click)="abrirModalFeedback()">
-  Finalizar rutina
-</button>
-
+  <button type="button" class="btn fw-bold text-black px-4 py-2" style="background-color: #13ff3a;" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+    Finalizar rutina
+  </button>
 </div>
 
 
     <!-- Modal -->
-  <div id="feedbackModal" #feedbackModal class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
-  <div class="modal-content custom-modal text-white">
-      <h5 class="fw-bold color">Ayudanos a mejorar tu entrenamiento</h5>
-      <p class="fw-bold">
-        Tu feedback nos ayuda a ajustar tu plan<br />
-        <em>Seleccioná la opción más acorde</em>
-      </p>
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white rounded">
+          <div class="modal-body text-center">
+            <h5 class="fw-bold">Ayudanos a mejorar tu entrenamiento</h5>
+            <p class="fw-bold">Tu feedback nos ayuda a ajustar tu plan<br>
+              <em>Seleccioná la opción más acorde</em>
+            </p>
 
-      <div class="modal-opciones">
-        <div>
-          <input
-            type="radio"
-            id="facil"
-            name="feedback"
-            [(ngModel)]="opcionSeleccionada"
-            value="muy_facil"
-            class="form-check-input"
-          />
-          <label for="facil" class="form-label">Muy fácil</label>
+        <div class="d-flex justify-content-around my-3 text-start">
+              <div>
+                <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_facil" class="form-check-input me-1">
+                <label for="facil" class="form-label text-success">Muy fácil</label>
+              </div>
+              <div>
+                <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada" value="equilibrado" class="form-check-input me-1">
+                <label for="equilibrado" class="form-label text-white">Bien equilibrado</label>
+              </div>
+              <div>
+                <input type="radio" id="exigente" name="feedback" [(ngModel)]="opcionSeleccionada" value="muy_exigente" class="form-check-input me-1">
+                <label for="exigente" class="form-label text-white">Muy exigente</label>
+              </div>
+            </div>
+              
+            <button class="btn btn-success" (click)="enviarFeedback()">Enviar y continuar</button>
+          </div>
         </div>
-        <div>
-          <input
-            type="radio"
-            id="equilibrado"
-            name="feedback"
-            [(ngModel)]="opcionSeleccionada"
-            value="equilibrado"
-            class="form-check-input"
-          />
-          <label for="equilibrado" class="form-label">Bien equilibrado</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="exigente"
-            name="feedback"
-            [(ngModel)]="opcionSeleccionada"
-            value="muy_exigente"
-            class="form-check-input"
-          />
-          <label for="exigente" class="form-label">Muy exigente</label>
-        </div>
-      </div>
-<br>
-      <div >
-        <button class="btn text-black fw-bold px-4 py-2" style="background-color: #13ff3a;" (click)="enviarFeedback()">Enviar y continuar</button>
       </div>
     </div>
-  </div>
-</div>
-
-
   </main>
 </body>
