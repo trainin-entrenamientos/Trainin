@@ -5,7 +5,7 @@
   border-radius: 50px;
   padding: 0.75rem 2rem;
   transition: background-color 0.2s ease, transform 0.2s ease;
-  
+  border: none;
 }
 
 .btn-trainin:hover {
@@ -13,3 +13,27 @@
   transform: scale(1.05);
 }
 
+.btn-anterior-trainin {
+  background-color: transparent;
+  border: 1px solid #13ff3a;
+  color: #13ff3a;
+}
+.btn-anterior-trainin:hover {
+  color: #fff;
+  transition: color 0.3s ease;
+}
+.btn-siguiente-trainin{
+  background-color: #13ff3a;
+  border: none;
+  color: #000;
+}
+.btn-custom {
+  border-radius: 10px;
+  padding: 10px 30px;
+  font-weight: bold;
+}
+.btn-outline-light {
+  background-color: #13ff3a;
+  border: none;
+  color: #000;
+}

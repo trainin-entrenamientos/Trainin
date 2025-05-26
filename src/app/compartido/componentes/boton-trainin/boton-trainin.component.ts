@@ -10,6 +10,6 @@ export class BotonTraininComponent {
   @Input() tipo: string = 'button';
   @Input() clase: string = 'btn-trainin';
   @Input() ruta: string | null = null;
-  @Input() texto: string = '';
+  @Input() disabled = false;
   @Output() clickBoton = new EventEmitter<void>();
 }
