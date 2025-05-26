@@ -19,6 +19,7 @@ export class FinalizacionRutinaComponent implements OnInit {
   rutina: any;
   email: string | null = null;
   tiempoTotal: string = '';
+  modalInstance: any;
 
   
   constructor(
@@ -49,6 +50,14 @@ formatTiempo(segundos: number): string {
   const segundosRestantes = segundos % 60;
   return `${minutos}m ${segundosRestantes}s`;
 }
+abrirModalFeedback() {
+  const modalElement = document.getElementById('feedbackModal');
+  if (modalElement) {
+    this.modalInstance = new bootstrap.Modal(modalElement);
+    this.modalInstance.show();
+  }
+}
+
 
 
   /*enviarFeedback() {

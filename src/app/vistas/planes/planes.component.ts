@@ -42,6 +42,7 @@ export class PlanesComponent {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
         this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
+        console.log('Planes de entrenamiento obtenidos:', this.planEntrenamiento);
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
@@ -70,7 +71,11 @@ export class PlanesComponent {
   return `${((progreso / total) * 100).toFixed(2)}%`;
 }
 
-  irAlDetalleDelPlan(idPlan: number): void {
+  irAlPlan(idPlan: number, estado: string): void {
+    if (estado === 'Realizada hoy') {
+      this.router.navigate(['/detalle-plan'/*, idPlan*/]);
+      return;
+    }
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 

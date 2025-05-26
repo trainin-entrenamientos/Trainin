@@ -12,6 +12,8 @@ import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-r
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
+import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent
+    CarruselVerticalComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent
+    CarruselVerticalComponent
   ],
   providers: [],
 })
