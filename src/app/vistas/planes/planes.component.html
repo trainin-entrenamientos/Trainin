@@ -16,7 +16,7 @@
             (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
           >
             <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
+              class="plan-card"
             >
               <div
                 class="d-flex align-items-center gap-5 contendor-imagen-plan"
@@ -76,51 +76,24 @@
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
             <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
+              class="plan-card"
             >
-              <p style="color: #ffffff; font-style: italic">
-                Crear <span style="color: #13ff3a">nuevo plan</span> para
-                empezar a entrenar
+               <div class="custom-icon-absolute">
+          <div class="icon custom-icon">+</div>
+         </div>
+             <div class="plan-texto">
+          <p style="color: #ffffff; font-style: italic">
+                Únete a <span style="color: #13ff3a">premium</span> para crear
+                múltiples planes
               </p>
-              <div class="icon">+</div>
+        </div>
             </div>
           </a>
         </div>
-        <div
-          class="d-flex flex-column gap-4"
-          id="contenedor-informacion-planes"
-        >
-          <div
-            id="ultimo-entrenamiento"
-            class="contenedor-ultimo-entrenamiento text-center"
-          >
-            <h4>Último entrenamiento realizado:</h4>
-            <h5
-              class="text-center"
-              style="color: #13ff3a; font-style: italic; font-weight: 300"
-            >
-              Cuerpo completo
-            </h5>
-            <span>2025-01-01</span><br />
-            <span>500 cal.</span><br />
-            <span>60 min.</span>
-          </div>
-          <div
-            id="racha-semanal"
-            class="d-flex justify-content-between align-items-center"
-          >
-            <div
-              class="d-flex flex-column justify-content-center contenedor-racha"
-            >
-              <h4>Racha actual:</h4>
-              <span>1 semana</span>
-            </div>
-            <div>
-              <i class="fa-solid fa-fire icono-fuego"></i>
-            </div>
-          </div>
-        </div>
+       <app-carrusel-vertical></app-carrusel-vertical>
       </article>
+
+
       <article
         *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
@@ -130,33 +103,46 @@
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-            <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
-            >
-              <p style="color: #ffffff; font-style: italic">
-                Creá <span style="color: #13ff3a">tu plan</span> para empezar a
-                entrenar
-              </p>
-              <div class="icon">+</div>
-            </div>
+          <div class="plan-card">
+        <div class="custom-icon-absolute">
+          <div class="icon custom-icon">+</div>
+        </div>
+        <div class="plan-texto">
+          <p style="color: #ffffff; font-style: italic">
+            Creá <span style="color: #13ff3a">tu plan</span> para empezar a entrenar
+          </p>
+        </div>
+      </div>
           </a>
-
           <a
             routerLink="/premium"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-            <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
-            >
-              <p style="color: #ffffff; font-style: italic">
+          <div class="plan-card">
+        <div class="custom-icon-absolute">
+          <div class="icon custom-icon">+</div>
+        </div>
+        <div class="plan-texto">
+          <p style="color: #ffffff; font-style: italic">
                 Únete a <span style="color: #13ff3a">premium</span> para crear
                 múltiples planes
               </p>
-              <div class="icon">+</div>
-            </div>
+        </div>
+      </div>
+        
           </a>
         </div>
+        <div class="contenedor-imagen-circulo">
+    <div class="circulo-fondo"></div>
+    <img
+      src="/imagenes/image-hero-planes.png"
+      alt="Imagen de planes de entrenamiento"
+      class="img-fluid imagen-con-circulo"
+    />
+  </div>
       </article>
+
+
       <article
         *ngIf="planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
@@ -167,7 +153,7 @@
             class="w-100 d-flex contenedor-plan text-white"
           >
             <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
+              class="plan-card"
             >
               <div 
                 (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
@@ -228,47 +214,22 @@
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
             <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
+              class="plan-card"
             >
-              <p style="color: #ffffff; font-style: italic">
+            <div class="custom-icon-absolute">
+          <div class="icon custom-icon">+</div>
+         </div>
+             <div class="plan-texto">
+          <p style="color: #ffffff; font-style: italic">
                 Únete a <span style="color: #13ff3a">premium</span> para crear
                 múltiples planes
               </p>
-              <div class="icon">+</div>
+        </div>
+              
             </div>
           </a>
         </div>
-        <!--<div class="d-flex flex-column gap-4" id="contenedor-informacion-planes">
-          <div
-            id="ultimo-entrenamiento"
-            class="contenedor-ultimo-entrenamiento text-center"
-          >
-            <h4>Último entrenamiento realizado:</h4>
-            <h5
-              class="text-center"
-              style="color: #13ff3a; font-style: italic; font-weight: 300"
-            >
-              Cuerpo completo
-            </h5>
-            <span>2025-01-01</span><br />
-            <span>500 cal.</span><br />
-            <span>60 min.</span>
-          </div>
-          <div
-            id="racha-semanal"
-            class="d-flex justify-content-between align-items-center"
-          >
-            <div
-              class="d-flex flex-column justify-content-center contenedor-racha"
-            >
-              <h4>Racha actual:</h4>
-              <span>1 semana</span>
-            </div>
-            <div>
-              <i class="fa-solid fa-fire icono-fuego"></i>
-            </div>
-          </div>
-        </div>-->
+  
         <app-carrusel-vertical></app-carrusel-vertical>
       </article>
 
@@ -281,15 +242,15 @@
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-            <div
-              class="plan-card d-flex align-items-center justify-content-between mb-3"
-            >
-              <p style="color: #ffffff; font-style: italic">
-                Creá <span style="color: #13ff3a">tu plan</span> para empezar a
-                entrenar
+             <div class="custom-icon-absolute">
+          <div class="icon custom-icon">+</div>
+         </div>
+             <div class="plan-texto">
+          <p style="color: #ffffff; font-style: italic">
+                Únete a <span style="color: #13ff3a">premium</span> para crear
+                múltiples planes
               </p>
-              <div class="icon">+</div>
-            </div>
+        </div>
           </a>
         </div>
       </article>

@@ -1,15 +1,15 @@
 <div class="carrusel-container"
-     (mousedown)="onMouseDown($event)"
-     (mousemove)="onMouseMove($event)"
-     (mouseup)="onMouseUp()"
-     (mouseleave)="onMouseUp()">
+     (mousedown)="cuandoBajoElMouse($event)"
+     (mousemove)="cuandoMuevoElMouse($event)"
+     (mouseup)="cuandoSuboElMouse()"
+     (mouseleave)="cuandoSuboElMouse()">
 
   <div class="linea-verde superior"></div>
 
   <div class="carrusel-contenido" #contenido>
   <div *ngFor="let item of items; let i = index" 
      class="item"
-     [class.seleccionado]="selectedIndex !== null && (i % (items.length / 3)) === selectedIndex"
+     [class.seleccionado]="indiceSeleccionado !== null && (i % (items.length / 3)) === indiceSeleccionado"
      (click)="seleccionarItem(i)">
 
       <ng-container [ngSwitch]="item.tipo">

@@ -58,7 +58,14 @@
   max-height: 100%;
   object-fit: contain;
 }
+.carrusel-contenido {
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
+}
 
+.carrusel-contenido::-webkit-scrollbar {
+  display: none; 
+}
 
 @keyframes scroll-vertical {
   0% {
@@ -74,13 +81,13 @@
   box-shadow: 0 0 12px #13ff3a88;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
   .carrusel-container {
     flex-direction: row;
     justify-content: center;
     height: 200px;
     padding: 0 4px;
-    overflow: hidden; /* Oculta el scroll */
+    overflow: hidden;
   }
 
   .carrusel-contenido {
@@ -96,8 +103,8 @@
   .item {
     width: auto;
     min-width: 150px;
-    height: 90%;
-    scroll-snap-align: center; /* Opcional para scroll suave */
+    height: 50%;
+    scroll-snap-align: center;
 
   }
 
@@ -119,12 +126,5 @@
 
 }
 
-.carrusel-contenido {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
-}
 
-.carrusel-contenido::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
 

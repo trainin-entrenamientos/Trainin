@@ -28,98 +28,104 @@ export class CarruselVerticalComponent implements AfterViewInit {
   ];
 
   @ViewChild('contenido') contenido!: ElementRef;
-  scrollPos = 0;
-  speed = 0.2; 
-  velocity = 0; 
-  isDragging = false;
-  lastY = 0;
-  selectedIndex: number | null = null;
-  lastMouseDownY = 0;
-  hasDragged = false;
-  isPaused: boolean | undefined;
+  posicionDeScroll = 0;
+  velocidad = 0.2; 
+  aceleracion = 0; 
+  estaDeslizandose = false;
+  ultimaCoordenadaY = 0;
+  indiceSeleccionado: number | null = null;
+  ultimaPosicionDelMouseCoordenadaY = 0;
+  seDeslizo = false;
+  estaPausado: boolean | undefined;
   esModoHorizontal = false;
-  lastPos = 0;
+  ultimaPosicion = 0;
 
 
 ngAfterViewInit() {
   this.items = [...this.items, ...this.items, ...this.items];
   const contenidoEl = this.contenido.nativeElement;
-  this.esModoHorizontal = window.innerWidth <= 768;
+  this.esModoHorizontal = window.innerWidth <= 1080;
   const total = this.esModoHorizontal ? contenidoEl.scrollWidth : contenidoEl.scrollHeight;
-  this.scrollPos = -total / 3; 
-  this.animate();
-  this.isPaused = false;
+  this.posicionDeScroll = -total / 3; 
+  this.animacion();
+  this.estaPausado = false;
 }
 
 @HostListener('window:resize')
-onResize() {
-  this.esModoHorizontal = window.innerWidth <= 768;
+ajustarTamanio() {
+  this.esModoHorizontal = window.innerWidth <= 1080;
 }
 
-animate() {
-  if (this.isPaused) {
-    requestAnimationFrame(() => this.animate());
+animacion() {
+  if (this.estaPausado) {
+    requestAnimationFrame(() => this.animacion());
     return;
   }
 
-  this.scrollPos += this.speed + this.velocity;
-  this.velocity *= 0.95;
+  this.posicionDeScroll += this.velocidad + this.aceleracion;
+  this.aceleracion *= 0.95;
 
   const contenidoEl = this.contenido.nativeElement;
   const total = this.esModoHorizontal ? contenidoEl.scrollWidth : contenidoEl.scrollHeight;
 
-  if (this.scrollPos >= 0) {
-    this.scrollPos = -total / 3;
+  if (this.posicionDeScroll
+ >= 0) {
+    this.posicionDeScroll
+ = -total / 3;
   }
 
   if (this.esModoHorizontal) {
-    contenidoEl.style.transform = `translateX(${this.scrollPos}px)`;
+    contenidoEl.style.transform = `translateX(${this.posicionDeScroll
+  
+    }px)`;
   } else {
-    contenidoEl.style.transform = `translateY(${this.scrollPos}px)`;
+    contenidoEl.style.transform = `translateY(${this.posicionDeScroll
+  
+    }px)`;
   }
 
-  requestAnimationFrame(() => this.animate());
+  requestAnimationFrame(() => this.animacion());
 }
 
 
-onMouseDown(event: MouseEvent) {
-  this.isDragging = true;
-  this.lastPos = this.esModoHorizontal ? event.clientX : event.clientY;
-  this.lastMouseDownY = this.lastPos;
-  this.hasDragged = false;
+cuandoBajoElMouse(event: MouseEvent) {
+  this.estaDeslizandose = true;
+  this.ultimaPosicion = this.esModoHorizontal ? event.clientX : event.clientY;
+  this.ultimaPosicionDelMouseCoordenadaY = this.ultimaPosicion;
+  this.seDeslizo = false;
 }
 
-onMouseMove(event: MouseEvent) {
-  if (this.isDragging) {
+cuandoMuevoElMouse(event: MouseEvent) {
+  if (this.estaDeslizandose) {
     const current = this.esModoHorizontal ? event.clientX : event.clientY;
-    const delta = current - this.lastPos;
+    const delta = current - this.ultimaPosicion;
 
-    if (Math.abs(current - this.lastMouseDownY) > 5) {
-      this.hasDragged = true;
+    if (Math.abs(current - this.ultimaPosicionDelMouseCoordenadaY) > 5) {
+      this.seDeslizo = true;
     }
 
-    this.velocity = delta * 0.2;
-    this.lastPos = current;
+    this.aceleracion = delta * 0.2;
+    this.ultimaPosicion = current;
   }
 }
 
-onMouseUp() {
-  this.isDragging = false;
+cuandoSuboElMouse() {
+  this.estaDeslizandose = false;
 }
 
 seleccionarItem(index: number) {
-  if (this.hasDragged) return; 
+  if (this.seDeslizo) return; 
   const contenidoEl = this.contenido.nativeElement;
   const totalItems = this.items.length / 3;
   const realIndex = index % totalItems;
 
-  if (this.selectedIndex === realIndex) {
-    this.selectedIndex = null;
-    this.isPaused = false;
+  if (this.indiceSeleccionado === realIndex) {
+    this.indiceSeleccionado = null;
+    this.estaPausado = false;
   } else {
-    this.selectedIndex = realIndex;
-    this.isPaused = true;
-    this.velocity = 0;
+    this.indiceSeleccionado = realIndex;
+    this.estaPausado = true;
+    this.aceleracion = 0;
   }
 }
 
