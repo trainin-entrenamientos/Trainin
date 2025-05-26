@@ -19,6 +19,7 @@ export class FinalizacionRutinaComponent implements OnInit {
   rutina: any;
   email: string | null = null;
   tiempoTotal: string = '';
+  modalInstance: any;
 
   
   constructor(
