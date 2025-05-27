@@ -38,26 +38,7 @@ body {
 .progress-bar {
   background-color: #13ff3a;
 }
-.btn-custom {
-  border-radius: 10px;
-  padding: 10px 30px;
-  font-weight: bold;
-}
-.btn-anterior {
-  background-color: transparent;
-  border: 1px solid #13ff3a;
-  color: #13ff3a;
-}
-.btn-outline-light {
-  background-color: #13ff3a;
-  border: none;
-  color: #000;
-}
-.btn-siguiente {
-  background-color: #13ff3a;
-  border: none;
-  color: #000;
-}
+
 .step {
   display: none;
 }

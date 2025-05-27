@@ -18,7 +18,9 @@ export class FinalizacionRutinaComponent {
   rutina: any;
   email: string | null = null;
   tiempoTotal: string = '';
+  modalInstance: any;
 
+  
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
@@ -38,13 +40,21 @@ export class FinalizacionRutinaComponent {
     this.temporizadorService.pausar();
     const segundosTotales =
       this.temporizadorService.obtenerSegundosTranscurridos();
-    this.tiempoTotal = this.formatTiempo(segundosTotales);
+    this.tiempoTotal = this.formatearTiempo(segundosTotales);
   }
 
-  formatTiempo(segundos: number): string {
+  formatearTiempo(segundos: number): string {
     const minutos = Math.floor(segundos / 60);
     const segundosRestantes = segundos % 60;
-    return `${minutos}min ${segundosRestantes}seg`;
+    return `${minutos}m ${segundosRestantes}s`;
+  }
+
+  abrirModalFeedback() {
+    const modalElement = document.getElementById('feedbackModal');
+    if (modalElement) {
+      this.modalInstance = new bootstrap.Modal(modalElement);
+      this.modalInstance.show();
+    }
   }
 
   enviarFeedback() {
@@ -56,6 +66,7 @@ export class FinalizacionRutinaComponent {
         console.error('Error al marcar la rutina como realizada:', error);
       },
     });
+    
     if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;

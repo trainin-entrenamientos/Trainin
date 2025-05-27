@@ -15,6 +15,8 @@ html {
   display: flex;
   height: 100%;
   flex-direction: column;
+    overflow-x: hidden;
+
 }
 
 main {
@@ -32,14 +34,24 @@ p {
   text-decoration: none;
   cursor: pointer;
 }
+.plan-texto {
+  padding-left: 10%; 
+}
 
 .plan-card {
   background-color: #191919;
   border-radius: 10px;
-  padding: 2rem 2.5rem;
   width: 100%;
   transition: transform 0.3s;
-  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  position: relative;
+  padding: 2rem 2.5rem;
+  padding-left: 5rem; 
+  align-items: center;
+  margin-bottom: 1rem;
+  justify-content: space-between;
 }
 
 .plan-card:hover {
@@ -79,10 +91,13 @@ p {
 }
 
 .contenedor-principal-planes {
+  display: flex;
+  justify-content: space-between;
   width: 90%;
   gap: 2rem;
   margin: auto;
 }
+
 
 .icono-fuego {
   font-size: 3rem;
@@ -91,6 +106,62 @@ p {
 
 .contenedor-progreso {
   max-width: 300px;
+}
+
+.custom-icon-absolute {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 8rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; 
+}
+
+.custom-icon {
+  height: 100%;
+  width: 30em;
+  font-size: 5rem;
+  color: white;
+ 
+  background: linear-gradient(to bottom right, #13ff3a 100%);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contenedor-imagen-circulo {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; 
+  padding-bottom: 40px;
+}
+
+.circulo-fondo {
+  position: relative;
+  width: 350px;
+  height: 300px;
+  background-color: #393939;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.imagen-con-circulo {
+  position: absolute;
+  width: 750px;
+  max-width: none; 
+  z-index: 2;
+  object-fit: contain;
+  
 }
 
 .circulo {
@@ -125,25 +196,47 @@ p {
 .contenedor-info-plan-imagen {
   gap: 5rem;
 }
+@media screen and (max-width: 1195px) {
+  .plan-card p {
+    font-size: 1.2rem;
+  }
+}
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1080px) {
   .contenedor-progresos {
     flex-direction: unset !important;
   }
-
+  
   .contenedor-info-plan-imagen {
     flex-direction: column;
     gap: 0.5rem;
   }
 
   #nombre-plan, #realizado {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
-
+.plan-card{
+    padding-left: 7em;
+  }
   #progreso-semanal,
   #progreso-plan {
     font-size: 0.8rem;
   }
+
+  .contenedor-principal-planes{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .circulo-fondo {
+  width: 250px;
+  height: 250px;
+}
+
+.imagen-con-circulo {
+  width: 550px; 
+
+}
 }
 
 @media screen and (max-width: 768px) {
@@ -153,8 +246,11 @@ p {
 
   .contenedor-principal-planes {
     margin-top: 2rem !important;
+    
   }
-
+  .plan-card{
+    padding-left: 4rem;
+  }
   .plan-card p {
     font-size: 1.2rem;
   }
@@ -191,12 +287,18 @@ p {
   #progreso-plan {
     font-size: 0.6rem;
   }
+    .plan-card {
+    width: 100%;
+    padding-left:6rem;
+  }
 }
 
 @media screen and (max-width: 690px) {
   .contenedor-principal-planes {
     flex-direction: column;
-    gap: 1rem;
+  }
+   .plan-card p {
+    font-size: 0.8rem;
   }
 
  .contenedor-ultimo-entrenamiento h4 {
@@ -231,6 +333,11 @@ p {
   #progreso-plan {
     font-size: 0.7rem;
   }
+
+  .custom-icon-absolute {
+  width: 5.5rem; 
+}
+
 }
 
 @media screen and (max-width: 480px) {
@@ -242,18 +349,13 @@ p {
     margin-top: 2rem !important;
   }
 
-  .plan-card p {
-    font-size: 0.8rem;
-  }
-
   .icon {
     font-size: 2rem;
   }
 
   .plan-card {
     width: 100%;
-    padding: 1rem;
-    gap: 0;
+    padding-left:5rem;
   }
 
   .contenedor-ultimo-entrenamiento h4 {
@@ -311,4 +413,22 @@ p {
   .contenedor-progresos {
     flex-direction: unset !important;
   }
+ 
+
+.circulo-fondo {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background-color: #393939;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.imagen-con-circulo {
+  position: absolute;
+  width: 450px;
+  max-width: none; 
+  z-index: 2;
+  object-fit: contain;
+}
 }
