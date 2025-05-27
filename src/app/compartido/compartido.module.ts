@@ -26,7 +26,7 @@ import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carru
     ModalPlanCreadoComponent,
     LoaderComponent,
     TemporizadorComponent,
-    BotonTraininComponent
+    BotonTraininComponent,
     CarruselVerticalComponent
   ],
   imports: [
@@ -42,7 +42,7 @@ import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carru
     ModalPlanCreadoComponent,
     LoaderComponent,
     TemporizadorComponent,
-    BotonTraininComponent
+    BotonTraininComponent,
     CarruselVerticalComponent
   ],
   providers: [],
