@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 
@@ -56,7 +57,8 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     FormsModule,
     ReactiveFormsModule,
     CompartidoModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    BrowserAnimationsModule
   ],
 
   exports: [
@@ -65,7 +67,7 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
-    FinalizacionRutinaComponent
+    FinalizacionRutinaComponent,
   ]
 })
 export class VistasModule { }
