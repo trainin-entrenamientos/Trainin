@@ -46,9 +46,7 @@ p {
   position: relative;
   overflow: hidden;
   display: flex;
-  position: relative;
   padding: 2rem 2.5rem;
-  padding-left: 5rem; 
   align-items: center;
   margin-bottom: 1rem;
   justify-content: space-between;
@@ -60,6 +58,18 @@ p {
 
 .plan-card p {
   font-size: 1.5rem;
+}
+
+.progreso-plan {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-tipo-entrenamiento {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .icon {
@@ -98,6 +108,19 @@ p {
   margin: auto;
 }
 
+.contenedor-tacho-borrar {
+  position: relative;
+  padding-top: 60px;
+}
+
+.tacho-borrar {
+  position: absolute;
+  top: 0;
+}
+
+#nombre-plan {
+  font-size: 1.5rem !important;
+}
 
 .icono-fuego {
   font-size: 3rem;
@@ -183,7 +206,6 @@ p {
   height: 8px;
   border-radius: 5px;
   overflow: hidden;
-  margin-top: 8px;
 }
 
 .barra-progreso .relleno {
@@ -215,7 +237,7 @@ p {
   #nombre-plan, #realizado {
     font-size: 0.8rem;
   }
-.plan-card{
+.card-generico{
     padding-left: 7em;
   }
   #progreso-semanal,
@@ -248,9 +270,7 @@ p {
     margin-top: 2rem !important;
     
   }
-  .plan-card{
-    padding-left: 4rem;
-  }
+
   .plan-card p {
     font-size: 1.2rem;
   }
@@ -287,9 +307,17 @@ p {
   #progreso-plan {
     font-size: 0.6rem;
   }
-    .plan-card {
+    .card-generico {
     width: 100%;
     padding-left:6rem;
+  }
+
+  #nombre-plan, .realizado {
+    font-size: 1rem !important;
+  }
+
+  #progreso-plan {
+    font-size: 0.8rem !important;
   }
 }
 
@@ -355,7 +383,7 @@ p {
 
   .plan-card {
     width: 100%;
-    padding-left:5rem;
+    padding: 2rem 0.5rem;
   }
 
   .contenedor-ultimo-entrenamiento h4 {
@@ -414,7 +442,34 @@ p {
     flex-direction: unset !important;
   }
  
+  #nombre-plan, .realizado {
+    font-size: 0.8rem !important;
+  }
 
+  #progreso-plan {
+    font-size: 0.6rem !important;
+  }
+
+  .contenedor-info-plan {
+    gap: 20px !important;
+  }
+
+  .card-generico {
+    padding-left: 5rem !important
+  }
+
+  .plan-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .contenedor-tacho-borrar i, span{
+    font-size: 12px;
+  }
+
+#imagen-plan {
+  display: none;
+}
+  
 .circulo-fondo {
   position: relative;
   width: 250px;

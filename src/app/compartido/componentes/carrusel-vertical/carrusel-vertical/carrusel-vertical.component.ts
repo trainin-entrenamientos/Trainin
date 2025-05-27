@@ -4,6 +4,7 @@ import {
   ViewChild,
   AfterViewInit,
   HostListener,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 interface CarruselItem {
@@ -27,6 +28,8 @@ export class CarruselVerticalComponent implements AfterViewInit {
     { tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
   ];
 
+  constructor(private detectorDeCambios: ChangeDetectorRef) {}
+
   @ViewChild('contenido') contenido!: ElementRef;
   posicionDeScroll = 0;
   velocidad = 0.2; 
@@ -42,13 +45,14 @@ export class CarruselVerticalComponent implements AfterViewInit {
 
 
 ngAfterViewInit() {
-  this.items = [...this.items, ...this.items, ...this.items];
-  const contenidoEl = this.contenido.nativeElement;
-  this.esModoHorizontal = window.innerWidth <= 1080;
-  const total = this.esModoHorizontal ? contenidoEl.scrollWidth : contenidoEl.scrollHeight;
-  this.posicionDeScroll = -total / 3; 
-  this.animacion();
-  this.estaPausado = false;
+    this.items = [...this.items, ...this.items, ...this.items];
+    const contenidoEl = this.contenido.nativeElement;
+    this.esModoHorizontal = window.innerWidth <= 1080;
+    const total = this.esModoHorizontal ? contenidoEl.scrollWidth : contenidoEl.scrollHeight;
+    this.posicionDeScroll = -total / 3; 
+    this.animacion();
+    this.estaPausado = false;
+    this.detectorDeCambios.detectChanges();
 }
 
 @HostListener('window:resize')

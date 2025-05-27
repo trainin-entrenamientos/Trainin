@@ -33,7 +33,7 @@ export class PlanesComponent {
     this.router = router;
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
   }
@@ -42,7 +42,6 @@ export class PlanesComponent {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
         this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
-        console.log('Planes de entrenamiento obtenidos:', this.planEntrenamiento);
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
