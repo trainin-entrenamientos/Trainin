@@ -1,6 +1,7 @@
 <body>
   <main>
-    <section class="pb-5">
+    <app-loader *ngIf="cargando"></app-loader>
+    <section class="pb-5" *ngIf="!cargando">
       <div class="m-auto contenedor-titulo pt-5">
         <h1 class="pt-4">Planes de Entrenamiento</h1>
       </div>

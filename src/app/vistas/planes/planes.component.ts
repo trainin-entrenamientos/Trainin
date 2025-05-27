@@ -20,6 +20,7 @@ export class PlanesComponent {
   authService: AuthService;
   router: Router;
   email: string | null = null;
+  cargando: boolean = true;
 
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
@@ -56,6 +57,9 @@ export class PlanesComponent {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
+        setTimeout(() => {
+          this.cargando = false;
+        }, 500);
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
