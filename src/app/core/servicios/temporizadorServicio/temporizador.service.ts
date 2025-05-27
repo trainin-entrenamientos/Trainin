@@ -1,47 +1,45 @@
-// timer.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TemporizadorService {
-  private elapsedSeconds = 0;
-  private intervalId: any = null;
-  private isRunning = false;
+  private segundosTranscurridos = 0;
+  private idIntervalo: any = null;
+  private estaCorriendoElTiempo = false;
 
-  start() {
-    if (this.isRunning) return;
-    this.isRunning = true;
-    this.intervalId = setInterval(() => {
-      this.elapsedSeconds++;
+  iniciarTiempo() {
+    if (this.estaCorriendoElTiempo) return;
+    this.estaCorriendoElTiempo = true;
+    this.idIntervalo = setInterval(() => {
+      this.segundosTranscurridos++;
     }, 1000);
   }
 
- pause() {
-  if (!this.isRunning) return;
-  clearInterval(this.intervalId);
-  this.isRunning = false;
-}
-
-resume() {
-  if (this.isRunning) return;
-  this.isRunning = true;
-  this.intervalId = setInterval(() => {
-    this.elapsedSeconds++;
-  }, 1000);
-}
-
-
-  reset() {
-    this.pause(); // detener primero
-    this.elapsedSeconds = 0;
+  pausar() {
+    if (!this.estaCorriendoElTiempo) return;
+    clearInterval(this.idIntervalo);
+    this.estaCorriendoElTiempo = false;
   }
 
-  getElapsedSeconds(): number {
-    return this.elapsedSeconds;
+  continuar() {
+    if (this.estaCorriendoElTiempo) return;
+    this.estaCorriendoElTiempo = true;
+    this.idIntervalo = setInterval(() => {
+      this.segundosTranscurridos++;
+    }, 1000);
   }
 
-  isTimerRunning(): boolean {
-    return this.isRunning;
+  reiniciarTiempo() {
+    this.pausar();
+    this.segundosTranscurridos = 0;
+  }
+
+  obtenerSegundosTranscurridos(): number {
+    return this.segundosTranscurridos;
+  }
+
+  estaCorriendoTiempo(): boolean {
+    return this.estaCorriendoElTiempo;
   }
 }

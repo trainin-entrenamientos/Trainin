@@ -3,30 +3,27 @@
     <div class="container">
       <div class="session-card">
 
-        <!-- Botón de pausa: NO TOCAR -->
         <div class="iconosPausaClose">
           <i
             id="pauseBtn"
             class="fs-1 cursor-pointer"
             [ngClass]="{
-              'bi bi-pause-circle-fill': !isPaused,
-              'bi bi-play-circle-fill': isPaused
+              'bi bi-pause-circle-fill': !estaPausado,
+              'bi bi-play-circle-fill': estaPausado
             }"
-            (click)="togglePause()"
+            (click)="botonPausar()"
           ></i>
         </div>
 
-        <!-- Encabezado centrado con info de próximo ejercicio -->
         <div class="text-center mb-4">
           <h4>
             {{ indiceActual === 0 ? "Primer Ejercicio" : "Próximo Ejercicio" }}: <strong>{{ ejercicio?.nombre }}</strong>
           </h4>
           <small class="text-muted-white d-block">
-            Duración: {{ tipoEjercicio }}
+            Duración: {{ duracionDelEjercicio }}
           </small>
         </div>
 
-        <!-- Cuenta regresiva y barra -->
         <div class="preview-timer text-center mb-4">
           <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
 
@@ -34,9 +31,9 @@
             <div
               id="countdown"
               class="display-4 mb-3"
-              [ngClass]="{ 'countdown-warning': isWarning }"
+              [ngClass]="{ 'countdown-warning': esAdvertencia }"
             >
-              {{ countdownDisplay }}
+              {{ cuentaRegresiva }}
             </div>
           </div>
 
@@ -45,14 +42,12 @@
               id="progressBar"
               class="progress-bar bg-success"
               role="progressbar"
-              [style.width]="progressPercent + '%'"
+              [style.width]="porcentajeDelProgreso + '%'"
             ></div>
           </div>
         </div>
 
-        <!-- Contenido principal en dos columnas -->
         <div class="row gx-5 gy-4 align-items-center justify-content-center mb-4">
-          <!-- Imagen -->
           <div class="col-12 col-md-5 text-center">
             <div class="exercise-image">
               <img
@@ -63,7 +58,6 @@
             </div>
           </div>
 
-          <!-- Descripción -->
           <div class="col-12 col-md-5">
             <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
             <p class="font-weight-light font-italic">
@@ -72,13 +66,12 @@
           </div>
         </div>
 
-        <!-- Botón de práctica y aviso -->
         <div class="practicar">
           <button
             class="btn btn-outline-success"
             [disabled]="!ejercicio?.tieneCorrecion"
             [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null"
-            (click)="togglePause()"
+            (click)="botonPausar()"
           >
             Practicar
           </button>
@@ -94,9 +87,8 @@
           Este ejercicio no cuenta con corrección gratuita.
         </h6>
 
-        <!-- Timer global centrado abajo -->
         <div class="text-center mt-4">
-          <app-temporizador [isPaused]="isPaused"></app-temporizador>
+          <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
         </div>
 
       </div>

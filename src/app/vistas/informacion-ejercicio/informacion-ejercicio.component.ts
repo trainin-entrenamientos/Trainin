@@ -1,43 +1,36 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
-
 @Component({
   selector: 'app-informacion-ejercicio',
   standalone: false,
   templateUrl: './informacion-ejercicio.component.html',
-  styleUrl: './informacion-ejercicio.component.css'
+  styleUrl: './informacion-ejercicio.component.css',
 })
-
-export class InformacionEjercicioComponent implements OnInit, OnDestroy {
-  @ViewChild('exerciseVideo', { static: true }) exerciseVideo!: ElementRef<HTMLIFrameElement>;
-  @ViewChild('sessionCard', { static: true }) sessionCard!: ElementRef<HTMLElement>;
-
+export class InformacionEjercicioComponent {
   rutina: Rutina | null = null;
   ejercicios: Ejercicio[] = [];
   tiempoTotal = 0;
-  remaining = 0;
-  isPaused = false;
-  intervalId: any;
+  tiempoRestante = 0;
+  estaPausado = false;
+  idIntervalo: any;
   ejercicio: Ejercicio | null = null;
   indiceActual: number = 0;
   esPrimerEjercicio: boolean = true;
   mensaje: string = '';
   duracionDescanso = 10;
-  
+  duracionDelEjercicio: string = '';
+  repeticionesDelEjercicio: string = '';
 
-  constructor(private rutinaService: RutinaService, private router: Router, private temporizadorService: TemporizadorService) {}
+  constructor(
+    private rutinaService: RutinaService,
+    private router: Router,
+    private temporizadorService: TemporizadorService
+  ) {}
 
   ngOnInit(): void {
     this.rutina = this.rutinaService.getRutina();
@@ -47,134 +40,95 @@ export class InformacionEjercicioComponent implements OnInit, OnDestroy {
       this.router.navigate(['/ruta-de-error-o-plan']);
       return;
     }
+
     this.indiceActual = this.rutinaService.getIndiceActual();
-    console.log(this.indiceActual);
-    this.ejercicios = this.conseguirEjercicios;
-    this.ejercicio = this.conseguirEjercicioActual(this.indiceActual);
-    /*if(this.indiceActual === 0){
-      this.mensaje = '¡Comenzamos en';
-      this.remaining = 5; // tiempo previo al primer ejercicio
-    } else {
-      this.mensaje = `Descanso. Próximo ejercicio: ${this.ejercicio?.nombre} en`;
-      this.remaining = this.duracionDescanso;
-    }*/
-
-    this.tiempoTotal = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
-    this.remaining = this.tiempoTotal;
-    
-    //this.esPrimerEjercicio = this.indiceActual === 0;
-
-    this.startTimer();
+    this.ejercicios = this.rutina.ejercicios || [];
+    this.ejercicio = this.obtenerInformacionDelEjercicioActual(
+      this.indiceActual
+    );
+    this.tiempoTotal = this.traducirDuracionEstimada(
+      this.rutina.duracionEstimada
+    );
+    this.tiempoRestante = this.tiempoTotal;
+    this.iniciarTemporizador();
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId);
+    clearInterval(this.idIntervalo);
   }
 
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
-      case 1: return 15 * 60;
-      case 2: return 30 * 60;
-      default: return 10;
+      case 1:
+        return 15;
+      case 2:
+        return 30;
+      default:
+        return 10;
     }
   }
 
-  get tipoEjercicio(): string {
-    if (!this.ejercicio) return '';
-    if (this.ejercicio.duracion !== null) {
-      return `${this.ejercicio.duracion} segundos`;
-    }
-    if (this.ejercicio.repeticiones !== null){
-      return `${this.ejercicio.repeticiones} repeticiones`;
-    }
-    return '';
+  get cuentaRegresiva(): string {
+    return this.formatearTiempo(this.tiempoRestante);
   }
 
-  get progresoEjercicio(): string {
-    const total = this.ejercicios.length;
-    const actual = this.indiceActual + 1; // +1 porque arranca en 0
-    return `${actual}/${total}`;
+  get porcentajeDelProgreso(): number {
+    return ((this.tiempoTotal - this.tiempoRestante) / this.tiempoTotal) * 100;
   }
 
-  get elapsedTimeDisplay(): string {
-    return this.fmt(this.tiempoTotal - this.remaining);
-  }
-
-  get totalTimeDisplay(): string {
-    return this.fmt(this.tiempoTotal);
-  }
-
-  get countdownDisplay(): string {
-    return this.fmt(this.remaining);
-  }
-
-  get progressPercent(): number {
-    return ((this.tiempoTotal - this.remaining) / this.tiempoTotal) * 100;
-  }
-
-  get isWarning(): boolean {
-    return this.remaining <= 5;
+  get esAdvertencia(): boolean {
+    return this.tiempoRestante <= 5;
   }
 
   get mensajeCuentaRegresiva(): string {
-  if (this.indiceActual === 0) {
-    return '¡Comenzamos en';
-  } else {
-    const siguienteNombre = this.ejercicio?.nombre ?? 'el siguiente ejercicio';
-    return `Descanso. Continuá tu entrenamiento en:`;
-  }
-
-  
-}
-
-
-  private fmt(seconds: number): string {
-    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const s = (seconds % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
-  }
-
-  private startTimer(): void {
-  this.intervalId = setInterval(() => {
-    if (!this.isPaused && this.remaining > 0) {
-      this.remaining--;
+    if (this.indiceActual === 0) {
+      return '¡Comenzamos en ';
+    } else {
+      return `Descanso. Continuá con el ejercicio ${
+        this.ejercicio?.nombre ?? ''
+      } en:`;
     }
+  }
 
-    if (this.remaining <= 0) {
-      clearInterval(this.intervalId);  
-      this.router.navigate(['/realizar-ejercicio-por-tiempo']);
-    
+  private formatearTiempo(segundos: number): string {
+    const minutos = Math.floor(segundos / 60)
+      .toString()
+      .padStart(2, '0');
+    const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
+    return `${minutos}:${segundosRestantes}`;
+  }
+
+  private iniciarTemporizador(): void {
+    this.idIntervalo = setInterval(() => {
+      if (!this.estaPausado && this.tiempoRestante > 0) {
+        this.tiempoRestante--;
+      }
+
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.idIntervalo);
+        this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+      }
+    }, 1000);
+  }
+
+  botonPausar(): void {
+    this.estaPausado = !this.estaPausado;
+
+    if (this.estaPausado) {
+      this.temporizadorService.pausar();
+    } else {
+      this.temporizadorService.continuar();
     }
-  }, 1000);
-}
-
- togglePause(): void {
-  this.isPaused = !this.isPaused;
-
-  if (this.isPaused) {
-    this.temporizadorService.pause();
-  } else {
-    this.temporizadorService.resume();
-  }
-}
-
-
-  closeSession(): void {
-    clearInterval(this.intervalId);
-    this.sessionCard.nativeElement.style.display = 'none';
-  }
-  get conseguirEjercicios(): Ejercicio[] {
-  return this.rutina?.ejercicios || [];
-  }
-  conseguirEjercicioActual(i : number): Ejercicio | null {
-    return this.rutina?.ejercicios[i] || null;
   }
 
-  get tooltipTexto(): string {
-  if (this.ejercicio?.tieneCorrecion) {
-    return 'Este botón te permite practicar el ejercicio con la cámara y recibir correcciones.';
-  } else {
-    return 'Este botón te permite practicar el ejercicio con la cámara. Este ejercicio no cuenta con corrección.';
+  obtenerInformacionDelEjercicioActual(i: number): Ejercicio | null {
+    let ejercicioActual = this.rutina?.ejercicios[i] ?? null;
+    this.duracionDelEjercicio = this.ejercicio?.duracion
+      ? `${this.ejercicio.duracion} segundos`
+      : '';
+    this.repeticionesDelEjercicio = this.ejercicio?.repeticiones
+      ? `${this.ejercicio.repeticiones} repeticiones`
+      : '';
+    return ejercicioActual;
   }
-}
 }
