@@ -2,509 +2,464 @@
   <main>
     <div class="form-container">
       <form id="formularioEntrenamiento" [formGroup]="formularioForm" method="POST">
-       
+
         <!-- Paso 1 - Datos Personales -->
-      <div *ngIf="currentStep === 1">
+        <div *ngIf="currentStep === 1">
           <div class="text-center mb-2">Sección 1 de 5</div>
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 20%"></div>
           </div>
           <h4 class="text-center mb-4">Ingresá tus datos</h4>
-<div class="preguntas-container text-white">
-  <div class="mensajeErrorForm">
-    <div>
-    <label>¿Cuánto pesas?</label>
-    <span>
-      <input
-        type="number"
-        name="pesoUsuario"
-        class="form-completarInfo"
-        formControlName="pesoUsuario"
-      />kg.
-    </span>
-    </div>
-    <div>
-    @if(formularioForm.get('pesoUsuario')?.hasError('required')&&formularioForm.get('pesoUsuario')?.touched){
-        <span>Ingresá tu <strong style="color: #13FF3A;">peso</strong> para continuar</span>
-    }
-    @if(formularioForm.get('pesoUsuario')?.hasError('min') || formularioForm.get('pesoUsuario')?.hasError('max')) {
-  <span>Ingresá un <strong style="color: #13FF3A;">peso válido</strong> para continuar</span>
-  }
-    </div>
-  </div>
+          <div class="preguntas-container text-white">
+            <div class="mensajeErrorForm">
+              <div>
+                <label>¿Cuánto pesas?</label>
+                <span>
+                  <input type="number" name="pesoUsuario" class="form-completarInfo" formControlName="pesoUsuario" />kg.
+                </span>
+              </div>
+              <div>
+                @if(formularioForm.get('pesoUsuario')?.hasError('required')&&formularioForm.get('pesoUsuario')?.touched){
+                <span>Ingresá tu <strong style="color: #13FF3A;">peso</strong> para continuar</span>
+                }
+                @if(formularioForm.get('pesoUsuario')?.hasError('min') ||
+                formularioForm.get('pesoUsuario')?.hasError('max')) {
+                <span>Ingresá un <strong style="color: #13FF3A;">peso válido</strong> para continuar</span>
+                }
+              </div>
+            </div>
 
-  <div class="mensajeErrorForm">
-    <div>
-    <label>¿Cuánto medís?</label>
-    <span>
-      <input
-        type="number"
-        name="alturaUsuario"
-        class="form-completarInfo"
-        formControlName="alturaUsuario"
-      />cm.
-    </span>
-    
-    </div>
-<div>
+            <div class="mensajeErrorForm">
+              <div>
+                <label>¿Cuánto medís?</label>
+                <span>
+                  <input type="number" name="alturaUsuario" class="form-completarInfo"
+                    formControlName="alturaUsuario" />cm.
+                </span>
 
-      @if(formularioForm.get('alturaUsuario')?.hasError('required')&&formularioForm.get('alturaUsuario')?.touched){
-        <span>Ingresá tu <strong style="color: #13FF3A;">altura</strong> para continuar</span>
-    }
-    @if(formularioForm.get('alturaUsuario')?.hasError('min') || formularioForm.get('alturaUsuario')?.hasError('max')) {
-  <span>Ingresá una <strong style="color: #13FF3A;">altura válida</strong> para continuar</span>
-  }
+              </div>
+              <div>
 
-    </div>
-  </div>
-</div>
+                @if(formularioForm.get('alturaUsuario')?.hasError('required')&&formularioForm.get('alturaUsuario')?.touched){
+                <span>Ingresá tu <strong style="color: #13FF3A;">altura</strong> para continuar</span>
+                }
+                @if(formularioForm.get('alturaUsuario')?.hasError('min') ||
+                formularioForm.get('alturaUsuario')?.hasError('max')) {
+                <span>Ingresá una <strong style="color: #13FF3A;">altura válida</strong> para continuar</span>
+                }
 
-  
+              </div>
+            </div>
+          </div>
+
+
           <br />
-           <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior" (click)="irAPlanes()">Cancelar</button>
-    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-  </div>
+          <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+            <button type="button" class="btn btn-custom btn-anterior" (click)="irAPlanes()">Cancelar</button>
+            <button type="button" class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="nextStep()">Siguiente</button>
+          </div>
 
- <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
-</div>
+          <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="volverAlResumen()">Volver al resumen</button>
+          </div>
         </div>
         <!-- Paso 2 - Objetivos -->
         <div *ngIf="currentStep === 2">
-            <div class="text-center mb-2">Sección 2 de 5</div>
-            <div class="progress mb-4">
-              <div class="progress-bar" style="width: 40%"></div>
-            </div>
-            <h3 class="text-white text-center mb-4">
-              ¿Cuál es tu objetivo principal para entrenar?
-            </h3>
-            <div class="mb-4">
-              <p class="text-center text-white mb-3">
-                Seleccioná una única opción
-              </p>
+          <div class="text-center mb-2">Sección 2 de 5</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 40%"></div>
+          </div>
+          <h3 class="text-white text-center mb-4">
+            ¿Cuál es tu objetivo principal para entrenar?
+          </h3>
+          <div class="mb-4">
+            <p class="text-center text-white mb-3">
+              Seleccioná una única opción
+            </p>
 
-              <div *ngFor="let objetivo of opcionesObjetivo">
+            <div *ngFor="let objetivo of opcionesObjetivo">
               <div class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2">
                 <span>{{objetivo.nombre}}</span>
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="objetivo"
-                  [value]="objetivo.nombre"
-                  formControlName="objetivo"
-                />
-              </div>
+                <input class="form-check-input" type="radio" name="objetivo" [value]="objetivo.nombre"
+                  formControlName="objetivo" />
               </div>
             </div>
-            @if(formularioForm.get('objetivo')?.hasError('required')&&formularioForm.get('objetivo')?.touched){
+          </div>
+          @if(formularioForm.get('objetivo')?.hasError('required')&&formularioForm.get('objetivo')?.touched){
           <span>Selecciona un <strong>objetivo</strong> para continuar</span>
           }
-            <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-      <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
-      <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-    </div>
-
-    <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-    <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
-  </div>
+          <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+            <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+            <button type="button" class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="nextStep()">Siguiente</button>
           </div>
-        <!-- Paso 3 - Tipo de Entrenamiento -->
-<div *ngIf="currentStep === 3">
-  <div class="text-center mb-2">Sección 3 de 5</div>
-  <div class="progress mb-4 mt-3">
-    <div class="progress-bar" style="width: 60%"></div>
-  </div>
-  <h4 class="text-white text-center mb-4">
-    ¿Qué tipo de entrenamiento querés realizar?
-  </h4>
 
-  <div class="cards-container">
-    <label
-      class="flip-card mt-3"
-      *ngFor="let opcion of opcionesEntrenamiento"
-      [class.selected]="opcionSeleccionada === opcion.nombre"
-      (mouseenter)="hoverCard(opcion.nombre)"
-      (mouseleave)="leaveCard(opcion.nombre)"
-      (click)="seleccionarCard(opcion.nombre)"
-    >
-      <input
-        type="radio"
-        name="tipoEntrenamiento"
-        [value]="opcion.id"
-        hidden
-        formControlName="tipoEntrenamiento"
-        [checked]="opcionSeleccionada === opcion.nombre"
-      />
-      <div
-  class="flip-card-inner"
-  [style.transform]="
+          <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="volverAlResumen()">Volver al resumen</button>
+          </div>
+        </div>
+        <!-- Paso 3 - Tipo de Entrenamiento -->
+        <div *ngIf="currentStep === 3">
+          <div class="text-center mb-2">Sección 3 de 5</div>
+          <div class="progress mb-4 mt-3">
+            <div class="progress-bar" style="width: 60%"></div>
+          </div>
+          <h4 class="text-white text-center mb-4">
+            ¿Qué tipo de entrenamiento querés realizar?
+          </h4>
+
+          <div class="cards-container">
+            <label class="flip-card mt-3" *ngFor="let opcion of opcionesEntrenamiento"
+              [class.selected]="opcionSeleccionada === opcion.nombre" (mouseenter)="hoverCard(opcion.nombre)"
+              (mouseleave)="leaveCard(opcion.nombre)" (click)="seleccionarCard(opcion.nombre)">
+              <input type="radio" name="tipoEntrenamiento" [value]="opcion.id" hidden
+                formControlName="tipoEntrenamiento" [checked]="opcionSeleccionada === opcion.nombre" />
+              <div class="flip-card-inner" [style.transform]="
     hoveredCard === opcion.nombre && opcionSeleccionada !== opcion.nombre
       ? 'rotateY(180deg)'
       : 'none'
-  "
->
+  ">
 
-        <div class="flip-card-front">
-          <img [src]="opcion.imagen" [alt]="opcion.nombre" />
-          <p>{{ opcion.nombre }}</p>
+                <div class="flip-card-front">
+                  <img [src]="opcion.imagen" [alt]="opcion.nombre" />
+                  <p>{{ opcion.nombre }}</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>{{ opcion.descripcion }}</p>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+            <button type="button" class="btn btn-custom btn-anterior mt-3" (click)="previousStep()">Anterior</button>
+            <button type="button" class="btn btn-custom btn-siguiente mt-3" [disabled]="!esPasoActualValido()"
+              (click)="nextStep()">Siguiente</button>
+          </div>
+
+          <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="volverAlResumen()">Volver al resumen</button>
+          </div>
         </div>
-        <div class="flip-card-back">
-          <p>{{ opcion.descripcion }}</p>
+        <!-- Paso 4 - Equipamiento -->
+        <div *ngIf="currentStep === 4">
+          <div class="text-center mb-2">Sección 4 de 5</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 80%"></div>
+          </div>
+
+          <h3 class="text-white text-center mb-4">¿Tenés algún equipamiento en casa?</h3>
+          <p class="text-center text-white mb-3">Seleccioná una o más opciones</p>
+
+          <div class="equipamiento-grid">
+            <div *ngFor="let item of equipamientosOpciones" class="equipamiento-item"
+              [class.selected]="estaSeleccionado(item)" (click)="toggleEquipamiento(item)">
+              <img [src]="item.imagen" [alt]="item.descripcion" />
+              <span>{{ item.descripcion }}</span>
+            </div>
+          </div>
+
+          <!-- <input type="hidden" name="equipamientoSeleccionado" [value]="equipamientoSeleccionado.join(',')" /> -->
+
+          <br />
+          <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+            <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+            <button type="button" class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="nextStep()">Siguiente</button>
+          </div>
+
+          <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="volverAlResumen()">Volver al resumen</button>
+          </div>
         </div>
-      </div>
-    </label>
-  </div>
-
-  <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior mt-3" (click)="previousStep()">Anterior</button>
-    <button type="button" class="btn btn-custom btn-siguiente mt-3"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-  </div>
-
-  <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
-</div>
-</div>
-      <!-- Paso 4 - Equipamiento -->
-<div *ngIf="currentStep === 4">
-  <div class="text-center mb-2">Sección 4 de 5</div>
-  <div class="progress mb-4">
-    <div class="progress-bar" style="width: 80%"></div>
-  </div>
-
-  <h3 class="text-white text-center mb-4">¿Tenés algún equipamiento en casa?</h3>
-  <p class="text-center text-white mb-3">Seleccioná una o más opciones</p>
-
-  <div class="equipamiento-grid">
-    <div
-      *ngFor="let item of equipamientosOpciones"
-      class="equipamiento-item"
-      [class.selected]="estaSeleccionado(item)"
-      (click)="toggleEquipamiento(item)"
-    >
-      <img [src]="item.imagen" [alt]="item.descripcion" />
-      <span>{{ item.descripcion }}</span>
-    </div>
-  </div>
-
-  <!-- <input type="hidden" name="equipamientoSeleccionado" [value]="equipamientoSeleccionado.join(',')" /> -->
-
-  <br />
-  <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
-    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-  </div>
-
- <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
-</div>
-</div>
 
         <!-- Paso 5 - Frecuencia del Entrenamiento -->
-      <div *ngIf="currentStep === 5">
+        <div *ngIf="currentStep === 5">
           <div class="text-center mb-2">Sección 5 de 5</div>
           <div class="progress mb-4">
             <div class="progress-bar" style="width: 100%"></div>
           </div>
 
-          <h4 class="text-white text-center mb-2">
-            ¿Qué nivel de exigencia querés que tenga tu entrenamiento?
-          </h4>
-          <p class="text-center text-white mb-3">
-            Seleccioná la opción más acorde
-          </p>
-          <div class="slider-scale-container mb-4">
-            <div class="slider-wrapper">
-              <input
-                type="range"
-                min="1"
-                max="5"
-                step="1"
-                class="custom-range"
-                id="rangoExigencia"
-                formControlName="nivelExigencia"
-              />
-              <div class="scale-track">
-                <div class="scale-fill" id="exigenciaFill"></div>
-                <div class="scale-point-container" style="left: 0%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">Muy baja</div>
-                </div>
-                <div class="scale-point-container" style="left: 25%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">Baja</div>
-                </div>
-                <div class="scale-point-container" style="left: 50%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">Moderada</div>
-                </div>
-                <div class="scale-point-container" style="left: 75%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">Alta</div>
-                </div>
-                <div class="scale-point-container" style="left: 100%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">Muy Alta</div>
+          <div class="preguntas5">
+            <h4 class="text-white text-center mb-2">
+              ¿Qué nivel de exigencia querés que tenga tu entrenamiento?
+            </h4>
+            <p class="text-center text-white mb-3">
+              Seleccioná la opción más acorde
+            </p>
+            <div class="slider-scale-container mb-4">
+              <div class="slider-wrapper">
+                <input type="range" min="1" max="5" step="1" class="custom-range" id="rangoExigencia"
+                  formControlName="nivelExigencia" />
+                <div class="scale-track">
+                  <div class="scale-fill" id="exigenciaFill"></div>
+                  <div class="scale-point-container" style="left: 0%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">Muy baja</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 25%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">Baja</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 50%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">Moderada</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 75%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">Alta</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 100%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">Muy Alta</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <br>
           </div>
-          <br>
-          <h4 class="text-white text-center mb-2">
-            ¿Cuántos días a la semana podés entrenar?
-          </h4>
-          <p class="text-center text-white mb-3">
-            Seleccioná la cantidad de días del 1 a 5
-          </p>
-          <div class="slider-scale-container">
-            <div class="slider-wrapper">
-              <input
-                type="range"
-                min="1"
-                max="5"
-                step="1"
-                class="custom-range"
-                id="rangoDiasSemanales"
-                formControlName="diasDisponibles"
 
-              />
-              <div class="scale-track">
-                <div class="scale-fill" id="diasSemanalesFill"></div>
-                <div class="scale-point-container" style="left: 0%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">1 día</div>
-                </div>
-                <div class="scale-point-container" style="left: 25%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">2 días</div>
-                </div>
-                <div class="scale-point-container" style="left: 50%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">3 días</div>
-                </div>
-                <div class="scale-point-container" style="left: 75%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">4 días</div>
-                </div>
-                <div class="scale-point-container" style="left: 100%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">5 días</div>
+          <div class="preguntas5">
+            <h4 class="text-white text-center mb-2">
+              ¿Cuántos días a la semana podés entrenar?
+            </h4>
+            <p class="text-center text-white mb-3">
+              Seleccioná la cantidad de días del 1 a 5
+            </p>
+            <div class="slider-scale-container">
+              <div class="slider-wrapper">
+                <input type="range" min="1" max="5" step="1" class="custom-range" id="rangoDiasSemanales"
+                  formControlName="diasDisponibles" />
+                <div class="scale-track">
+                  <div class="scale-fill" id="diasSemanalesFill"></div>
+                  <div class="scale-point-container" style="left: 0%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">1 día</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 25%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">2 días</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 50%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">3 días</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 75%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">4 días</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 100%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">5 días</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <br />
           </div>
-          <br />
-          <h4 class="text-white text-center mb-2">
-            ¿Qué duración de entrenamiento preferís?
-          </h4>
-          <p class="text-center text-white mb-3">
-            Seleccioná los minutos estimados a entrenar
-          </p>
-          <div class="slider-scale-container mb-4">
-            <div class="slider-wrapper">
-              <input
-                type="range"
-                min="1"
-                max="3"
-                step="1"
-                class="custom-range"
-                id="rangoMinutos"
-               formControlName="tiempoDisponible"
 
-              />
-              <div class="scale-track">
-                <div class="scale-fill" id="minutosFill"></div>
-                <div class="scale-point-container" style="left: 0%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">15 min.</div>
-                </div>
-                <div class="scale-point-container" style="left: 50%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">30 min.</div>
-                </div>
-                <div class="scale-point-container" style="left: 100%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">45 min.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br />
-          <h4 class="text-white text-center mb-2">
-            ¿Cuál es la duración que quiere que tenga su plan?
-          </h4>
-          <p class="text-center text-white mb-3">
-            Seleccioná la cantidad de días de duración de tu plan
-          </p>
-          <div class="slider-scale-container mb-4">
-            <div class="slider-wrapper">
-              <input
-                type="range"
-                min="1"
-                max="3"
-                step="1"
-                class="custom-range"
-                id="duracionPlan"
-               formControlName="duracionPlan"
-              />
-              <div class="scale-track">
-                <div class="scale-fill" id="duracionPlanFill"></div>
-                <div class="scale-point-container" style="left: 0%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">15 días</div>
-                </div>
-                <div class="scale-point-container" style="left: 50%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">30 días</div>
-                </div>
-                <div class="scale-point-container" style="left: 100%">
-                  <div class="scale-point"></div>
-                  <br />
-                  <div class="scale-label">45 días</div>
+          <div class="preguntas5">
+            <h4 class="text-white text-center mb-2">
+              ¿Qué duración de entrenamiento preferís?
+            </h4>
+            <p class="text-center text-white mb-3">
+              Seleccioná los minutos estimados a entrenar
+            </p>
+            <div class="slider-scale-container mb-4">
+              <div class="slider-wrapper">
+                <input type="range" min="1" max="3" step="1" class="custom-range" id="rangoMinutos"
+                  formControlName="tiempoDisponible" />
+                <div class="scale-track">
+                  <div class="scale-fill" id="minutosFill"></div>
+                  <div class="scale-point-container" style="left: 0%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">15 min.</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 50%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">30 min.</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 100%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">45 min.</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <br />
           </div>
-          <br />
-           <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
-    <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
-    <button type="button" class="btn btn-custom btn-siguiente"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-  </div>
-<div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-  <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</button>
-</div>
+
+          <div class="preguntas5">
+            <h4 class="text-white text-center mb-2">
+              ¿Cuál es la duración que quiere que tenga su plan?
+            </h4>
+            <p class="text-center text-white mb-3">
+              Seleccioná la cantidad de días de duración de tu plan
+            </p>
+            <div class="slider-scale-container mb-4">
+              <div class="slider-wrapper">
+                <input type="range" min="1" max="3" step="1" class="custom-range" id="duracionPlan"
+                  formControlName="duracionPlan" />
+                <div class="scale-track">
+                  <div class="scale-fill" id="duracionPlanFill"></div>
+                  <div class="scale-point-container" style="left: 0%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">15 días</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 50%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">30 días</div>
+                  </div>
+                  <div class="scale-point-container" style="left: 100%">
+                    <div class="scale-point"></div>
+                    <br />
+                    <div class="scale-label">45 días</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+
+          <div class="d-flex justify-content-around" *ngIf="!editandoDesdeResumen">
+            <button type="button" class="btn btn-custom btn-anterior" (click)="previousStep()">Anterior</button>
+            <button type="button" class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="nextStep()">Siguiente</button>
+          </div>
+          <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
+            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
+              (click)="volverAlResumen()">Volver al resumen</button>
+          </div>
         </div>
         <!--RESUMEN FORMULARIO-->
-     <div *ngIf="currentStep === 6">
-  <div class="text-center mb-2">Resumen del plan</div>
-  <div class="progress mb-4">
-    <div class="progress-bar" style="width: 100%"></div>
-  </div>
+        <div *ngIf="currentStep === 6">
+          <div class="text-center mb-2">Resumen del plan</div>
+          <div class="progress mb-4">
+            <div class="progress-bar" style="width: 100%"></div>
+          </div>
 
-  <div class="resumen-container text-white">
-    <div class="row">
-      <!-- Columna izquierda -->
-      <div class="columna-izquierda">
-        <!-- Paso 1 -->
-        <div class="mb-3 text-white">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="titulo-subrayado mb-1">Datos físicos</h5>
-            <button class="btn btn-editar" (click)="irAPaso(1)">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-          <div class="card-body mt-2">
-            <p><strong>Peso:</strong> {{ formularioForm.get('pesoUsuario')?.value }} kg</p>
-            <p><strong>Altura:</strong> {{ formularioForm.get('alturaUsuario')?.value }} cm</p>
-          </div>
-        </div>
+          <div class="resumen-container text-white">
+            <div class="row">
+              <!-- Columna izquierda -->
+              <div class="columna-izquierda">
+                <!-- Paso 1 -->
+                <div class="mb-3 text-white">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="titulo-subrayado mb-1">Datos físicos</h5>
+                    <button class="btn btn-editar" (click)="irAPaso(1)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                  <div class="card-body mt-2">
+                    <p><strong>Peso:</strong> {{ formularioForm.get('pesoUsuario')?.value }} kg</p>
+                    <p><strong>Altura:</strong> {{ formularioForm.get('alturaUsuario')?.value }} cm</p>
+                  </div>
+                </div>
 
-        <!-- Paso 2 -->
-        <div class="text-white">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="titulo-subrayado mt-2">Objetivo</h5>
-            <button class="btn btn-editar" (click)="irAPaso(2)">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-          <div class="card-body mt-2">
-            <p><strong></strong> {{formularioForm.get('objetivo')?.value}}</p>
-          </div>
-        </div><br>      
+                <!-- Paso 2 -->
+                <div class="text-white">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="titulo-subrayado mt-2">Objetivo</h5>
+                    <button class="btn btn-editar" (click)="irAPaso(2)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                  <div class="card-body mt-2">
+                    <p><strong></strong> {{formularioForm.get('objetivo')?.value}}</p>
+                  </div>
+                </div><br>
 
-        <!-- Paso 5 -->
-        <div class="text-white">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="titulo-subrayado mt-2">Frecuencia y Duración</h5>
-            <button class="btn btn-editar" (click)="irAPaso(5)">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-          <div class="card-body mt-2">
-            <p><strong>Exigencia:</strong> {{ traducirEscalaExigencia(formularioForm.get('nivelExigencia')?.value) }}</p>
-            <p><strong>Días por semana:</strong> {{ traducirDias(formularioForm.get('diasDisponibles')?.value) }}</p>
-            <p><strong>Minutos por día:</strong> {{ traducirMinutos(formularioForm.get('tiempoDisponible')?.value) }}</p>
-            <p><strong>Duración del plan:</strong> {{ traducirDuracion(formularioForm.get('duracionPlan')?.value) }}</p>
-          </div>
-        </div>
-      </div>
+                <!-- Paso 5 -->
+                <div class="text-white">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="titulo-subrayado mt-2">Frecuencia y Duración</h5>
+                    <button class="btn btn-editar" (click)="irAPaso(5)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                  <div class="card-body mt-2">
+                    <p><strong>Exigencia:</strong> {{
+                      traducirEscalaExigencia(formularioForm.get('nivelExigencia')?.value) }}</p>
+                    <p><strong>Días por semana:</strong> {{ traducirDias(formularioForm.get('diasDisponibles')?.value)
+                      }}</p>
+                    <p><strong>Minutos por día:</strong> {{
+                      traducirMinutos(formularioForm.get('tiempoDisponible')?.value) }}</p>
+                    <p><strong>Duración del plan:</strong> {{
+                      traducirDuracion(formularioForm.get('duracionPlan')?.value) }}</p>
+                  </div>
+                </div>
+              </div>
 
 
-      <!-- Columna derecha -->
-      <div class="columna-derecha">
-        <!-- Paso 3 -->
-        <div class="text-white">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="titulo-subrayado mt-2">Tipo de Entrenamiento</h5>
-            <button class="btn btn-editar" (click)="irAPaso(3)">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-          <div class="card-body mt-2">
-            <p>{{ opcionSeleccionada || 'No seleccionado' }}</p>
-            <img
-              *ngIf="imagenEntrenamientoSeleccionado"
-              [src]="imagenEntrenamientoSeleccionado"
-              [alt]="opcionSeleccionada"
-              style="max-width: 100px; height: auto;"
-            />
-          </div>
-        </div><br>
+              <!-- Columna derecha -->
+              <div class="columna-derecha">
+                <!-- Paso 3 -->
+                <div class="text-white">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="titulo-subrayado mt-2">Tipo de Entrenamiento</h5>
+                    <button class="btn btn-editar" (click)="irAPaso(3)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                  <div class="card-body mt-2">
+                    <p>{{ opcionSeleccionada || 'No seleccionado' }}</p>
+                    <img *ngIf="imagenEntrenamientoSeleccionado" [src]="imagenEntrenamientoSeleccionado"
+                      [alt]="opcionSeleccionada" style="max-width: 100px; height: auto;" />
+                  </div>
+                </div><br>
 
-        <!-- Paso 4 -->
-        <div class="text-white">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="titulo-subrayado mt-2">Equipamiento</h5>
-            <button class="btn btn-editar" (click)="irAPaso(4)">
-              <i class="fas fa-edit"></i>
-            </button>
-          </div>
-          <div class="card-body mt-2">
-            <p>{{ equipamientos.length > 0 ? equipamientos.join(', ') : 'No seleccionado' }}</p>
-            <div class="d-flex flex-wrap gap-2 mt-2">
-              <ng-container *ngFor="let item of equipamientosOpciones">
-                <img
-                  *ngIf="equipamientos.includes(item.descripcion) && item.descripcion !== 'Ninguno'"
-                  [src]="item.imagen"
-                  [alt]="item.descripcion"
-                  class="rounded"
-                  style="max-width: 80px;"
-                />
-              </ng-container>
+                <!-- Paso 4 -->
+                <div class="text-white">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="titulo-subrayado mt-2">Equipamiento</h5>
+                    <button class="btn btn-editar" (click)="irAPaso(4)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+                  <div class="card-body mt-2">
+                    <p>{{ equipamientos.length > 0 ? equipamientos.join(', ') : 'No seleccionado' }}</p>
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                      <ng-container *ngFor="let item of equipamientosOpciones">
+                        <img *ngIf="equipamientos.includes(item.descripcion) && item.descripcion !== 'Ninguno'"
+                          [src]="item.imagen" [alt]="item.descripcion" class="rounded" style="max-width: 80px;" />
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="text-center mt-4">
-    <button class="btn btn-custom btn-siguiente" (click)="enviarFormulario()">Finalizar</button>
-  </div>
-</div>
+          <div class="text-center mt-4">
+            <button class="btn btn-custom btn-siguiente" (click)="enviarFormulario()">Finalizar</button>
+          </div>
+        </div>
 
       </form>
 
-<app-modal-plan-creado
-  *ngIf="mostrarModal"
-  (aceptar)="iniciarRutina()">
-</app-modal-plan-creado>
+      <app-modal-plan-creado *ngIf="mostrarModal" (aceptar)="iniciarRutina()">
+      </app-modal-plan-creado>
 
-</div>
+    </div>
   </main>
 </body>

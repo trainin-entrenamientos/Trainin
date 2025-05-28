@@ -416,6 +416,11 @@ input[type="radio"].form-check-input:focus {
   flex-direction: column;
 }
 
+.preguntas5{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 
 
 

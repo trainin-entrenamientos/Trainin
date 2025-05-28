@@ -6,195 +6,126 @@
           <h2 class="section-title text-center mb-4">Registro</h2>
           <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-              <label for="firstName" class="form-label">Nombre</label>
-              <input
-                type="text"
-                id="firstName"
-                formControlName="nombre"
-                class="form-control trainin-input"
-                placeholder="Ingresa tu nombre"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
+              <div class="input-container">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="firstName" formControlName="nombre" class="form-control trainin-input"
+                  placeholder=" " required />
+                <label for="firstName" class="form-label">Nombre</label>
+              </div>
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.get('nombre')?.hasError('required') &&
                   registroForm.get('nombre')?.touched
-                "
-              >
+                ">
                 Ingresá tu <strong style="color: #13ff3a">nombre</strong> para
                 continuar
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="lastName" class="form-label">Apellido</label>
-              <input
-                type="text"
-                id="lastName"
-                formControlName="apellido"
-                class="form-control trainin-input"
-                placeholder="Ingresa tu apellido"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
+              <div class="input-container">
+                <i class="fa-solid fa-user-tag"></i>
+                <input type="text" id="lastName" formControlName="apellido" class="form-control trainin-input"
+                  placeholder=" " required />
+                <label for="lastName" class="form-label">Apellido</label>
+              </div>
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.get('apellido')?.hasError('required') &&
                   registroForm.get('apellido')?.touched
-                "
-              >
-                Ingresá tu <strong style="color: #13ff3a">apellido</strong> para
-                continuar
+                ">
+                Ingresá tu <strong style="color: #13ff3a">apellido</strong> para continuar
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="birthDate" class="form-label"
-                >Fecha de nacimiento</label
-              >
-              <input
-                type="date"
-                id="birthDate"
-                formControlName="fechaNacimiento"
-                class="form-control trainin-input"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
+              <div class="input-container">
+                <i class="fa-solid fa-calendar-alt"></i>
+                <input type="date" id="birthDate" formControlName="fechaNacimiento" class="form-control trainin-input"
+                  placeholder=" " required />
+                <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+              </div>
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.get('fechaNacimiento')?.hasError('required') &&
                   registroForm.get('fechaNacimiento')?.touched
-                "
-              >
-                Ingresá tu
-                <strong style="color: #13ff3a">fecha de nacimiento</strong> para
-                continuar
+                ">
+                Ingresá tu <strong style="color: #13ff3a">fecha de nacimiento</strong> para continuar
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
-              <input
-                type="email"
-                id="email"
-                formControlName="email"
-                class="form-control trainin-input"
-                placeholder="tu@correo.com"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
-                  registroForm.get('email')?.hasError('required') &&
-                  registroForm.get('email')?.touched
-                "
-              >
-                Ingresá tu
-                <strong style="color: #13ff3a">correo electrónico</strong> para
-                continuar
+              <div class="input-container">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" formControlName="email" class="form-control trainin-input"
+                  placeholder=" " required />
+                <label for="email" class="form-label">Correo electrónico</label>
+              </div>
+
+              <div *ngIf="
+      registroForm.get('email')?.hasError('required') &&
+      registroForm.get('email')?.touched
+    " style="color: white; margin-top: 0.25rem;">
+                El <strong style="color: #13ff3a">correo electrónico</strong> debe contener un arroba y tener formato.
+                válido
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input
-                type="password"
-                id="password"
-                formControlName="contrasenia"
-                class="form-control trainin-input"
-                placeholder="••••••••"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
+              <div class="input-container">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" formControlName="contrasenia" class="form-control trainin-input"
+                  placeholder=" " required />
+                <label for="password" class="form-label">Contraseña</label>
+              </div>
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.get('contrasenia')?.hasError('required') &&
                   registroForm.get('contrasenia')?.touched
-                "
-              >
-                Ingresá la
-                <strong style="color: #13ff3a">contraseña</strong> para
-                continuar
+                ">
+                Ingresá la <strong style="color: #13ff3a">contraseña</strong> para continuar
               </div>
-              <div
-                style="color: white"
-                *ngIf="
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.get('contrasenia')?.hasError('pattern') &&
                   registroForm.get('contrasenia')?.touched
-                "
-              >
-                La <strong style="color: #13ff3a">contraseña</strong> debe tener
-                al menos 6 caracteres, un número y un símbolo
+                ">
+                La <strong style="color: #13ff3a">contraseña</strong> debe tener al menos 6 caracteres, un número y un
+                símbolo
               </div>
             </div>
 
             <div class="mb-4">
-              <label for="password2" class="form-label"
-                >Confirme su contraseña</label
-              >
-              <input
-                type="password"
-                id="password2"
-                formControlName="repetirContrasenia"
-                class="form-control trainin-input"
-                placeholder="••••••••"
-                required
-              />
-              <div
-                style="color: white"
-                *ngIf="
-                  registroForm
-                    .get('repetirContrasenia')
-                    ?.hasError('required') &&
-                  registroForm.get('repetirContrasenia')?.touched
-                "
-              >
-                Volvé a ingresar la
-                <strong style="color: #13ff3a">contraseña</strong> para
-                continuar
+              <div class="input-container">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password2" formControlName="repetirContrasenia"
+                  class="form-control trainin-input" placeholder=" " required />
+                <label for="password2" class="form-label">Confirmar contraseña</label>
               </div>
-              <div
-                style="color: white"
-                *ngIf="
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+                  registroForm.get('repetirContrasenia')?.hasError('required') &&
+                  registroForm.get('repetirContrasenia')?.touched
+                ">
+                Volvé a ingresar la <strong style="color: #13ff3a">contraseña</strong> para continuar
+              </div>
+              <div style="color: white; margin-top: 0.25rem;" *ngIf="
                   registroForm.hasError('contrasenasNoCoinciden') &&
                   registroForm.get('repetirContrasenia')?.touched
-                "
-              >
-                Las <strong style="color: #13ff3a">contraseñas</strong> no
-                coinciden
+                ">
+                Las <strong style="color: #13ff3a">contraseñas</strong> no coinciden
               </div>
             </div>
 
             <div class="mb-4">
               <div class="form-check">
-                <input
-                  class="form-check-input trainin-checkbox"
-                  type="checkbox"
-                  id="terms"
-                  formControlName="aceptarTerminos"
-                />
-                <label
-                  class="form-check-label trainin-checkbox-label"
-                  for="terms"
-                >
+                <input class="form-check-input trainin-checkbox" type="checkbox" id="terms"
+                  formControlName="aceptarTerminos" />
+                <label class="form-check-label trainin-checkbox-label" for="terms">
                   Acepto
-                  <a target="_blank" routerLink="/terminos-condiciones" class="trainin-link"
-                    >términos y condiciones</a
-                  >
+                  <a target="_blank" routerLink="/terminos-condiciones" class="trainin-link">términos y condiciones</a>
                   y
-                  <a target="_blank" routerLink="/politicas-privacidad" class="trainin-link"
-                    >políticas de privacidad</a
-                  >
+                  <a target="_blank" routerLink="/politicas-privacidad" class="trainin-link">políticas de privacidad</a>
                 </label>
               </div>
-              <div
-                style="color: white"
-                *ngIf="
+              <div style="color: white" *ngIf="
                   registroForm.get('aceptarTerminos')?.hasError('required') &&
                   registroForm.get('aceptarTerminos')?.touched
-                "
-              >
+                ">
                 Debés aceptar los
                 <strong style="color: #13ff3a">términos y condiciones</strong>
                 para continuar
@@ -203,18 +134,10 @@
 
             <div class="d-flex justify-content-center">
               <div class="botones-registro">
-                <button
-                  type="button"
-                  class="btn btn-trainin"
-                  routerLink="/inicio"
-                >
+                <button type="button" class="btn btn-trainin" routerLink="/inicio">
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-trainin"
-                  [disabled]="!esFormularioValido()"
-                >
+                <button type="submit" class="btn btn-trainin" [disabled]="!esFormularioValido()">
                   Registrarse
                 </button>
               </div>
