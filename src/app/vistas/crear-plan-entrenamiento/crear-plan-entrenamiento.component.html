@@ -59,16 +59,10 @@
             <app-boton-trainin clase="btn btn-anterior-trainin btn-custom"(click)="irAPlanes()">Cancelar</app-boton-trainin>
             <app-boton-trainin type="button" clase="btn btn-trainin btn-siguiente" [disabled]="!esPasoActualValido()"
               (click)="nextStep()">Siguiente</app-boton-trainin>
-
-            <!--
-      <button type="button" class="btn btn-custom"  [disabled]="!esPasoActualValido()" (click)="nextStep()">Siguiente</button>
-      -->
-
           </div>
 
           <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
-              (click)="volverAlResumen()">Volver al resumen</button>
+            <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
           </div>
         </div>
         <!-- Paso 2 - Objetivos -->
@@ -105,8 +99,7 @@
           </div>
 
           <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
-              (click)="volverAlResumen()">Volver al resumen</button>
+            <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
           </div>
         </div>
         <!-- Paso 3 - Tipo de Entrenamiento -->
@@ -148,8 +141,7 @@
           </div>
 
           <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
-              (click)="volverAlResumen()">Volver al resumen</button>
+            <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
           </div>
         </div>
         <!-- Paso 4 - Equipamiento -->
@@ -181,8 +173,7 @@
           </div>
 
           <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
-              (click)="volverAlResumen()">Volver al resumen</button>
+            <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
           </div>
         </div>
 
@@ -344,8 +335,7 @@
               (clickBoton)="nextStep()">Siguiente</app-boton-trainin>
           </div>
           <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-            <button class="btn btn-custom btn-siguiente" [disabled]="!esPasoActualValido()"
-              (click)="volverAlResumen()">Volver al resumen</button>
+            <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()" (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
           </div>
         </div>
         <!--RESUMEN FORMULARIO-->
