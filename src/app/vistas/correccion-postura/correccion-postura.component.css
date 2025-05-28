@@ -347,7 +347,7 @@ header {
 }
 
 .right.repeticion-correcta {
-  box-shadow: 0 0 20px 5px limegreen;
+  box-shadow: 0 0 20px 5px #13ff3a;
   transition: box-shadow 0.3s;
 }
 
@@ -361,7 +361,7 @@ header {
 }
 
 .circulo.activo {
-  background-color: limegreen;
+  background-color: #13ff3a;
 }
 
 .right.active.bien {

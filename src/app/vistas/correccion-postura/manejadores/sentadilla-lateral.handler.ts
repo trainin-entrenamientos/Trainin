@@ -1,0 +1,129 @@
+import type { Keypoint } from '@tensorflow-models/pose-detection';
+import { ManejadorCorreccion } from '../../../compartido/interfaces/manejador-correccion.interface';
+import { NombreEjercicio }     from '../../../compartido/enums/nombre-ejercicio.enum';
+import { ResultadoCorreccion } from '../../../compartido/interfaces/resultado-correccion.interface';
+import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/utilidades/correccion-postura.utils';
+
+export class SentadillaLateralHandler implements ManejadorCorreccion {
+  readonly nombreEjercicio = NombreEjercicio.SENTADILLA_LATERAL;
+  readonly videoUrl        = 'https://www.youtube.com/embed/XYZsentadillaLateral?autoplay=1';
+
+  private fase: 'down'|'up'      = 'down';
+  private pierna: 'right'|'left' | null = null;
+  private buffer: number[]       = [];
+  private total = 0;
+  private resultados: boolean[]  = [];
+
+  // Umbrales
+  private static readonly UMBRALES = {
+    down:        100,  // <100°: rodilla suficientemente doblada
+    up:          160,  // >160°: pierna casi extendida
+    trunkLimit:   20   // px máximo desplazamiento lateral del tronco
+  };
+  private static readonly BUFFER_SIZE = 5;
+
+  // Feedback en deciles
+  private static readonly FEEDBACK_CFG = [
+    { minPct:100, titles:['¡Sentadilla lateral impecable!'], tips:['Mantené la espalda bien recta.','Controlá cada fase del movimiento.'] },
+    { minPct:80,  titles:['Muy buen trabajo'], tips:['Intentá bajar un toque más sin perder la espalda.','Mantén el core activo.'] },
+    { minPct:60,  titles:['Técnica aceptable'], tips:['No dejes que tu rodilla se vaya hacia adentro.','Controlá la bajada.'] },
+    { minPct:0,   titles:['A mejorar'], tips:['Practica sin peso para sentir el patrón.','No te inclines demasiado al costado.'] }
+  ];
+
+  reset(): void {
+    this.fase    = 'down';
+    this.pierna  = null;
+    this.buffer  = [];
+    this.total   = 0;
+    this.resultados = [];
+  }
+
+  manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
+    // 1) Si ya completamos las 5 repes
+    if (this.total >= 5) {
+      return { mensaje: null, color:'', repContada:false, totalReps:this.total, termino:true };
+    }
+
+    // 2) Detecto pierna activa (donde doblas rodilla)
+    if (!this.pierna) {
+      for (const side of ['right','left'] as const) {
+        const hip = lm.find(p=>p.name===`${side}_hip`);
+        const kne = lm.find(p=>p.name===`${side}_knee`);
+        const ank = lm.find(p=>p.name===`${side}_ankle`);
+        if (!hip||!kne||!ank) continue;
+        const angKnee = calcularAngulo(hip,kne,ank);
+        if (angKnee < SentadillaLateralHandler.UMBRALES.down) {
+          this.pierna = side;
+          break;
+        }
+      }
+      if (!this.pierna) {
+        // aún no bajaste lo suficiente para definir pierna
+        return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
+      }
+    }
+
+    // 3) Extraigo puntos de la pierna activa y chequeo que existan
+    const hip = lm.find(p=>p.name===`${this.pierna}_hip`);
+    const kne = lm.find(p=>p.name===`${this.pierna}_knee`);
+    const ank = lm.find(p=>p.name===`${this.pierna}_ankle`);
+    const sh  = lm.find(p=>p.name==='left_shoulder');
+    const sh2 = lm.find(p=>p.name==='right_shoulder');
+    if (!hip||!kne||!ank||!sh||!sh2) {
+      // falta keypoint → abortar
+      return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
+    }
+
+    // 4) Calculo y suavizo el ángulo de rodilla
+    const raw = calcularAngulo(hip, kne, ank);
+    const ang = suavizar(this.buffer, raw, SentadillaLateralHandler.BUFFER_SIZE);
+
+    let mensaje: string|null = null;
+    let color: 'green'|'orange'|'red'|'' = '';
+    let repContada = false;
+
+    // A) Bajada completa (down→up)
+    if (this.fase==='down' && ang < SentadillaLateralHandler.UMBRALES.down) {
+      this.fase = 'up';
+
+      // Chequeo desplazamiento lateral del tronco
+      const midShoulderX = (sh.x + sh2.x)/2;
+      const displacement = Math.abs(midShoulderX - hip.x);
+      const esError = displacement > SentadillaLateralHandler.UMBRALES.trunkLimit;
+
+      mensaje = esError
+        ? 'Bajada incorrecta: mantené el tronco estable'
+        : '¡Bajada perfecta!';
+      color = esError ? 'red' : 'green';
+
+      this.resultados.push(!esError);
+      this.total++;
+      repContada = true;
+    }
+    // B) Bajada parcial
+    else if (this.fase==='down' && ang < SentadillaLateralHandler.UMBRALES.up) {
+      mensaje = 'Bajá un poco más la rodilla';
+      color   = 'orange';
+    }
+    // C) Subida controlada (up→down)
+    else if (this.fase==='up' && ang > SentadillaLateralHandler.UMBRALES.up) {
+      this.fase = 'down';
+      mensaje = 'Subí con control';
+      color   = 'orange';
+    }
+
+    // 5) Resumen al llegar a 5 repeticiones
+    const termino = this.total===5;
+    let resumenHtml: string|undefined;
+    if (termino) {
+      const { html } = generarResumen(
+        this.resultados,
+        SentadillaLateralHandler.FEEDBACK_CFG,
+        5
+      );
+      resumenHtml = html;
+    }
+
+    return { mensaje, color, repContada, totalReps:this.total, termino, resumenHtml };
+  }
+}

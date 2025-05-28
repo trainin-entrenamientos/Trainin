@@ -98,10 +98,10 @@ const routes: Routes = [
         path: 'calibracion-camara',
         component: CalibracionCamaraComponent
       },
-      {
+      /*{
         path: 'correccion-postura',
         component: CorreccionPosturaComponent
-      },
+      },*/
       {
         path: 'iniciar-sesion',
         component: IniciarSesionComponent
@@ -124,7 +124,11 @@ const routes: Routes = [
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent,
         canActivate: [authGuard]
-      }
+      },
+      {
+        path: 'correccion-postura/:ejercicio',
+        component: CorreccionPosturaComponent
+      },
     ]
   },
     {  path: '**', redirectTo: 'inicio', pathMatch: 'full' } 
