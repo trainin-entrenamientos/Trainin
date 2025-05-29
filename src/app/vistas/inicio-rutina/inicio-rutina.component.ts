@@ -22,27 +22,26 @@ export class InicioRutinaComponent {
   ) {}
 
   ngOnInit(): void {
+    this.rutinaService.limpiarRutina();
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
-    this.obtenerRutina(idPlan);
+    this.cargarRutina(idPlan);
   }
-
-  obtenerRutina(idPlan: number) {
-    this.rutinaService.getDetalleEjercicios(idPlan).subscribe(
-      (rutina) => {
-        this.rutina = rutina;
+    
+    iniciarRutina(): void {
+    if (!this.rutina) return;
+    
+    this.rutinaService.setIndiceActual(0);
+    this.temporizadorService.iniciarTiempo();
+    this.router.navigate(['/informacion-ejercicio']);
+  }
+   
+ private cargarRutina(idPlan: number): void {
+    this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
+      next: rutina => {
+        this.rutina = rutina;                        
+        this.rutinaService.setRutina(rutina);        
       },
-      (error) => {
-        console.error('Error al obtener la rutina:', error);
-      }
-    );
-  }
-
-  iniciarRutina() {
-    if (this.rutina) {
-      this.rutinaService.setRutina(this.rutina);
-      this.temporizadorService.iniciarTiempo();
-      this.rutinaService.setIndiceActual(0);
-      this.router.navigate(['/informacion-ejercicio']);
-    }
+      error: err => console.error('Error al obtener la rutina:', err)
+    });
   }
 }
