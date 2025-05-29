@@ -23,6 +23,7 @@ export class FinalizacionRutinaComponent {
   selectedEjercicioIndex: number = 0;
   opcionSeleccionadaEstadisticas: string | null = null;
   expandido:boolean=false;
+  indiceGrupoVisible: number = 0;
 
   constructor(
     private rutinaService: RutinaService,
@@ -41,8 +42,7 @@ export class FinalizacionRutinaComponent {
     }
 
     this.temporizadorService.pausar();
-    const segundosTotales =
-      this.temporizadorService.obtenerSegundosTranscurridos();
+    const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
     this.tiempoTotal = this.formatearTiempo(segundosTotales);
   }
 
@@ -52,7 +52,11 @@ export class FinalizacionRutinaComponent {
     return `${minutos}m ${segundosRestantes}s`;
   }
 
- opcionSeleccionadaSidebar(index: number) {
+ selectEjercicio(index: number) {
+  this.selectedEjercicioIndex = index;
+}
+ 
+  opcionSeleccionadaSidebar(index: number) {
   if (this.selectedSidebarIndex === index) {
     this.selectedSidebarIndex = null; 
     this.expandido = false;          
@@ -62,13 +66,27 @@ export class FinalizacionRutinaComponent {
   }
 }
 
+opciones = [
+  { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
+  { id: 'errores', icono: 'fa-solid fa-expand' },
+  { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
+];
 
-selectEjercicio(index: number) {
-  this.selectedEjercicioIndex = index;
+mostrarOpcion(opcionId: string) {
+  this.opcionSeleccionadaEstadisticas = opcionId;
 }
 
+cerrarOpcion() {
+  this.opcionSeleccionadaEstadisticas = null;
+}
 
-  abrirModalFeedback() {
+moverCarruselMuscular(direccion: number): void {
+  const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
+  const totalGrupos = grupoActual.length;
+  this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
+}
+
+ abrirModalFeedback() {
     const modalElement = document.getElementById('feedbackModal');
     if (modalElement) {
       this.modalInstance = new bootstrap.Modal(modalElement);
@@ -111,31 +129,5 @@ selectEjercicio(index: number) {
     this.temporizadorService.reiniciarTiempo();
     this.rutina = null;
   }
-
-indiceGrupoVisible: number = 0;
-
-moverCarruselMuscular(direccion: number): void {
-  const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
-  const totalGrupos = grupoActual.length;
-  this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
-}
-
-
-
-opciones = [
-  { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
-  { id: 'errores', icono: 'fa-solid fa-expand' },
-  { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
-];
-
-mostrarOpcion(opcionId: string) {
-  this.opcionSeleccionadaEstadisticas = opcionId;
-}
-
-cerrarOpcion() {
-  this.opcionSeleccionadaEstadisticas = null;
-}
-
-
 
 }
