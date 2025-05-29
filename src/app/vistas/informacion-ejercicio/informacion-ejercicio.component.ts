@@ -12,19 +12,21 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
   styleUrl: './informacion-ejercicio.component.css',
 })
 export class InformacionEjercicioComponent {
+
   rutina: Rutina | null = null;
   ejercicios: Ejercicio[] = [];
+  indiceActual: number = 0;
+  ejercicio: Ejercicio | null = null;
+  duracionDelEjercicio: string = '';
+  repeticionesDelEjercicio: string = '';
+  duracionDescanso = 10;
+  
   tiempoTotal = 0;
   tiempoRestante = 0;
   estaPausado = false;
   idIntervalo: any;
-  ejercicio: Ejercicio | null = null;
-  indiceActual: number = 0;
   esPrimerEjercicio: boolean = true;
   mensaje: string = '';
-  duracionDescanso = 10;
-  duracionDelEjercicio: string = '';
-  repeticionesDelEjercicio: string = '';
 
   constructor(
     private rutinaService: RutinaService,
@@ -33,25 +35,28 @@ export class InformacionEjercicioComponent {
   ) {}
 
   ngOnInit(): void {
-    this.rutina = this.rutinaService.getRutina();
+  const datos = this.rutinaService.getDatosIniciales();
 
-    if (!this.rutina) {
-      console.error('No se encontró la rutina. Redirigiendo...');
-      this.router.navigate(['/ruta-de-error-o-plan']);
-      return;
-    }
-
-    this.indiceActual = this.rutinaService.getIndiceActual();
-    this.ejercicios = this.rutina.ejercicios || [];
-    this.ejercicio = this.obtenerInformacionDelEjercicioActual(
-      this.indiceActual
-    );
-    this.tiempoTotal = this.traducirDuracionEstimada(
-      this.rutina.duracionEstimada
-    );
-    this.tiempoRestante = this.tiempoTotal;
-    this.iniciarTemporizador();
+  if (!datos.rutina) {
+    console.error('No se encontró la rutina. Redirigiendo...');
+    this.router.navigate(['/ruta-de-error-o-plan']);
+    return;
   }
+
+  this.rutina = datos.rutina;
+  this.indiceActual = datos.indiceActual;
+  this.ejercicios = datos.ejercicios;
+  this.ejercicio = datos.ejercicio;
+  this.duracionDelEjercicio = datos.duracionDelEjercicio;
+  this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
+
+  this.tiempoTotal = this.traducirDuracionEstimada(
+    this.rutina.duracionEstimada
+  );
+  this.tiempoRestante = this.tiempoTotal;
+
+  this.iniciarTemporizador();
+}
 
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);
@@ -81,7 +86,7 @@ export class InformacionEjercicioComponent {
   }
 
   get mensajeCuentaRegresiva(): string {
-    if (this.indiceActual === 0) {
+    if (this.rutinaService.getIndiceActual() === 0) {
       return '¡Comenzamos en ';
     } else {
       return `Descanso. Continuá con el ejercicio ${
@@ -90,6 +95,16 @@ export class InformacionEjercicioComponent {
     }
   }
 
+  botonPausar(): void {
+    this.estaPausado = !this.estaPausado;
+    
+    if (this.estaPausado) {
+      this.temporizadorService.pausar();
+    } else {
+      this.temporizadorService.continuar();
+    }
+  }
+  
   private formatearTiempo(segundos: number): string {
     const minutos = Math.floor(segundos / 60)
       .toString()
@@ -97,38 +112,17 @@ export class InformacionEjercicioComponent {
     const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
     return `${minutos}:${segundosRestantes}`;
   }
-
+  
   private iniciarTemporizador(): void {
     this.idIntervalo = setInterval(() => {
       if (!this.estaPausado && this.tiempoRestante > 0) {
         this.tiempoRestante--;
       }
-
+  
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
         this.router.navigate(['/realizar-ejercicio-por-tiempo']);
       }
     }, 1000);
-  }
-
-  botonPausar(): void {
-    this.estaPausado = !this.estaPausado;
-
-    if (this.estaPausado) {
-      this.temporizadorService.pausar();
-    } else {
-      this.temporizadorService.continuar();
-    }
-  }
-
-  obtenerInformacionDelEjercicioActual(i: number): Ejercicio | null {
-    let ejercicioActual = this.rutina?.ejercicios[i] ?? null;
-    this.duracionDelEjercicio = this.ejercicio?.duracion
-      ? `${this.ejercicio.duracion} segundos`
-      : '';
-    this.repeticionesDelEjercicio = this.ejercicio?.repeticiones
-      ? `${this.ejercicio.repeticiones} repeticiones`
-      : '';
-    return ejercicioActual;
   }
 }
