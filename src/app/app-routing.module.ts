@@ -22,6 +22,7 @@ import { authGuard } from './core/guards/auth.guards';
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
+import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 
 const routes: Routes = [
   {
@@ -124,6 +125,10 @@ const routes: Routes = [
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent,
         canActivate: [authGuard]
+      },
+      {
+        path: 'verificar-email/:token',
+        component: VerificarEmailComponent,
       }
     ]
   },
