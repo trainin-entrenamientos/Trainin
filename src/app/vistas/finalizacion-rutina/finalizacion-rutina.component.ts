@@ -19,8 +19,11 @@ export class FinalizacionRutinaComponent {
   email: string | null = null;
   tiempoTotal: string = '';
   modalInstance: any;
+  selectedSidebarIndex: number | null = null;
+  selectedEjercicioIndex: number = 0;
+  opcionSeleccionadaEstadisticas: string | null = null;
+  expandido:boolean=false;
 
-  
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
@@ -48,6 +51,22 @@ export class FinalizacionRutinaComponent {
     const segundosRestantes = segundos % 60;
     return `${minutos}m ${segundosRestantes}s`;
   }
+
+ opcionSeleccionadaSidebar(index: number) {
+  if (this.selectedSidebarIndex === index) {
+    this.selectedSidebarIndex = null; 
+    this.expandido = false;          
+  } else {
+    this.selectedSidebarIndex = index;
+    this.expandido = true;            
+  }
+}
+
+
+selectEjercicio(index: number) {
+  this.selectedEjercicioIndex = index;
+}
+
 
   abrirModalFeedback() {
     const modalElement = document.getElementById('feedbackModal');
@@ -85,6 +104,7 @@ export class FinalizacionRutinaComponent {
         this.router.navigate(['/planes']);
       }
     }
+    this.temporizadorService.reiniciarTiempo();
   }
 
   reiniciarRutina(): void {
@@ -92,11 +112,30 @@ export class FinalizacionRutinaComponent {
     this.rutina = null;
   }
 
-  estadisticas = [
-    { label: 'Calorías Quemadas', valor: '120 cal' },
-    { label: 'Duración Total', valor: '15 min' },
-    { label: 'Estado Físico', valor: 'Excelente' },
-    { label: 'Progreso Semanal', valor: '5/5 días' },
-    { label: 'Logros Completados', valor: '2' },
-  ];
+indiceGrupoVisible: number = 0;
+
+moverCarruselMuscular(direccion: number): void {
+  const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
+  const totalGrupos = grupoActual.length;
+  this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
+}
+
+
+
+opciones = [
+  { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
+  { id: 'errores', icono: 'fa-solid fa-expand' },
+  { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
+];
+
+mostrarOpcion(opcionId: string) {
+  this.opcionSeleccionadaEstadisticas = opcionId;
+}
+
+cerrarOpcion() {
+  this.opcionSeleccionadaEstadisticas = null;
+}
+
+
+
 }
