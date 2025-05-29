@@ -47,7 +47,7 @@ export class RutinaService {
     return this.indiceActual;
   }
   avanzarAlSiguienteEjercicio(): void {
-  if (this.rutina && this.indiceActual < this.rutina.ejercicios.length - 1) {
+  if (this.rutina && this.indiceActual < this.rutina.ejercicios.length) {
     this.indiceActual++;
   }
 }
@@ -61,6 +61,7 @@ export class RutinaService {
   haySiguienteEjercicio(): boolean {
     return this.indiceActual < this.rutina?.ejercicios.length!;
   }
+
   getDatosIniciales() {
   const rutina = this.getRutina();
   const indice = this.getIndiceActual();

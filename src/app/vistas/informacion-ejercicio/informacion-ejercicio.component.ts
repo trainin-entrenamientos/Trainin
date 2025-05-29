@@ -14,7 +14,6 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 export class InformacionEjercicioComponent {
 
   rutina: Rutina | null = null;
-  ejercicios: Ejercicio[] = [];
   indiceActual: number = 0;
   ejercicio: Ejercicio | null = null;
   duracionDelEjercicio: string = '';
@@ -26,7 +25,6 @@ export class InformacionEjercicioComponent {
   estaPausado = false;
   idIntervalo: any;
   esPrimerEjercicio: boolean = true;
-  mensaje: string = '';
 
   constructor(
     private rutinaService: RutinaService,
@@ -45,7 +43,6 @@ export class InformacionEjercicioComponent {
 
   this.rutina = datos.rutina;
   this.indiceActual = datos.indiceActual;
-  this.ejercicios = datos.ejercicios;
   this.ejercicio = datos.ejercicio;
   this.duracionDelEjercicio = datos.duracionDelEjercicio;
   this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
