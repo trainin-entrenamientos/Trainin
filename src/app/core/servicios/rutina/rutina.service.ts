@@ -40,4 +40,8 @@ export class RutinaService {
   getIndiceActual(): number {
     return this.indiceActual;
   }
+  limpiarRutina() {
+    this.rutina = null;
+    this.indiceActual = 0;
+  }
 }
