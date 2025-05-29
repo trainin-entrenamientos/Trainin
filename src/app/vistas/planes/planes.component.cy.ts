@@ -1,7 +1,7 @@
-import { CrearPlanEntrenamientoComponent } from './planes.component'
+import { PlanesComponent } from './planes.component'
 
-describe('CrearPlanEntrenamientoComponent', () => {
+describe('PlanesComponent', () => {
   it('should mount', () => {
-    cy.mount(CrearPlanEntrenamientoComponent)
+    cy.mount(PlanesComponent)
   })
 })
