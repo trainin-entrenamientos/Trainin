@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
 
 @NgModule({
 
@@ -48,7 +49,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlanPremiumComponent,
     InformacionEjercicioComponent,
     CorreccionPosturaComponent,
-    CalibracionCamaraComponent
+    CalibracionCamaraComponent,
+    VerificarEmailComponent,
   ],
 
   imports: [
