@@ -41,7 +41,6 @@ export class RealizarEjercicioPorTiempoComponent {
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
     this.ejercicioActual = datos.ejercicio;
-    this.ejercicioActual = this.rutinaService.getEjercicioActual();
     this.tiempoTotal = this.rutina.duracionEstimada ?? 30;
     this.tiempoRestante = this.tiempoTotal;
 

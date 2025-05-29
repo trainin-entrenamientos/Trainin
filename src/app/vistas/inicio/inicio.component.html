@@ -1,19 +1,20 @@
 <body>
-  <section class="hero-section d-flex align-items-center">
+  <section #heroSection class="hero-section d-flex align-items-center" [@fadeInStagger]="sectionVisible ? 'in' : null">
+
     <div class="container py-5">
       <div class="row align-items-center">
 
         <div class="col-md-6 col-lg-7 text-center text-md-start text-white">
           <h1 class="hero-title">
-            <span class="hero-line hero-line--1 text-nowrap">Entrená a tu tiempo,</span>
-            <span class="hero-line hero-line--2">donde y cuando</span>
-            <span class="hero-line hero-line--3">vos quieras</span>
+            <span class="hero-line fade-element">Entrená a tu tiempo,</span>
+            <span class="hero-line fade-element">donde y cuando</span>
+            <span class="hero-line fade-element">vos quieras</span>
           </h1>
-          <p class="hero-text lead">
+          <p class="hero-text lead fade-element">
             Te ayudamos a mejorar tu postura, optimizar tu rendimiento<br>
             y alcanzar tus metas a tu ritmo.
           </p>
-          <p class="hero-subtext lead fw-normal">
+          <p class="hero-subtext lead fw-normal fade-element">
             No es solo moverte, es evolucionar.
           </p>
 
@@ -22,8 +23,8 @@
         </div>
 
         <!-- IMÁGENES HERO -->
-        <div class="col-md-6 col-lg-5 text-center mt-4 mt-md-0">
-          <div id="heroCarousel" #heroCarousel class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="col-md-6 col-lg-5 text-center mt-4 mt-md-0 fade-element">
+          <div #heroCarousel id="heroCarousel" class="carousel slide carousel-fade">
             <div class="carousel-inner" id="carousel-inner">
               <div class="carousel-item active">
                 <img src="imagenes/Sentadilla-Hero.jpg" alt="Persona haciendo sentadilla." class="hero-img">
@@ -38,19 +39,21 @@
           </div>
         </div>
 
-      </div> 
-    </div> 
+      </div>
+    </div>
   </section>
 
-<!-- ¿Por qué elegirnos?-->
-  <section class="why-section py-5">
+
+  <!-- ¿Por qué elegirnos?-->
+  <section #whySection class="why-section py-5">
     <div class="container">
       <h1 class="section-title mb-5">
         ¿Por qué <span class="text-green">elegirnos?</span>
       </h1>
 
       <!-- Item 1 - Planificación-->
-      <div class="row justify-content-center align-items-center why-item mb-5 g-5">
+      <div #whyItem1 class="row justify-content-center align-items-center why-item mb-5 g-5"
+        [@slideIn]="slideWhyItems[0]">
         <div class="col-md-6 why-col-text">
           <div class="why-text-block">
             <i class="bi bi-check2-square why-icon"></i>
@@ -70,7 +73,8 @@
       </div>
 
       <!-- Item 2 - Entrená donde quieras -->
-      <div class="row justify-content-center align-items-center why-item mb-5 g-5 invert">
+      <div #whyItem2 class="row justify-content-center align-items-center why-item mb-5 g-5 invert"
+        [@slideIn]="slideWhyItems[1]">
         <div class="col-md-6 text-center">
           <img src="/imagenes/Entrenamiento en donde quieras.jpg" alt="Entrenamiento en donde quieras"
             class="why-img why-img--2">
@@ -92,7 +96,8 @@
       </div>
 
       <!-- Item 3 Validación Profesional-->
-      <div class="row justify-content-center align-items-center why-item g-5">
+      <div #whyItem3 class="row justify-content-center align-items-center why-item mb-5 g-5"
+        [@slideIn]="slideWhyItems[2]">
         <div class="col-md-6 why-col-text">
           <div class="why-text-block">
             <i class="bi bi-person-badge why-icon"></i>
@@ -114,7 +119,8 @@
   </section>
 
   <!-- Corrección en tiempo real -->
-  <section class="correction-section py-5">
+  <section #correctionSection class="correction-section py-5" [@sectionLift]="correctionVisible ? 'visible' : 'hidden'"
+    [@fadeZoomStagger]="correctionVisible ? 'visible' : 'hidden'">
     <!-- Esquinas marcadores verdes -->
     <div class="corner top-left"></div>
     <div class="corner top-right"></div>
@@ -132,71 +138,69 @@
       </p>
       <div class="row g-4 mb-5" #galleryRow>
         <div class="col-md-4" id="carruselCorreccion">
-          <img src="/imagenes/Corrección Tiempo Real 1.jpg" alt="Corrección Tiempo Real 1" class="why-img why-img--2">
+          <img src="/imagenes/Corrección Tiempo Real 1.jpg" alt="Corrección Tiempo Real 1"
+            class="correccion-img why-img why-img--2">
         </div>
         <div class="col-md-4" id="carruselCorreccion">
-          <img src="/imagenes/Corrección Tiempo Real 2.jpg" alt="Corrección Tiempo Real 2" class="why-img why-img--2">
+          <img src="/imagenes/Corrección Tiempo Real 2.jpg" alt="Corrección Tiempo Real 2"
+            class="correccion-img why-img why-img--2">
         </div>
         <div class="col-md-4" id="carruselCorreccion">
-          <img src="/imagenes/Corrección Tiempo Real 3.jpg" alt="Corrección Tiempo Real 3" class="why-img why-img--2">
+          <img src="/imagenes/Corrección Tiempo Real 3.jpg" alt="Corrección Tiempo Real 3"
+            class="correccion-img why-img why-img--2">
         </div>
       </div>
     </div>
 
     <h3 class="timeline-title mb-4 text-center">Conocé el paso a paso . . .</h3>
 
-    <!-- Timeline + Descripciones (Desktop sin JS) -->
-
-    <!-- Paso 1-3: Timeline con contenido móvil integrado solo en <768px -->
-    <div class="row timeline-row position-relative mb-5 gx-0">
-      <!-- Paso 1 -->
+    <!-- Timeline - Móvil -->
+    <div class="row timeline-row position-relative mb-5 gx-0"
+      [@timelineStagger]="correctionVisible ? 'visible' : 'hidden'">
       <div class="col position-relative py-0">
         <div class="marker"></div>
-        <div class="marker-label">1</div>
-        <!-- Contenido móvil: visible solo en mobile -->
+        <div class="marker-label fade-marker">1</div>
         <div class="step-content d-block d-md-none text-center">
-          <h4 class="step-title">Encendé</h4>
-          <p class="step-text">la cámara de tu dispositivo</p>
+          <h4 class="step-title fade-marker">Encendé</h4>
+          <p class="step-text fade-marker">la cámara de tu dispositivo</p>
           <i class="bi bi-camera fs-2 text-white"></i>
         </div>
       </div>
-      <!-- Paso 2 -->
       <div class="col position-relative py-0">
         <div class="marker"></div>
-        <div class="marker-label">2</div>
+        <div class="marker-label fade-marker">2</div>
         <div class="step-content d-block d-md-none text-center">
-          <h4 class="step-title">Calibrá</h4>
-          <p class="step-text">para asegurar una buena corrección</p>
+          <h4 class="step-title fade-marker">Calibrá</h4>
+          <p class="step-text fade-marker">para asegurar una buena corrección</p>
           <i class="bi bi-lightbulb fs-2 text-white"></i>
         </div>
       </div>
-      <!-- Paso 3 -->
       <div class="col position-relative py-0">
         <div class="marker"></div>
-        <div class="marker-label">3</div>
+        <div class="marker-label fade-marker">3</div>
         <div class="step-content d-block d-md-none text-center">
-          <h4 class="step-title">Practicá y mejorá</h4>
-          <p class="step-text">la postura de tus ejercicios</p>
+          <h4 class="step-title fade-marker">Practicá y mejorá</h4>
+          <p class="step-text fade-marker">la postura de tus ejercicios</p>
           <i class="bi bi-stopwatch fs-2 text-white"></i>
         </div>
       </div>
     </div>
 
-    <!-- Descripciones de pasos (solo desktop >=768px) -->
-    <div class="row g-4 mb-5 d-none d-md-flex">
+    <!-- Timeline - Desktop -->
+    <div class="row g-4 mb-5 d-none d-md-flex" [@timelineStagger]="correctionVisible ? 'visible' : 'hidden'">
       <div class="col-md-4 text-center">
-        <h4 class="step-title">Encendé</h4>
-        <p class="step-text">la cámara de tu dispositivo</p>
+        <h4 class="step-title fade-marker">Encendé</h4>
+        <p class="step-text fade-marker">la cámara de tu dispositivo</p>
         <i class="bi bi-camera fs-2 text-white"></i>
       </div>
       <div class="col-md-4 text-center">
-        <h4 class="step-title">Calibrá</h4>
-        <p class="step-text">para asegurar una buena corrección</p>
+        <h4 class="step-title fade-marker">Calibrá</h4>
+        <p class="step-text fade-marker">para asegurar una buena corrección</p>
         <i class="bi bi-lightbulb fs-2 text-white"></i>
       </div>
       <div class="col-md-4 text-center">
-        <h4 class="step-title">Practicá y mejorá</h4>
-        <p class="step-text">la postura de tus ejercicios</p>
+        <h4 class="step-title fade-marker">Practicá y mejorá</h4>
+        <p class="step-text fade-marker">la postura de tus ejercicios</p>
         <i class="bi bi-stopwatch fs-2 text-white"></i>
       </div>
     </div>
@@ -208,6 +212,7 @@
   </section>
 
   <section class="benefits-section py-5">
+
     <div class="container">
       <h2 class="section-title mx-auto mb-5 text-center">
         Beneficios <span class="text-green">TRAININ</span>
@@ -217,7 +222,10 @@
       <div class="row gy-5">
         <!-- 1 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
+              <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[0] ? 'visible' : 'hidden'">
             <img src="/imagenes/Seguimiento de Progreso.jfif" alt="Seguimiento de progreso" class="benefit-img mb-3">
             <h3 class="benefit-title">Seguimiento de progreso</h3>
             <p class="benefit-text">
@@ -227,8 +235,11 @@
         </div>
         <!-- 2 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
-            <img src="/imagenes/Adaptación de tu plan.jpg" alt="Adaptación de tu plan" class="benefit-img mb-3">
+              <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[1] ? 'visible' : 'hidden'">
+                  <img src="/imagenes/Adaptación de tu plan.jpg" alt="Adaptación de tu plan" class="benefit-img mb-3">
             <h3 class="benefit-title">Adaptación de tu plan</h3>
             <p class="benefit-text">
               Adaptá tu rutina si cambian tus tiempos, preferencias o ritmo de entrenamiento.
@@ -237,8 +248,11 @@
         </div>
         <!-- 3 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
-            <img src="/imagenes/Rutinas Rápidas.webp" alt="Rutinas rápidas" class="benefit-img mb-3">
+          <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[2] ? 'visible' : 'hidden'">            
+      <img src="/imagenes/Rutinas Rápidas.webp" alt="Rutinas rápidas" class="benefit-img mb-3">
             <h3 class="benefit-title">Rutinas rápidas</h3>
             <p class="benefit-text">
               Entrenamientos express que podés hacer donde sea y en menos de 20 minutos.
@@ -247,8 +261,12 @@
         </div>
         <!-- 4 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
-            <img src="/imagenes/recordatorios_inteligentes.avif" alt="Recordatorios inteligentes" class="benefit-img mb-3">
+          <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[3] ? 'visible' : 'hidden'">            
+      <img src="/imagenes/recordatorios_inteligentes.avif" alt="Recordatorios inteligentes"
+              class="benefit-img mb-3">
             <h3 class="benefit-title">Recordatorios inteligentes</h3>
             <p class="benefit-text">
               Recibí alertas personalizadas para no olvidar tus entrenamientos y mantener tu constancia.
@@ -257,8 +275,11 @@
         </div>
         <!-- 5 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
-            <img src="/imagenes/Gamificación y Logros.jpg" alt="Gamificación y logros" class="benefit-img mb-3">
+          <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[4] ? 'visible' : 'hidden'">            
+      <img src="/imagenes/Gamificación y Logros.jpg" alt="Gamificación y logros" class="benefit-img mb-3">
             <h3 class="benefit-title">Gamificación <br>y logros</h3>
             <p class="benefit-text">
               Desbloqueá insignias, subí de nivel y alcanzá metas que te motivan a seguir.
@@ -267,8 +288,11 @@
         </div>
         <!-- 6 -->
         <div class="col-12 col-md-4 d-flex justify-content-center">
-          <div class="benefit-item text-center" id="beneficiosTrainin">
-            <img src="/imagenes/Historial de Entrenamientos.jpg" alt="Historial de entrenamientos"
+          <div
+      #benefitItem
+      class="benefit-item text-center fade-marker" id="beneficiosTrainin"
+      [@benefitItem]="benefitVisible[5] ? 'visible' : 'hidden'">
+                  <img src="/imagenes/Historial de Entrenamientos.jpg" alt="Historial de entrenamientos"
               class="benefit-img mb-3">
             <h3 class="benefit-title">Historial de Entrenamientos</h3>
             <p class="benefit-text">
@@ -280,13 +304,14 @@
     </div>
   </section>
 
-  <section class="subscription-section py-5">
+  <section class="subscription-section py-5" #subscriptionSection>
+
     <div class="container">
       <h1 class="section-title">
         Suscripciones
       </h1>
 
-      <div class="row g-4">
+      <div class="row g-4" *ngIf="subscriptionVisible" @subscriptionStagger>
         <!-- Plan Gratuito -->
         <div class="col-12 col-md-6">
           <div class="subscription-card free d-flex flex-column h-100 p-4">

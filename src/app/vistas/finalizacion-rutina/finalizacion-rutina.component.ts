@@ -19,8 +19,12 @@ export class FinalizacionRutinaComponent {
   email: string | null = null;
   tiempoTotal: string = '';
   modalInstance: any;
+  selectedSidebarIndex: number | null = null;
+  selectedEjercicioIndex: number = 0;
+  opcionSeleccionadaEstadisticas: string | null = null;
+  expandido:boolean=false;
+  indiceGrupoVisible: number = 0;
 
-  
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
@@ -38,8 +42,7 @@ export class FinalizacionRutinaComponent {
     }
 
     this.temporizadorService.pausar();
-    const segundosTotales =
-      this.temporizadorService.obtenerSegundosTranscurridos();
+    const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
     this.tiempoTotal = this.formatearTiempo(segundosTotales);
   }
 
@@ -49,7 +52,41 @@ export class FinalizacionRutinaComponent {
     return `${minutos}m ${segundosRestantes}s`;
   }
 
-  abrirModalFeedback() {
+ selectEjercicio(index: number) {
+  this.selectedEjercicioIndex = index;
+}
+ 
+  opcionSeleccionadaSidebar(index: number) {
+  if (this.selectedSidebarIndex === index) {
+    this.selectedSidebarIndex = null; 
+    this.expandido = false;          
+  } else {
+    this.selectedSidebarIndex = index;
+    this.expandido = true;            
+  }
+}
+
+opciones = [
+  { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
+  { id: 'errores', icono: 'fa-solid fa-expand' },
+  { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
+];
+
+mostrarOpcion(opcionId: string) {
+  this.opcionSeleccionadaEstadisticas = opcionId;
+}
+
+cerrarOpcion() {
+  this.opcionSeleccionadaEstadisticas = null;
+}
+
+moverCarruselMuscular(direccion: number): void {
+  const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
+  const totalGrupos = grupoActual.length;
+  this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
+}
+
+ abrirModalFeedback() {
     const modalElement = document.getElementById('feedbackModal');
     if (modalElement) {
       this.modalInstance = new bootstrap.Modal(modalElement);
@@ -85,6 +122,7 @@ export class FinalizacionRutinaComponent {
         this.router.navigate(['/planes']);
       }
     }
+    this.temporizadorService.reiniciarTiempo();
   }
 
   reiniciarRutina(): void {
@@ -92,11 +130,4 @@ export class FinalizacionRutinaComponent {
     this.rutina = null;
   }
 
-  estadisticas = [
-    { label: 'Calorías Quemadas', valor: '120 cal' },
-    { label: 'Duración Total', valor: '15 min' },
-    { label: 'Estado Físico', valor: 'Excelente' },
-    { label: 'Progreso Semanal', valor: '5/5 días' },
-    { label: 'Logros Completados', valor: '2' },
-  ];
 }

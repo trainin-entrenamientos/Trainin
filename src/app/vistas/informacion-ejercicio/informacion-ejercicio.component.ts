@@ -62,7 +62,7 @@ export class InformacionEjercicioComponent {
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
       case 1:
-        return 15;
+        return 1; //ACÁ MODIFIQUE PARA CODEAR EASLY
       case 2:
         return 30;
       default:
