@@ -1,14 +1,18 @@
 <body>
-  
+  <main *ngIf="!rutina">
+    <section>
+      <article class="text-center">
+        <h2 class="p-4 m-4">Ya realizaste la rutina de hoy!</h2>
+        <h3>Vuelve mañana para seguir con la rutina!</h3>
+      </article>
+    </section>
+  </main>
 
 <main *ngIf="rutina" class="rutina-card text-white my-4">
   <div class="d-flex align-items-center justify-content-between mb-3">
     <i routerLink="/planes" class="fa-solid fa-arrow-left fa-xl" ></i>
-      <!--
     <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina}}</h2>
-    -->
     <!--<h2 class="m-0 text-center flex-grow-1">Plan #1 – Día 1</h2>-->
-  <h2 class="m-0 text-center flex-grow-1">Plan de Cuerpo Completo - Día 1</h2>
     <span style="width: 24px"></span>
   </div>
 
@@ -39,9 +43,7 @@
   </div>
 
   <div class="text-center mt-4">
-    <button class="btn fw-bold text-black px-4 py-2" style="background-color: #13ff3a" (click)="iniciarRutina()">
-      Iniciar Rutina
-    </button>
+    <app-boton-trainin type="button" class="btn-trainin" (clickBoton)="iniciarRutina()">Iniciar Rutina</app-boton-trainin>
   </div>
 </main>
 </body>

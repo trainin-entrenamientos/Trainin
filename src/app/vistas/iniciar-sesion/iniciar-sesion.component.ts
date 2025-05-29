@@ -25,27 +25,23 @@ export class IniciarSesionComponent {
   }
 
   iniciarSesion() {
-    const credenciales = this.loginForm.value;
+    if (this.loginForm.invalid) return;
 
+    const credenciales = this.loginForm.value;
     this.authService.login(credenciales).subscribe({
       next: (data) => {
-        console.log('Login exitoso:', data);
-
         if (data.exito && !data.requiereActivacion) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('email', data.email);
-
-          console.log('Redirigiendo a crear-plan-entrenamiento...');
           this.router.navigate(['/planes']);
-        } else if (data.requiereActivacion) {
+        } else {
           alert('Debes activar tu cuenta antes de iniciar sesión.');
         }
       },
-      error: (err) => {
-        console.error('Error al iniciar sesión:', err);
+      error: () => {
         alert('Credenciales incorrectas o error de servidor.');
       }
     });
   }
+
+
 }
 

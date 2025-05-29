@@ -20,6 +20,7 @@ export class PlanesComponent {
   authService: AuthService;
   router: Router;
   email: string | null = null;
+  cargando: boolean = true;
 
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
@@ -33,7 +34,7 @@ export class PlanesComponent {
     this.router = router;
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
   }
@@ -56,6 +57,9 @@ export class PlanesComponent {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
+        setTimeout(() => {
+          this.cargando = false;
+        }, 500);
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
@@ -70,7 +74,11 @@ export class PlanesComponent {
   return `${((progreso / total) * 100).toFixed(2)}%`;
 }
 
-  irAlDetalleDelPlan(idPlan: number): void {
+  irAlPlan(idPlan: number, estado: string): void {
+    if (estado === 'Realizada hoy') {
+      this.router.navigate(['/detalle-plan'/*, idPlan*/]);
+      return;
+    }
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 

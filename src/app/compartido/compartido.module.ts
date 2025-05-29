@@ -11,6 +11,9 @@ import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-cread
 import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
+import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
+import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { TemporizadorComponent } from './componentes/temporizador/temporizador.c
     CrearPlanModalComponent,
     ModalPlanCreadoComponent,
     LoaderComponent,
-    TemporizadorComponent
+    TemporizadorComponent,
+    BotonTraininComponent,
+    CarruselVerticalComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +41,9 @@ import { TemporizadorComponent } from './componentes/temporizador/temporizador.c
     CrearPlanModalComponent,
     ModalPlanCreadoComponent,
     LoaderComponent,
-    TemporizadorComponent
+    TemporizadorComponent,
+    BotonTraininComponent,
+    CarruselVerticalComponent
   ],
   providers: [],
 })

@@ -6,14 +6,17 @@
 
         </div>
         <div class="iconosPausaClose">
+          <div class="text-muted-white fs-5 text-center">
+            <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
+          </div>
           <i
             id="pauseBtn"
             class="fs-1 cursor-pointer"
             [ngClass]="{
-              'bi bi-pause-circle-fill': !isPaused,
-              'bi bi-play-circle-fill': isPaused
+              'bi bi-pause-circle-fill': !estaPausado,
+              'bi bi-play-circle-fill': estaPausado
             }"
-            (click)="togglePause()"
+            (click)="botonPausa()"
           >
           </i>
         </div>
@@ -25,7 +28,7 @@
                 #exerciseVideo
                 id="exerciseVideo"
                 class="trainin-video"
-                [src]="videoUrl"
+                [src]="urlVideo"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
                 allowfullscreen
@@ -36,10 +39,7 @@
           </div>
 
           <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
-            <!-- BLOQUE DE “TIEMPO TOTAL” -->
-     <div class="text-muted-white fs-5 text-center">
-            <app-temporizador [isPaused]="isPaused"></app-temporizador>
-          </div>
+
             <div class="contenedorTimer mb-5 text-center">
               <h3 class="mb-1 font-weight-bold fs-1">
                 {{ ejercicioActual?.nombre }}
@@ -50,24 +50,22 @@
               <h5 class="text-muted-white mb-3">Tiempo Restante</h5>
             </div>
 
-            <!-- CONTADOR -->
             <div class="contenedorTimer mb-2 text-center">
               <div
                 id="countdown"
                 class="display-4 mb-3"
-                [ngClass]="{ 'countdown-warning': isWarning }"
+                [ngClass]="{ 'countdown-warning': esAdvertencia }"
               >
-                {{ countdownDisplay }}
+                {{ cuentaRegresiva }}
               </div>
             </div>
 
-            <!-- BARRA DE PROGRESO -->
             <div class="progress">
               <div
                 id="progressBar"
                 class="progress-bar bg-success"
                 role="progressbar"
-                [style.width]="progressPercent + '%'"
+                [style.width]="porcentajeDelProgreso + '%'"
               ></div>
             </div>
           </div>
