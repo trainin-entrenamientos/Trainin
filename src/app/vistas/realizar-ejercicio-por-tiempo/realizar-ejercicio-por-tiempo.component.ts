@@ -44,7 +44,7 @@ export class RealizarEjercicioPorTiempoComponent {
     }
 
     this.ejercicioActual = this.rutina.ejercicios[this.indiceActual];
-    this.tiempoTotal = this.ejercicioActual.duracion ?? 30;
+    this.tiempoTotal = this.ejercicioActual.duracion = 1; //ACÁ MODIFIQUE PARA CODEAR EASLY
     this.tiempoRestante = this.tiempoTotal;
 
     this.setearUrlDelVideo(this.ejercicioActual.video ?? '');
