@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
@@ -13,6 +14,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 })
 export class InicioRutinaComponent {
   rutina: Rutina | null = null;
+  selectedEjercicioIndex: number=0;
+  ejercicios: Ejercicio[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,11 +33,16 @@ export class InicioRutinaComponent {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe(
       (rutina) => {
         this.rutina = rutina;
+        this.ejercicios= rutina.ejercicios;
       },
       (error) => {
         console.error('Error al obtener la rutina:', error);
       }
     );
+  }
+
+  selectEjercicio(index: number) {
+    this.selectedEjercicioIndex = index;
   }
 
   iniciarRutina() {

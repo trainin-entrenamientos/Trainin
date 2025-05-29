@@ -75,6 +75,7 @@
                     "
                     [class.visible]="i === indiceGrupoVisible"
                   >
+                    <p>{{ejercicioSeleccionado.nombre}}</p><br>
                     <img [src]="grupo.imagen" [alt]="grupo.nombre" />
                     <p>{{ grupo.nombre }}</p>
                   </div>
@@ -126,11 +127,12 @@
           >
             <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
           </div>
+          
         </div>
 
         <div>
           <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
-            <div class="nombre-ejercicio">{{ actual.nombre }}</div>
+            <div class="nombre-ejercicio">{{selectedEjercicioIndex + 1}}- {{ actual.nombre }}</div>
           </div>
         </div>
       </div>
