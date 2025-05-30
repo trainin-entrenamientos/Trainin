@@ -1,0 +1,17 @@
+<ng-template #aTemplate>
+  <a [routerLink]="ruta" [ngClass]="clase" >
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </a>
+</ng-template>
+
+<ng-template #buttonTemplate>
+  <button [type]="tipo" [ngClass]="clase" (click)="clickBoton.emit()">
+    <ng-container *ngTemplateOutlet="contenido"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template [ngTemplateOutlet]="ruta ? aTemplate : buttonTemplate"></ng-template>
+
+<ng-template #contenido>
+  <ng-content></ng-content>
+</ng-template>
