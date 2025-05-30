@@ -82,7 +82,7 @@ export class InformacionEjercicioComponent {
   
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
-        this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+        this.router.navigate(['/realizar-ejercicio']);
       }
     }, 1000);
   }

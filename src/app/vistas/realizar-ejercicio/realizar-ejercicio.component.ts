@@ -6,21 +6,21 @@ import { Ejercicio, Rutina } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 @Component({
-  selector: 'app-realizar-ejercicio-por-tiempo',
+  selector: 'app-realizar-ejercicio',
   standalone: false,
-  templateUrl: './realizar-ejercicio-por-tiempo.component.html',
-  styleUrl: './realizar-ejercicio-por-tiempo.component.css',
+  templateUrl: './realizar-ejercicio.component.html',
+  styleUrl: './realizar-ejercicio.component.css',
 })
-export class RealizarEjercicioPorTiempoComponent {
+export class RealizarEjercicioComponent {
   rutina: Rutina | null = null;
   ejercicioActual: Ejercicio | null = null;
   indiceActual: number = 0;
-
   tiempoTotal: number = 0;
   tiempoRestante: number = 0;
   estaPausado: boolean = false;
   idIntervalo: any;
   urlVideo?: SafeResourceUrl;
+  esPorTiempo: boolean = true;
 
   constructor(
     private rutinaService: RutinaService,
@@ -32,20 +32,16 @@ export class RealizarEjercicioPorTiempoComponent {
   ngOnInit(): void {
     this.rutinaService.cargarDesdeSession();
     const datos = this.rutinaService.getDatosIniciales();
-    
-
     if(!datos.rutina){
       console.error('No se encontró la rutina. Redirigiendo...');
       this.router.navigate(['/planes']);
       return
     }
-
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
     this.ejercicioActual = datos.ejercicio;
     this.tiempoTotal = 1;
     this.tiempoRestante = this.tiempoTotal;
-
     this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');
     this.iniciarTemporizador();
     this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();

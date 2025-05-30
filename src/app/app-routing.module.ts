@@ -17,7 +17,7 @@ import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibrac
 import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
 import { InicioComponent } from './vistas/inicio/inicio.component';
 import { IniciarSesionComponent } from './vistas/iniciar-sesion/iniciar-sesion.component';
-import { RealizarEjercicioPorTiempoComponent } from './vistas/realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
+import { RealizarEjercicioComponent } from './vistas/realizar-ejercicio/realizar-ejercicio.component';
 import { authGuard } from './core/guards/auth.guards';
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
@@ -113,8 +113,8 @@ const routes: Routes = [
         canActivate: [authGuard]
       },
       {
-        path:'realizar-ejercicio-por-tiempo',
-        component: RealizarEjercicioPorTiempoComponent,
+        path:'realizar-ejercicio',
+        component: RealizarEjercicioComponent,
         canActivate: [authGuard]
       },
       {
