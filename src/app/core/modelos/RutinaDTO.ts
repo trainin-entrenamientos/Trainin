@@ -2,6 +2,7 @@
 export interface GrupoMuscular {
   id: number;
   nombre: string;
+  imagen: string;
 }
 
 export interface Ejercicio {

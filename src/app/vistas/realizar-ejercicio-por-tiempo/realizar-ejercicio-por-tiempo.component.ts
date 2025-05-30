@@ -15,6 +15,7 @@ export class RealizarEjercicioPorTiempoComponent {
   rutina: Rutina | null = null;
   ejercicioActual: Ejercicio | null = null;
   indiceActual: number = 0;
+
   tiempoTotal: number = 0;
   tiempoRestante: number = 0;
   estaPausado: boolean = false;
@@ -29,25 +30,21 @@ export class RealizarEjercicioPorTiempoComponent {
   ) {}
 
   ngOnInit(): void {
-    this.rutina = this.rutinaService.getRutina();
+    const datos = this.rutinaService.getDatosIniciales();
 
-    if (!this.rutina) {
-      this.router.navigate(['/inicio']);
-      return;
+    if(!datos.rutina){
+      console.error('No se encontró la rutina. Redirigiendo...');
+      this.router.navigate(['/ruta-de-error-o-plan']);
+      return
     }
 
-    this.indiceActual = this.rutinaService.getIndiceActual();
-
-    if (this.indiceActual >= this.rutina.ejercicios.length) {
-      this.router.navigate(['/finalizacion-rutina']);
-      return;
-    }
-
-    this.ejercicioActual = this.rutina.ejercicios[this.indiceActual];
-    this.tiempoTotal = this.ejercicioActual.duracion ?? 30;
+    this.rutina = datos.rutina;
+    this.indiceActual = datos.indiceActual;
+    this.ejercicioActual = datos.ejercicio;
+    this.tiempoTotal = this.rutina.duracionEstimada ?? 30;
     this.tiempoRestante = this.tiempoTotal;
 
-    this.setearUrlDelVideo(this.ejercicioActual.video ?? '');
+    this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');
     this.iniciarTemporizador();
   }
 
@@ -83,22 +80,15 @@ export class RealizarEjercicioPorTiempoComponent {
 
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
-        this.irAlSiguienteEjercicio();
+        this.rutinaService.avanzarAlSiguienteEjercicio();
+        console.log(this.indiceActual)
+        if(this.rutinaService.haySiguienteEjercicio()){
+          this.router.navigate(['/informacion-ejercicio']);
+        }else{
+          this.router.navigate(['/finalizacion-rutina']);
+        }
       }
     }, 1000);
-  }
-
-  private irAlSiguienteEjercicio(): void {
-    this.indiceActual++;
-    this.rutinaService.setIndiceActual(this.indiceActual);
-
-    if (this.indiceActual >= (this.rutina?.ejercicios.length ?? 0)) {
-      this.rutinaService.setIndiceActual(0);
-      this.router.navigate(['/finalizacion-rutina']);
-    } else {
-      this.rutinaService.setIndiceActual(this.indiceActual);
-      this.router.navigate(['/informacion-ejercicio']);
-    }
   }
 
   botonPausa(): void {

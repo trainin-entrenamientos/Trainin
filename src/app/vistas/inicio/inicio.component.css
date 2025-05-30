@@ -3,6 +3,7 @@ body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
+  overflow-x:hidden;
 }
 /*Hero section*/
 .hero-section {
@@ -217,78 +218,48 @@ body {
   border: none;
 }
 
-/* Línea verde  */
+/*Línea verde*/
 .row.timeline-row::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: calc(4% - 4px);
-  right: calc(3% - 3px);
-  height: 6px;
+  left: 16.7%;
+  right: 16.7%;
+  height: 4px;
   background-color: #13FF3A;
-  border-radius: 3px;
+  border-radius: 2px;
   transform: translateY(-50%);
+  z-index: 0;
 }
 
-
-/* Barra vertical (marker) */
+/* Barra vertical */
 .row.timeline-row .marker {
   position: absolute;
-  top: calc(50% - 16px);
+  top: 50%;
+  left: 50%;
   width: 8px;
   height: 32px;
   background-color: #13FF3A;
   border-radius: 2px;
+  transform: translate(-50%, -50%);
 }
 
-/* Ubicación de cada marker en su columna */
-.row.timeline-row .col:nth-child(1) .marker,
-.row.timeline-row .col:nth-child(1) .marker-label {
-  left: 10%;
-}
 
-.row.timeline-row .col:nth-child(2) .marker,
-.row.timeline-row .col:nth-child(2) .marker-label {
-  left: 50%;
-}
-
-.row.timeline-row .col:nth-child(3) .marker,
-.row.timeline-row .col:nth-child(3) .marker-label {
-  left: 90%;
-}
-
-/* Número justo debajo de cada marker */
 .row.timeline-row .marker-label {
   position: absolute;
-  top: calc(50% + 20px);
+  top: calc(50% + 24px);
+  left: 50%;
   transform: translateX(-50%);
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
 }
 
-.row.timeline-row .col:nth-child(1) .marker {
-  left: 10%;
-}
-
-.row.timeline-row .col:nth-child(2) .marker {
-  left: 50%;
-}
-
-.row.timeline-row .col:nth-child(3) .marker {
-  left: 90%;
-}
-
-.row.timeline-row .col:nth-child(1) .marker-label {
-  left: 11%;
-}
-
-.row.timeline-row .col:nth-child(2) .marker-label {
-  left: 51%;
-}
-
-.row.timeline-row .col:nth-child(3) .marker-label {
-  left: 91%;
+.row.timeline-row .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 @media (max-width: 767.98px) {
@@ -311,15 +282,6 @@ body {
   }
 
   .correction-section .timeline-row {
-    position: relative !important;
-    height: auto !important;
-    display: block;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .correction-section .timeline-row {
     position: relative;
     height: auto !important;
     display: block;
@@ -330,8 +292,7 @@ body {
 
   /* Línea verde vertical */
   .correction-section .timeline-row::before {
-
-    display: block;
+    display: flex;
     position: absolute;
     left: 1.5rem;
     background-color: #13FF3A;
@@ -344,6 +305,8 @@ body {
     bottom: 5em;
     width: 6px;
     transform: none;
+    justify-content: center;
+    align-items: center;
   }
 
   .correction-section .timeline-row .col {
@@ -614,6 +577,10 @@ body {
   color: #13FF3A;
 }
 
+.subscription-section {
+  min-height: 600px; 
+}
+
 @media (max-width: 767.98px) {
   .subscription-section .row {
     display: block;
@@ -670,4 +637,11 @@ body {
   .hero-img {
     height: 350px !important;
   }
+}
+
+.why-item {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.correction-section, .correction-img{ will-change: transform, opacity;
 }
