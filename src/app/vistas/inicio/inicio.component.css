@@ -1,0 +1,647 @@
+/* Body */
+body {
+  background-color: #00060C;
+  font-family: 'Merriweather Sans', sans-serif;
+  margin: 0;
+  overflow-x:hidden;
+}
+/*Hero section*/
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/*Hero Title y líneas */
+.hero-title {
+  color: #fff;
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+}
+
+.hero-line {
+  display: block;
+}
+
+.row {
+  margin-right: 0 !important;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.hero-line--2 {
+  color: #13FF3A;
+}
+
+.hero-text {
+  margin-bottom: 1.8rem;
+  color: #fff;
+}
+
+.hero-subtext {
+  color: #13FF3A !important;
+  margin-bottom: 2.5rem;
+}
+
+/*Botón Unite a TRAININ */
+.btn-trainin {
+  background-color: #13FF3A;
+  color: #000;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-trainin:hover {
+  background-color: #11E835;
+  transform: scale(1.05);
+}
+
+/*Imágenes hero */
+.hero-img {
+  width: 100%;
+  max-width: 450px;
+  height: 450px;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .hero-img {
+    margin: 0;
+  }
+}
+
+@media (max-width: 992px) {
+  #heroCarousel {
+    margin-left: 2em;
+    margin-top: 4em;
+  }
+
+    .hero-img {
+    margin: 0;
+  }
+}
+
+/* Section ¿Por qué elegirnos?*/
+.section-title {
+  display: table;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  border-bottom: 4px solid #13FF3A;
+  padding-bottom: 0.25rem;
+}
+
+/* Bloque de texto con espacio para el icono */
+.why-text-block {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+/* Ícono verde alineado a la izquierda */
+.why-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.8rem;
+  color: #13FF3A;
+}
+
+.why-subtitle {
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #13FF3A;
+  line-height: 1.2;
+}
+
+/* Párrafos */
+.why-text {
+  color: #fff;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Imágenes */
+.why-img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+.why-img--1 {
+  object-position: right center;
+}
+
+.why-img--2,
+.why-img--3 {
+  object-position: center center;
+}
+
+@media (max-width: 767.98px) {
+
+  .why-item.invert {
+    flex-direction: column-reverse !important;
+  }
+
+  .why-item.invert .why-img--2 {
+    margin: 0 auto;
+  }
+
+  h2.section-title {
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration-color: #13FF3A;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .why-item.invert .col-md-6.text-center {
+    text-align: left !important;
+  }
+  .why-item.invert .why-img--2 {
+    margin: 0;
+    margin-left: 2.5rem;
+  }
+
+  .why-item.invert .entrenamientodondequieras {
+    margin-left: -9.5rem;
+    width: calc(100% + 9.5rem);
+  }
+}
+
+/* Section Corrección en tiempo real*/
+
+/* Contenedor principal */
+.correction-section {
+  color: #fff;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+/* Subtítulo */
+.correction-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+
+}
+
+/* Timeline - Markers 1 y 3 (3 cols) */
+.row.timeline-row {
+  position: relative;
+  height: 4rem;
+  margin-bottom: 3rem;
+  border: none;
+}
+
+/*Línea verde*/
+.row.timeline-row::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 16.7%;
+  right: 16.7%;
+  height: 4px;
+  background-color: #13FF3A;
+  border-radius: 2px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Barra vertical */
+.row.timeline-row .marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 32px;
+  background-color: #13FF3A;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+
+
+.row.timeline-row .marker-label {
+  position: absolute;
+  top: calc(50% + 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.row.timeline-row .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+@media (max-width: 767.98px) {
+  #correctionGallery {
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  /*Imágenes*/
+  #correctionGallery .carousel-item img {
+    width: 80%;
+    max-width: 250px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+
+  }
+
+  .correction-section .timeline-row {
+    position: relative;
+    height: auto !important;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Línea verde vertical */
+  .correction-section .timeline-row::before {
+    display: flex;
+    position: absolute;
+    left: 1.5rem;
+    background-color: #13FF3A;
+    border-radius: 3px;
+    z-index: 0;
+    transform: rotate(90deg);
+    right: auto;
+    height: auto;
+    top: 5em;
+    bottom: 5em;
+    width: 6px;
+    transform: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .correction-section .timeline-row .col {
+    position: relative !important;
+    padding: 1.5rem 0 !important;
+  }
+
+  .correction-section .timeline-row .marker {
+    position: absolute !important;
+    left: 1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 20px !important;
+    height: 6px !important;
+    background-color: #13FF3A !important;
+    border-radius: 3px !important;
+  }
+
+  .correction-section .timeline-row .marker-label {
+    position: absolute !important;
+    left: calc(1rem + 20px + 0.5rem) !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+  }
+
+  #carruselCorreccion {
+    margin-bottom: 3em;
+  }
+
+}
+
+@media (max-width:992px) {
+#carruselCorreccion {
+    width: 100% !important;
+  }
+}
+
+/*Botón Unite a TRAININ */
+.correction-section .btn-trainin {
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 700;
+}
+
+.correction-section {
+  position: relative;
+}
+
+.corner {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border: 0.5rem solid #13FF3A;
+}
+
+/* Esquina superior izquierda */
+.corner.top-left {
+  top: 1rem;
+  left: 1rem;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Esquina superior derecha */
+.corner.top-right {
+  top: 1rem;
+  right: 1rem;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* Esquina inferior izquierda */
+.corner.bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+  border-right: none;
+  border-top: none;
+}
+
+/* Esquina inferior derecha */
+.corner.bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+  border-left: none;
+  border-top: none;
+}
+
+/* Section - Beneficios TRAININ */
+.benefits-section {
+  background-color: #00060C;
+  color: #fff;
+}
+
+/* Ítems*/
+.benefit-item {
+  max-width: 300px;
+}
+
+/* Imágenes */
+.benefit-img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
+
+.benefit-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #13FF3A;
+  margin-bottom: 0.75rem;
+}
+
+.benefit-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+  margin: 0 auto;
+  max-width: 280px;
+}
+
+@media (max-width:992px) {
+.benefit-img {
+    width: 200px !important;
+    height: 200px;
+  }
+.benefit-img {
+    width: 200px;
+    height: 200px;
+  }
+.benefit-title {
+    font-size: 1.25rem;
+  }
+.benefit-text {
+    font-size: 0.95rem;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
+
+/* Section - Suscripciones */
+.subscription-section .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+}
+
+.subscription-section .subscription-card {
+  max-width: 380px;
+  flex: 1 1 380px;
+  margin: 0 auto;
+}
+
+.subscription-section {
+  color: #fff;
+  text-align: center;
+  padding: 2rem 0;
+  background: transparent;
+}
+
+.subscription-section .row {
+  margin: 0;
+}
+
+.subscription-card {
+  background-color: #11151f;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.2s;
+}
+
+.subscription-card:hover {
+  transform: translateY(-5px);
+}
+
+.subscription-card.free {
+  border: 1px solid #fff;
+}
+
+.subscription-card.premium {
+  border: 2px solid #13FF3A;
+}
+
+.subscription-badge {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0.25rem 1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.subscription-card.free .subscription-badge {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  width: 30%;
+}
+
+.subscription-card.free .subscription-badge:hover {
+  background: #fff;
+  color: #000;
+}
+
+.subscription-card.premium .subscription-badge {
+  background: #13FF3A;
+  color: #000;
+  border: none;
+  width: 40%;
+}
+
+.subscription-card.premium .subscription-badge:hover {
+  background: #ffffff;
+  color: #000;
+}
+
+.subscription-card h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subscription-price {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.subscription-price .price-currency,
+.subscription-price .price-suffix {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.subscription-price .price-suffix {
+  color: #13FF3A;
+}
+
+.subscription-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2rem;
+  max-width: 280px;
+}
+
+.subscription-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.subscription-list li i {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+  color: #13FF3A;
+}
+
+.subscription-section {
+  min-height: 600px; 
+}
+
+@media (max-width: 767.98px) {
+  .subscription-section .row {
+    display: block;
+  }
+
+  .subscription-section .col-12 {
+    max-width: 90%;
+    margin: 0 auto 1.5rem;
+  }
+
+  .subscription-card {
+    padding: 1.5rem;
+  }
+
+  .subscription-price {
+    font-size: 1.75rem;
+  }
+
+  .subscription-badge {
+    margin-bottom: 1rem;
+  }
+}
+
+.btn-white {
+  background-color: #ffffff;
+  color: #000;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  width: 60%;
+}
+
+.btn-white:hover {
+  background-color: #11E835;
+  transform: scale(1.05);
+}
+
+@media screen and (max-width: 540px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2, h3 {
+    font-size: 1.2rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+  }
+
+  .hero-img {
+    height: 350px !important;
+  }
+}
+
+.why-item {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.correction-section, .correction-img{ will-change: transform, opacity;
+}

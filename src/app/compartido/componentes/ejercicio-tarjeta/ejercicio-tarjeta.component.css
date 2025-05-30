@@ -1,0 +1,13 @@
+.tarjeta {
+  padding: 0.5rem;
+  background-color: transparent;
+}
+
+.ejercicio-imagen {
+  width: 100%;
+  height: 160px;               
+  background-color: transparent;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}

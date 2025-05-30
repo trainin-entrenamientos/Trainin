@@ -1,0 +1,76 @@
+<body class="bg-dark">
+  <section class="exercise-session py-5">
+    <div class="container">
+      <div class="card session-card p-4 text-white border-0 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+        </div>
+        <div class="iconosPausaClose">
+          <div class="text-muted-white fs-5 text-center">
+            <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
+          </div>
+          <i
+            id="pauseBtn"
+            class="fs-1 cursor-pointer"
+            [ngClass]="{
+              'bi bi-pause-circle-fill': !estaPausado,
+              'bi bi-play-circle-fill': estaPausado
+            }"
+            (click)="botonPausa()"
+          >
+          </i>
+        </div>
+
+        <div class="row align-items-center gx-4">
+          <div class="col-12 col-md-4 px-0 d-flex justify-content-center">
+            <div class="video-cuadrado">
+              <iframe
+                #exerciseVideo
+                id="exerciseVideo"
+                class="trainin-video"
+                [src]="urlVideo"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+
+          </div>
+
+          <div class="col-12 col-md-8 pe-0 mt-4 mt-md-0 position-relative">
+
+            <div class="contenedorTimer mb-5 text-center">
+              <h3 class="mb-1 font-weight-bold fs-1">
+                {{ ejercicioActual?.nombre }}
+              </h3>
+            </div>
+
+            <div class="contenedorTimer mb-2 text-center">
+              <h5 class="text-muted-white mb-3">Tiempo Restante</h5>
+            </div>
+
+            <div class="contenedorTimer mb-2 text-center">
+              <div
+                id="countdown"
+                class="display-4 mb-3"
+                [ngClass]="{ 'countdown-warning': esAdvertencia }"
+              >
+                {{ cuentaRegresiva }}
+              </div>
+            </div>
+
+            <div class="progress">
+              <div
+                id="progressBar"
+                class="progress-bar bg-success"
+                role="progressbar"
+                [style.width]="porcentajeDelProgreso + '%'"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

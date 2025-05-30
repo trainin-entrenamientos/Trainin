@@ -1,0 +1,16 @@
+.toast-container .ngx-toastr.toast-custom {
+  background-color: #00060C !important;
+}
+
+.toast-container .ngx-toastr.toast-custom.toast-error {
+  color: white !important;
+}
+
+.toast-container .ngx-toastr.toast-custom.toast-success {
+  color: #13ff3a !important;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
