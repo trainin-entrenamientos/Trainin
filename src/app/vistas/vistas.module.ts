@@ -65,7 +65,6 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     NgbTooltipModule,
     BrowserAnimationsModule
   ],
-
   exports: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
