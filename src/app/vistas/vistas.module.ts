@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CorreccionPosturaComponent } from './correccion-postura/correccion-postura.component';
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
+import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 
 @NgModule({
 
@@ -47,7 +48,8 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
     PlanPremiumComponent,
     InformacionEjercicioComponent,
     CorreccionPosturaComponent,
-    CalibracionCamaraComponent
+    CalibracionCamaraComponent,
+    PagoExitosoComponent
   ],
 
   imports: [
