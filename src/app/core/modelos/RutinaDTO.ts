@@ -17,6 +17,7 @@ export interface Ejercicio {
   tieneCorrecion: boolean;
   grupoMuscular: GrupoMuscular[];
   categoria: string;
+  correccionPremium: boolean;
 }
 
 export interface Rutina {

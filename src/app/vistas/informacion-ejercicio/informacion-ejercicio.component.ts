@@ -4,6 +4,8 @@ import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -19,6 +21,7 @@ export class InformacionEjercicioComponent {
   duracionDelEjercicio: string = '';
   repeticionesDelEjercicio: string = '';
   duracionDescanso = 10;
+  esUsuarioPremium: boolean = false;
   
   tiempoTotal = 0;
   tiempoRestante = 0;
@@ -29,11 +32,15 @@ export class InformacionEjercicioComponent {
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private usuarioServicio: UsuarioService,
+    private authServicio: AuthService
   ) {}
 
   ngOnInit(): void {
+
   this.rutinaService.cargarDesdeSession();
+  this.obtenerUsuario();
   const datos = this.rutinaService.getDatosIniciales();
 
   if (!datos.rutina) {
@@ -52,6 +59,22 @@ export class InformacionEjercicioComponent {
   this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
 
 }
+  obtenerUsuario() {
+    this.usuarioServicio.obtenerUsuarioPorId(this.authServicio.getEmail()).subscribe({
+      next: (usuario) => {
+        if (!usuario) {
+          console.error('Usuario no encontrado. Redirigiendo...');
+          this.router.navigate(['/ruta-de-error-o-plan']);
+          return;
+        }
+        this.esUsuarioPremium = usuario.esPremium;
+      },
+      error: (error) => {
+        console.error('Error al obtener el usuario:', error);
+        this.router.navigate(['/ruta-de-error-o-plan']);
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);
@@ -60,7 +83,7 @@ export class InformacionEjercicioComponent {
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
       case 1:
-        return 1; 
+        return 5; //ACÁ MODIFIQUE PARA CODEAR EASLY
       case 2:
         return 30;
       default:
