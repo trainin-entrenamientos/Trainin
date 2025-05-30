@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-editar-ejercicio',
   standalone: false,
   templateUrl: './editar-ejercicio.component.html',
-  styleUrl: './editar-ejercicio.component.css',
+  styleUrls: ['./editar-ejercicio.component.css'],
 })
 export class EditarEjercicioComponent {
   categorias: string[] = Object.values(Categoria).filter(

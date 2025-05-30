@@ -61,7 +61,6 @@ export class AuthService {
 
   getEmail(): string | null {
     const token = this.getToken();
-    console.log("token: " + token);
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
