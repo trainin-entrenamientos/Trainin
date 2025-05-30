@@ -15,6 +15,7 @@ export class RealizarEjercicioPorTiempoComponent {
   rutina: Rutina | null = null;
   ejercicioActual: Ejercicio | null = null;
   indiceActual: number = 0;
+
   tiempoTotal: number = 0;
   tiempoRestante: number = 0;
   estaPausado: boolean = false;
@@ -29,50 +30,34 @@ export class RealizarEjercicioPorTiempoComponent {
   ) {}
 
   ngOnInit(): void {
-    this.rutina = this.rutinaService.getRutina();
+    this.rutinaService.cargarDesdeSession();
+    const datos = this.rutinaService.getDatosIniciales();
+    
 
-    if (!this.rutina) {
-      this.router.navigate(['/inicio']);
-      return;
+    if(!datos.rutina){
+      console.error('No se encontró la rutina. Redirigiendo...');
+      this.router.navigate(['/planes']);
+      return
     }
 
-    this.indiceActual = this.rutinaService.getIndiceActual();
-
-    if (this.indiceActual >= this.rutina.ejercicios.length) {
-      this.router.navigate(['/finalizacion-rutina']);
-      return;
-    }
-
-    this.ejercicioActual = this.rutina.ejercicios[this.indiceActual];
-    this.tiempoTotal = this.ejercicioActual.duracion = 1; //ACÁ MODIFIQUE PARA CODEAR EASLY
+    this.rutina = datos.rutina;
+    this.indiceActual = datos.indiceActual;
+    this.ejercicioActual = datos.ejercicio;
+    this.tiempoTotal = 1;
     this.tiempoRestante = this.tiempoTotal;
 
-    this.setearUrlDelVideo(this.ejercicioActual.video ?? '');
+    this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');
     this.iniciarTemporizador();
+    this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
   }
 
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);
   }
 
-  get cuentaRegresiva(): string {
-    return this.formatearTiempo(this.tiempoRestante);
-  }
-
-  get porcentajeDelProgreso(): number {
-    return ((this.tiempoTotal - this.tiempoRestante) / this.tiempoTotal) * 100;
-  }
-
-  get esAdvertencia(): boolean {
-    return this.tiempoRestante <= 10;
-  }
-
-  private formatearTiempo(segundosTotales: number): string {
-    const minutos = Math.floor(segundosTotales / 60)
-      .toString()
-      .padStart(2, '0');
-    const segundos = (segundosTotales % 60).toString().padStart(2, '0');
-    return `${minutos}:${segundos}`;
+ botonPausa(): void {
+    this.estaPausado = !this.estaPausado;
+    this.temporizadorService.accionesDePausa(this.estaPausado);
   }
 
   private iniciarTemporizador(): void {
@@ -83,33 +68,27 @@ export class RealizarEjercicioPorTiempoComponent {
 
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
-        this.irAlSiguienteEjercicio();
+        this.rutinaService.avanzarAlSiguienteEjercicio();
+        if(this.rutinaService.haySiguienteEjercicio()){
+          this.router.navigate(['/informacion-ejercicio']);
+        }else{
+          this.router.navigate(['/finalizacion-rutina']);
+        }
       }
     }, 1000);
   }
-
-  private irAlSiguienteEjercicio(): void {
-    this.indiceActual++;
-    this.rutinaService.setIndiceActual(this.indiceActual);
-
-    if (this.indiceActual >= (this.rutina?.ejercicios.length ?? 0)) {
-      this.rutinaService.setIndiceActual(0);
-      this.router.navigate(['/finalizacion-rutina']);
-    } else {
-      this.rutinaService.setIndiceActual(this.indiceActual);
-      this.router.navigate(['/informacion-ejercicio']);
+  get cuentaRegresiva(): string {
+      return this.temporizadorService.formatearTiempo(this.tiempoRestante);
     }
-  }
 
-  botonPausa(): void {
-    this.estaPausado = !this.estaPausado;
-
-    if (this.estaPausado) {
-      this.temporizadorService.pausar();
-    } else {
-      this.temporizadorService.continuar();
+    get porcentajeDelProgreso(): number {
+      return ((this.tiempoTotal - this.tiempoRestante) / this.tiempoTotal) * 100;
     }
-  }
+
+    get esAdvertencia(): boolean {
+      return this.tiempoRestante <= 10;
+    }
+ 
 
   private setearUrlDelVideo(linkDelVideo: string): void {
     const videoId = this.extraerIdDelVideo(linkDelVideo);

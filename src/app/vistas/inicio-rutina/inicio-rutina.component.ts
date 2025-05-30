@@ -25,32 +25,33 @@ export class InicioRutinaComponent {
   ) {}
 
   ngOnInit(): void {
+    this.rutinaService.cargarDesdeSession();
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
-    this.obtenerRutina(idPlan);
+    this.cargarRutina(idPlan);
+  }
+    
+    iniciarRutina(): void {
+    if (!this.rutina) return;
+    
+    this.rutinaService.setIndiceActual(0);
+    this.temporizadorService.iniciarTiempo();
+    this.router.navigate(['/informacion-ejercicio']);
   }
 
-  obtenerRutina(idPlan: number) {
-    this.rutinaService.getDetalleEjercicios(idPlan).subscribe(
-      (rutina) => {
-        this.rutina = rutina;
-        this.ejercicios= rutina.ejercicios;
+
+   
+ private cargarRutina(idPlan: number): void {
+    this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
+      next: rutina => {
+        this.rutina = rutina;                        
+        this.rutinaService.setRutina(rutina);  
+        this.ejercicios = rutina.ejercicios;   
       },
-      (error) => {
-        console.error('Error al obtener la rutina:', error);
-      }
-    );
+      error: err => console.error('Error al obtener la rutina:', err)
+    });
   }
 
-  selectEjercicio(index: number) {
+   selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;
-  }
-
-  iniciarRutina() {
-    if (this.rutina) {
-      this.rutinaService.setRutina(this.rutina);
-      this.temporizadorService.iniciarTiempo();
-      this.rutinaService.setIndiceActual(0);
-      this.router.navigate(['/informacion-ejercicio']);
-    }
   }
 }
