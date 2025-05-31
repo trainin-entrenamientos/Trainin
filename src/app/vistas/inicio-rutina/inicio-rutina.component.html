@@ -9,20 +9,18 @@
   </main>
 
 <main *ngIf="rutina" class="rutina-card text-white my-4">
-   <i 
-    routerLink="/planes" 
-    class="fa-solid fa-xmark fa-xl cerrar-rutina"
-  ></i>
+   
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina}}</h2>
     <span style="width: 24px"></span>
   </div>
 
-  <p class="text-center fs-5 fst-italic mb-4">
+  <p class="duracion-rutina-texto">
     Duración estimada de la rutina: <strong>{{rutina.duracionEstimada}}min</strong>
   </p>
 
         <div class="contenedor-carrusel">
+        <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="anteriorEjercicio()"></i>
         <div class="cards">
           <div
             class="card"
@@ -52,13 +50,13 @@
           </div>
         </div>
           </div>
-         
         </div>
 
-        
+        <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
 
-  <div class="text-center mt-4">
+  <div class="boton-iniciar">
+    <app-boton-trainin type="button" class="btn-trainin"  routerLink="/planes" >Volver al Inicio</app-boton-trainin>
     <app-boton-trainin type="button" class="btn-trainin" (clickBoton)="iniciarRutina()">Iniciar Rutina</app-boton-trainin>
   </div>
 </main>

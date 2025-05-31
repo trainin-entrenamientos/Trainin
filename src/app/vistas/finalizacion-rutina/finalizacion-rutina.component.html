@@ -59,12 +59,7 @@
               "
             >
               <div class="carrusel-muscular">
-                <button
-                  class="boton-carrusel izquierdo"
-                  (click)="moverCarruselMuscular(-1)"
-                >
-                  ‹
-                </button>
+                <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="moverCarruselMuscular(-1)"></i>
 
                 <div class="contenedor-grupos-musculares">
                   <div
@@ -81,12 +76,7 @@
                   </div>
                 </div>
 
-                <button
-                  class="boton-carrusel derecho"
-                  (click)="moverCarruselMuscular(1)"
-                >
-                  ›
-                </button>
+                <i class="fa-solid fa-chevron-right flecha-derecha" (click)="moverCarruselMuscular(1)"></i>
               </div>
             </div>
           </div>
@@ -110,6 +100,7 @@
         ¡Finalizaste tu entrenamiento!
       </h2>
       <div class="contenedor-carrusel">
+        <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="anteriorEjercicio()"></i>
         <div class="cards">
           <div
             class="card"
@@ -135,6 +126,7 @@
             <div class="nombre-ejercicio">{{selectedEjercicioIndex + 1}}- {{ actual.nombre }}</div>
           </div>
         </div>
+                <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
       <div class="boton-finalizar-pc">
         <app-boton-trainin

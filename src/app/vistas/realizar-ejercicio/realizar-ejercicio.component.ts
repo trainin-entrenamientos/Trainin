@@ -40,7 +40,7 @@ export class RealizarEjercicioComponent {
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
     this.ejercicioActual = datos.ejercicio;
-    this.tiempoTotal = 1;
+    this.tiempoTotal = 3;
     this.tiempoRestante = this.tiempoTotal;
     this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');
     this.iniciarTemporizador();

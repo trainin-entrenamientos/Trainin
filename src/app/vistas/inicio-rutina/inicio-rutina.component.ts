@@ -54,4 +54,15 @@ export class InicioRutinaComponent {
    selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;
   }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
 }

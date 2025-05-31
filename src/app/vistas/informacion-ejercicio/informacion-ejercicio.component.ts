@@ -28,6 +28,7 @@ export class InformacionEjercicioComponent {
   estaPausado = false;
   idIntervalo: any;
   esPrimerEjercicio: boolean = true;
+  mostrarDescripcion = false;
 
   constructor(
     private rutinaService: RutinaService,

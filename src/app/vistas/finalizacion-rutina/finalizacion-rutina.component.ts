@@ -53,6 +53,17 @@ export class FinalizacionRutinaComponent {
  selectEjercicio(index: number) {
   this.selectedEjercicioIndex = index;
 }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
  
   opcionSeleccionadaSidebar(index: number) {
   if (this.selectedSidebarIndex === index) {
