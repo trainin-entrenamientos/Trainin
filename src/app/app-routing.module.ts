@@ -104,10 +104,6 @@ const routes: Routes = [
         component: CorreccionPosturaComponent
       },
       {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
-      },
-      {
         path: 'detalle-plan',
         component: DetallePlanComponent,
         canActivate: [authGuard]
