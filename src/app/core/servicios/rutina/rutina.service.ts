@@ -77,7 +77,8 @@ export class RutinaService {
     ejercicios,
     ejercicio,
     duracionDelEjercicio: duracion,
-    repeticionesDelEjercicio: repeticiones
+    repeticionesDelEjercicio: repeticiones,
+    correccionPremium: ejercicio?.correccionPremium,
   };
   }
 }
