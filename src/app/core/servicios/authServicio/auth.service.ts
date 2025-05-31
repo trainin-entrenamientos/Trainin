@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   login(credenciales: { email: string; contrasenia: string }): Observable<LoginResponseDTO> {
-    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/Usuario/login`, credenciales).pipe(
+    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/login`, credenciales).pipe(
       tap((response) => {
         if (response.exito && !response.requiereActivacion) {
           this.almacenarSesion(response.token);

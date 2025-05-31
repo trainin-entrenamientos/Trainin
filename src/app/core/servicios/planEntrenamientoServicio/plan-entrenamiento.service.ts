@@ -13,7 +13,7 @@ export class PlanEntrenamientoService {
   constructor(private http: HttpClient) { }
 
   getPlanesDeEntrenamiento(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/Plan/obtenerPlanes/${id}`);
+    return this.http.get(`${this.baseUrl}/plan/obtenerPlanes/${id}`);
   }
 
   obtenerOpcionesEntrenamiento(): Observable<any> {
@@ -29,6 +29,6 @@ export class PlanEntrenamientoService {
   }
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/Plan/desactivarPlan/${idPlan}`, { idUsuario });
+    return this.http.patch(`${this.baseUrl}/plan/desactivarPlan/${idPlan}`, { idUsuario });
   }
 }
