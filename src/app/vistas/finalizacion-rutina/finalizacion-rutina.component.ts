@@ -4,6 +4,7 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 declare var bootstrap: any;
 
 @Component({
@@ -24,12 +25,14 @@ export class FinalizacionRutinaComponent {
   opcionSeleccionadaEstadisticas: string | null = null;
   expandido:boolean=false;
   indiceGrupoVisible: number = 0;
+  idPlan: number = 0;
 
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
     private auth: AuthService,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private planService: PlanEntrenamientoService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class FinalizacionRutinaComponent {
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();
+      this.idPlan = this.rutina.idPlan;
     } else {
       console.error('No existe la rutina.');
     }
@@ -98,6 +102,13 @@ moverCarruselMuscular(direccion: number): void {
     this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
       next: () => {
         this.reiniciarRutina();
+        if (this.opcionSeleccionada) {
+          var nivelExigencia = this.obtenerNivelExigencia(this.opcionSeleccionada);
+
+          if (!nivelExigencia === null) {
+            this.planService.ActualizarNivelExigencia(this.idPlan, this.email, nivelExigencia);
+          }
+        }
       },
       error: (error) => {
         console.error('Error al marcar la rutina como realizada:', error);
@@ -125,9 +136,17 @@ moverCarruselMuscular(direccion: number): void {
     this.temporizadorService.reiniciarTiempo();
   }
 
+  obtenerNivelExigencia(opcionSeleccionada: string) {
+    if (opcionSeleccionada === 'Muy fácil') {
+      return 1;
+    } else if (opcionSeleccionada === 'Muy exigente') {
+      return 2;
+    }
+    return null;
+  }
+
   reiniciarRutina(): void {
     this.temporizadorService.reiniciarTiempo();
     this.rutina = null;
   }
-
 }

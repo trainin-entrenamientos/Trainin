@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class PlanEntrenamientoService {
-
   constructor(private http: HttpClient) { }
 
   getPlanesDeEntrenamiento(id: number): Observable<any> {
@@ -27,5 +26,9 @@ export class PlanEntrenamientoService {
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
     return this.http.patch(`http://localhost:5010/api/Plan/desactivarPlan/${idPlan}`, { idUsuario });
+  }
+
+  ActualizarNivelExigencia(idPlan: number, email: string | null , nivelExigencia: number | null): Observable<any> {
+    return this.http.patch(`http://localhost:5010/api/plan/actualizarNivelExigencia/${idPlan}`, { nivelExigencia, email });
   }
 }
