@@ -1,8 +1,6 @@
 <body>
   <main>
     <div class="calibracion-camara-container">
-      <button class="cerrar" (click)="cerrar()">×</button>
-
       <div class="left">
         <h2>Calibración de Cámara</h2>
         <hr />
@@ -10,10 +8,11 @@
         <p>Limpíá el lente</p>
         <p>Todo tu cuerpo debe verse en la pantalla</p>
         <p><strong>Realiza las repeticiones de manera controlada</strong></p>
-        <button class="boton-practica" [routerLink]="['/correccion-postura']" routerLinkActive="router-link-active">Practicar Ejercicio</button>
-        <div class="contenedor-volver">
-            <button class="boton-volver" (click)="volverARutina()">← Volver a rutina</button>
-        </div>  
+
+      <div class="botones-acciones">
+       <app-boton-trainin type="button" class="btn-trainin" (click)="volverARutina()">Volver a la Rutina</app-boton-trainin>
+       <app-boton-trainin type="button" class="btn-trainin" [routerLink]="['/correccion-postura',this.clave]" routerLinkActive="router-link-active">Practicar Ejercicio</app-boton-trainin>
+       </div>
       </div>
 
       <div class="right">

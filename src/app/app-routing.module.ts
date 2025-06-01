@@ -96,13 +96,13 @@ const routes: Routes = [
         component: IniciarSesionComponent
       },
       {
-        path: 'calibracion-camara',
+        path: 'calibracion-camara/:ejercicio',
         component: CalibracionCamaraComponent
       },
-      {
+      /*{
         path: 'correccion-postura',
         component: CorreccionPosturaComponent
-      },
+      },*/
       {
         path: 'iniciar-sesion',
         component: IniciarSesionComponent
@@ -129,7 +129,12 @@ const routes: Routes = [
       {
         path: 'verificar-email/:token',
         component: VerificarEmailComponent,
-      }
+      },
+      {
+        path: 'correccion-postura/:ejercicio',
+        component: CorreccionPosturaComponent
+      },
+
     ]
   },
     {  path: '**', redirectTo: 'inicio', pathMatch: 'full' } 

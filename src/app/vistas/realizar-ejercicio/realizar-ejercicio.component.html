@@ -43,7 +43,9 @@
                 {{ ejercicioActual?.nombre }}
               </h3>
             </div>
+            @if (esEjercicioDeTiempo){
 
+           
             <!-- Temporizador -->
             <div class="contenedorTimer">
               <h5 class="text-muted-white">Tiempo Restante</h5>
@@ -61,7 +63,17 @@
                 [style.width]="porcentajeDelProgreso + '%'">
               </div>
             </div>
-
+            }
+            @else{
+         <div class="text-center mb-4">
+          <small class="duracion-ejercicio">
+           {{ ejercicioActual?.series }} Series de {{ ejercicioActual?.repeticiones }} Repeticiones
+          </small>
+         </div>
+          <div class="boton-iniciar">
+          <app-boton-trainin type="button" class="btn-trainin" (clickBoton)="siguienteEjercicioRutina()">Avanzar al Siguiente</app-boton-trainin>
+        </div>
+            }
           </div>
         </div>
 

@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
 
 @Component({
   standalone: false,
@@ -18,17 +19,21 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
   webcamRunning = false;
   correcting = false;
   cargandoCamara = true;
+ 
 
   private ctx!: CanvasRenderingContext2D;
   private animationFrameId: number | null = null;
+  public clave: NombreEjercicio | null = null;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ){
-
+    this.clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio | null;
   }
 
   async ngAfterViewInit() {
+  
     await this.createDetector();
     await this.startCam();
 

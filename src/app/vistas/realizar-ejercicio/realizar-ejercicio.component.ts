@@ -20,7 +20,7 @@ export class RealizarEjercicioComponent {
   estaPausado: boolean = false;
   idIntervalo: any;
   urlVideo?: SafeResourceUrl;
-  esPorTiempo: boolean = true;
+  esEjercicioDeTiempo: boolean = false;
 
   constructor(
     private rutinaService: RutinaService,
@@ -40,11 +40,14 @@ export class RealizarEjercicioComponent {
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
     this.ejercicioActual = datos.ejercicio;
-    this.tiempoTotal = 3;
-    this.tiempoRestante = this.tiempoTotal;
-    this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');
-    this.iniciarTemporizador();
-    this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
+    if(this.ejercicioActual?.repeticiones == null || this.ejercicioActual?.repeticiones == undefined) {
+      this.esEjercicioDeTiempo = true;
+      this.tiempoTotal = 3;
+      this.tiempoRestante = this.tiempoTotal;
+      this.iniciarTemporizador();
+      this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
+    }
+    this.setearUrlDelVideo(this.ejercicioActual?.video ?? '');   
   }
 
   ngOnDestroy(): void {
@@ -73,6 +76,17 @@ export class RealizarEjercicioComponent {
       }
     }, 1000);
   }
+
+  siguienteEjercicioRutina(): void {
+        this.rutinaService.avanzarAlSiguienteEjercicio();
+        if(this.rutinaService.haySiguienteEjercicio()){
+          this.router.navigate(['/informacion-ejercicio']);
+        }else{
+          this.router.navigate(['/finalizacion-rutina']);
+        }
+      }
+      
+      
   get cuentaRegresiva(): string {
       return this.temporizadorService.formatearTiempo(this.tiempoRestante);
     }

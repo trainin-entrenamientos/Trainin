@@ -6,6 +6,7 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -22,13 +23,14 @@ export class InformacionEjercicioComponent {
   repeticionesDelEjercicio: string = '';
   duracionDescanso = 10;
   esUsuarioPremium: boolean = false;
-  
   tiempoTotal = 0;
   tiempoRestante = 0;
   estaPausado = false;
   idIntervalo: any;
   esPrimerEjercicio: boolean = true;
   mostrarDescripcion = false;
+  esEjercicioDeTiempo: boolean = false;
+  clave: string | null = null;
 
   constructor(
     private rutinaService: RutinaService,
@@ -49,9 +51,11 @@ export class InformacionEjercicioComponent {
     this.router.navigate(['/planes']);
     return;
   }
-
   this.rutina = datos.rutina;
   this.ejercicio = datos.ejercicio;
+    if(this.ejercicio.repeticiones==null || this.ejercicio.repeticiones==undefined){
+    this.esEjercicioDeTiempo=true;
+    }
   this.indiceActual = datos.indiceActual;
   this.duracionDelEjercicio = datos.duracionDelEjercicio;
   this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
@@ -76,6 +80,16 @@ export class InformacionEjercicioComponent {
       }
     });
   }
+
+  claveEjercicioCorreccion(): NombreEjercicio {
+  const clave = this.rutinaService.buscarNombreEjercicio(this.ejercicio?.nombre);
+  if (clave === null) {
+    console.warn("Nombre de ejercicio inválido.");
+    return NombreEjercicio.PRESS_MILITAR; // O el valor que consideres para un ejercicio desconoci
+  }else{
+  return clave;
+  }
+}
 
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);

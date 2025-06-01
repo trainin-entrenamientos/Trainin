@@ -3,16 +3,19 @@ import { Observable } from 'rxjs';
 import { Rutina } from '../../modelos/RutinaDTO';
 import { HttpClient } from '@angular/common/http';
 import { Ejercicio } from '../../modelos/RutinaDTO';
+import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class RutinaService {
+ 
   private rutina: Rutina | null = null;
   private indiceActual: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getDetalleEjercicios(planId: number): Observable<Rutina> {
     return this.http.get<Rutina>(
@@ -103,4 +106,23 @@ export class RutinaService {
     correccionPremium: ejercicio?.correccionPremium,
   };
   }
+
+ buscarNombreEjercicio(nombre: string | undefined): NombreEjercicio | null {
+  const mapa: Record<string, NombreEjercicio> = {
+    'Press militar': NombreEjercicio.PRESS_MILITAR,
+    'vuelos-laterales': NombreEjercicio.VUELOS_LATERALES,
+    'estocada': NombreEjercicio.ESTOCADA,
+    'sentadilla': NombreEjercicio.SENTADILLA,
+    'sentadilla-bulgara': NombreEjercicio.SENTADILLA_BULGARA,
+    'curl-biceps': NombreEjercicio.CURL_BICEPS,
+    'fondos-triceps': NombreEjercicio.FONDOS_TRICEPS,
+    'sentadilla-lateral': NombreEjercicio.SENTADILLA_LATERAL,
+    'abduccion-cadera': NombreEjercicio.ABDUCCION_CADERA,
+    'saltos-tijera': NombreEjercicio.SALTOS_TIJERA
+  };
+
+  return nombre && mapa[nombre] ? mapa[nombre] : null;
+}
+
+  
 }
