@@ -38,6 +38,7 @@ export class FinalizacionRutinaComponent {
       this.rutina=this.rutinaService.cargarDesdeSession();
       const datos = this.rutinaService.getDatosIniciales();
       this.rutina= datos.rutina;
+    
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();

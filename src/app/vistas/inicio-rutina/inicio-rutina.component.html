@@ -44,7 +44,7 @@
           <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
             <div class="nombre-ejercicio">{{i+1}}- {{ actual.nombre }}</div>
              <div class="grupo-muscular">
-              <h4 class="titulo-grupo-muscular">Éste ejercicio trabaja:</h4>
+              <h4 class="titulo-grupo-muscular">Este ejercicio trabaja:</h4>
               <p *ngFor="let grupoMuscular of actual.grupoMuscular; let i = index">{{grupoMuscular.nombre}}</p>
             </div>
           </div>

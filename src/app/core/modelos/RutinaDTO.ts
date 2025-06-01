@@ -26,4 +26,5 @@ export interface Rutina {
   duracionEstimada: number;
   nombre: string;
   ejercicios: Ejercicio[];
+  rutinasRealizadas: number;
 }
