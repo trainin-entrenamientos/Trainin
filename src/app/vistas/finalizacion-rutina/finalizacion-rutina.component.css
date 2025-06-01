@@ -2,10 +2,10 @@ body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
-  min-height: 40rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centrado vertical */
+  justify-content: center; 
+  min-height: 80.2vh;
 }
 * {
   margin: 0;
@@ -25,11 +25,6 @@ html {
   flex-direction: column;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 80.2vh;
-}
 
 #ctn-ejercicios {
   gap: 3rem;
@@ -39,16 +34,16 @@ body {
 }
 
 .rutina-card {
-background-color: #1e1e1e;
+background-color: #00060c;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   color: white;
-  padding: 4em;
+  padding-left: 4em;
+  padding-right: 4em;
   margin: 0 auto;
-  min-height: 60vh;
-  width: 80%;
+  min-height: 60vh;  width: 100%;
 
 }
 
@@ -60,6 +55,7 @@ background-color: #1e1e1e;
   flex-direction: column;
   align-items: center;
   width: 90%;
+  height: 100%;
   transition: width 0.3s ease;
 }
 .rutina-card.expandido .contenedor-ejercicios-realizados-y-finalizar-rutina{
@@ -160,11 +156,9 @@ background-color: #1e1e1e;
   }
 }
 
-
-
 .contenedor-carrusel{
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin-bottom: 30px;
   position: relative;
 }
@@ -173,7 +167,7 @@ background-color: #1e1e1e;
   display: flex;
   justify-content: center;
   position: relative;
-  height: 300px;
+  height: 450px;
   margin-bottom: 30px;
 }
 
@@ -210,6 +204,35 @@ background-color: #1e1e1e;
   transform: translateX(40%) scale(0.8);
 }
 
+.flecha-izquierda,
+.flecha-derecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.flecha-izquierda {
+  left: -30px;
+}
+
+.flecha-derecha {
+  right: -30px;
+}
+
+.flecha-izquierda:hover,
+.flecha-derecha:hover {
+  color: #13ff3a;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
 .informacion-rutina {
   display: flex;
   flex-direction: row;
@@ -223,7 +246,6 @@ background-color: #1e1e1e;
 }
 
 .informacion-rutina.expandido {
-  width: 300px;
    width: 40%;
    align-items: stretch;
    
@@ -520,6 +542,38 @@ font-size: 1.5rem;
  .musculos-trabajados-texto{
   font-size: 1.2rem;
 }
+ .informacion-rutina {
+     height: 20%;
+  }
+  .informacion-rutina.expandido{  
+     height: 20%;
+  }
+
+  .grupo-muscular img{  
+     height: 150px;
+     width: 150px;
+  }
+ .musculos-trabajados-texto{
+  font-size: 1.2rem;
+}
+.grupo-muscular p{
+font-size: 1rem;
+}
+.correccion-errores-texto{
+    font-size: 1.2rem;
+  }
+  .estadisticas-texto{
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  .lista-estadisticas li i{
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span{
+    font-size: 1rem;
+  }
+  
 }
 
 @media (max-width: 640px) {
@@ -527,8 +581,6 @@ font-size: 1.5rem;
     font-size: 1.2rem;
   }
 
-  
- 
 .rutina-card {
     padding-left: 1em;
     padding-right: 1em;
@@ -541,6 +593,26 @@ font-size: 1.5rem;
   display: flex;
   flex-direction: column;
 }
+.musculos-trabajados-texto{
+  font-size: 0.9rem;
+}
+.grupo-muscular p{
+font-size: 0.8rem;
+}
+.correccion-errores-texto{
+    font-size: 0.9rem;
+  }
+  .estadisticas-texto{
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .lista-estadisticas li i{
+    font-size: 0.8rem;
+  }
+
+  .lista-estadisticas li span{
+    font-size: 0.8rem;
+  }
 
 .cards {
   display: flex;
