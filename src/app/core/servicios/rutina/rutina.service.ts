@@ -110,15 +110,15 @@ export class RutinaService {
  buscarNombreEjercicio(nombre: string | undefined): NombreEjercicio | null {
   const mapa: Record<string, NombreEjercicio> = {
     'Press militar': NombreEjercicio.PRESS_MILITAR,
-    'vuelos-laterales': NombreEjercicio.VUELOS_LATERALES,
-    'estocada': NombreEjercicio.ESTOCADA,
-    'sentadilla': NombreEjercicio.SENTADILLA,
-    'sentadilla-bulgara': NombreEjercicio.SENTADILLA_BULGARA,
-    'curl-biceps': NombreEjercicio.CURL_BICEPS,
-    'fondos-triceps': NombreEjercicio.FONDOS_TRICEPS,
-    'sentadilla-lateral': NombreEjercicio.SENTADILLA_LATERAL,
-    'abduccion-cadera': NombreEjercicio.ABDUCCION_CADERA,
-    'saltos-tijera': NombreEjercicio.SALTOS_TIJERA
+    'Vuelos laterales': NombreEjercicio.VUELOS_LATERALES,
+    'estocada': NombreEjercicio.ESTOCADA,  //NO ESTA EN BD
+    'Sentadillas': NombreEjercicio.SENTADILLA,
+    'Sentadilla búlgara': NombreEjercicio.SENTADILLA_BULGARA,
+    'curl-biceps': NombreEjercicio.CURL_BICEPS,// NO ESTÁ EN BD
+    'fondos-triceps': NombreEjercicio.FONDOS_TRICEPS,// NO ESTÁ EN BD
+    'sentadilla-lateral': NombreEjercicio.SENTADILLA_LATERAL,// NO ESTÁ EN BD
+    'Elevación de pierna lateral': NombreEjercicio.ABDUCCION_CADERA,
+    'Jumping jacks': NombreEjercicio.SALTOS_TIJERA
   };
 
   return nombre && mapa[nombre] ? mapa[nombre] : null;
