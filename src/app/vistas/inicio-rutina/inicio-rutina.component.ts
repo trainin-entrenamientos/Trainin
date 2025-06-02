@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
@@ -13,6 +14,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 })
 export class InicioRutinaComponent {
   rutina: Rutina | null = null;
+  selectedEjercicioIndex: number=0;
+  ejercicios: Ejercicio[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -22,7 +25,7 @@ export class InicioRutinaComponent {
   ) {}
 
   ngOnInit(): void {
-    this.rutinaService.limpiarRutina();
+    this.rutinaService.cargarDesdeSession();
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
     this.cargarRutina(idPlan);
   }
@@ -34,14 +37,32 @@ export class InicioRutinaComponent {
     this.temporizadorService.iniciarTiempo();
     this.router.navigate(['/informacion-ejercicio']);
   }
+
+
    
  private cargarRutina(idPlan: number): void {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
       next: rutina => {
         this.rutina = rutina;                        
-        this.rutinaService.setRutina(rutina);        
+        this.rutinaService.setRutina(rutina);  
+        this.ejercicios = rutina.ejercicios;   
       },
       error: err => console.error('Error al obtener la rutina:', err)
     });
   }
+
+   selectEjercicio(index: number) {
+    this.selectedEjercicioIndex = index;
+  }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
 }

@@ -33,28 +33,38 @@ export class FinalizacionRutinaComponent {
   ) {}
 
   ngOnInit(): void {
-    this.rutina = this.rutinaService.getRutina();
+    console.log("RUTINA ACTUAL",this.rutinaService.getRutina());
+    console.log("RUTINA ACTUAL22",this.rutinaService.cargarDesdeSession());
+      this.rutina=this.rutinaService.cargarDesdeSession();
+      const datos = this.rutinaService.getDatosIniciales();
+      this.rutina= datos.rutina;
+    
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();
     } else {
       console.error('No existe la rutina.');
     }
-
     this.temporizadorService.pausar();
     const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
-    this.tiempoTotal = this.formatearTiempo(segundosTotales);
+    this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
   }
 
-  formatearTiempo(segundos: number): string {
-    const minutos = Math.floor(segundos / 60);
-    const segundosRestantes = segundos % 60;
-    return `${minutos}m ${segundosRestantes}s`;
-  }
 
  selectEjercicio(index: number) {
   this.selectedEjercicioIndex = index;
 }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
  
   opcionSeleccionadaSidebar(index: number) {
   if (this.selectedSidebarIndex === index) {
@@ -128,6 +138,7 @@ moverCarruselMuscular(direccion: number): void {
   reiniciarRutina(): void {
     this.temporizadorService.reiniciarTiempo();
     this.rutina = null;
+    this.rutinaService.limpiarRutina();
   }
 
 }

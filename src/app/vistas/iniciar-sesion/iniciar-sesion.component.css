@@ -190,3 +190,10 @@ body {
     text-decoration-thickness: 2px;
   }
 }
+
+/* Quitar fondo celeste del autocompletado */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #191919 inset !important;
+  -webkit-text-fill-color: #FFF !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

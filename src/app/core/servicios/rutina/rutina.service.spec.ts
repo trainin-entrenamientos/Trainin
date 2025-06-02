@@ -42,7 +42,8 @@ describe('RutinaService', () => {
       }
     ],
     numeroRutina: 0,
-    duracionEstimada: 0
+    duracionEstimada: 0,
+    rutinasRealizadas: 0
   };
 
   beforeEach(() => {

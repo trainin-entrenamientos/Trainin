@@ -6,6 +6,7 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -22,12 +23,14 @@ export class InformacionEjercicioComponent {
   repeticionesDelEjercicio: string = '';
   duracionDescanso = 10;
   esUsuarioPremium: boolean = false;
-  
   tiempoTotal = 0;
   tiempoRestante = 0;
   estaPausado = false;
   idIntervalo: any;
   esPrimerEjercicio: boolean = true;
+  mostrarDescripcion = false;
+  esEjercicioDeTiempo: boolean = false;
+  clave: string | null = null;
 
   constructor(
     private rutinaService: RutinaService,
@@ -38,27 +41,28 @@ export class InformacionEjercicioComponent {
   ) {}
 
   ngOnInit(): void {
-    this.obtenerUsuario();
+
+  this.rutinaService.cargarDesdeSession();
+  this.obtenerUsuario();
   const datos = this.rutinaService.getDatosIniciales();
 
   if (!datos.rutina) {
     console.error('No se encontró la rutina. Redirigiendo...');
-    this.router.navigate(['/ruta-de-error-o-plan']);
+    this.router.navigate(['/planes']);
     return;
   }
-
   this.rutina = datos.rutina;
-  this.indiceActual = datos.indiceActual;
   this.ejercicio = datos.ejercicio;
+    if(this.ejercicio.repeticiones==null || this.ejercicio.repeticiones==undefined){
+    this.esEjercicioDeTiempo=true;
+    }
+  this.indiceActual = datos.indiceActual;
   this.duracionDelEjercicio = datos.duracionDelEjercicio;
   this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
+  this.tiempoRestante = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
+  this.iniciarCuentaRegresiva();
+  this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
 
-  this.tiempoTotal = this.traducirDuracionEstimada(
-    this.rutina.duracionEstimada
-  );
-  this.tiempoRestante = this.tiempoTotal;
-
-  this.iniciarTemporizador();
 }
   obtenerUsuario() {
     this.usuarioServicio.obtenerUsuarioPorId(this.authServicio.getEmail()).subscribe({
@@ -77,6 +81,16 @@ export class InformacionEjercicioComponent {
     });
   }
 
+  claveEjercicioCorreccion(): NombreEjercicio {
+  const clave = this.rutinaService.buscarNombreEjercicio(this.ejercicio?.nombre);
+  if (clave === null) {
+    console.warn("Nombre de ejercicio inválido.");
+    return NombreEjercicio.PRESS_MILITAR; // O el valor que consideres para un ejercicio desconoci
+  }else{
+  return clave;
+  }
+}
+
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);
   }
@@ -92,19 +106,30 @@ export class InformacionEjercicioComponent {
     }
   }
 
+ botonPausar(): void {
+  this.estaPausado = !this.estaPausado;
+  this.temporizadorService.accionesDePausa(this.estaPausado);
+}
+
+
+  private iniciarCuentaRegresiva(): void {
+    this.idIntervalo = setInterval(() => {
+      if (!this.estaPausado && this.tiempoRestante > 0) {
+        this.tiempoRestante--;
+      }
+  
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.idIntervalo);
+        this.router.navigate(['/realizar-ejercicio']);
+      }
+    }, 1000);
+  }
+
   get cuentaRegresiva(): string {
-    return this.formatearTiempo(this.tiempoRestante);
+    return this.temporizadorService.formatearTiempo(this.tiempoRestante);
   }
 
-  get porcentajeDelProgreso(): number {
-    return ((this.tiempoTotal - this.tiempoRestante) / this.tiempoTotal) * 100;
-  }
-
-  get esAdvertencia(): boolean {
-    return this.tiempoRestante <= 5;
-  }
-
-  get mensajeCuentaRegresiva(): string {
+   get mensajeCuentaRegresiva(): string {
     if (this.rutinaService.getIndiceActual() === 0) {
       return '¡Comenzamos en ';
     } else {
@@ -114,34 +139,12 @@ export class InformacionEjercicioComponent {
     }
   }
 
-  botonPausar(): void {
-    this.estaPausado = !this.estaPausado;
-    
-    if (this.estaPausado) {
-      this.temporizadorService.pausar();
-    } else {
-      this.temporizadorService.continuar();
-    }
+    get esAdvertencia(): boolean {
+    return this.tiempoRestante <= 5;
   }
-  
-  private formatearTiempo(segundos: number): string {
-    const minutos = Math.floor(segundos / 60)
-      .toString()
-      .padStart(2, '0');
-    const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
-    return `${minutos}:${segundosRestantes}`;
-  }
-  
-  private iniciarTemporizador(): void {
-    this.idIntervalo = setInterval(() => {
-      if (!this.estaPausado && this.tiempoRestante > 0) {
-        this.tiempoRestante--;
-      }
-  
-      if (this.tiempoRestante <= 0) {
-        clearInterval(this.idIntervalo);
-        this.router.navigate(['/realizar-ejercicio-por-tiempo']);
-      }
-    }, 1000);
-  }
+
+  get porcentajeDelProgreso(): number {
+  const tiempoTotal = this.traducirDuracionEstimada(this.rutina?.duracionEstimada ?? 1);
+  return ((tiempoTotal - this.tiempoRestante) / tiempoTotal) * 100;
+}
 }

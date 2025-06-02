@@ -1,28 +1,23 @@
 <body>
   <main>
     <div class="correccion-postura-container">
+
       <div class="left">
+
         <div class="info-ejercicio">
-          <h2>Práctica: Press Militar</h2>
+          <h2>Práctica: {{ nombreEjercicio }}</h2>
           <hr />
         </div>
-        <div class="gif-ejercicio">
-          <iframe
-                #exerciseVideo
-                id="exerciseVideo"
-                class="trainin-video"
-                [src]="videoUrl"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                allowfullscreen
-              >
-              </iframe>
-        </div>
-        <div class="repeticiones-pc">
-          <div>
-            <p>Repeticiones Actuales: {{ repeticionesActuales }}</p>
-          </div>
 
+        <div class="gif-ejercicio">
+          <iframe #exerciseVideo class="trainin-video" [src]="videoUrl" frameborder="0"
+            allow="autoplay; encrypted-media" allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- CONTADOR DE REPETICIONES (PC) -->
+        <div class="repeticiones-pc">
+          <p>Repeticiones Actuales: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
           <div class="contenedor-circulos">
             <div class="circulo"></div>
             <div class="circulo"></div>
@@ -31,37 +26,40 @@
             <div class="circulo"></div>
           </div>
         </div>
-        <button class="boton-finalizar" (click)="finalizarPractica()">Continuar Rutina</button>
-        <div class="contenedor-volver">
-            <button class="boton-volver" (click)="volverARutina()">← Volver a rutina</button>
-        </div>
+
+        <!-- BOTONES -->
+
+         <div class="botones-acciones">
+       <app-boton-trainin type="button" class="btn-trainin" (click)="volver()">Volver a la Rutina</app-boton-trainin>
+       <app-boton-trainin type="button" class="btn-trainin" (click)="finalizarPractica()"
+          [disabled]="lastPorcentaje < 60 && reintentos < maxReintentos"
+          data-tooltip="Debés aprobar antes de continuar">Continuar Rutina</app-boton-trainin>
+       </div>
 
         <div style="margin-top: 10px;">
-        @if(lastPorcentaje < 60 && reintentos > 0 && reintentos <= maxReintentos){
-          <p>Tu porcentaje fue <strong>{{ lastPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para continuar.</p>
-          <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
-        }
+          @if(lastPorcentaje < 60 && reintentos> 0){
+            <p>Tu porcentaje fue <strong>{{ lastPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para
+              continuar.</p>
+            <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
+            }
         </div>
-        
+
       </div>
 
-      <div class="right" [class.active]="corrigiendo"
-        [class.bien]="indicadorRepeticionActivo && !ultimaRepeticionConError"
-        [class.mal]="indicadorRepeticionActivo &&  ultimaRepeticionConError">
+      <div class="right" [class.active]="corrigiendo">
+
         <div class="right-top">
           <video #webcam autoplay playsinline></video>
           <canvas #outputCanvas></canvas>
-          @if(cargandoCamara){
-            <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
-          }
-          @if(mostrarBotonIniciar){
 
-          <button class="play-overlay" (click)="iniciar()"
-            [attr.data-tooltip]="contador === 0 ? 'Corregir postura' : null">
+          @if(cargandoCamara){
+          <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
+          }
+
+          @if(!cargandoCamara && mostrarBotonIniciar){
+          <button class="play-overlay" (click)="iniciar()" data-tooltip="Iniciar corrección">
             @if(contador > 0){
-            <span class="countdown">
-              {{ contador }}
-            </span>
+            <span class="countdown">{{ contador }}</span>
             } @else{
             <i class="fa-solid fa-play" style="color: #fff;"></i>
             }
@@ -69,16 +67,14 @@
           }
 
           @if(mostrarBotonReintentar){
+            
           <button class="play-overlay" (click)="reintentar()" data-tooltip="Reintentar práctica">
             <i class="fa-solid fa-rotate-right" style="color: #fff;"></i>
           </button>
           }
 
-        </div>
-        <div class="repeticiones-mobile">
-          <div>
-            <p>Repeticiones Actuales: 3/5</p>
-          </div>
+          <div class="repeticiones-mobile">
+          <p>Repeticiones Actuales: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
           <div class="contenedor-circulos">
             <div class="circulo"></div>
             <div class="circulo"></div>
@@ -87,16 +83,28 @@
             <div class="circulo"></div>
           </div>
         </div>
-        <div class="right-bottom">
-          <div id="feedback" [innerHTML]="retroalimentacion" [style.color]="colorRetroalimentacion"></div>
         </div>
-      </div>
-      <div class="info-ejercicio-mobile">
 
-        <h2>Práctica: NombreEjercicio</h2>
+        <!-- CONTADOR DE REPETICIONES (MOBILE) -->
+        
+
+        <div class="right-bottom">
+          <div id="feedback" [innerHTML]="retroalimentacion" [style.color]="colorRetroalimentacion">
+          </div>
+
+          @if(resumenHtml){
+          <div class="resumen-evaluacion" [innerHTML]="resumenHtml"></div>
+          }
+        </div>
+
+      </div>
+
+      <!-- VISTA MÓVIL ENCIMA -->
+      <div class="info-ejercicio-mobile">
+        <h2>Práctica: {{ nombreEjercicio }}</h2>
         <hr />
       </div>
-    </div>
 
+    </div>
   </main>
 </body>

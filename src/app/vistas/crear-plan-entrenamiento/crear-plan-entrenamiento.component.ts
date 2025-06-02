@@ -64,6 +64,11 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   nextStep(): void {
+
+    console.log('Paso actual:', this.currentStep);
+    console.log('Valor tipoEntrenamiento:', this.formularioForm.get('tipoEntrenamiento')?.value);
+    console.log('Es válido tipoEntrenamiento:', this.formularioForm.get('tipoEntrenamiento')?.valid);
+
     if (!this.esPasoActualValido()) {
       this.marcarCamposDelPasoComoTocados(this.currentStep);
       return;
@@ -259,6 +264,14 @@ export class CrearPlanEntrenamientoComponent {
       });
   }
 
+  obtenerObjetivos(): void{
+   this.planDeEntrenamientoService
+      .obtenerObjetivos()
+      .subscribe((equipamientos: any[]) => {
+        this.equipamientosOpciones = equipamientos;
+      });
+  }  //HAY QUE HACER FUNCIONAL ESTO EN VEZ DE HARDCODEAR LOS OBJETIVOS
+
   opcionesObjetivo = [
     { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
     { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
@@ -272,14 +285,14 @@ export class CrearPlanEntrenamientoComponent {
   hoveredCard: string | null = null;
 
   seleccionarCard(nombre: string): void {
-    this.opcionSeleccionada = nombre;
-    const seleccion = this.opcionesEntrenamiento.find(
-      (e) => e.descripcion === nombre
-    );
-    if (seleccion) {
-      this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
-    }
+  this.opcionSeleccionada = nombre;
+  const seleccion = this.opcionesEntrenamiento.find(op => op.nombre === nombre);
+  if (seleccion) {
+    this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
+    this.formularioForm.get('tipoEntrenamiento')?.markAsTouched();
   }
+}
+
 
   hoverCard(opcion: string): void {
     this.hoveredCard = opcion;
@@ -344,11 +357,6 @@ export class CrearPlanEntrenamientoComponent {
       const img = this.el.nativeElement.querySelector(
         '#resumenImagenEntrenamiento'
       ) as HTMLImageElement;
-      /*if (img && entrenamiento) {
-        img.src = entrenamiento.imagen;
-        img.alt = entrenamiento.nombre;
-        img.style.display = 'block';
-      }*/
     } else {
       this.setTexto('resumenEntrenamiento', 'No seleccionado');
       const img = this.el.nativeElement.querySelector(
@@ -392,8 +400,6 @@ export class CrearPlanEntrenamientoComponent {
         contenedor.innerHTML = '<p>No seleccionado</p>';
       }
     }
-
-    // Paso 5 - Sliders
 
     const exigencia = this.getInputValueById('rangoExigencia');
     const dias = this.getInputValueById('rangoDiasSemanales');

@@ -20,6 +20,10 @@ export class PlanEntrenamientoService {
     return this.http.get('${this.baseUrl}/categoriaejercicio/obtenerCategorias');
   }
 
+  obtenerObjetivos(): Observable<any> {
+    return this.http.get('http://localhost:5010/api/categoriaejercicio/obtenerObjetivos');
+  }
+
   obtenerEquipamiento(): Observable<any> {
     return this.http.get('${this.baseUrl}/equipamiento/obtenerEquipamientos');
   }
