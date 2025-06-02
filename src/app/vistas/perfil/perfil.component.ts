@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PerfilService } from '../../core/servicios/perfilServicio/perfil.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { PerfilDTO } from '../../core/modelos/PerfilDTO';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-perfil',
@@ -17,7 +18,8 @@ export class PerfilComponent implements OnInit {
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
 
   constructor(private perfilService: PerfilService,
-    private authService: AuthService) { }
+    private authService: AuthService, 
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -52,11 +54,11 @@ export class PerfilComponent implements OnInit {
 
       if (this.email) {
         this.perfilService.actualizarFotoPerfil(this.email, base64data).subscribe({
-          next: (res) => {
-            alert('Foto actualizada correctamente');
+          next: (response: any) => {
+            this.toastr.success(response.message, 'Foto actualizada correctamente');
           },
           error: (err) => {
-            alert('Error al actualizar la foto');
+            this.toastr.error('Error al actualizar la foto');
           }
         });
       }
