@@ -33,8 +33,6 @@ export class FinalizacionRutinaComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log("RUTINA ACTUAL",this.rutinaService.getRutina());
-    console.log("RUTINA ACTUAL22",this.rutinaService.cargarDesdeSession());
       this.rutina=this.rutinaService.cargarDesdeSession();
       const datos = this.rutinaService.getDatosIniciales();
       this.rutina= datos.rutina;
