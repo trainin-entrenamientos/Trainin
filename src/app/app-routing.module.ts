@@ -23,6 +23,7 @@ import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.compone
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -129,6 +130,10 @@ const routes: Routes = [
       {
         path: 'verificar-email/:token',
         component: VerificarEmailComponent,
+      },
+      {
+        path: 'perfil',
+        component: PerfilComponent
       }
     ]
   },
