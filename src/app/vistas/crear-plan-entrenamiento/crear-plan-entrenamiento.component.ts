@@ -11,6 +11,7 @@ import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -26,7 +27,7 @@ export class CrearPlanEntrenamientoComponent {
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
   equipamientosOpciones: Equipamiento[] = [];
   planIdCreado: number | undefined;
-  mostrarModal: boolean=false;
+  mostrarModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,16 +35,23 @@ export class CrearPlanEntrenamientoComponent {
     private el: ElementRef,
     private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private logroService: LogroService
   ) {
     this.formularioForm = this.fb.group({
-      pesoUsuario: [null, [Validators.required, Validators.min(35), Validators.max(220)]],
-      alturaUsuario: [null, [Validators.required, Validators.min(115), Validators.max(235)]],
+      pesoUsuario: [
+        null,
+        [Validators.required, Validators.min(35), Validators.max(220)],
+      ],
+      alturaUsuario: [
+        null,
+        [Validators.required, Validators.min(115), Validators.max(235)],
+      ],
       objetivo: [null, Validators.required],
       nivelExigencia: [1, Validators.required],
       diasDisponibles: [1, Validators.required],
-      tiempoDisponible: [1, Validators.required],
-      duracionPlan: [1, Validators.required],
+      tiempoDisponible: ['1', Validators.required],
+      duracionPlan: ['1', Validators.required],
       tipoEntrenamiento: [null, Validators.required],
       equipamientos: [null, Validators.required],
     });
@@ -63,13 +71,30 @@ export class CrearPlanEntrenamientoComponent {
     this.obtenerOpcionesEntrenamiento();
   }
 
+  pruebaMostrarLogro() {
+    var imagenBronce =
+      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-bronce.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLWJyb25jZS5wbmciLCJpYXQiOjE3NDg4MzU4NDEsImV4cCI6MTc4MDM3MTg0MX0.T6xMpSOBGUkyQRzc5Sf8ikzuySqaZabEhQJlPXq_47I';
+    const imagenPlata =
+      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-plata.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRhLnBuZyIsImlhdCI6MTc0ODgzNTgyMywiZXhwIjoxNzgwMzcxODIzfQ.Td_Ee01KMa__uNFIUjKvMLhLVh9uvcTxhSCRqu4nTFM';
+    const imagenOro =
+      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-oro.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLW9yby5wbmciLCJpYXQiOjE3NDg4MzU4MDIsImV4cCI6MTc4MDM3MTgwMn0.qhu_fH-Y4C4PlUJZEcHSQlibhhDxdXcJa0cTSCWnK6k';
+    const imagenPlatino =
+      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-platino.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRpbm8ucG5nIiwiaWF0IjoxNzQ4ODM1Nzc1LCJleHAiOjE3ODAzNzE3NzV9.K1-12N87G86mmFutOCZyoGSSadpql2WNq9vfCEZLdwE';
+
+    const logroDePrueba = {
+      id: 2,
+      nombre: 'El primer paso',
+      descripcion: 'Crea el primer Plan de Entrenamiento',
+      imagen: imagenOro,
+      tipo: null,
+      obtenido: true,
+    };
+
+    this.logroService.mostrarLogro(logroDePrueba);
+  }
+
   nextStep(): void {
-
-    console.log('Paso actual:', this.currentStep);
-    console.log('Valor tipoEntrenamiento:', this.formularioForm.get('tipoEntrenamiento')?.value);
-    console.log('Es válido tipoEntrenamiento:', this.formularioForm.get('tipoEntrenamiento')?.valid);
-
-    if (!this.esPasoActualValido()) {
+       if (!this.esPasoActualValido()) {
       this.marcarCamposDelPasoComoTocados(this.currentStep);
       return;
     }
@@ -264,13 +289,13 @@ export class CrearPlanEntrenamientoComponent {
       });
   }
 
-  obtenerObjetivos(): void{
-   this.planDeEntrenamientoService
+  obtenerObjetivos(): void {
+    this.planDeEntrenamientoService
       .obtenerObjetivos()
       .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
-  }  //HAY QUE HACER FUNCIONAL ESTO EN VEZ DE HARDCODEAR LOS OBJETIVOS
+  }
 
   opcionesObjetivo = [
     { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
@@ -285,14 +310,15 @@ export class CrearPlanEntrenamientoComponent {
   hoveredCard: string | null = null;
 
   seleccionarCard(nombre: string): void {
-  this.opcionSeleccionada = nombre;
-  const seleccion = this.opcionesEntrenamiento.find(op => op.nombre === nombre);
-  if (seleccion) {
-    this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
-    this.formularioForm.get('tipoEntrenamiento')?.markAsTouched();
+    this.opcionSeleccionada = nombre;
+    const seleccion = this.opcionesEntrenamiento.find(
+      (op) => op.nombre === nombre
+    );
+    if (seleccion) {
+      this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
+      this.formularioForm.get('tipoEntrenamiento')?.markAsTouched();
+    }
   }
-}
-
 
   hoverCard(opcion: string): void {
     this.hoveredCard = opcion;
@@ -447,9 +473,9 @@ export class CrearPlanEntrenamientoComponent {
 
   protected traducirMinutos(valor: string): string {
     const mapa: Record<string, string> = {
-      '1': '10 a 15 min.',
-      '2': '15 a 25 min.',
-      '3': '25 a 40 min.',
+      '1': '≈15 min.',
+      '2': '≈30 min.',
+      '3': '≈45 min.',
     };
     return mapa[valor] || 'No especificado';
   }
@@ -470,36 +496,36 @@ export class CrearPlanEntrenamientoComponent {
     return entrenamiento ? entrenamiento.descripcion : null;
   }
 
- enviarFormulario() {
-  console.log(JSON.stringify({
-    ...this.formularioForm.value,
-    email: this.authService.getEmail(),
-  }));
+  enviarFormulario() {
+    if (this.formularioForm.valid) {
+      this.planDeEntrenamientoService
+        .crearPlanEntrenamiento({
+          ...this.formularioForm.value,
+          email: this.authService.getEmail(),
+        })
+        .subscribe(
+          (response) => {
+            this.planIdCreado = response.planId;
 
-  if (this.formularioForm.valid) {
-    this.planDeEntrenamientoService.crearPlanEntrenamiento({
-      ...this.formularioForm.value,
-      email: this.authService.getEmail(),
-    }).subscribe(
-      (response) => {
-        this.planIdCreado = response.planId; 
-        this.mostrarModal = true;           
-      },
-      (error) => {
-        console.error('Error al crear el plan de entrenamiento:', error);
-      }
-    );
-  } else {
-    console.log('El formulario no es válido');
+            if (response.logro) {
+              this.logroService.mostrarLogro(response.logro);
+            }
+            this.mostrarModal = true;
+          },
+          (error) => {
+            console.error('Error al crear el plan de entrenamiento:', error);
+          }
+        );
+    } else {
+      console.log('El formulario no es válido');
+    }
   }
-}
 
   iniciarRutina() {
-  if (this.planIdCreado) {
-    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-  } else {
-    console.error('No hay un ID de plan creado.');
+    if (this.planIdCreado) {
+      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+    } else {
+      console.error('No hay un ID de plan creado.');
+    }
   }
-}
-
 }

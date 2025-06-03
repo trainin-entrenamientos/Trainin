@@ -1,0 +1,23 @@
+<main>
+<div class="glass-radio-group" [formGroup]="filtroForm">
+  <input type="radio" id="filtro-todos" value="todos" formControlName="filtroSeleccionado" />
+  <label for="filtro-todos">Todos</label>
+
+  <input type="radio" id="filtro-obtenidos" value="obtenidos" formControlName="filtroSeleccionado" />
+  <label for="filtro-obtenidos">Obtenidos</label>
+
+  <input type="radio" id="filtro-faltantes" value="faltantes" formControlName="filtroSeleccionado" />
+  <label for="filtro-faltantes">Faltantes</label>
+
+  <div class="glass-glider"></div>
+</div>
+
+
+<div class="logros-grid">
+  <div class="logro" *ngFor="let logro of logrosFiltrados">
+    <img [class.no-obtenido]="!logro.obtenido" [src]="logro.imagen" [alt]="logro.nombre" />
+    <div [class.no-obtenido]="!logro.obtenido" class="nombre">{{ logro.nombre }}</div>
+    <div class="descripcion-tooltip">{{ logro.descripcion }}</div>
+  </div>
+</div>
+</main>

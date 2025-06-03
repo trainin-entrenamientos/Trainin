@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptores/auth.interceptor';
+import { LogroObtenidoComponent } from "./compartido/componentes/logro-obtenido/logro-obtenido.component";
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,12 +22,12 @@ import { authInterceptor } from './core/interceptores/auth.interceptor';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-       easeTime: 300,
-       extendedTimeOut: 15000,
-       toastClass: 'ngx-toastr toast-custom',
-       positionClass: 'toast-top-right',
-    })
-  ],
+        easeTime: 300,
+        extendedTimeOut: 15000,
+        toastClass: 'ngx-toastr toast-custom',
+        positionClass: 'toast-top-right',
+    }),
+],
   providers: [
     provideHttpClient(withInterceptors([authInterceptor]))
   ],
