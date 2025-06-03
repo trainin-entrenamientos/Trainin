@@ -15,15 +15,10 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
   private resultados: boolean[]           = [];
 
   // Umbrales de ángulo en la articulación de cadera (shoulder-hip-knee)
-  /* private static readonly UMBRALES = {
-    down:        160,   // ≥160° ➜ pierna colgando  
-    up:          150,   // ≤150° ➜ pierna elevada lateral
-    trunkLimit:   20    // px de desplazamiento horizontal del tronco
-  }; */
   private static readonly UMBRALES = {
-    down:      100,  // ≤100°: profundidad correcta (no tan profunda)
-    up:        155,  // ≥155°: pierna casi extendida
-    trunkLimit: 30   // px permitidos de desplazamiento de torso
+    down:      100,
+    up:        155,
+    trunkLimit: 30
 };
   private static readonly BUFFER_SIZE = 5;
 
@@ -136,7 +131,6 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
     let color: 'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // A) SUBIDA completa (down → up)
     if (this.fase === 'down' && ang <= AbduccionCaderaHandler.UMBRALES.up) {
       this.fase = 'up';
 
@@ -153,14 +147,12 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
       this.total++;
       repContada = true;
     }
-    // B) Elevación parcial
     else if (this.fase === 'down' && ang < AbduccionCaderaHandler.UMBRALES.down) {
       mensaje = ang < AbduccionCaderaHandler.UMBRALES.up
         ? 'Elevá un poco más la pierna'
         : null;
       color = 'orange';
     }
-    // C) DESCENSO (up → down)
     else if (this.fase === 'up' && ang > AbduccionCaderaHandler.UMBRALES.up) {
       this.fase = 'down';
       mensaje = 'Bajá con control';

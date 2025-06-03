@@ -16,9 +16,9 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
 
     // Umbrales para curl de bíceps 
     private static readonly UMBRALES = {
-        down: 160,   // ≥160° fully extended
-        up: 45,   // ≤45° fully flexed
-        swingLimit: 30    // px máximo desplazamiento horizontal de hombro
+        down: 160,
+        up: 45,
+        swingLimit: 30
     };
     private static readonly BUFFER_SIZE = 5;
 
@@ -192,7 +192,6 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
             return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
         }
 
-        // 1) Detectar lado midiendo cuál brazo sale más de la posición extendida (≈180°)
         if (!this.brazo) {
             const angR = calcularAngulo(
                 lm.find(p => p.name === 'right_shoulder')!,
@@ -205,7 +204,7 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
                 lm.find(p => p.name === 'left_wrist')!
             );
 
-            // Cuánto se aleja cada brazo de down (160°)
+            // Se calcula cuanto se aleja cada brazo en fase bajada
             const devR = Math.abs(angR - CurlBicepsHandler.UMBRALES.down);
             const devL = Math.abs(angL - CurlBicepsHandler.UMBRALES.down);
 
@@ -213,7 +212,7 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
             if (angR > CurlBicepsHandler.UMBRALES.down || angL > CurlBicepsHandler.UMBRALES.down) {
                 this.brazo = devR >= devL ? 'right' : 'left';
             } else {
-                // Ninguno extendido aún → esperamos
+                // Ninguno extendido aún -> esperamos
                 return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
             }
         }
