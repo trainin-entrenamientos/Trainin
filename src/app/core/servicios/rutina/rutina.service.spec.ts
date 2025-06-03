@@ -59,10 +59,6 @@ describe('RutinaService', () => {
     service.limpiarRutina();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('Deberia obtener detalle ejercicios', () => {
     service.getDetalleEjercicios(123).subscribe(data => {
       expect(data).toEqual(mockRutina);
@@ -71,6 +67,26 @@ describe('RutinaService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockRutina);
   });
+
+  it('Se maneja el error al obtener detalle ejercicios', () => {
+    const errorMsg = 'No se encontró la rutina';
+    service.getDetalleEjercicios(999).subscribe({
+      next: () => fail('La solicitud debería haber fallado'),
+      error: (error) => {
+        expect(error.status).toBe(404);
+        expect(error.statusText).toBe('Not Found');
+        expect(error.error).toBe(errorMsg);
+      }
+    });
+    const req = httpMock.expectOne(`${environment.URL_BASE}/rutina/obtenerPorPlan/999`);
+    expect(req.request.method).toBe('GET');
+    req.flush(errorMsg, {
+      status: 404,
+      statusText: 'Not Found'
+    });
+  });
+
+
   it('Deberia llamar fueRealizada', () => {
     const response = { success: true };
     service.fueRealizada(1, 'test@email.com').subscribe(res => {
