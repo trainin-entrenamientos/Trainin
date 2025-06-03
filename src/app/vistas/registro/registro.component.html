@@ -134,12 +134,8 @@
 
             <div class="d-flex justify-content-center">
               <div class="botones-registro">
-                <button type="button" class="btn btn-trainin" routerLink="/inicio">
-                  Cancelar
-                </button>
-                <button type="submit" class="btn btn-trainin" [disabled]="!esFormularioValido()">
-                  Registrarse
-                </button>
+                <app-boton-trainin ruta="/inicio" clase="btn btn-trainin" tipo="button"> Cancelar</app-boton-trainin>
+                <app-boton-trainin [disabled]="!esFormularioValido()" clase="btn btn-trainin" tipo="submit">Registrarse</app-boton-trainin>
               </div>
             </div>
           </form>

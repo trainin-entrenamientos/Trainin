@@ -16,9 +16,9 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
 
     // --- Umbrales ---
     private static readonly UMBRALES = {
-        down: 160,  // ≥160°: codos casi extendidos (posición inicial)
-        up: 90,  // ≤90°: flexión profunda
-        trunkLimit: 20   // px de desplazamiento lateral torso (<20px ideal)
+        down: 160,
+        up: 90,
+        trunkLimit: 20
     };
     private static readonly BUFFER_SIZE = 5;
 
@@ -188,12 +188,10 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
     }
 
     manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
-        // 1) Si ya completamos 5 repes
         if (this.total >= 5) {
             return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
         }
 
-        // 2) Detecto el lado (primer brazo extendido)
         if (!this.brazo) {
             for (const side of ['right', 'left'] as const) {
                 const sh = lm.find(p => p.name === `${side}_shoulder`);
@@ -207,22 +205,19 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
                 }
             }
             if (!this.brazo) {
-                // todavía no flexionaste lo suficiente para detectar el brazo
                 return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
             }
         }
 
-        // 3) Extraigo los keypoints del lado detectado y valido que existan
         const hip = lm.find(p => p.name === `${this.brazo}_hip`);
         const sh = lm.find(p => p.name === `${this.brazo}_shoulder`);
         const elb = lm.find(p => p.name === `${this.brazo}_elbow`);
         const wri = lm.find(p => p.name === `${this.brazo}_wrist`);
         if (!hip || !sh || !elb || !wri) {
-            // si falta algún punto, abortamos esta iteración
             return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
         }
 
-        // 4) Calculo y suavizo el ángulo de codo
+        // Calculo y suavizo el ángulo de codo
         const raw = calcularAngulo(sh, elb, wri);
         const ang = suavizar(this.buffer, raw, FondosTricepsHandler.BUFFER_SIZE);
 
@@ -230,7 +225,6 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
         let color: 'green' | 'orange' | 'red' | '' = '';
         let repContada = false;
 
-        // A) Descenso completo (down → up)
         if (this.fase === 'down' && ang <= FondosTricepsHandler.UMBRALES.up) {
             this.fase = 'up';
 
@@ -247,21 +241,19 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
             this.total++;
             repContada = true;
         }
-        // B) Descenso parcial
         else if (this.fase === 'down' && ang < FondosTricepsHandler.UMBRALES.down) {
             if (ang > FondosTricepsHandler.UMBRALES.up) {
                 mensaje = 'Bajá un poco más hasta los 90°';
                 color = 'orange';
             }
         }
-        // C) Subida controlada (up → down)
         else if (this.fase === 'up' && ang >= FondosTricepsHandler.UMBRALES.down) {
             this.fase = 'down';
             mensaje = 'Súbete con control';
             color = 'orange';
         }
 
-        // 5) Resumen al terminar
+        // Si ya se hizo las 5 repeticiones, muestro resumen
         const termino = this.total === 5;
         let resumenHtml: string | undefined;
         if (termino) {

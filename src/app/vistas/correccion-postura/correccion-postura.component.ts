@@ -11,6 +11,7 @@ import { ResultadoCorreccion } from '../../compartido/interfaces/resultado-corre
 import { formatearNombreEjercicio, stripHtml } from '../../compartido/utilidades/correccion-postura.utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalReintentoCorreccionComponent } from '../../compartido/componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
+import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
 
 @Component({
   standalone: false,
@@ -43,7 +44,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   retroalimentacion = '';
   colorRetroalimentacion = '';
   resumenHtml = '';
-  lastPorcentaje = 0;
+  ultimoPorcentaje = 0;
   reintentos = 0;
   maxReintentos = 3;
   resultados: boolean[] = [];
@@ -64,6 +65,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     private router: Router,
     private sanitizer: DomSanitizer,
     private fabrica: FabricaManejadoresService,
+    private correccionData: CorreccionDataService,
     private modalService: NgbModal
   ) { }
 
@@ -79,8 +81,8 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   async ngAfterViewInit() {
     this.contextoAudio = new (window.AudioContext || (window as any).webkitAudioContext)();
     speechSynthesis.getVoices();
-    speechSynthesis.onvoiceschanged = () => this.pickVoice();
-    this.pickVoice();
+    speechSynthesis.onvoiceschanged = () => this.elegirVoz();
+    this.elegirVoz();
     await this.crearDetector();
     await this.iniciarCamara();
     window.addEventListener('resize', this.onResize);
@@ -149,7 +151,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.camaraActiva = false;
   }
 
-  /** Play → 5s countdown → corrección */
+  /** Play -> 5s countdown -> corrección */
   iniciar() {
     this.contador = 5;
     this.mostrarBotonIniciar = true;
@@ -202,7 +204,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   }
 
   private procesarResultado(r: ResultadoCorreccion) {
-    // **1) Feedback de mensaje / sugerencia**
     if (r.mensaje) {
       this.retroalimentacion = r.mensaje;
       this.colorRetroalimentacion = r.color;
@@ -211,7 +212,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       }
     }
 
-    // **2) Conteo de repeticiones**
     if (r.repContada) {
       this.repeticionesActuales = r.totalReps;
       this.resultados.push(r.color === 'green');
@@ -219,16 +219,19 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       this.updateCirculos();
     }
 
-    // **3) Ahora sí, si terminó, muestro resumen y lo leo**
     if (r.termino) {
-      // limpio cualquier feedback previo
       const exitosas = this.resultados.filter(v => v).length;
-      this.lastPorcentaje = Math.round((exitosas / this.repeticionesEvaluacion) * 100);
+      this.ultimoPorcentaje = Math.round((exitosas / this.repeticionesEvaluacion) * 100);
       this.retroalimentacion = '';
       this.colorRetroalimentacion = '';
       this.resumenHtml = r.resumenHtml!;
       this.corrigiendo = false;
       this.mostrarBotonReintentar = true;
+      this.correccionData.registrarResultado(
+        formatearNombreEjercicio(this.ejercicio),
+        this.ultimoPorcentaje,
+        this.reintentos
+      );
       this.hablar(stripHtml(this.resumenHtml));
     }
   }
@@ -251,10 +254,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     speechSynthesis.speak(u);
   }
 
-  /*reintentar() {
-    this.reintentos++;
-    this.comenzarCorreccion();
-  }*/
    reintentar() {
     this.reintentos++;
     this.mostrarBotonReintentar = false;
@@ -266,7 +265,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
 
   finalizarPractica() {
     // 1) Si no aprobó (<60%), bloqueo el botón y muestro mensaje,  
-    if (this.lastPorcentaje < 60) {
+    if (this.ultimoPorcentaje < 60) {
       if (this.reintentos < this.maxReintentos) {
         return;
       }
@@ -277,7 +276,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       modalRef.result.then(res => {
         if (res === 'continuar') {
           this.detenerCamara();
-          this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+          this.router.navigate(['/realizar-ejercicio']);
         }
       });
       return;
@@ -285,7 +284,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
 
     // 2) Si aprobó (>=60%), avanza directo
     this.detenerCamara();
-    this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+    this.router.navigate(['/realizar-ejercicio']);
   }
 
 
@@ -311,7 +310,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     });
   }
 
-  private pickVoice() {
+  private elegirVoz() {
     const voces = speechSynthesis.getVoices();
     this.vozElegida = voces.find(v =>
       v.lang === 'es-AR' && /female|femenina/i.test(v.name)

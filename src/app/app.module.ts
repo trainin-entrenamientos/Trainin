@@ -11,6 +11,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptores/auth.interceptor';
 import { LogroObtenidoComponent } from "./compartido/componentes/logro-obtenido/logro-obtenido.component";
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,7 +30,8 @@ import { LogroObtenidoComponent } from "./compartido/componentes/logro-obtenido/
     }),
 ],
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor])),
+
   ],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-crear-ejercicio',
   standalone: false,
   templateUrl: './crear-ejercicio.component.html',
-  styleUrl: './crear-ejercicio.component.css',
+  styleUrls: ['./crear-ejercicio.component.css'],
 })
 export class CrearEjercicioComponent {
   categorias: string[] = Object.values(Categoria).filter(

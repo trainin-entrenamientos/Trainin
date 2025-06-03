@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginResponseDTO } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
 import { tokenExpirado } from '../../utilidades/token-utils';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,15 +13,17 @@ export class AuthService {
   private readonly TOKEN_KEY = 'token';
   private CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
   private usuarioSubject = new BehaviorSubject<string | null>(null);
+  private baseUrl = environment.URL_BASE;
   email: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
+constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token && !tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
     } else {
-      this.cerrarSesion();
+      localStorage.removeItem(this.TOKEN_KEY);
+      this.usuarioSubject.next(null);
     }
   }
 
@@ -29,7 +32,7 @@ export class AuthService {
   }
 
   login(credenciales: { email: string; contrasenia: string }): Observable<LoginResponseDTO> {
-    return this.http.post<LoginResponseDTO>('http://localhost:5010/api/Usuario/login', credenciales).pipe(
+    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/login`, credenciales).pipe(
       tap((response) => {
         if (response.exito && !response.requiereActivacion) {
           this.almacenarSesion(response.token);
@@ -61,7 +64,6 @@ export class AuthService {
 
   getEmail(): string | null {
     const token = this.getToken();
-    console.log("token: " + token);
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));

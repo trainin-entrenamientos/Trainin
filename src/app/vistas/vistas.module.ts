@@ -28,6 +28,7 @@ import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-cam
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
 import { LogrosComponent } from './logros/logros.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
 
@@ -52,7 +53,8 @@ import { LogrosComponent } from './logros/logros.component';
     CorreccionPosturaComponent,
     CalibracionCamaraComponent,
     VerificarEmailComponent,
-    LogrosComponent
+    LogrosComponent,
+    PerfilComponent,
   ],
 
   imports: [
@@ -64,7 +66,6 @@ import { LogrosComponent } from './logros/logros.component';
     NgbTooltipModule,
     BrowserAnimationsModule
   ],
-
   exports: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
@@ -72,6 +73,9 @@ import { LogrosComponent } from './logros/logros.component';
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
     FinalizacionRutinaComponent,
+    InicioComponent,
+    PerfilComponent,
+    PlanPremiumComponent
   ]
 })
 export class VistasModule { }
