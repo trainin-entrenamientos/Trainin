@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
+import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
@@ -13,6 +14,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 })
 export class InicioRutinaComponent {
   rutina: Rutina | null = null;
+  selectedEjercicioIndex: number=0;
+  ejercicios: Ejercicio[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -22,27 +25,44 @@ export class InicioRutinaComponent {
   ) {}
 
   ngOnInit(): void {
+    this.rutinaService.cargarDesdeSession();
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
-    this.obtenerRutina(idPlan);
+    this.cargarRutina(idPlan);
+  }
+    
+    iniciarRutina(): void {
+    if (!this.rutina) return;
+    
+    this.rutinaService.setIndiceActual(0);
+    this.temporizadorService.iniciarTiempo();
+    this.router.navigate(['/informacion-ejercicio']);
   }
 
-  obtenerRutina(idPlan: number) {
-    this.rutinaService.getDetalleEjercicios(idPlan).subscribe(
-      (rutina) => {
-        this.rutina = rutina;
+
+   
+ private cargarRutina(idPlan: number): void {
+    this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
+      next: rutina => {
+        this.rutina = rutina;                        
+        this.rutinaService.setRutina(rutina);  
+        this.ejercicios = rutina.ejercicios;   
       },
-      (error) => {
-        console.error('Error al obtener la rutina:', error);
-      }
-    );
+      error: err => console.error('Error al obtener la rutina:', err)
+    });
   }
 
-  iniciarRutina() {
-    if (this.rutina) {
-      this.rutinaService.setRutina(this.rutina);
-      this.temporizadorService.iniciarTiempo();
-      this.rutinaService.setIndiceActual(0);
-      this.router.navigate(['/informacion-ejercicio']);
-    }
+   selectEjercicio(index: number) {
+    this.selectedEjercicioIndex = index;
   }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
 }

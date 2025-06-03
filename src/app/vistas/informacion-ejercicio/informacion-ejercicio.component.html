@@ -1,33 +1,47 @@
 <body>
-  <section class="exercise-preview py-5">
+  <section class="exercise-preview">
     <div class="container">
       <div class="session-card">
 
-        <div class="iconosPausaClose">
-          <i
-            id="pauseBtn"
-            class="fs-1 cursor-pointer"
-            [ngClass]="{
-              'bi bi-pause-circle-fill': !estaPausado,
-              'bi bi-play-circle-fill': estaPausado
-            }"
-            (click)="botonPausar()"
-          ></i>
-        </div>
+        <div class="titulo-y-pausa d-flex align-items-center justify-content-center flex-wrap text-center">
+  <h4 class="titulo-ejercicio m-0">
+    {{ indiceActual === 0 ? "Primer Ejercicio" : "Próximo Ejercicio" }}:
+    <strong>{{ ejercicio?.nombre }}</strong>
+  </h4>
 
+  <div class="iconosPausaClose">
+    <i
+      id="pauseBtn"
+      class="fs-1 cursor-pointer"
+      [ngClass]="{
+        'bi bi-pause-circle-fill': !estaPausado,
+        'bi bi-play-circle-fill': estaPausado
+      }"
+      (click)="botonPausar()"
+    ></i>
+  </div>
+
+</div>
+@if (esEjercicioDeTiempo)
+      {
         <div class="text-center mb-4">
-          <h4>
-            {{ indiceActual === 0 ? "Primer Ejercicio" : "Próximo Ejercicio" }}: <strong>{{ ejercicio?.nombre }}</strong>
-          </h4>
-          <small class="text-muted-white d-block">
+          <small class="duracion-ejercicio">
             Duración: {{ duracionDelEjercicio }}
           </small>
-        </div>
+  </div>
+}@else{
+    <div class="text-center mb-4">
+          <small class="duracion-ejercicio">
+           {{ ejercicio?.series }} Series de {{ ejercicio?.repeticiones }} Repeticiones
+          </small>
+  </div>
+}
 
+        
         <div class="preview-timer text-center mb-4">
-          <h3 class="mb-1">{{ mensajeCuentaRegresiva }}</h3>
+          <h3>{{ mensajeCuentaRegresiva }}</h3>
 
-          <div class="contenedorTimer mb-2 text-center">
+          <div class="contenedorTimer mb-2 text-center" style="font-weight: bold;">
             <div
               id="countdown"
               class="display-4 mb-3"
@@ -47,34 +61,55 @@
           </div>
         </div>
 
-        <div class="row gx-5 gy-4 align-items-center justify-content-center mb-4">
-          <div class="col-12 col-md-5 text-center">
-            <div class="exercise-image">
-              <img
-                [src]="ejercicio?.imagen"
-                alt="Ejercicio"
-                class="img-fluid"
-              />
-            </div>
-          </div>
+  <div class="contenedor-ejercicio">
+  <div class="ejercicio-box" [class.expandido]="mostrarDescripcion">
+    <div class="imagen-con-borde" [class.expandida]="mostrarDescripcion">
+      <div class="imagen-ejercicio">
+        <img [src]="ejercicio?.imagen" alt="Ejercicio" />
+      </div>
 
-          <div class="col-12 col-md-5">
-            <h5 class="text-muted-white mb-2">¿Cómo se realiza?</h5>
-            <p class="font-weight-light font-italic">
-              {{ ejercicio?.descripcion }}
-            </p>
-          </div>
-        </div>
+      <!-- Botón Info -->
+      <button class="btn-info" *ngIf="!mostrarDescripcion" (click)="mostrarDescripcion = true">
+        <i class="fas fa-info-circle"></i>
+      </button>
 
-        <div class="practicar">
-          <button
-            class="btn btn-outline-success"
+      <!-- Panel Descripción dentro del mismo borde -->
+      <div class="descripcion-ejercicio" [class.visible]="mostrarDescripcion">
+        <button class="btn-volver" (click)="mostrarDescripcion = false">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <h5>¿Cómo se realiza?</h5>
+        <p>{{ ejercicio?.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <div *ngIf="!ejercicio?.correccionPremium && ejercicio?.tieneCorrecion" class="practicar">
+         <app-boton-trainin type="button" class="btn-trainin"
             [disabled]="!ejercicio?.tieneCorrecion"
-            [routerLink]="ejercicio?.tieneCorrecion ? '/calibracion-camara' : null"
+            [routerLink]="ejercicio?.tieneCorrecion ? ['/calibracion-camara',claveEjercicioCorreccion()] : null"
             (click)="botonPausar()"
           >
             Practicar
-          </button>
+          </app-boton-trainin>
+          <i
+            class="bi bi-question-circle-fill help-icon"
+            ngbTooltip="Practicá tu técnica usando la cámara"
+            placement="top"
+            container="body"
+          ></i>
+        </div>
+        <div *ngIf="esUsuarioPremium && ejercicio?.correccionPremium && ejercicio?.tieneCorrecion">          
+          <app-boton-trainin type="button" class="btn-trainin"
+            [disabled]="!ejercicio?.tieneCorrecion"
+            [routerLink]="ejercicio?.tieneCorrecion ? ['/calibracion-camara',claveEjercicioCorreccion()] : null"
+            (click)="botonPausar()"
+          >
+            Practicar
+          </app-boton-trainin>
           <i
             class="bi bi-question-circle-fill help-icon"
             ngbTooltip="Practicá tu técnica usando la cámara"

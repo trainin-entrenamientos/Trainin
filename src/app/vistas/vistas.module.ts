@@ -17,7 +17,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { IniciarSesionComponent } from './iniciar-sesion/iniciar-sesion.component';
 import { DetallePlanComponent } from './detalle-plan/detalle-plan.component';
-import { RealizarEjercicioPorTiempoComponent } from './realizar-ejercicio-por-tiempo/realizar-ejercicio-por-tiempo.component';
+import { RealizarEjercicioComponent } from './realizar-ejercicio/realizar-ejercicio.component';
 import { PlanPremiumComponent } from './plan-premium/plan-premium.component';
 import { InformacionEjercicioComponent } from './informacion-ejercicio/informacion-ejercicio.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -46,7 +46,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     InicioComponent,
     IniciarSesionComponent,
     DetallePlanComponent,
-    RealizarEjercicioPorTiempoComponent,
+    RealizarEjercicioComponent,
     PlanPremiumComponent,
     InformacionEjercicioComponent,
     CorreccionPosturaComponent,

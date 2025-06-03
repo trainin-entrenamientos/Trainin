@@ -2,11 +2,12 @@ body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
-  min-height: 40rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centrado vertical */
+  justify-content: center;
+  min-height: 80.2vh;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -25,32 +26,64 @@ html {
   flex-direction: column;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 80.2vh;
-}
 
 #ctn-ejercicios {
   gap: 3rem;
 }
+
 .image-placeholder {
   background-color: #666;
 }
 
 .rutina-card {
-  background-color: #1e1e1e;
-  width: 70%;
+  background-color: #00060c;
   border-radius: 0.5rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   color: white;
-  padding: 4em;
+  padding-left: 4em;
+  padding-right: 4em;
   margin: 0 auto;
   min-height: 60vh;
+  width: 100%;
 
 }
+
+.informacion-rutina i {
+  font-size: 40px;
+}
+
+.contenedor-ejercicios-realizados-y-finalizar-rutina {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.rutina-card.expandido .contenedor-ejercicios-realizados-y-finalizar-rutina {
+  width: 60%;
+}
+
+.nombre-ejercicio {
+  color: white;
+  text-align: center;
+}
+
+.mensaje-finalizacion {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.ejercicios-realizados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: center;
+  gap: 30px;
+}
+
 .custom-modal {
   background-color: #191919;
   border-radius: 20px;
@@ -75,13 +108,15 @@ body {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
-.modal-opciones{
+
+.modal-opciones {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap:30px;
+  gap: 30px;
 }
+
 .custom-btn-outline {
   border: 2px solid #13FF3A;
   color: #13FF3A;
@@ -106,7 +141,7 @@ body {
 
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); 
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,6 +150,7 @@ body {
   transform: scale(0.95);
   animation: fadeInScale 0.3s ease-out forwards;
 }
+
 .modal.show .modal-dialog {
   display: flex;
   align-items: center;
@@ -130,10 +166,592 @@ body {
   }
 }
 
-@media (max-width: 576px) {
-  .btn-group {
-    flex-direction: column;
-    gap: 1rem;
+.contenedor-carrusel {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 450px;
+  margin-bottom: 30px;
+}
+
+.card {
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  border-radius: 10px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  cursor: pointer;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card.centro {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+  border: #13FF3A 3px solid;
+}
+
+.card.izquierda {
+  transform: translateX(-40%) scale(0.8);
+}
+
+.card.derecha {
+  transform: translateX(40%) scale(0.8);
+}
+
+.flecha-izquierda,
+.flecha-derecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.flecha-izquierda {
+  left: -30px;
+}
+
+.flecha-derecha {
+  right: -30px;
+}
+
+.flecha-izquierda:hover,
+.flecha-derecha:hover {
+  color: #13ff3a;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.informacion-rutina {
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 10%;
+  min-width: 60px;
+  align-items: center;
+
+}
+
+.informacion-rutina.expandido {
+  width: 40%;
+  align-items: stretch;
+
+}
+
+.iconos-laterales {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 20px;
+  border: #13FF3A 3px solid;
+  gap: 1.5rem;
+  position: relative;
+  background-color: #06131C;
+}
+
+.iconos-laterales.expandido {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-right: none;
+  height: 100%;
+  justify-content: center;
+}
+
+.opcion-icono {
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: white;
+}
+
+.opcion-icono.seleccionada {
+  transform: scale(1.3);
+  color: #13FF3A;
+}
+
+.opcion-icono.oculta {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+.contenido-derecho {
+  padding: 1.5rem;
+  width: 400px;
+  color: white;
+  animation: fadeIn 0.5s ease-in-out;
+  border-top: 3px solid #13FF3A;
+  border-right: 3px solid #13FF3A;
+  border-bottom: 3px solid #13FF3A;
+  position: relative;
+  padding: 2rem;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: #06131C;
+}
+
+.estadisticas-texto {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.musculos-trabajados-texto {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.correccion-errores-texto {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.carrusel-muscular button {
+  margin-bottom: 30px;
+}
+
+
+.cerrar-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    transform: translateY(-20px);
   }
 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.carrusel-muscular {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.contenedor-grupos-musculares {
+  width: 80%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.grupo-muscular {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+}
+
+.grupo-muscular.visible {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 1;
+}
+
+.grupo-muscular img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #13FF3A;
+  margin-bottom: 10px;
+}
+
+.boton-carrusel {
+  background-color: transparent;
+  border: none;
+  color: #13FF3A;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0 15px;
+  user-select: none;
+}
+
+.boton-carrusel:focus {
+  outline: none;
+}
+
+.lista-estadisticas {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.lista-estadisticas li {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.lista-estadisticas i {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  color: #13FF3A;
+}
+
+.boton-finalizar-pc {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.boton-finalizar-mobile {
+  display: none
+}
+
+@media (max-width: 1480px) {
+  .rutina-card {
+    flex-direction: column;
+    width: 95%;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .boton-finalizar-pc {
+    display: none;
+  }
+
+  div .boton-finalizar-mobile {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .contenedor-ejercicios-realizados-y-finalizar-rutina {
+    width: 100% !important;
+    order: 1;
+  }
+
+  .mensaje-finalizacion {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .contenedor-carrusel {
+    margin-bottom: 2rem;
+  }
+
+  .informacion-rutina {
+    flex-direction: column;
+    width: 100%;
+    order: 2;
+  }
+
+  .iconos-laterales.expandido {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: #13FF3A 3px solid;
+    border-bottom: none;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .iconos-laterales {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: auto;
+  }
+
+  .iconos-laterales i {
+    font-size: 30px;
+  }
+
+  .informacion-rutina.expandido {
+    width: 70%;
+  }
+
+  .contenido-derecho {
+    padding: 1.5rem;
+    width: 100%;
+    min-width: 100%;
+    color: white;
+    animation: slideDownFadeIn 0.5s ease-in-out;
+    border-top: none;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 20px;
+    border-left: #13FF3A 3px solid;
+  }
+
+  .cerrar-btn {
+    display: block;
+    margin: 0 auto 1rem auto;
+  }
+
+  app-boton-trainin.btn-trainin {
+    display: none;
+    /* Ocultamos el botón original dentro del carrusel */
+  }
+
+
+  span {
+    font-size: 20px;
+  }
+
+}
+
+@media (max-width: 940px) {
+  .musculos-trabajados-texto {
+    font-size: 1.2rem;
+  }
+
+  .informacion-rutina {
+    height: 20%;
+  }
+
+  .informacion-rutina.expandido {
+    height: 20%;
+  }
+
+  .grupo-muscular img {
+    height: 150px;
+    width: 150px;
+  }
+
+  .musculos-trabajados-texto {
+    font-size: 1.2rem;
+  }
+
+  .grupo-muscular p {
+    font-size: 1rem;
+  }
+
+  .correccion-errores-texto {
+    font-size: 1.2rem;
+  }
+
+  .estadisticas-texto {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .lista-estadisticas li i {
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 1rem;
+  }
+
+}
+
+@media (max-width: 640px) {
+  .mensaje-finalizacion {
+    font-size: 1.2rem;
+  }
+
+  .rutina-card {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .informacion-rutina.expandido {
+    width: 100%;
+  }
+
+  .contenedor-carrusel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .musculos-trabajados-texto {
+    font-size: 0.9rem;
+  }
+
+  .grupo-muscular p {
+    font-size: 0.8rem;
+  }
+
+  .correccion-errores-texto {
+    font-size: 0.9rem;
+  }
+
+  .estadisticas-texto {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .lista-estadisticas li i {
+    font-size: 0.8rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 0.8rem;
+  }
+
+  .cards {
+    display: flex;
+    align-self: center;
+    height: 200px;
+    width: 300px;
+  }
+
+}
+
+
+
+/**************************************************/
+.feedback-modal {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  /* modal más ancho para espacio */
+  padding: 30px 20px;
+}
+
+.feedback-modal .modal-title {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+/* Cambiar el texto del párrafo */
+.feedback-modal p {
+  margin-bottom: 2rem;
+}
+
+/* Ocultar inputs */
+.option-btn input[type="radio"] {
+  display: none;
+}
+
+/* Botón estilo texto animado */
+.button.text-hover {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.1rem;
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+.button.text-hover .actual-text {
+  display: inline-block;
+}
+
+.button.text-hover .hover-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.5s ease;
+}
+
+.button.verde .hover-text {
+  color: #13ff3a;
+  border-right: 4px solid #13ff3a;
+}
+
+.button.amarillo .hover-text {
+  color: #ffc107;
+  border-right: 4px solid #ffc107;
+}
+
+.button.rojo .hover-text {
+  color: #e53935;
+  border-right: 4px solid #e53935;
+}
+
+.button.text-hover:hover {
+  color: transparent;
+}
+
+.button.text-hover:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+.option-btn input[type="radio"]:checked+.button.text-hover {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+
+  color: transparent;
+}
+
+.option-btn input[type="radio"]:checked+.button.text-hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+
+.body-modal-color {
+  background-color: #06131C;
+  color: #fff;
 }

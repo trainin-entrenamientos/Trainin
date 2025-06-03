@@ -2,6 +2,7 @@
 export interface GrupoMuscular {
   id: number;
   nombre: string;
+  imagen: string;
 }
 
 export interface Ejercicio {
@@ -16,6 +17,7 @@ export interface Ejercicio {
   tieneCorrecion: boolean;
   grupoMuscular: GrupoMuscular[];
   categoria: string;
+  correccionPremium: boolean;
 }
 
 export interface Rutina {
@@ -24,4 +26,5 @@ export interface Rutina {
   duracionEstimada: number;
   nombre: string;
   ejercicios: Ejercicio[];
+  rutinasRealizadas: number;
 }
