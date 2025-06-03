@@ -15,9 +15,9 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
   private resultados: boolean[] = [];
 
   private static readonly UMBRALES = {
-    downKneeFront: 90,    // rodilla delantera ≥90° flexionada
-    upKneeFront:   160,   // rodilla delantera ≥160° extendida
-    torsoTilt:     15     // inclinación máxima torso
+    downKneeFront: 90,
+    upKneeFront:   160,
+    torsoTilt:     15
   };
   private static readonly BUFFER_SIZE = 5;
 
@@ -147,7 +147,6 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
       return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
     }
 
-    // 1) Detectar lado (izq/der) según flexión inicial
     if (!this.lado) {
       for (const side of ['right','left'] as const) {
         const hip  = lm.find(p => p.name === `${side}_hip`)!;
@@ -169,7 +168,7 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
     const kneeF = lm.find(p => p.name === `${this.lado}_knee`)!;
     const ankF  = lm.find(p => p.name === `${this.lado}_ankle`)!;
 
-    // 2) Calcular y suavizar ángulo rodilla delantera
+    // Calculo y suavizo ángulo rodilla delantera
     const raw = calcularAngulo(hip, kneeF, ankF);
     const ang = suavizar(this.buffer, raw, SentadillaBulgaraHandler.BUFFER_SIZE);
 
@@ -177,13 +176,12 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
     let color: 'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // A) SUBIDA (down→up)
     if (this.fase === 'down' && ang >= SentadillaBulgaraHandler.UMBRALES.upKneeFront) {
       this.fase = 'up';
       this.total++;
       repContada = true;
 
-      // Verificar torso erguido
+      // verifico torso erguido
       const torsoAng = calcularAngulo(sh, hip, ankF);
       const tilt = Math.abs(180 - torsoAng);
       const esError = tilt > SentadillaBulgaraHandler.UMBRALES.torsoTilt;
@@ -194,19 +192,17 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
       color = esError ? 'red' : 'green';
       this.resultados.push(!esError);
     }
-    // B) Parcial
     else if (this.fase === 'down' && ang > SentadillaBulgaraHandler.UMBRALES.downKneeFront) {
       mensaje = 'Subí un poco más hasta extensión casi completa';
       color   = 'orange';
     }
-    // C) DESCENSO (up→down)
     else if (this.fase === 'up' && ang <= SentadillaBulgaraHandler.UMBRALES.downKneeFront) {
       this.fase = 'down';
       mensaje = 'Descenso controlado, rodilla a 90°';
       color   = 'orange';
     }
 
-    // 3) Resumen al 5°
+    // Si ya se hicieron 5 repeticiones, muestro resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

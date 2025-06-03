@@ -172,7 +172,6 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
 
   cerrar() {
     this.detenerCamara();
-    // Logica para cerrar o navegar
   }
 
   volverARutina() {

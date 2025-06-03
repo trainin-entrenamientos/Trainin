@@ -1,12 +1,18 @@
-<section class="text-center">
-  <h2>Verificación de correo</h2>
-  <div *ngIf="usuarioActivo">El usuario se encuentra activo.</div>
-  <div *ngIf="!usuarioActivo">El usuario no se encuentra activo. <br> Ingrese a su correo y valide su cuenta.</div>
+<main>
+  <section class="profile-page text-center">
+    <h2>Verificación de correo</h2>
+    <img src="/imagenes/logo-trainin.svg" alt="Logo Trainin">
+    <div *ngIf="usuarioActivo">El usuario se encuentra activo.</div>
+    <div *ngIf="!usuarioActivo">
+      El usuario no se encuentra activo. <br>
+      Ingrese a su correo y valide su cuenta.
+    </div>
 
-<button 
-        class="btn btn-trainin"
-        [routerLink]="['/iniciar-sesion']">
-  Ir a Iniciar Sesión
-</button>
-
-</section>
+    <app-boton-trainin
+      [ruta]="'/iniciar-sesion'"
+      [clase]="'btn btn-trainin'"
+    >
+      Ir a Iniciar Sesión
+    </app-boton-trainin>
+  </section>
+</main>

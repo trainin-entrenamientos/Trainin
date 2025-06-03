@@ -15,9 +15,9 @@ export class EstocadaHandler implements ManejadorCorreccion {
   private resultados: boolean[] = [];
 
   private static readonly UMBRALES = {
-    downKnee: 90,    // ≤90° rodilla flexionada
-    upKnee: 170,     // ≥170° pierna casi extendida
-    torsoTilt: 15    // máximo ángulo de inclinación del torso (grados)
+    downKnee: 90,
+    upKnee: 170,
+    torsoTilt: 15
   };
   private static readonly BUFFER_SIZE = 5;
 
@@ -114,7 +114,6 @@ export class EstocadaHandler implements ManejadorCorreccion {
       return { mensaje: null, color:'', repContada:false, totalReps:this.total, termino:true };
     }
 
-    // 1) Detectar lado al bajar la primera vez
     if (!this.lado) {
       for (const side of ['right','left'] as const) {
         const hip  = lm.find(p=>p.name===`${side}_hip`)!;
@@ -128,17 +127,15 @@ export class EstocadaHandler implements ManejadorCorreccion {
       }
     }
     if (!this.lado) {
-      // todavía no bajaste lo suficiente
       return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
     }
 
-    // 2) Puntos del lado detectado
     const hip  = lm.find(p=>p.name===`${this.lado}_hip`)!;
     const sh   = lm.find(p=>p.name===`${this.lado}_shoulder`)!;
     const knee = lm.find(p=>p.name===`${this.lado}_knee`)!;
     const ank  = lm.find(p=>p.name===`${this.lado}_ankle`)!;
 
-    // 3) Ángulo de rodilla + suavizado
+    // Ángulo de rodilla + suavizado
     const raw  = calcularAngulo(hip, knee, ank);
     const ang  = suavizar(this.buffer, raw, EstocadaHandler.BUFFER_SIZE);
 
@@ -146,13 +143,12 @@ export class EstocadaHandler implements ManejadorCorreccion {
     let color:  'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // A) SUBIDA completa (down→up)
     if (this.fase==='down' && ang >= EstocadaHandler.UMBRALES.upKnee) {
       this.fase = 'up';
       this.total++;
       repContada = true;
 
-      // Chequear torso erguido: ángulo hombro-hip-ankle cerca de 180°
+      // Chequeo torso erguido: ángulo hombro-hip-ankle cerca de 180°
       const torsoAng = calcularAngulo(sh, hip, ank);
       const tilt = Math.abs(180 - torsoAng);
       const esError = tilt > EstocadaHandler.UMBRALES.torsoTilt;
@@ -164,19 +160,17 @@ export class EstocadaHandler implements ManejadorCorreccion {
 
       this.resultados.push(!esError);
     }
-    // B) SUBIDA parcial
     else if (this.fase==='down' && ang > EstocadaHandler.UMBRALES.downKnee) {
       mensaje = 'Subí un poco más hasta casi extensión completa';
       color   = 'orange';
     }
-    // C) DESCENSO controlado (up→down)
     else if (this.fase==='up' && ang <= EstocadaHandler.UMBRALES.downKnee) {
       this.fase = 'down';
       mensaje = 'Descenso controlado, rodilla a 90°';
       color   = 'orange';
     }
 
-    // 4) Si completás 5 repes, armar resumen
+    // Si completás 5 repes, armo resumen
     const termino = this.total===5;
     let resumenHtml: string|undefined;
     if (termino) {
