@@ -124,56 +124,14 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.botones-registro button{
-  margin-right: 2em;
-  margin-left: 2em;
-  margin-top: 8px;
+.botones-registro{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .trainin-input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(100%) !important;
-}
-
-@media (max-width: 767px) {
-  .registration-card {
-    width: 85%;
-    padding: 1.5rem;
-  }
-
-  .botones-registro{
-    display: flex;
-    justify-content: center;
-  }
-
-  .botones-registro button{
-  margin-right: 8px;
-  margin-left: 8px;
-}
-
-@media (max-width: 767.98px) {
-  h2.section-title {
-    border-bottom: none;
-    text-decoration: underline;
-    text-decoration-color: #13FF3A;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.2em;
-  }
-}
-}
-
-/*Botón Unite a TRAININ */
-.btn-trainin {
-  background-color: #13FF3A;
-  color: #000;
-  font-weight: 700;
-  border-radius: 50px;
-  padding: 0.75rem 2rem;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.btn-trainin:hover {
-  background-color: #11E835;
-  transform: scale(1.05);
 }
 
 .login-links .trainin-link {
@@ -244,6 +202,74 @@ body {
   top: calc(50% - 0.2rem);
 }
 
+@media (max-width: 767px) {
+  .registration-card {
+    width: 85%;
+    padding: 1.5rem;
+  }
 
+.campos-registro h2{
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration-color: #13FF3A;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+    text-align: center;
+    font-size: 2.3rem;
+  }
 
+  .registration-card .mb-3 {
+    margin-bottom: 1.5rem;
+  }
+
+  .registration-card .input-container {
+    margin-bottom: 1rem; 
+  }
+
+  .botones-registro {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem; 
+    width: 100%;
+    justify-content: center;
+  }
+
+  .botones-registro app-boton-trainin {
+    width: 100%;
+  }
+
+.campos-registro {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+  .mb-4 {
+font-size: 15px;
+        text-align: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  app-root,
+  .layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  header,
+  footer {
+    flex: 0 0 auto;
+  }
+  main,
+  .registration-section {
+    flex: 1 auto;
+    flex-direction: column;
+  }
+
+}
 

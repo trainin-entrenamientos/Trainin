@@ -16,9 +16,9 @@ export class SentadillaHandler implements ManejadorCorreccion {
 
     // Umbrales para sentadilla de perfil
     private static readonly UMBRALES = {
-        kneeDown: 70,   // ≤70° en la rodilla: posición baja
-        kneeUp: 160,   // ≥160° en la rodilla: posición arriba
-        leanLimit: 20     // ° máximo de inclinación del torso
+        kneeDown: 70,
+        kneeUp: 160,
+        leanLimit: 20
     };
     private static readonly BUFFER_SIZE = 5;
 
@@ -193,7 +193,6 @@ export class SentadillaHandler implements ManejadorCorreccion {
             return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
         }
 
-        // 1) Elegir lado de perfil midiendo cuál rodilla se flexiona primero
         if (!this.lado) {
             const angR = calcularAngulo(
                 lm.find(p => p.name === 'right_hip')!,
@@ -212,13 +211,12 @@ export class SentadillaHandler implements ManejadorCorreccion {
             }
         }
 
-        // 2) Extraer puntos del lado detectado
         const hip = lm.find(p => p.name === `${this.lado}_hip`)!;
         const knee = lm.find(p => p.name === `${this.lado}_knee`)!;
         const ank = lm.find(p => p.name === `${this.lado}_ankle`)!;
         const sh = lm.find(p => p.name === `${this.lado}_shoulder`)!;
 
-        // 3) Ángulo de rodilla + suavizado
+        // Ángulo de rodilla y suavizado
         const rawKnee = calcularAngulo(hip, knee, ank);
         const angKnee = suavizar(this.buffer, rawKnee, SentadillaHandler.BUFFER_SIZE);
 
@@ -226,19 +224,17 @@ export class SentadillaHandler implements ManejadorCorreccion {
         let color: 'green' | 'orange' | 'red' | '' = '';
         let repContada = false;
 
-        // 4) Bajar → fase up→down
         if (this.fase === 'up' && angKnee <= SentadillaHandler.UMBRALES.kneeDown) {
             this.fase = 'down';
             mensaje = 'Descenso completo';
             color = 'orange';
         }
-        // 5) Subir → fase down→up y conteo
         else if (this.fase === 'down' && angKnee >= SentadillaHandler.UMBRALES.kneeUp) {
             this.fase = 'up';
             this.total++;
             repContada = true;
 
-            // chequeo de inclinación de torso: angle shoulder-hip-knee ≈180°
+            // chequeo de inclinación de torso: ≈ 180 grados
             const rawTorso = calcularAngulo(sh, hip, knee);
             const lean = Math.abs(rawTorso - 180);
             const esError = lean > SentadillaHandler.UMBRALES.leanLimit;
@@ -249,13 +245,12 @@ export class SentadillaHandler implements ManejadorCorreccion {
             color = esError ? 'red' : 'green';
             this.resultados.push(!esError);
         }
-        // 6) Entre medias → sugerencia si está en rango medio
         else if (this.fase === 'up' && angKnee < SentadillaHandler.UMBRALES.kneeUp) {
             mensaje = 'Empezá a bajar un poco más';
             color = 'orange';
         }
 
-        // 7) Resumen al terminar
+        // Si se hicieron 5 repeticiones, generar resumen
         const termino = this.total === 5;
         let resumenHtml: string | undefined;
         if (termino) {

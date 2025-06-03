@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptores/auth.interceptor';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

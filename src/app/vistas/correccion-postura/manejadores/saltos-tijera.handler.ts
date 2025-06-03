@@ -15,8 +15,8 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
 
   // Umbrales dinámicos
   private static readonly UMBRALES = {
-    legOpenFactor: 1.5,   // ratio ankleDist/shoulderDist ≥ 1.5 → piernas abiertas
-    legCloseFactor: 1.2,  // ratio ≤ 1.2 → piernas cerradas
+    legOpenFactor: 1.5,
+    legCloseFactor: 1.2, 
   };
   private static readonly BUFFER_SIZE = 5;
 
@@ -185,7 +185,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
   }
 
   manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
-    // 1) Si ya completamos las 5 repes
     if (this.total >= 5) {
       return {
         mensaje: null,
@@ -196,7 +195,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
       };
     }
 
-    // 2) Extraigo puntos clave
     const ls = lm.find(p => p.name === 'left_shoulder')!;
     const rs = lm.find(p => p.name === 'right_shoulder')!;
     const la = lm.find(p => p.name === 'left_ankle')!;
@@ -204,7 +202,7 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
     const lw = lm.find(p => p.name === 'left_wrist')!;
     const rw = lm.find(p => p.name === 'right_wrist')!;
 
-    // 3) Calculo radio piernas: distancia tobillos / distancia hombros
+    // Calculo radio piernas: distancia tobillos / distancia hombros
     const shoulderDist = Math.abs(ls.x - rs.x);
     const ankleDist    = Math.abs(la.x - ra.x);
     const rawRatio     = ankleDist / (shoulderDist || 1);
@@ -219,7 +217,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
     let color: 'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // A) Abrir completo (closed → open)
     if (this.fase === 'closed' && legsOpen && armsUp) {
       this.fase = 'open';
       this.total++;
@@ -228,19 +225,17 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
       color   = 'green';
       this.resultados.push(true);
     }
-    // B) Parcial: abre algo pero no completo
     else if (this.fase === 'closed' && (legsOpen || armsUp)) {
       mensaje = 'Abre bien piernas y brazos';
       color   = 'orange';
     }
-    // C) Cerrar controlado (open → closed)
     else if (this.fase === 'open' && legsClosed && armsDown) {
       this.fase = 'closed';
       mensaje = 'Volvé a posición inicial';
       color   = 'orange';
     }
 
-    // 4) Resumen al completar las 5 repes
+    // Si ya van 5 repes, muestro resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

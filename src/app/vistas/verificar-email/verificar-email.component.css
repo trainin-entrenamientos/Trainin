@@ -1,0 +1,36 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  background-color: #00060C;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-page {
+  background-color: #00060C; 
+  color: #ffffff;           
+  font-family: 'Merriweather Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+.profile-page h2,
+.profile-page div,
+.profile-page app-boton-trainin,
+.profile-page img {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+img{
+    width: 200px;
+    height: 150px;
+}

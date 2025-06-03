@@ -1,27 +1,78 @@
 <div class="p-5 contenedor-principal-premium">
   <div class="premium-container">
-    <h2 class="title">Súmate a <span class="green">TRAININ PREMIUM</span></h2>
-    <p class="price">$8.499,99 ARS/<span class="green">Mes</span></p>
+    <h2 class="section-title">
+      Súmate a TRAIN<span class="green">IN PREMIUM</span>
+    </h2>
 
     <div class="premium-features">
-      <div class="feature">
-        <div class="icon-box">+</div>
-        <p>Creá <span class="green-italic">múltiples planes</span> de entrenamiento</p>
-      </div>
-
-      <div class="feature">
-        <div class="image-frame">
-          <img src="imagenes/Mediapipe.png" alt="Ejercicio" />
+      <div class="card-feature" #cardFeature>
+        <div class="card-image image-frame">
+          <img src="imagenes/Múltiples planes de entrenamiento.jpg" alt="Múltiples planes de entrenamiento"
+            class="trofeos-img" />
         </div>
-        <p>Te ayudamos a corregir tu técnica de forma <span class="green-italic">ilimitada</span></p>
+        <div class="card-texto">
+          <h3 class="card-title">Creá <span class="green-italic">múltiples planes</span> de entrenamiento</h3>
+          <p class="card-desc">
+            Llevá tu rutina al siguiente nivel con múltiples planes pensados para vos. Disfrutá de entrenamientos
+            diseñados para acompañarte y motivarte en cada paso de tu camino hacia tu mejor versión.
+          </p>
+        </div>
       </div>
 
-      <div class="feature">
-        <img class="trofeos-img"src="imagenes/Trofeos-premium.jpg" alt="Insignias" />
-        <p>Desbloqueá insignias <span class="green-italic">exclusivas</span> y mantené tu racha</p>
+      <div class="card-feature" #cardFeature>
+        <div class="card-image image-frame">
+          <img src="imagenes/Mediapipe.png" alt="Corrección técnica" />
+        </div>
+        <div class="card-texto">
+          <h3 class="card-title">Corregí la técnica de tus ejercicios <span class="green-italic">sin límites</span></h3>
+          <p class="card-desc">
+            Entrená con confianza sabiendo que cada movimiento será guiado para cuidar tu cuerpo. Sentí el respaldo de
+            corregir la técnica postural de tus ejercicios en tiempo real y crecé con seguridad en cada repetición junto
+            a RecFix.
+          </p>
+        </div>
+      </div>
+
+      <div class="card-feature" #cardFeature>
+        <div class="card-image image-frame">
+          <img src="imagenes/Insignias y logros.jpg" alt="Insignias exclusivas" class="trofeos-img" />
+        </div>
+        <div class="card-texto">
+          <h3 class="card-title">Desbloqueá insignias <span class="green-italic">exclusivas</span></h3>
+          <p class="card-desc">
+            Celebremos juntos tus avances: desbloqueá insignias que reconocen cada logro alcanzado. Compartí tu progreso
+            y sentí la satisfacción de ver reflejado tu esfuerzo en cada paso.
+          </p>
+        </div>
+      </div>
+
+      <div class="card-feature" #cardFeature>
+        <div class="card-image image-frame">
+          <img src="imagenes/Mantené tu racha.jpg" alt="Mantener racha" class="trofeos-img" id="racha" />
+        </div>
+        <div class="card-texto">
+          <h3 class="card-title">Mantené <span class="green-italic">tu racha</span></h3>
+          <p class="card-desc">
+            Entrená con la tranquilidad de saber que un día libre no arruina tu progreso: Premium te permite mantener tu
+            racha incluso si descansás una vez a la semana. Sentí la libertad de entrenar a tu ritmo y enfocarte en tus
+            metas.
+          </p>
+        </div>
       </div>
     </div>
 
-    <button class="subscribe-btn">Suscribite</button>
+    <div class="price">
+      <p>
+        <strong>Unite a TRAIN<span class="green">IN</span> solo por<br><span class="green">$8.499,99
+            ARS</span>/Mes</strong>
+      </p>
+    </div>
+
+    <div>
+      <div>
+        <app-boton-trainin ruta="/registro" clase="btn btn-trainin premium-btn"
+          tipo="button">Suscribite</app-boton-trainin>
+      </div>
+    </div>
   </div>
 </div>

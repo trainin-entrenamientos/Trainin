@@ -4,6 +4,8 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-correccion';
+import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
 declare var bootstrap: any;
 
 @Component({
@@ -24,12 +26,14 @@ export class FinalizacionRutinaComponent {
   opcionSeleccionadaEstadisticas: string | null = null;
   expandido:boolean=false;
   indiceGrupoVisible: number = 0;
+  datosCorreccion: DatosEjercicio[] = [];
 
   constructor(
     private rutinaService: RutinaService,
     private router: Router,
     private auth: AuthService,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private correccionData: CorreccionDataService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +50,8 @@ export class FinalizacionRutinaComponent {
     this.temporizadorService.pausar();
     const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
     this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
+
+    this.datosCorreccion = this.correccionData.obtenerTodos();
   }
 
 
@@ -94,13 +100,16 @@ moverCarruselMuscular(direccion: number): void {
   this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
 }
 
- abrirModalFeedback() {
-    const modalElement = document.getElementById('feedbackModal');
-    if (modalElement) {
-      this.modalInstance = new bootstrap.Modal(modalElement);
-      this.modalInstance.show();
-    }
+abrirModalFeedback() {
+  const modalElement = document.getElementById('feedbackModal');
+  if (modalElement) {
+    this.modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement, {
+      backdrop: 'static',
+      keyboard: false
+    });
+    this.modalInstance.show();
   }
+}
 
   enviarFeedback() {
     this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
@@ -137,6 +146,15 @@ moverCarruselMuscular(direccion: number): void {
     this.temporizadorService.reiniciarTiempo();
     this.rutina = null;
     this.rutinaService.limpiarRutina();
+    this.correccionData.limpiarDatos();
   }
+
+  getDatoEjercicio(nombreEjercicio: string): DatosEjercicio | undefined {
+    const buscado = nombreEjercicio.trim().toLowerCase();
+    return this.datosCorreccion.find(d =>
+      d.nombre.trim().toLowerCase() === buscado
+    );
+  }
+
 
 }
