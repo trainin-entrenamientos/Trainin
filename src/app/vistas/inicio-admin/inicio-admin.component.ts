@@ -13,16 +13,14 @@ declare var bootstrap: any;
 export class InicioAdminComponent {
   ejercicios: Ejercicio[] = [];
 
-  constructor(private AdminService: AdminService, private router: Router) {
-    this.AdminService = AdminService;
-  }
+  constructor(private adminService: AdminService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerEjercicios();
   }
 
   obtenerEjercicios(): void {
-    this.AdminService.obtenerEjercicios().subscribe({
+    this.adminService.obtenerEjercicios().subscribe({
       next: (ejerciciosObtenidos: Ejercicio[]) => {
         this.ejercicios = ejerciciosObtenidos;
       },
@@ -45,7 +43,7 @@ export class InicioAdminComponent {
   }
 
   eliminarEjercicio(id: number): void {
-    this.AdminService.eliminarEjercicio(id).subscribe({
+    this.adminService.eliminarEjercicio(id).subscribe({
       next: (fueEliminado: boolean) => {
         if (fueEliminado) {
           this.ejercicios =
