@@ -29,7 +29,8 @@ import { authInterceptor } from './core/interceptores/auth.interceptor';
     })
   ],
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor])),
+
   ],
   bootstrap: [AppComponent]
 })

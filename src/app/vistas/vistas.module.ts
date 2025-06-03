@@ -64,7 +64,6 @@ import { PerfilComponent } from './perfil/perfil.component';
     NgbTooltipModule,
     BrowserAnimationsModule
   ],
-
   exports: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
