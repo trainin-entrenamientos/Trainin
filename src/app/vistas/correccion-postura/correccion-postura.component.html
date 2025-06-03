@@ -28,17 +28,16 @@
         </div>
 
         <!-- BOTONES -->
-
          <div class="botones-acciones">
-       <app-boton-trainin type="button" class="btn-trainin" (click)="volver()">Volver a la Rutina</app-boton-trainin>
-       <app-boton-trainin type="button" class="btn-trainin" (click)="finalizarPractica()"
-          [disabled]="lastPorcentaje < 60 && reintentos < maxReintentos"
-          data-tooltip="Debés aprobar antes de continuar">Continuar Rutina</app-boton-trainin>
-       </div>
+          <app-boton-trainin type="button" class="btn-trainin" (click)="volver()">Volver a la Rutina</app-boton-trainin>
+          <app-boton-trainin type="button" class="btn-trainin" (click)="finalizarPractica()"
+              [disabled]="ultimoPorcentaje < 60 && reintentos < maxReintentos"
+              data-tooltip="Debés aprobar antes de continuar">Continuar Rutina</app-boton-trainin>
+         </div>
 
         <div style="margin-top: 10px;">
-          @if(lastPorcentaje < 60 && reintentos> 0){
-            <p>Tu porcentaje fue <strong>{{ lastPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para
+          @if(ultimoPorcentaje < 60 && reintentos> 0){
+            <p>Tu porcentaje fue <strong>{{ ultimoPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para
               continuar.</p>
             <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
             }
@@ -86,7 +85,6 @@
         </div>
 
         <!-- CONTADOR DE REPETICIONES (MOBILE) -->
-        
 
         <div class="right-bottom">
           <div id="feedback" [innerHTML]="retroalimentacion" [style.color]="colorRetroalimentacion">

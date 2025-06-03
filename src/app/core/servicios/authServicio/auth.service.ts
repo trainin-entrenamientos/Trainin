@@ -20,7 +20,8 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
     } else {
-      this.cerrarSesion();
+      localStorage.removeItem(this.TOKEN_KEY);
+      this.usuarioSubject.next(null);
     }
   }
 
@@ -61,7 +62,6 @@ export class AuthService {
 
   getEmail(): string | null {
     const token = this.getToken();
-    console.log("token: " + token);
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));

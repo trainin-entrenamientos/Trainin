@@ -16,13 +16,12 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
 
   // Umbrales
   private static readonly UMBRALES = {
-    down:        100,  // <100°: rodilla suficientemente doblada
-    up:          160,  // >160°: pierna casi extendida
-    trunkLimit:   20   // px máximo desplazamiento lateral del tronco
+    down:        100,
+    up:          160,
+    trunkLimit:   20
   };
   private static readonly BUFFER_SIZE = 5;
 
-  // Feedback en deciles
   private static readonly FEEDBACK_CFG = [
     { minPct:100, titles:['¡Sentadilla lateral impecable!'], tips:['Mantené la espalda bien recta.','Controlá cada fase del movimiento.'] },
     { minPct:80,  titles:['Muy buen trabajo'], tips:['Intentá bajar un toque más sin perder la espalda.','Mantén el core activo.'] },
@@ -39,12 +38,10 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
   }
 
   manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
-    // 1) Si ya completamos las 5 repes
     if (this.total >= 5) {
       return { mensaje: null, color:'', repContada:false, totalReps:this.total, termino:true };
     }
 
-    // 2) Detecto pierna activa (donde doblas rodilla)
     if (!this.pierna) {
       for (const side of ['right','left'] as const) {
         const hip = lm.find(p=>p.name===`${side}_hip`);
@@ -58,23 +55,20 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
         }
       }
       if (!this.pierna) {
-        // aún no bajaste lo suficiente para definir pierna
         return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
       }
     }
 
-    // 3) Extraigo puntos de la pierna activa y chequeo que existan
     const hip = lm.find(p=>p.name===`${this.pierna}_hip`);
     const kne = lm.find(p=>p.name===`${this.pierna}_knee`);
     const ank = lm.find(p=>p.name===`${this.pierna}_ankle`);
     const sh  = lm.find(p=>p.name==='left_shoulder');
     const sh2 = lm.find(p=>p.name==='right_shoulder');
     if (!hip||!kne||!ank||!sh||!sh2) {
-      // falta keypoint → abortar
       return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
     }
 
-    // 4) Calculo y suavizo el ángulo de rodilla
+    // Calculo y suavizo el ángulo de rodilla
     const raw = calcularAngulo(hip, kne, ank);
     const ang = suavizar(this.buffer, raw, SentadillaLateralHandler.BUFFER_SIZE);
 
@@ -82,7 +76,6 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
     let color: 'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // A) Bajada completa (down→up)
     if (this.fase==='down' && ang < SentadillaLateralHandler.UMBRALES.down) {
       this.fase = 'up';
 
@@ -100,19 +93,17 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
       this.total++;
       repContada = true;
     }
-    // B) Bajada parcial
     else if (this.fase==='down' && ang < SentadillaLateralHandler.UMBRALES.up) {
       mensaje = 'Bajá un poco más la rodilla';
       color   = 'orange';
     }
-    // C) Subida controlada (up→down)
     else if (this.fase==='up' && ang > SentadillaLateralHandler.UMBRALES.up) {
       this.fase = 'down';
       mensaje = 'Subí con control';
       color   = 'orange';
     }
 
-    // 5) Resumen al llegar a 5 repeticiones
+    // Genero resumen al completar 5 repeticiones
     const termino = this.total===5;
     let resumenHtml: string|undefined;
     if (termino) {

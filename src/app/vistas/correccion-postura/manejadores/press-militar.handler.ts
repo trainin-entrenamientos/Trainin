@@ -197,7 +197,6 @@ export class PressMilitarHandler implements ManejadorCorreccion {
     let color: 'green'|'orange'|'red'|'' = '';
     let repContada = false;
 
-    // DESCENSO: solo sugerencia anaranjada, sin lectura
     if (this.fase === 'arriba' && ang < PressMilitarHandler.UMBRALES.abajo) {
       if (this.iniciado) {
         mensaje = 'Recordá no abrir tanto los hombros.';
@@ -206,7 +205,6 @@ export class PressMilitarHandler implements ManejadorCorreccion {
       }
       this.iniciado = true;
     }
-    // SUBIDA: verde o rojo y repContada
     else if (this.fase === 'abajo' && ang > PressMilitarHandler.UMBRALES.arriba) {
       this.fase = 'arriba';
       this.total++;

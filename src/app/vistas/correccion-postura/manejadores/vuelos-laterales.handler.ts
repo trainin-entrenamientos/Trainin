@@ -15,13 +15,12 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
 
   // Umbrales
   private static readonly UMBRALES = {
-    down: 20,    // ≤20° brazo abajo
-    up: 85,    // ≥85° brazo paralelo
-    elbow: 160   // ≥160° codo recto
+    down: 20,
+    up: 85,
+    elbow: 160
   };
   private static readonly BUFFER_SIZE = 5;
 
-  // ¡Este array NO puede estar vacío!
   private static readonly FEEDBACK_CFG = [
     {
       minPct: 100,
@@ -187,18 +186,16 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
   }
 
   manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
-    // 1) Si ya completar 5, terminamos
     if (this.total >= 5) {
       return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
     }
 
-    // 2) Sacamos keypoints
     const hip = lm.find(p => p.name === 'right_hip')!;
     const sh = lm.find(p => p.name === 'right_shoulder')!;
     const elb = lm.find(p => p.name === 'right_elbow')!;
     const wri = lm.find(p => p.name === 'right_wrist')!;
 
-    // 3) Calculamos ángulo y suavizamos
+    // Calculo ángulo y suavizamos
     const raw = calcularAngulo(hip, sh, elb);
     const ang = suavizar(this.buffer, raw, VuelosLateralesHandler.BUFFER_SIZE);
 
@@ -206,13 +203,12 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
     let color: 'green' | 'orange' | 'red' | '' = '';
     let repContada = false;
 
-    // A) SUBIDA completa → cuento rep, determino éxito/fallo y devuelvo feedback
     if (this.fase === 'down' && ang >= VuelosLateralesHandler.UMBRALES.up) {
       this.fase = 'up';
       this.total++;
       repContada = true;
 
-      // comprobamos codo casi recto
+      // Comprobamos codo casi recto
       const elbowAng = calcularAngulo(sh, elb, wri);
       const esError = elbowAng < VuelosLateralesHandler.UMBRALES.elbow;
 
@@ -223,19 +219,17 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
 
       this.resultados.push(!esError);
     }
-    // B) Elevación parcial → sólo sugerencia
     else if (this.fase === 'down' && ang > VuelosLateralesHandler.UMBRALES.down) {
       mensaje = 'Elevá un poco más para completar el rango';
       color = 'orange';
     }
-    // C) DESCENSO → cambio de fase y sugerencia, pero sin contar rep
     else if (this.fase === 'up' && ang <= VuelosLateralesHandler.UMBRALES.down) {
       this.fase = 'down';
       mensaje = 'Descenso controlado';
       color = 'orange';
     }
 
-    // 4) Si justo alcanzamos 5 → generamos resumen
+    // Si se alcanzan las 5 repeticiones, genero resumen
     const termino = this.total === 5;
     let resumenHtml: string | undefined;
     if (termino) {
