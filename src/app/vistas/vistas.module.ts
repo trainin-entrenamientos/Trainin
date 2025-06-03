@@ -72,6 +72,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
     FinalizacionRutinaComponent,
+    InicioComponent,
+    PerfilComponent,
+    PlanPremiumComponent
   ]
 })
 export class VistasModule { }
