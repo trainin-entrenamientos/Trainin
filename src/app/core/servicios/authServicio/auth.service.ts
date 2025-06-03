@@ -14,7 +14,7 @@ export class AuthService {
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   email: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
+constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token && !tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));

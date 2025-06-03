@@ -27,6 +27,7 @@ import { CorreccionPosturaComponent } from './correccion-postura/correccion-post
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
 
@@ -51,6 +52,7 @@ import { VerificarEmailComponent } from './verificar-email/verificar-email.compo
     CorreccionPosturaComponent,
     CalibracionCamaraComponent,
     VerificarEmailComponent,
+    PerfilComponent,
   ],
 
   imports: [
@@ -70,6 +72,9 @@ import { VerificarEmailComponent } from './verificar-email/verificar-email.compo
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
     FinalizacionRutinaComponent,
+    InicioComponent,
+    PerfilComponent,
+    PlanPremiumComponent
   ]
 })
 export class VistasModule { }

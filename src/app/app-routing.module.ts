@@ -24,6 +24,8 @@ import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finali
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
 import { RealizarEjercicioComponent } from './vistas/realizar-ejercicio/realizar-ejercicio.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
+import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 import { authGuard } from './core/guards/auth.guards';
 
@@ -132,6 +134,14 @@ const routes: Routes = [
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent,
         canActivate: [authGuard]
+      },
+      {
+        path: 'verificar-email/:token',
+        component: VerificarEmailComponent,
+      },
+      {
+        path: 'perfil',
+        component: PerfilComponent
       }
     ]
   },
