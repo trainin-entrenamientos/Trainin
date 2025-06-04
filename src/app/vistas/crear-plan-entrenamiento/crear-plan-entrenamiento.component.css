@@ -25,7 +25,7 @@ body {
 .form-container {
   max-width: 60%;
   margin: 50px auto;
-  background-color: #1e1e1e;
+  background-color: #0B1A1E;
   padding: 40px 40px;
   border-radius: 15px;
   position: relative;
@@ -33,7 +33,7 @@ body {
 }
 .progress {
   height: 5px;
-  background-color: #333;
+  background-color: #00060c;
 }
 .progress-bar {
   background-color: #13ff3a;
@@ -60,6 +60,9 @@ input.form-control {
   justify-content: center;
   align-items: center;
   gap: 1em;
+}
+.text-white.text-center.mb-3{
+  font-style: italic;
 }
 /* Estilo general del input */
 input[type="number"].form-completarInfo {
@@ -129,27 +132,7 @@ input[type="radio"].form-check-input:focus {
 
 
 
-@media screen and (max-width: 768px) {
-  .preguntas-container {
-    width: 100%;
-  }
-  .preguntas-container .mb-3,
-  .preguntas-container .mb-4 {
-    align-items: center;
-    text-align: center;
-  }
-  .preguntas-container label {
-    margin-bottom: 5px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .form-container {
-    max-width: 95%;
-  }
-  input.form-control {
-    width: 50% !important;
-  }
-}
+
 
 .slider-scale-container {
   display: flex;
@@ -199,7 +182,7 @@ input[type="radio"].form-check-input:focus {
 .scale-track {
   position: relative;
   height: 10px;
-  background: #333;
+  background: #00060c;
   border-radius: 5px;
   margin-top: 10px;
   z-index: 1;
@@ -265,7 +248,7 @@ input[type="radio"].form-check-input:focus {
   background-color: transparent;
   width: 100%;
   max-width: 200px;
-  min-width: 6em; /* Agregado */
+  min-width: 6em; 
   margin: auto;
   height: 250px;
   perspective: 1000px;
@@ -290,10 +273,10 @@ input[type="radio"].form-check-input:focus {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border: 1px solid #444;
+  border: 1px solid transparent;
   border-radius: 12px;
   padding: 10px;
-  background-color: #1a1a1a;
+  background-color: #00060c;
   color: white;
 }
 .flip-card-front img {
@@ -341,6 +324,98 @@ input[type="radio"].form-check-input:focus {
     font-size: 14px;
   }
 }
+
+/* From Uiverse.io by chase2k25 */ 
+/* Base Styles */
+.glass-radio-group {
+  --text: #e5e5e5;
+  --bg: #00060c;
+
+  display: flex;
+  position: relative;
+  background: var(--bg);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.glass-radio-group input {
+  display: none;
+}
+
+.glass-radio-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  font-size: 14px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group label:hover {
+  color: white;
+}
+
+.glass-radio-group input:checked + label {
+  color: #00060c;
+}
+
+.glass-glider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(100% / 3);
+  border-radius: 1rem;
+  z-index: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+/* Grupo: Tiempo Disponible */
+#tiempo1:checked ~ .glass-glider {
+  transform: translateX(0%);
+  background-color: #13ff3a;
+}
+#tiempo2:checked ~ .glass-glider {
+  transform: translateX(100%);
+  background-color: #13ff3a;
+}
+#tiempo3:checked ~ .glass-glider {
+  transform: translateX(200%);
+  background-color: #13ff3a;
+}
+
+/* Grupo: Duración del Plan */
+#duracion1:checked ~ .glass-glider {
+  transform: translateX(0%);
+  background-color: #13ff3a;
+}
+#duracion2:checked ~ .glass-glider {
+  transform: translateX(100%);
+  background-color: #13ff3a;
+}
+#duracion3:checked ~ .glass-glider {
+  transform: translateX(200%);
+  background-color: #13ff3a;
+}
+
+
 /*PASO 5 RE-DO*/
 .equipamiento-grid {
   display: flex;
@@ -351,10 +426,10 @@ input[type="radio"].form-check-input:focus {
 .equipamiento-item {
   width: calc(33.33% - 10px);
   max-width: 200px;
-  background-color: #1e1e1e;
+  background-color: #00060c;
   padding: 10px;
   text-align: center;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 10px;
   cursor: pointer;
   transition: border 0.3s;
@@ -367,11 +442,7 @@ input[type="radio"].form-check-input:focus {
 .equipamiento-item.selected {
   border: 2px solid #13ff3a;
 }
-@media (max-width: 768px) {
-  .equipamiento-item {
-    width: 45%;
-  }
-}
+
 .btn-editar i {
   color: white;
   transition: color 0.3s ease;
@@ -402,7 +473,58 @@ input[type="radio"].form-check-input:focus {
   padding-bottom: 20px;
 }
 
+@media screen and (max-width: 1150px) {
+.glass-radio-group label {
+  min-width: 150px;
+  font-size: 12px;
+}
+}
+@media screen and (max-width: 950px) {
+.glass-radio-group label {
+  min-width: 125px;
+  font-size: 12px;
+}
 
+}
+
+@media screen and (max-width: 768px) {
+  .preguntas-container {
+    width: 100%;
+  }
+  .preguntas-container .mb-3,
+  .preguntas-container .mb-4 {
+    align-items: center;
+    text-align: center;
+  }
+  .preguntas-container label {
+    margin-bottom: 5px;
+  }
+  .text-white {
+    font-size: 1rem;
+  }
+  .text-white.text-center.mb-3{
+        font-size: 0.6rem;
+  }
+  .form-container {
+    max-width: 95%;
+  }
+  input.form-control {
+    width: 50% !important;
+  }
+   .equipamiento-item {
+    width: 45%;
+  }
+  
+}
+@media screen and (max-width: 500px) {
+  
+.glass-radio-group label {
+  min-width: 95px;
+  font-size: 8px;
+}
+
+  
+}
 
 
 
