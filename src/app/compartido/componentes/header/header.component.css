@@ -30,8 +30,19 @@ nav a {
   text-decoration: underline;
   text-decoration-color: #13ff3a;
   color: #FFFFFF;
-  font-size: 0.9rem;  
+  transform: scale(1.1);
 }
+.dropdown-toggle{
+  color:white;
+}
+.dropdown-toggle:hover{
+  color:#13ff3a;
+}
+.dropdown-toggle:active,
+.dropdown.show > .dropdown-toggle {
+  color: #13ff3a;
+}
+
 
 nav img:hover{
   transform: scale(1.1);

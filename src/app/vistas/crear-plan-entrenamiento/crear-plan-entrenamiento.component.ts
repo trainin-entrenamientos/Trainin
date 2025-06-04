@@ -11,6 +11,7 @@ import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -26,7 +27,10 @@ export class CrearPlanEntrenamientoComponent {
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
   equipamientosOpciones: Equipamiento[] = [];
   planIdCreado: number | undefined;
-  mostrarModal: boolean=false;
+  mostrarModal: boolean = false;
+  cargando: boolean = false;
+  seEnvioForm:boolean=false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -34,16 +38,23 @@ export class CrearPlanEntrenamientoComponent {
     private el: ElementRef,
     private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private logroService: LogroService
   ) {
     this.formularioForm = this.fb.group({
-      pesoUsuario: [null, [Validators.required, Validators.min(35), Validators.max(220)]],
-      alturaUsuario: [null, [Validators.required, Validators.min(115), Validators.max(235)]],
+      pesoUsuario: [
+        null,
+        [Validators.required, Validators.min(35), Validators.max(220)],
+      ],
+      alturaUsuario: [
+        null,
+        [Validators.required, Validators.min(115), Validators.max(235)],
+      ],
       objetivo: [null, Validators.required],
       nivelExigencia: [1, Validators.required],
       diasDisponibles: [1, Validators.required],
-      tiempoDisponible: [1, Validators.required],
-      duracionPlan: [1, Validators.required],
+      tiempoDisponible: ['1', Validators.required],
+      duracionPlan: ['1', Validators.required],
       tipoEntrenamiento: [null, Validators.required],
       equipamientos: [null, Validators.required],
     });
@@ -63,8 +74,9 @@ export class CrearPlanEntrenamientoComponent {
     this.obtenerOpcionesEntrenamiento();
   }
 
+
   nextStep(): void {
-    if (!this.esPasoActualValido()) {
+       if (!this.esPasoActualValido()) {
       this.marcarCamposDelPasoComoTocados(this.currentStep);
       return;
     }
@@ -259,6 +271,14 @@ export class CrearPlanEntrenamientoComponent {
       });
   }
 
+  obtenerObjetivos(): void {
+    this.planDeEntrenamientoService
+      .obtenerObjetivos()
+      .subscribe((equipamientos: any[]) => {
+        this.equipamientosOpciones = equipamientos;
+      });
+  }
+
   opcionesObjetivo = [
     { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
     { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
@@ -274,10 +294,11 @@ export class CrearPlanEntrenamientoComponent {
   seleccionarCard(nombre: string): void {
     this.opcionSeleccionada = nombre;
     const seleccion = this.opcionesEntrenamiento.find(
-      (e) => e.descripcion === nombre
+      (op) => op.nombre === nombre
     );
     if (seleccion) {
       this.formularioForm.get('tipoEntrenamiento')?.setValue(seleccion.id);
+      this.formularioForm.get('tipoEntrenamiento')?.markAsTouched();
     }
   }
 
@@ -344,11 +365,6 @@ export class CrearPlanEntrenamientoComponent {
       const img = this.el.nativeElement.querySelector(
         '#resumenImagenEntrenamiento'
       ) as HTMLImageElement;
-      /*if (img && entrenamiento) {
-        img.src = entrenamiento.imagen;
-        img.alt = entrenamiento.nombre;
-        img.style.display = 'block';
-      }*/
     } else {
       this.setTexto('resumenEntrenamiento', 'No seleccionado');
       const img = this.el.nativeElement.querySelector(
@@ -392,8 +408,6 @@ export class CrearPlanEntrenamientoComponent {
         contenedor.innerHTML = '<p>No seleccionado</p>';
       }
     }
-
-    // Paso 5 - Sliders
 
     const exigencia = this.getInputValueById('rangoExigencia');
     const dias = this.getInputValueById('rangoDiasSemanales');
@@ -441,9 +455,9 @@ export class CrearPlanEntrenamientoComponent {
 
   protected traducirMinutos(valor: string): string {
     const mapa: Record<string, string> = {
-      '1': '10 a 15 min.',
-      '2': '15 a 25 min.',
-      '3': '25 a 40 min.',
+      '1': '≈15 min.',
+      '2': '≈30 min.',
+      '3': '≈45 min.',
     };
     return mapa[valor] || 'No especificado';
   }
@@ -464,36 +478,40 @@ export class CrearPlanEntrenamientoComponent {
     return entrenamiento ? entrenamiento.descripcion : null;
   }
 
- enviarFormulario() {
-  console.log(JSON.stringify({
-    ...this.formularioForm.value,
-    email: this.authService.getEmail(),
-  }));
-
-  if (this.formularioForm.valid) {
-    this.planDeEntrenamientoService.crearPlanEntrenamiento({
-      ...this.formularioForm.value,
-      email: this.authService.getEmail(),
-    }).subscribe(
-      (response) => {
-        this.planIdCreado = response.planId; 
-        this.mostrarModal = true;           
-      },
-      (error) => {
-        console.error('Error al crear el plan de entrenamiento:', error);
-      }
-    );
-  } else {
-    console.log('El formulario no es válido');
+  enviarFormulario() {
+    this.cargando=true;
+    if (this.formularioForm.valid) {
+      this.planDeEntrenamientoService
+        .crearPlanEntrenamiento({
+          ...this.formularioForm.value,
+          email: this.authService.getEmail(),
+          
+        })
+        
+        .subscribe(
+          (response) => {
+            this.planIdCreado = response.planId;
+            if (response.logro) {
+              this.logroService.mostrarLogro(response.logro);
+            }
+            this.cargando = false;
+            this.seEnvioForm=true;
+            this.mostrarModal = true;
+          },
+          (error) => {
+            console.error('Error al crear el plan de entrenamiento:', error);
+          }
+        );
+    } else {
+      console.log('El formulario no es válido');
+    }
   }
-}
 
   iniciarRutina() {
-  if (this.planIdCreado) {
-    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-  } else {
-    console.error('No hay un ID de plan creado.');
+    if (this.planIdCreado) {
+      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+    } else {
+      console.error('No hay un ID de plan creado.');
+    }
   }
-}
-
 }

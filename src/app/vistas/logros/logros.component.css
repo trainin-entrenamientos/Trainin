@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+ overflow-x: hidden;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #00060c;
+}
+
+
+.filtro-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filtro-container button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.logros-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px;
+  padding: 0 20px;
+  justify-items: center;
+  margin-bottom: 2rem;
+}
+
+
+.logro {
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.logro:hover {
+  transform: scale(1.05);
+}
+
+.logro img {
+  width: 15opx;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.nombre {
+  margin-top: 8px;
+  font-weight: bold;
+  color:white;
+}
+
+.descripcion-tooltip {
+  visibility: hidden;
+  background-color: rgba(0,0,0,0.8);
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.logro:hover .descripcion-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.no-obtenido {
+  filter: grayscale(100%) brightness(70%);
+  opacity: 0.6;
+}
+
+
+.glass-radio-group {
+  --text: #e5e5e5;
+  --bg: #00060c;
+
+  display: flex;
+  position: relative;
+  background: var(--bg);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+.glass-radio-group input {
+  display: none;
+}
+
+.glass-radio-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  font-size: 14px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group label:hover {
+  color: white;
+}
+
+.glass-radio-group input:checked + label {
+  color: #00060c;
+}
+
+.glass-glider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(100% / 3);
+  border-radius: 1rem;
+  z-index: 1;
+  transition:
+    transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+    background 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+}
+
+#filtro-todos:checked ~ .glass-glider {
+  transform: translateX(0%);
+  background-color: #13ff3a;
+}
+
+#filtro-obtenidos:checked ~ .glass-glider {
+  transform: translateX(100%);
+  background-color: #13ff3a;
+}
+
+#filtro-faltantes:checked ~ .glass-glider {
+  transform: translateX(200%);
+  background-color: #13ff3a;
+}

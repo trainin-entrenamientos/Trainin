@@ -8,6 +8,7 @@ import { VerificacionCorreoService } from '../../core/servicios/verificacionCorr
   templateUrl: './verificar-email.component.html',
   styleUrls: ['./verificar-email.component.css']
 })
+
 export class VerificarEmailComponent implements OnInit {
   token: string = '';
   usuarioActivo: boolean = false;

@@ -52,7 +52,7 @@ body {
 }
 
 .registration-card {
-  background-color: #191919;
+  background-color: #0B1A1E ;
   width: 75%;
   margin: 0 auto;
   padding: 3rem 1.5rem;
@@ -138,7 +138,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   padding: 0 0.25rem;
-  background: #191919;
+  background: #0B1A1E ;
   color: #777;
   transition: transform 0.2s ease, color 0.2s ease, font-size 0.2s ease;
   pointer-events: none;
@@ -189,4 +189,10 @@ body {
     text-underline-offset: 0.2em;
     text-decoration-thickness: 2px;
   }
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #0B1A1E  inset !important;
+  -webkit-text-fill-color: #FFF !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

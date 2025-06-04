@@ -4,6 +4,10 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutina/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-correccion';
+import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
+import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
 declare var bootstrap: any;
 
 @Component({
@@ -24,37 +28,62 @@ export class FinalizacionRutinaComponent {
   opcionSeleccionadaEstadisticas: string | null = null;
   expandido:boolean=false;
   indiceGrupoVisible: number = 0;
+  datosCorreccion: DatosEjercicio[] = [];
+  caloriasQuemadas: number = 0;
+  nivel: number = 0;
 
   constructor(
+    private planService: PlanEntrenamientoService,
     private rutinaService: RutinaService,
     private router: Router,
     private auth: AuthService,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private correccionData: CorreccionDataService
   ) {}
 
   ngOnInit(): void {
-    this.rutina = this.rutinaService.getRutina();
+      this.rutina=this.rutinaService.cargarDesdeSession();
+      const datos = this.rutinaService.getDatosIniciales();
+      this.rutina= datos.rutina;
+      this.caloriasQuemadas = datos.rutina?.caloriasQuemadas || 0;
+    
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();
     } else {
       console.error('No existe la rutina.');
     }
-
     this.temporizadorService.pausar();
     const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
-    this.tiempoTotal = this.formatearTiempo(segundosTotales);
+    this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
+
+    this.datosCorreccion = this.correccionData.obtenerTodos();
+
+    if (this.rutina && this.email) {
+      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+        next: () => {},
+        error: (err) => {
+          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
+        }
+      });
+    }
   }
 
-  formatearTiempo(segundos: number): string {
-    const minutos = Math.floor(segundos / 60);
-    const segundosRestantes = segundos % 60;
-    return `${minutos}m ${segundosRestantes}s`;
-  }
 
  selectEjercicio(index: number) {
   this.selectedEjercicioIndex = index;
 }
+
+  anteriorEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+}
+
+siguienteEjercicio() {
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+}
+
  
   opcionSeleccionadaSidebar(index: number) {
   if (this.selectedSidebarIndex === index) {
@@ -86,48 +115,79 @@ moverCarruselMuscular(direccion: number): void {
   this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
 }
 
- abrirModalFeedback() {
-    const modalElement = document.getElementById('feedbackModal');
-    if (modalElement) {
-      this.modalInstance = new bootstrap.Modal(modalElement);
-      this.modalInstance.show();
-    }
+abrirModalFeedback() {
+  const modalElement = document.getElementById('feedbackModal');
+  if (!modalElement) return;
+
+  const instanciaExistente = bootstrap.Modal.getInstance(modalElement);
+  if (instanciaExistente) {
+    instanciaExistente.dispose();
   }
 
-  enviarFeedback() {
-    this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
-      next: () => {
-        this.reiniciarRutina();
-      },
-      error: (error) => {
-        console.error('Error al marcar la rutina como realizada:', error);
-      },
-    });
-    
+  this.modalInstance = new bootstrap.Modal(modalElement, {
+    backdrop: 'static',
+    keyboard: false
+  });
+
+  this.modalInstance.show();
+}
+
+
+enviarFeedback() {
     if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;
     }
 
-    const modalElement = document.getElementById('feedbackModal');
-    if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-      if (modalInstance) {
-        modalInstance.hide();
-        setTimeout(() => {
-          this.router.navigate(['/planes']);
-        }, 300);
-      } else {
-        this.router.navigate(['/planes']);
-      }
+    switch (this.opcionSeleccionada) {
+      case 'facil':
+        this.nivel = 1;
+        break;
+      case 'dificil':
+        this.nivel = 2;
+        break;
+      default:
+        this.nivel = 0;
     }
-    this.temporizadorService.reiniciarTiempo();
+
+    const dto: ActualizarNivelExigenciaDTO = {
+      nivelExigencia: this.nivel,
+      email: this.email!
+    };
+
+    this.planService.actualizarNivelExigencia(this.rutina.idPlan, dto).subscribe({
+      next: (mensaje) => {
+        const modalElement = document.getElementById('feedbackModal');
+        if (modalElement) {
+          const instancia = bootstrap.Modal.getInstance(modalElement);
+          if (instancia) {
+            instancia.hide();
+          }
+        }
+        this.temporizadorService.reiniciarTiempo();
+        this.reiniciarRutina();
+        this.router.navigate(['/planes']);
+      },
+      error: (err) => {
+        console.error('Error al actualizar nivel de exigencia:', err);
+        alert('Ocurrió un error al guardar tu feedback. Intentá de nuevo.');
+      }
+    });
   }
 
   reiniciarRutina(): void {
     this.temporizadorService.reiniciarTiempo();
     this.rutina = null;
+    this.rutinaService.limpiarRutina();
+    this.correccionData.limpiarDatos();
   }
+
+  getDatoEjercicio(nombreEjercicio: string): DatosEjercicio | undefined {
+    const buscado = nombreEjercicio.trim().toLowerCase();
+    return this.datosCorreccion.find(d =>
+      d.nombre.trim().toLowerCase() === buscado
+    );
+  }
+
 
 }

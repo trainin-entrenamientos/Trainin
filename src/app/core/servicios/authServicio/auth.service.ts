@@ -16,13 +16,14 @@ export class AuthService {
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {
+constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token && !tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
     } else {
-      this.cerrarSesion();
+      localStorage.removeItem(this.TOKEN_KEY);
+      this.usuarioSubject.next(null);
     }
   }
 
