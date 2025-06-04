@@ -74,7 +74,6 @@ export class CrearPlanEntrenamientoComponent {
     this.obtenerOpcionesEntrenamiento();
   }
 
-
   nextStep(): void {
        if (!this.esPasoActualValido()) {
       this.marcarCamposDelPasoComoTocados(this.currentStep);
@@ -92,6 +91,8 @@ export class CrearPlanEntrenamientoComponent {
       }
     }
   }
+
+
   marcarCamposDelPasoComoTocados(paso: number): void {
     const controles: string[] = [];
 
@@ -340,7 +341,6 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   cargarResumen(): void {
-    // Paso 1 - Peso y alturaUsuario
     const inputsNumber = this.el.nativeElement.querySelectorAll(
       "input[type='number']"
     );
@@ -349,13 +349,11 @@ export class CrearPlanEntrenamientoComponent {
     this.setTexto('resumenPeso', pesoUsuario);
     this.setTexto('resumenAlturaUsuario', alturaUsuario);
 
-    // Paso 2 - Objetivo
     const objetivo = this.el.nativeElement.querySelector(
       "input[name='objetivo']:checked"
     ) as HTMLInputElement;
     this.setTexto('resumenObjetivo', objetivo?.name || 'No seleccionado');
 
-    // Paso 3 - Tipo de entrenamiento (card seleccionada)
     if (this.opcionSeleccionada) {
       this.setTexto('resumenEntrenamiento', this.opcionSeleccionada);
 
@@ -373,7 +371,6 @@ export class CrearPlanEntrenamientoComponent {
       if (img) img.style.display = 'none';
     }
 
-    // Paso 4 - Equipamiento
     const equipamientoTexto =
       this.equipamientos.length > 0
         ? this.equipamientos.join(', ')

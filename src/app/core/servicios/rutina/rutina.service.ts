@@ -113,13 +113,13 @@ export class RutinaService {
   const mapa: Record<string, NombreEjercicio> = {
     'Press militar': NombreEjercicio.PRESS_MILITAR,
     'Vuelos laterales': NombreEjercicio.VUELOS_LATERALES,
-    'estocada': NombreEjercicio.ESTOCADA,  //NO ESTA EN BD
+    'Estocadas': NombreEjercicio.ESTOCADA,  
     'Sentadillas': NombreEjercicio.SENTADILLA,
     'Sentadilla búlgara': NombreEjercicio.SENTADILLA_BULGARA,
-    'curl-biceps': NombreEjercicio.CURL_BICEPS,// NO ESTÁ EN BD
-    'fondos-triceps': NombreEjercicio.FONDOS_TRICEPS,// NO ESTÁ EN BD
-    'sentadilla-lateral': NombreEjercicio.SENTADILLA_LATERAL,// NO ESTÁ EN BD
-    'Elevación de pierna lateral': NombreEjercicio.ABDUCCION_CADERA,
+    'Curl de bíceps': NombreEjercicio.CURL_BICEPS,
+    'Fondos con banco': NombreEjercicio.FONDOS_TRICEPS,
+    'Zancadas laterales': NombreEjercicio.SENTADILLA_LATERAL,
+    'Elevación de pierna lateral parado': NombreEjercicio.ABDUCCION_CADERA,
     'Jumping jacks': NombreEjercicio.SALTOS_TIJERA
   };
 
