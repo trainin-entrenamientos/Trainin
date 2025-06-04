@@ -11,7 +11,6 @@ import { PreguntasFrecuentesComponent } from './vistas/preguntas-frecuentes/preg
 import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
-import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
 
 import { PlanesComponent } from './vistas/planes/planes.component';
@@ -24,8 +23,9 @@ import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finali
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
 import { RealizarEjercicioComponent } from './vistas/realizar-ejercicio/realizar-ejercicio.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
+import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
+import { LogrosComponent } from './vistas/logros/logros.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
-
 import { authGuard } from './core/guards/auth.guards';
 
 const routes: Routes = [
@@ -119,6 +119,22 @@ const routes: Routes = [
         component: FinalizacionRutinaComponent,
         canActivate: [authGuard]
       },
+       {
+        path: 'registro',
+        component: RegistroComponent
+      },
+      {
+        path: 'inicio',
+        component: InicioComponent
+      },
+      {
+        path: 'iniciar-sesion',
+        component: IniciarSesionComponent
+      },
+      {
+        path: 'calibracion-camara/:ejercicio',
+        component: CalibracionCamaraComponent
+      },
       {
         path: 'detalle-plan',
         component: DetallePlanComponent,
@@ -137,6 +153,15 @@ const routes: Routes = [
       {
         path: 'verificar-email/:token',
         component: VerificarEmailComponent,
+      },
+      {
+        path: 'correccion-postura/:ejercicio',
+        component: CorreccionPosturaComponent
+      },
+      {
+        path: 'logros',
+        component: LogrosComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'perfil',

@@ -16,6 +16,8 @@ export class InicioRutinaComponent {
   rutina: Rutina | null = null;
   selectedEjercicioIndex: number=0;
   ejercicios: Ejercicio[] = [];
+  cargando: boolean = true;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -38,14 +40,13 @@ export class InicioRutinaComponent {
     this.router.navigate(['/informacion-ejercicio']);
   }
 
-
-   
  private cargarRutina(idPlan: number): void {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
       next: rutina => {
         this.rutina = rutina;                        
         this.rutinaService.setRutina(rutina);  
-        this.ejercicios = rutina.ejercicios;   
+        this.ejercicios = rutina.ejercicios; 
+        this.cargando=false;  
       },
       error: err => console.error('Error al obtener la rutina:', err)
     });

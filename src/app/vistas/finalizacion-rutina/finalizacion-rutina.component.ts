@@ -6,6 +6,8 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-correccion';
 import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
+import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
 declare var bootstrap: any;
 
 @Component({
@@ -28,8 +30,10 @@ export class FinalizacionRutinaComponent {
   indiceGrupoVisible: number = 0;
   datosCorreccion: DatosEjercicio[] = [];
   caloriasQuemadas: number = 0;
+  nivel: number = 0;
 
   constructor(
+    private planService: PlanEntrenamientoService,
     private rutinaService: RutinaService,
     private router: Router,
     private auth: AuthService,
@@ -54,6 +58,15 @@ export class FinalizacionRutinaComponent {
     this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
 
     this.datosCorreccion = this.correccionData.obtenerTodos();
+
+    if (this.rutina && this.email) {
+      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+        next: () => {},
+        error: (err) => {
+          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
+        }
+      });
+    }
   }
 
 
@@ -104,44 +117,62 @@ moverCarruselMuscular(direccion: number): void {
 
 abrirModalFeedback() {
   const modalElement = document.getElementById('feedbackModal');
-  if (modalElement) {
-    this.modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement, {
-      backdrop: 'static',
-      keyboard: false
-    });
-    this.modalInstance.show();
+  if (!modalElement) return;
+
+  const instanciaExistente = bootstrap.Modal.getInstance(modalElement);
+  if (instanciaExistente) {
+    instanciaExistente.dispose();
   }
+
+  this.modalInstance = new bootstrap.Modal(modalElement, {
+    backdrop: 'static',
+    keyboard: false
+  });
+
+  this.modalInstance.show();
 }
 
-  enviarFeedback() {
-    this.rutinaService.fueRealizada(this.rutina.id, this.email!).subscribe({
-      next: () => {
-        this.reiniciarRutina();
-      },
-      error: (error) => {
-        console.error('Error al marcar la rutina como realizada:', error);
-      },
-    });
-    
+
+enviarFeedback() {
     if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;
     }
 
-    const modalElement = document.getElementById('feedbackModal');
-    if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-      if (modalInstance) {
-        modalInstance.hide();
-        setTimeout(() => {
-          this.router.navigate(['/planes']);
-        }, 300);
-      } else {
-        this.router.navigate(['/planes']);
-      }
+    switch (this.opcionSeleccionada) {
+      case 'facil':
+        this.nivel = 1;
+        break;
+      case 'dificil':
+        this.nivel = 2;
+        break;
+      default:
+        this.nivel = 0;
     }
-    this.temporizadorService.reiniciarTiempo();
+
+    const dto: ActualizarNivelExigenciaDTO = {
+      nivelExigencia: this.nivel,
+      email: this.email!
+    };
+
+    this.planService.actualizarNivelExigencia(this.rutina.idPlan, dto).subscribe({
+      next: (mensaje) => {
+        const modalElement = document.getElementById('feedbackModal');
+        if (modalElement) {
+          const instancia = bootstrap.Modal.getInstance(modalElement);
+          if (instancia) {
+            instancia.hide();
+          }
+        }
+        this.temporizadorService.reiniciarTiempo();
+        this.reiniciarRutina();
+        this.router.navigate(['/planes']);
+      },
+      error: (err) => {
+        console.error('Error al actualizar nivel de exigencia:', err);
+        alert('Ocurrió un error al guardar tu feedback. Intentá de nuevo.');
+      }
+    });
   }
 
   reiniciarRutina(): void {

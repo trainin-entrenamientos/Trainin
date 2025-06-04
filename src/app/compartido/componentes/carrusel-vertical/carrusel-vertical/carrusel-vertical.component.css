@@ -40,7 +40,7 @@
   width: 90%;
   max-width: 400px;
   margin: 0 auto;
-  background-color: #191919;
+  background-color: #0B1A1E;
   border-radius: 20px;
   color: white;
   font-size: 1.1rem;
@@ -78,7 +78,7 @@
 
 .item.seleccionado {
   border: 1px solid #13ff3a;
-  box-shadow: 0 0 12px #13ff3a88;
+  box-shadow: 0 0 12px #13ff3a;
 }
 
 @media (max-width: 1080px) {

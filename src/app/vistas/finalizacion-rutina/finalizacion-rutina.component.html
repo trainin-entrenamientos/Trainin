@@ -24,11 +24,11 @@
               </li>
               <li>
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>{{this.rutina.rutinasRealizadas}} de 3 Rutinas Semanales</span>
+                <span>{{this.rutina.rutinasRealizadas+1}} de 3 Rutinas Semanales</span>
               </li>
               <li>
                 <i class="fa-solid fa-calendar-days"></i>
-                <span>{{this.rutina.numeroRutina-1}} de 30 Rutinas del Plan</span>
+                <span>{{this.rutina.numeroRutina}} de 30 Rutinas del Plan</span>
               </li>
               <li>
                 <i class="fa-solid fa-medal"></i>
@@ -66,7 +66,7 @@
                     " [class.visible]="i === indiceGrupoVisible">
                     <p>{{ejercicioSeleccionado.nombre}}</p><br>
                     <img [src]="grupo.imagen" [alt]="grupo.nombre" />
-                    <p>{{ grupo.nombre }}</p>
+                    <p class="nombre-musculo">{{ grupo.nombre }}</p>
                   </div>
                 </div>
 
@@ -120,7 +120,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal fade" id="feedbackModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content body-modal-color feedback-modal">
           <div class="modal-body text-center px-4 py-5">

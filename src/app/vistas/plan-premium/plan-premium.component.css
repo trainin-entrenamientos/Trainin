@@ -5,11 +5,11 @@
   margin: auto;
 
   .green {
-    color: #00ff4c;
+    color: #13ff3a;
   }
 
   .green-italic {
-    color: #00ff4c;
+    color: #13ff3a;
     font-style: italic;
     font-weight: 600;
   }
@@ -25,7 +25,7 @@
   .card-feature {
     display: flex;
     flex-direction: row;
-    background: #0a0e15;
+    background: #0B1A1E ;
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
@@ -51,7 +51,7 @@
     flex: 0 0 40%;
     position: relative;
     min-height: 200px;
-    background: #000;
+    background: #0B1A1E ;
   }
 
   .card-image img {
