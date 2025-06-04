@@ -119,29 +119,6 @@ const routes: Routes = [
         component: FinalizacionRutinaComponent,
         canActivate: [authGuard]
       },
-<<<<<<< HEAD
-       {
-        path: 'registro',
-        component: RegistroComponent
-      },
-      {
-        path: 'inicio',
-        component: InicioComponent
-      },
-      {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
-      },
-      {
-        path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
-      },
-      /*{
-        path: 'correccion-postura',
-        component: CorreccionPosturaComponent
-      },*/
-=======
->>>>>>> develop
       {
         path: 'detalle-plan',
         component: DetallePlanComponent,

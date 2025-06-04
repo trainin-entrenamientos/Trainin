@@ -140,6 +140,7 @@ describe('RutinaService', () => {
     service.setRutina(mockRutina);
     service.setIndiceActual(0);
     expect(service.haySiguienteEjercicio()).toBeTrue();
+    
     service.setIndiceActual(2);
     expect(service.haySiguienteEjercicio()).toBeFalse();
   });
