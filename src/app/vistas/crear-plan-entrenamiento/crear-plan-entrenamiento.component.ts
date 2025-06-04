@@ -28,6 +28,9 @@ export class CrearPlanEntrenamientoComponent {
   equipamientosOpciones: Equipamiento[] = [];
   planIdCreado: number | undefined;
   mostrarModal: boolean = false;
+  cargando: boolean = false;
+  seEnvioForm:boolean=false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -476,19 +479,23 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   enviarFormulario() {
+    this.cargando=true;
     if (this.formularioForm.valid) {
       this.planDeEntrenamientoService
         .crearPlanEntrenamiento({
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
+          
         })
+        
         .subscribe(
           (response) => {
             this.planIdCreado = response.planId;
-
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }
+            this.cargando = false;
+            this.seEnvioForm=true;
             this.mostrarModal = true;
           },
           (error) => {

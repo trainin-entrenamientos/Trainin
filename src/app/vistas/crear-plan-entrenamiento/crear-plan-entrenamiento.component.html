@@ -1,6 +1,7 @@
 <body>
   <main>
-    <div class="form-container">
+    <app-loader *ngIf="cargando"></app-loader>
+    <div class="form-container" *ngIf="!cargando && !seEnvioForm">
       <form
         id="formularioEntrenamiento"
         [formGroup]="formularioForm"
@@ -650,8 +651,10 @@
         </div>
       </form>
 
-      <app-modal-plan-creado *ngIf="mostrarModal" (aceptar)="iniciarRutina()">
-      </app-modal-plan-creado>
+      
     </div>
+
+    <app-modal-plan-creado *ngIf="mostrarModal && seEnvioForm" (aceptar)="iniciarRutina()">
+      </app-modal-plan-creado>
   </main>
 </body>
