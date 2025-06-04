@@ -71,27 +71,6 @@ export class CrearPlanEntrenamientoComponent {
     this.obtenerOpcionesEntrenamiento();
   }
 
-  pruebaMostrarLogro() {
-    var imagenBronce =
-      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-bronce.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLWJyb25jZS5wbmciLCJpYXQiOjE3NDg4MzU4NDEsImV4cCI6MTc4MDM3MTg0MX0.T6xMpSOBGUkyQRzc5Sf8ikzuySqaZabEhQJlPXq_47I';
-    const imagenPlata =
-      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-plata.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRhLnBuZyIsImlhdCI6MTc0ODgzNTgyMywiZXhwIjoxNzgwMzcxODIzfQ.Td_Ee01KMa__uNFIUjKvMLhLVh9uvcTxhSCRqu4nTFM';
-    const imagenOro =
-      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-oro.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLW9yby5wbmciLCJpYXQiOjE3NDg4MzU4MDIsImV4cCI6MTc4MDM3MTgwMn0.qhu_fH-Y4C4PlUJZEcHSQlibhhDxdXcJa0cTSCWnK6k';
-    const imagenPlatino =
-      'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-platino.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRpbm8ucG5nIiwiaWF0IjoxNzQ4ODM1Nzc1LCJleHAiOjE3ODAzNzE3NzV9.K1-12N87G86mmFutOCZyoGSSadpql2WNq9vfCEZLdwE';
-
-    const logroDePrueba = {
-      id: 2,
-      nombre: 'El primer paso',
-      descripcion: 'Crea el primer Plan de Entrenamiento',
-      imagen: imagenOro,
-      tipo: null,
-      obtenido: true,
-    };
-
-    this.logroService.mostrarLogro(logroDePrueba);
-  }
 
   nextStep(): void {
        if (!this.esPasoActualValido()) {

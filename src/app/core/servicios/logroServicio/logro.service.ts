@@ -27,10 +27,10 @@ export class LogroService {
   }
 
    obtenerLogrosPorUsuario(email:string | null): Observable<any> {
-      return this.http.get(`${this.baseUrl}usuario/obtenerLogros/${email}`);
+      return this.http.get(`${this.baseUrl}/usuario/obtenerLogros/${email}`);
     }
 
    obtenerTodosLosLogros(): Observable<any> {
-      return this.http.get(`${this.baseUrl}logro/obtenerLogros`);
+      return this.http.get(`${this.baseUrl}/logro/obtenerLogros`);
     }
 }
