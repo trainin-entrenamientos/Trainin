@@ -27,6 +27,7 @@ export class FinalizacionRutinaComponent {
   expandido:boolean=false;
   indiceGrupoVisible: number = 0;
   datosCorreccion: DatosEjercicio[] = [];
+  caloriasQuemadas: number = 0;
 
   constructor(
     private rutinaService: RutinaService,
@@ -40,6 +41,7 @@ export class FinalizacionRutinaComponent {
       this.rutina=this.rutinaService.cargarDesdeSession();
       const datos = this.rutinaService.getDatosIniciales();
       this.rutina= datos.rutina;
+      this.caloriasQuemadas = datos.rutina?.caloriasQuemadas || 0;
     
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
