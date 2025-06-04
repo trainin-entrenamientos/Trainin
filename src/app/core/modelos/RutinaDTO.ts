@@ -27,4 +27,5 @@ export interface Rutina {
   nombre: string;
   ejercicios: Ejercicio[];
   rutinasRealizadas: number;
+  caloriasQuemadas: number;
 }
