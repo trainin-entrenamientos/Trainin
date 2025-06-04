@@ -34,6 +34,27 @@ describe('PlanEntrenamientoService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyResponse);
   });
+  it('debería maneja error al no obtener planes de entrenamiento', () => {
+    const idUsuario = 5;
+    const errorMsg = 'Error: No se puedieron obtener planes de entrenamieto';
+    
+    service.getPlanesDeEntrenamiento(idUsuario).subscribe({
+      next: () => fail('No debería haber obtenido planes'),
+      error: (error) => {
+        expect(error.status).toBe(404);
+        expect(error.statusText).toBe('Not Found');
+        expect(error.error).toBe(errorMsg);
+      }
+    });
+
+    const req = httpMock.expectOne(`${baseUrl}/plan/obtenerPlanes/${idUsuario}`);
+    expect(req.request.method).toBe('GET');
+
+    req.flush(null,{
+      status: 404,
+      statusText: 'Not Found',
+    }) 
+  })
 
   it('debería obtener opciones de entrenamiento', () => {
     const dummyOpciones = ['Fuerza', 'Cardio'];
@@ -73,7 +94,7 @@ describe('PlanEntrenamientoService', () => {
   });
 
   it('debería crear un plan de entrenamiento', () => {
-    const planMock = { nombre: 'Plan nuevo', ejercicios: [] };
+    const planMock = {ejercicios: [] };
     const responseMock = { id: 1, ...planMock };
 
     service.crearPlanEntrenamiento(planMock).subscribe(res => {
@@ -85,6 +106,27 @@ describe('PlanEntrenamientoService', () => {
     expect(req.request.body).toEqual(planMock);
     req.flush(responseMock);
   });
+
+  it('debería fallar al crear un plan de entrenamiento con datos inválidos', () => {
+  const planInvalido = { ejercicios: [] };
+
+  service.crearPlanEntrenamiento(planInvalido).subscribe({
+    next: () => fail('Se esperaba un error, pero se recibió una respuesta exitosa'),
+    error: (error) => {
+      expect(error.status).toBe(400); 
+      expect(error.statusText).toBe('Bad Request');
+    }
+  });
+
+  const req = httpMock.expectOne(`${baseUrl}/plan/crearPlan`);
+  expect(req.request.method).toBe('POST');
+
+  // Simulamos que el servidor responde con un 400 por plan inválido
+  req.flush('Plan sin relacion con usuario valido', {
+    status: 400,
+    statusText: 'Bad Request'
+  });
+});
 
   it('debería desactivar un plan por ID', () => {
     const idPlan = 1;
