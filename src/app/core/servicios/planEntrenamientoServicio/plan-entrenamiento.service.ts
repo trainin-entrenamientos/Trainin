@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { ActualizarNivelExigenciaDTO } from '../../modelos/ActualizarNivelExigenciaDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class PlanEntrenamientoService {
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
     return this.http.patch(`${this.baseUrl}/plan/desactivarPlan/${idPlan}`, { idUsuario });
+  }
+
+  actualizarNivelExigencia(idPlan: number, formulario: ActualizarNivelExigenciaDTO): Observable<string> {
+    return this.http.patch(`${this.baseUrl}/plan/actualizarNivelExigencia/${idPlan}`, formulario, { responseType: 'text' });
   }
 }
