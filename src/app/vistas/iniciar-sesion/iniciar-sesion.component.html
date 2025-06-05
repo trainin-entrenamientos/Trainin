@@ -8,8 +8,20 @@
           <div class="input-container">
             <i class="fas fa-user"></i>
             <input type="email" id="loginEmail" placeholder=" " formControlName="email" required />
-            <label for="loginEmail">Email</label>
+            <label for="loginEmail">Correo electrónico</label>
           </div>
+
+          <div
+                *ngIf="
+                  loginForm.get('email')?.hasError('email') &&
+                  loginForm.get('email')?.touched
+                "
+                style="color: white; margin-top: 0.25rem"
+              >
+                El
+                <strong style="color: #13ff3a">correo electrónico</strong> debe
+                contener un arroba y tener formato válido
+              </div>
 
           <div class="input-container">
             <i class="fas fa-lock"></i>

@@ -172,3 +172,86 @@ main {
   transform: translateX(200%);
   background-color: #13ff3a;
 }
+
+.mensaje-sin-logros {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.mensaje-sin-logros p {
+  margin-bottom: 1rem;
+}
+
+.logo-trainin {
+  width: 300px;
+  height: auto;
+  opacity: 0.8;
+}
+
+@media (max-width: 1400px) {
+  .logros-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (max-width: 1200px) {
+  .logros-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (max-width: 1050px){
+main{
+  justify-content: start;
+}
+
+}
+@media (max-width: 991px) {
+  .logros-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .glass-radio-group label {
+    min-width: 150px;
+    padding: 0.6rem 1.2rem;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 767px) {
+  .logros-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .glass-radio-group label {
+    min-width: 120px;
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  .logro img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .nombre {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logros-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .logro img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .nombre {
+    font-size: 12px;
+  }
+}
