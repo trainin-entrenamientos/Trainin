@@ -1,3 +1,4 @@
+/*
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Ejercicio } from '../../modelos/Ejercicio';
@@ -102,4 +103,4 @@ export class AdminService {
       return of(null);
     }
   }
-}
+}*/

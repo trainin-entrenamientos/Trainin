@@ -1,37 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Ejercicio } from '../../core/modelos/Ejercicio';
-import { AdminService } from '../../core/servicios/adminServicio/admin.service';
-declare var bootstrap: any;
+import { EjercicioService } from '../../core/servicios/ejercicioServicio/ejercicio-servicio.service';
+import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporadoDTO'; 
+import { EjercicioEditadoDTO } from '../../core/modelos/EjercicioEditadoDTO';
+import { CompartidoModule } from "../../compartido/compartido.module"; 
 
 @Component({
-  selector: 'app-inicio-admin',
+  selector: 'app-administracion-ejercicios',
   standalone: false,
   templateUrl: './inicio-admin.component.html',
-  styleUrl: './inicio-admin.component.css',
+  styleUrls: ['./inicio-admin.component.css']
 })
-export class InicioAdminComponent {
-  ejercicios: Ejercicio[] = [];
 
-  constructor(private AdminService: AdminService, private router: Router) {
-    this.AdminService = AdminService;
-  }
+export class InicioAdminComponent implements OnInit {
+  ejercicios: EjercicioIncorporadoDTO[] = [];
+  ejercicioParaEliminar: number | null = null;
+
+  constructor(
+    private ejercicioService: EjercicioService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.obtenerEjercicios();
+    this.cargarEjercicios();
   }
 
-  obtenerEjercicios(): void {
-    this.AdminService.obtenerEjercicios().subscribe({
-      next: (ejerciciosObtenidos: Ejercicio[]) => {
-        this.ejercicios = ejerciciosObtenidos;
-      },
-      error: (err: any) => {
-        console.error('Error al obtener los ejercicios:', err);
-      },
-      complete: () => {
-        console.log('Petición completada');
-      },
+  cargarEjercicios(): void {
+    this.ejercicioService.obtenerTodos().subscribe({
+      next: (data) => (this.ejercicios = data),
+      error: (err) => console.error(err)
     });
   }
 
@@ -39,28 +36,17 @@ export class InicioAdminComponent {
     this.router.navigate(['/editar-ejercicio', id]);
   }
 
-  abrirModalEliminarEjercicio() {
-    const modal = new bootstrap.Modal(document.getElementById('bootstrapModal'));
-    modal.show();
+  abrirModalEliminarEjercicio(id: number): void {
+    this.ejercicioParaEliminar = id;
   }
 
   eliminarEjercicio(id: number): void {
-    this.AdminService.eliminarEjercicio(id).subscribe({
-      next: (fueEliminado: boolean) => {
-        if (fueEliminado) {
-          this.ejercicios =
-            this.ejercicios?.filter((ejercicio) => ejercicio.id !== id) || [];
-          console.log('✅ Ejercicio eliminado con éxito');
-        } else {
-          console.error('❌ No se pudo eliminar el ejercicio');
-        }
+    this.ejercicioService.eliminar(id).subscribe({
+      next: () => {
+        this.ejercicioParaEliminar = null;
+        this.cargarEjercicios();
       },
-      error: (err: any) => {
-        console.error('❌ Error al eliminar el ejercicio:', err);
-      },
-      complete: () => {
-        console.log('ℹ️ Petición de eliminación completada');
-      },
+      error: (err) => console.error(err)
     });
   }
 }

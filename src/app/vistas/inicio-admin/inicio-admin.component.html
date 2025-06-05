@@ -1,42 +1,66 @@
-<body>
-  <main>
-    <section class="contenedor-principal mb-5">
-      <article>
-        <div class="text-center pt-5">
-          <h1 class="titulo">Panel de Administrador</h1>
-        </div>
+<div class="container mt-5">
 
-        <div class="py-4">
-          <a routerLink="/crear-ejercicio" class="boton-crear-ejercicio p-2" style="color: #000000">Crear ejercicio</a>
-        </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Panel de Administrador</h1>
+    <button
+      class="btn btn-trainin"
+      routerLink="/crear-ejercicio"
+      type="button"
+    >
+      Crear Ejercicio
+    </button>
+  </div>
 
-        <div class="row p-3 mt-3 contenedor-titulos border-bottom">
-          <div class="col-2 font-weight-bold">ID</div>
-          <div class="col-3 font-weight-bold">Ejercicio</div>
-          <div class="col-2 font-weight-bold">Categoría</div>
-          <div class="col-3 font-weight-bold">Tipo de Ejercicio</div>
-          <div class="col-2 font-weight-bold">Acción</div>
-        </div>
+  <div class="row py-2 bg-light font-weight-bold border-bottom">
+    <div class="col-1">ID</div>
+    <div class="col-3">Ejercicio</div>
+    <div class="col-3">Categoría</div>
+    <div class="col-3">Grupo Muscular</div>
+    <div class="col-2">Acción</div>
+  </div>
 
-        <div *ngIf="ejercicios && ejercicios.length > 0">
-          <div *ngFor="let ejercicio of ejercicios; let index = index" class="row border-bottom p-3 contenedor-ejercicios align-items-center">
-            <div class="col-2">{{ ejercicio.id }}</div>
-            <div class="col-3">{{ ejercicio.ejercicio }}</div>
-            <div class="col-2">{{ ejercicio.categoria }}</div>
-            <div class="col-3">{{ ejercicio.tipoEjercicio }}</div>
-            <div class="col-2 d-flex gap-2">
-              <span class="boton-editar" (click)="editarEjercicio(ejercicio.id)"><i class="fa-regular fa-pen-to-square"></i></span>
-              <span class="boton-eliminar" (click)="abrirModalEliminarEjercicio()"><i class="fa-solid fa-trash"></i></span>
-              <app-modal-eliminar-ejercicio (confirmarEliminar)="eliminarEjercicio(ejercicio.id)"></app-modal-eliminar-ejercicio>
-            </div>
-          </div>
-        </div>
+  <ng-container *ngIf="ejercicios && ejercicios.length; else sinEjercicios">
+    <div
+      *ngFor="let ejercicio of ejercicios"
+      class="row align-items-center py-3 border-bottom"
+    >
+      <div class="col-1">{{ ejercicio.id }}</div>
+      <div class="col-3">{{ ejercicio.nombre }}</div>
+      <div class="col-3">{{ ejercicio.categoriaEjercicio?.nombre }}</div>
+      <div class="col-3">{{ ejercicio.grupoMuscular?.nombre }}</div>
+      <div class="col-2 d-flex gap-2">
 
-        <div *ngIf="!ejercicios || ejercicios.length === 0" class="row p-3">
-          <div class="col">No hay ningun ejercicio creado.</div>
-        </div>
+        <button
+          class="btn btn-sm btn-outline-primary"
+          (click)="editarEjercicio(ejercicio.id)"
+          title="Editar ejercicio"
+        >
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
 
-      </article>
-    </section>
-  </main>
-</body>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="abrirModalEliminarEjercicio(ejercicio.id)"
+          title="Eliminar ejercicio"
+        >
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
+        <app-modal-eliminar-ejercicio
+          *ngIf="ejercicioParaEliminar === ejercicio.id"
+          (confirmarEliminar)="eliminarEjercicio(ejercicio.id)"
+          (cancelar)="ejercicioParaEliminar = null"
+        >
+        </app-modal-eliminar-ejercicio>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #sinEjercicios>
+    <div class="row py-4">
+      <div class="col text-center text-muted">
+        No hay ningún ejercicio creado.
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -7,8 +7,6 @@ import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-f
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
-import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
-import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
 
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
@@ -38,8 +36,6 @@ import { PerfilComponent } from './perfil/perfil.component';
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
     InicioAdminComponent,
-    CrearEjercicioComponent,
-    EditarEjercicioComponent,
     InicioRutinaComponent,
     FinalizacionRutinaComponent,
     RegistroComponent,
@@ -52,7 +48,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     CorreccionPosturaComponent,
     CalibracionCamaraComponent,
     VerificarEmailComponent,
-    PerfilComponent,
+    PerfilComponent
   ],
 
   imports: [
