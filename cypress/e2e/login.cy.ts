@@ -19,6 +19,7 @@ describe('Página de inicio de sesión', () => {
 
     cy.get('.toast-message').should('contain', 'Credenciales incorrectas o error de servidor.');
   });
+  
  //Este test solo funciona si el backend esta funcionando. 
   it('debería iniciar sesión con credenciales válidas', () => {
     cy.visit('http://localhost:4200/iniciar-sesion');
