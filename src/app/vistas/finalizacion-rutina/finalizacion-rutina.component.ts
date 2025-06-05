@@ -26,7 +26,7 @@ export class FinalizacionRutinaComponent {
   selectedSidebarIndex: number | null = null;
   selectedEjercicioIndex: number = 0;
   opcionSeleccionadaEstadisticas: string | null = null;
-  expandido:boolean=false;
+  expandido: boolean = false;
   indiceGrupoVisible: number = 0;
   datosCorreccion: DatosEjercicio[] = [];
   caloriasQuemadas: number = 0;
@@ -39,14 +39,14 @@ export class FinalizacionRutinaComponent {
     private auth: AuthService,
     private temporizadorService: TemporizadorService,
     private correccionData: CorreccionDataService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-      this.rutina=this.rutinaService.cargarDesdeSession();
-      const datos = this.rutinaService.getDatosIniciales();
-      this.rutina= datos.rutina;
-      this.caloriasQuemadas = datos.rutina?.caloriasQuemadas || 0;
-    
+    this.rutina = this.rutinaService.cargarDesdeSession();
+    const datos = this.rutinaService.getDatosIniciales();
+    this.rutina = datos.rutina;
+    this.caloriasQuemadas = datos.rutina?.caloriasQuemadas || 0;
+
     if (this.rutina != null) {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();
@@ -61,7 +61,7 @@ export class FinalizacionRutinaComponent {
 
     if (this.rutina && this.email) {
       this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
-        next: () => {},
+        next: () => { },
         error: (err) => {
           console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
         }
@@ -70,70 +70,70 @@ export class FinalizacionRutinaComponent {
   }
 
 
- selectEjercicio(index: number) {
-  this.selectedEjercicioIndex = index;
-}
+  selectEjercicio(index: number) {
+    this.selectedEjercicioIndex = index;
+  }
 
   anteriorEjercicio() {
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
-}
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
+  }
 
-siguienteEjercicio() {
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
-}
+  siguienteEjercicio() {
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+  }
 
- 
+
   opcionSeleccionadaSidebar(index: number) {
-  if (this.selectedSidebarIndex === index) {
-    this.selectedSidebarIndex = null; 
-    this.expandido = false;          
-  } else {
-    this.selectedSidebarIndex = index;
-    this.expandido = true;            
-  }
-}
-
-opciones = [
-  { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
-  { id: 'errores', icono: 'fa-solid fa-expand' },
-  { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
-];
-
-mostrarOpcion(opcionId: string) {
-  this.opcionSeleccionadaEstadisticas = opcionId;
-}
-
-cerrarOpcion() {
-  this.opcionSeleccionadaEstadisticas = null;
-}
-
-moverCarruselMuscular(direccion: number): void {
-  const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
-  const totalGrupos = grupoActual.length;
-  this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
-}
-
-abrirModalFeedback() {
-  const modalElement = document.getElementById('feedbackModal');
-  if (!modalElement) return;
-
-  const instanciaExistente = bootstrap.Modal.getInstance(modalElement);
-  if (instanciaExistente) {
-    instanciaExistente.dispose();
+    if (this.selectedSidebarIndex === index) {
+      this.selectedSidebarIndex = null;
+      this.expandido = false;
+    } else {
+      this.selectedSidebarIndex = index;
+      this.expandido = true;
+    }
   }
 
-  this.modalInstance = new bootstrap.Modal(modalElement, {
-    backdrop: 'static',
-    keyboard: false
-  });
+  opciones = [
+    { id: 'estadisticas', icono: 'fa-solid fa-chart-simple' },
+    { id: 'errores', icono: 'fa-solid fa-expand' },
+    { id: 'musculos', icono: 'fa-solid fa-dumbbell' },
+  ];
 
-  this.modalInstance.show();
-}
+  mostrarOpcion(opcionId: string) {
+    this.opcionSeleccionadaEstadisticas = opcionId;
+  }
+
+  cerrarOpcion() {
+    this.opcionSeleccionadaEstadisticas = null;
+  }
+
+  moverCarruselMuscular(direccion: number): void {
+    const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
+    const totalGrupos = grupoActual.length;
+    this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
+  }
+
+  abrirModalFeedback() {
+    const modalElement = document.getElementById('feedbackModal');
+    if (!modalElement) return;
+
+    const instanciaExistente = bootstrap.Modal.getInstance(modalElement);
+    if (instanciaExistente) {
+      instanciaExistente.dispose();
+    }
+
+    this.modalInstance = new bootstrap.Modal(modalElement, {
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    this.modalInstance.show();
+  }
 
 
-enviarFeedback() {
+  enviarFeedback() {
     if (!this.opcionSeleccionada) {
       alert('Por favor, selecciona una opción.');
       return;
@@ -183,11 +183,13 @@ enviarFeedback() {
   }
 
   getDatoEjercicio(nombreEjercicio: string): DatosEjercicio | undefined {
-    const buscado = nombreEjercicio.trim().toLowerCase();
+    const ejercicioEnum = this.rutinaService.buscarNombreEjercicio(nombreEjercicio);
+
     return this.datosCorreccion.find(d =>
-      d.nombre.trim().toLowerCase() === buscado
+      d.nombre === ejercicioEnum
     );
   }
+
 
 
 }
