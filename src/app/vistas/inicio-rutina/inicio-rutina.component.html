@@ -1,4 +1,5 @@
 <body>
+  <app-loader *ngIf="cargando"></app-loader>
   <main *ngIf="!rutina && !cargando">
     <section>
       <article class="text-center">
@@ -11,7 +12,7 @@
 <main *ngIf="rutina && !cargando" class="rutina-card text-white my-4">
    
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina}}</h2>
+    <h2 class="m-0 text-center flex-grow-1">Plan {{rutina.categoriaEjercicio}}– Día {{ rutina.numeroRutina}}</h2>
     <span style="width: 24px"></span>
   </div>
 

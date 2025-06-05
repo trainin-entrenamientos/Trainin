@@ -106,7 +106,6 @@ export class RutinaService {
     duracionDelEjercicio: duracion,
     repeticionesDelEjercicio: repeticiones,
     correccionPremium: ejercicio?.correccionPremium,
-    
   };
   }
 

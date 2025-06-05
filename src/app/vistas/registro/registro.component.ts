@@ -23,7 +23,7 @@ export class RegistroComponent {
     this.registroForm = this.fb.group(
       {
         nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        apellido: ['', Validators.required],
+        apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
         email: ['', [Validators.required, Validators.email]],
         contrasenia: [
           '',
@@ -33,12 +33,30 @@ export class RegistroComponent {
           ],
         ],
         repetirContrasenia: ['', Validators.required],
-        fechaNacimiento: ['', Validators.required],
+        fechaNacimiento: ['', [Validators.required, this.validarEdadMinima(16)]],
         aceptarTerminos: [false, Validators.requiredTrue],
       },
       { validators: this.verificarContraseniasIguales }
     );
   }
+
+  validarEdadMinima(edadMinima: number) {
+  return (control: any) => {
+    const fechaNacimiento = new Date(control.value);
+    if (isNaN(fechaNacimiento.getTime())) return null;
+
+    const hoy = new Date();
+    const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const cumpleEsteAnio =
+      hoy.getMonth() > fechaNacimiento.getMonth() ||
+      (hoy.getMonth() === fechaNacimiento.getMonth() &&
+        hoy.getDate() >= fechaNacimiento.getDate());
+
+    const edadFinal = cumpleEsteAnio ? edad : edad - 1;
+
+    return edadFinal >= edadMinima ? null : { edadMinima: true };
+  };
+}
 
   verificarContraseniasIguales(form: FormGroup) {
     const pass = form.get('contrasenia')?.value;
@@ -65,8 +83,8 @@ export class RegistroComponent {
 
   this.authService.registrarUsuario(datos).subscribe({
     next: (response: any) => {
-      this.toastr.success(response.mensaje, 'Se ha registrado con éxito. ¡Iniciá sesión!');
-      this.router.navigate(['/login']);
+      this.toastr.success(response.mensaje, 'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.');
+      this.router.navigate(['/iniciar-sesion']);
     },
     error: (err) => {
       const errorMsg =
