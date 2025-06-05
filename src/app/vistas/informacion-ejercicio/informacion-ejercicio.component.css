@@ -153,13 +153,13 @@ body {
 
 @keyframes pulse-red {
   0%   { color: #fff; }
-  50%  { color: #ff4c4c; }
+  50%  { color: #F24130 ; }
   100% { color: #fff; }
 }
 
 .countdown-warning {
   animation: pulse-red 1s infinite;     
-  text-shadow: 0 0 8px red;
+  text-shadow: 0 0 8px #F24130 ;
 }
 
 .practicar {
@@ -217,6 +217,7 @@ h4{
   width: auto;
   max-width: 700px;
   overflow: hidden;
+  background-color: #0B1A1E;
 }
 
 .imagen-con-borde img{

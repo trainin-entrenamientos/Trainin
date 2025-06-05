@@ -25,6 +25,7 @@ import { CorreccionPosturaComponent } from './correccion-postura/correccion-post
 import { CalibracionCamaraComponent } from './calibracion-camara/calibracion-camara.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
+import { LogrosComponent } from './logros/logros.component';
 import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
@@ -49,6 +50,8 @@ import { PerfilComponent } from './perfil/perfil.component';
     CalibracionCamaraComponent,
     VerificarEmailComponent,
     PerfilComponent
+    LogrosComponent,
+    PerfilComponent,
   ],
 
   imports: [
@@ -60,7 +63,6 @@ import { PerfilComponent } from './perfil/perfil.component';
     NgbTooltipModule,
     BrowserAnimationsModule
   ],
-
   exports: [
     PlanesComponent,
     PoliticasPrivacidadComponent,

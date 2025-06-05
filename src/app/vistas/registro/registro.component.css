@@ -18,7 +18,7 @@ body {
 }
 
 .registration-card {
-  background-color: #191919;
+  background-color: #0B1A1E ;
   width: 75%;
   margin: 0 auto;
   padding: 3rem 1.5rem;
@@ -201,7 +201,11 @@ body {
 .terms-container i {
   top: calc(50% - 0.2rem);
 }
-
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #0B1A1E  inset !important;
+  -webkit-text-fill-color: #FFF !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 @media (max-width: 767px) {
   .registration-card {
     width: 85%;

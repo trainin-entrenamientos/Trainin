@@ -6,7 +6,7 @@ import { PerfilDTO } from '../../modelos/PerfilDTO';
 
 @Injectable({ providedIn: 'root' })
 export class PerfilService {
-private apiUrl = `${environment.URL_BASE}usuario/`;
+private apiUrl = `${environment.URL_BASE}/usuario/`;
 
   constructor(private http: HttpClient) {}
 

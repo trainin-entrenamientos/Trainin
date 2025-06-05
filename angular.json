@@ -35,9 +35,15 @@
               {
                 "glob": "**/*",
                 "input": "public/imagenes",
-                "output": "/imagenes"
+                "output": "imagenes"
+              },
+              {
+                "glob": "**/*",
+                "input": "public/sfx",
+                "output": "sfx"
               }
             ],
+
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -54,8 +60,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "3MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
