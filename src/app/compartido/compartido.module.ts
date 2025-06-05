@@ -15,6 +15,7 @@ import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin
 import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
 import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
+import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/moda
     BotonTraininComponent,
     CarruselVerticalComponent,
     LogroObtenidoComponent,
-    ModalConfirmacionBorrarPlanComponent
+    ModalConfirmacionBorrarPlanComponent,
+    ModalSalirDeRutinaComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/moda
     BotonTraininComponent,
     CarruselVerticalComponent,
     LogroObtenidoComponent,
-    ModalConfirmacionBorrarPlanComponent
+    ModalConfirmacionBorrarPlanComponent,
+    ModalSalirDeRutinaComponent
   ],
   providers: [],
 })

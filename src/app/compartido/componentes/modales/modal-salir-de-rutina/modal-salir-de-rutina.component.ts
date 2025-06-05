@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
- selector: 'app-modal-confirmacion-borrar-plan',
+  selector: 'app-modal-salir-de-rutina',
   standalone: false,
-  templateUrl: './modal-confirmacion-borrar-plan.component.html',
-  styleUrl: './modal-confirmacion-borrar-plan.component.css'
+  templateUrl: './modal-salir-de-rutina.component.html',
+  styleUrl: './modal-salir-de-rutina.component.css'
 })
-export class ModalConfirmacionBorrarPlanComponent {
-  @Input() mensaje: string = '¿Estás segur@ que querés desactivar este plan?';
+export class ModalSalirDeRutinaComponent {
+
+  @Input() mensaje: string = '¿Estás segur@ que querés salir de la rutina? Se perderá todo el progreso';
   @Input() visible: boolean = false;
   @Output() onConfirm = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
@@ -20,3 +21,5 @@ export class ModalConfirmacionBorrarPlanComponent {
     this.onCancel.emit();
   }
 }
+
+
