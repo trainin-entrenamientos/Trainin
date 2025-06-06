@@ -15,8 +15,8 @@ export interface Ejercicio {
   video: string;
   descripcion: string;
   tieneCorrecion: boolean;
+  categoria:Categoria[];
   grupoMuscular: GrupoMuscular[];
-  categoria: string;
   correccionPremium: boolean;
 }
 
@@ -26,6 +26,11 @@ export interface Rutina {
   duracionEstimada: number;
   nombre: string;
   ejercicios: Ejercicio[];
+  categoriaEjercicio: string;
   rutinasRealizadas: number;
   caloriasQuemadas: number;
+}
+
+export interface Categoria{
+  nombre:string;
 }

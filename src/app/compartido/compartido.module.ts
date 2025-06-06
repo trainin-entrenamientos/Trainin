@@ -14,6 +14,8 @@ import { TemporizadorComponent } from './componentes/temporizador/temporizador.c
 import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
 import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
+import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
+import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obten
     TemporizadorComponent,
     BotonTraininComponent,
     CarruselVerticalComponent,
-    LogroObtenidoComponent
+    LogroObtenidoComponent,
+    ModalConfirmacionBorrarPlanComponent,
+    ModalSalirDeRutinaComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,9 @@ import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obten
     TemporizadorComponent,
     BotonTraininComponent,
     CarruselVerticalComponent,
-    LogroObtenidoComponent
+    LogroObtenidoComponent,
+    ModalConfirmacionBorrarPlanComponent,
+    ModalSalirDeRutinaComponent
   ],
   providers: [],
 })
