@@ -18,7 +18,7 @@ export class SentadillaHandler implements ManejadorCorreccion {
     private static readonly UMBRALES = {
         kneeDown: 70,
         kneeUp: 160,
-        leanLimit: 20
+        leanLimit: 15
     };
     private static readonly BUFFER_SIZE = 5;
 
