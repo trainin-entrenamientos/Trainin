@@ -1,0 +1,22 @@
+<div class="modal-backdrop" *ngIf="visible">
+  <div class="modal-contenido">
+    <p>{{ mensaje }}</p>
+    <div class="modal-botones">
+                <app-boton-trainin 
+            
+            [tipo]="'button'" 
+            (clickBoton)="cancelar()"
+          >
+            Cancelar
+          </app-boton-trainin>
+
+          <app-boton-trainin
+            
+            [tipo]="'button'" 
+            (clickBoton)="confirmar()"
+          >
+            Sí
+          </app-boton-trainin>
+    </div>
+  </div>
+</div>

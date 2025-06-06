@@ -70,12 +70,40 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   ) { }
 
   ngOnInit() {
+    // 1) Leo el parámetro “ejercicio” de la URL (por ejemplo "press_militar")
     const clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio;
     this.ejercicio = clave;
     this.manejador = this.fabrica.obtenerManejador(this.ejercicio);
 
     this.nombreEjercicio = formatearNombreEjercicio(this.ejercicio);
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+
+    const raw = sessionStorage.getItem('rutina');
+    if (raw) {
+      try {
+        const datosRutina = JSON.parse(raw);
+        const listaEjercicios: any[] = datosRutina.ejercicios || [];
+
+        const entradaEjercicio = listaEjercicios.find(ej => {
+          return ej.nombre.toLowerCase() === this.nombreEjercicio.toLowerCase();
+        });
+
+        if (entradaEjercicio && entradaEjercicio.video) {
+          let rawVideoUrl: string = entradaEjercicio.video.trim();
+          if (rawVideoUrl.includes('watch?v=')) {
+            const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];
+            rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          }
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawVideoUrl);
+        } else {
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+        }
+      } catch (err) {
+        console.error('Error parseando sessionStorage.rutina:', err);
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+      }
+    } else {
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+    }
   }
 
   async ngAfterViewInit() {
@@ -228,7 +256,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       this.corrigiendo = false;
       this.mostrarBotonReintentar = true;
       this.correccionData.registrarResultado(
-        formatearNombreEjercicio(this.ejercicio),
+        this.ejercicio,
         this.ultimoPorcentaje,
         this.reintentos
       );
@@ -254,7 +282,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     speechSynthesis.speak(u);
   }
 
-   reintentar() {
+  reintentar() {
     this.reintentos++;
     this.mostrarBotonReintentar = false;
     this.retroalimentacion = '';

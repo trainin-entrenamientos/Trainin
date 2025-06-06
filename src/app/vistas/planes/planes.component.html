@@ -32,9 +32,10 @@
                   <h3 id="nombre-plan">
                     {{ plan.tipoEntrenamiento }}
                   </h3>
-                  <h4 (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#F24130' }" class="realizado">
+                  <button (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#FFFFFF' }" class="realizado">
                     {{ plan.estadoRutinaDelDia }}
-                  </h4>
+                  </button>
+                  
                 </div>
               </div>
               <div
