@@ -20,4 +20,13 @@
     <div class="descripcion-tooltip">{{ logro.descripcion }}</div>
   </div>
 </div>
+<div class="mensaje-sin-logros" *ngIf="filtroActivo === 'obtenidos' && logrosFiltrados.length === 0">
+  <p>Aún no tenés ningún logro. <strong style="color:#13ff3a">Explorá cómo conseguirlos</strong>.</p>
+  <img src="imagenes/TRAININ-ISO-FO.svg" alt="Trainin" class="logo-trainin" />
+</div>
+<div class="mensaje-sin-logros" *ngIf="filtroActivo === 'faltantes' && logrosFiltrados.length === 0">
+  <p><strong style="color:#13ff3a">¡Felicidades!</strong> Completaste todos los logros.</p>
+  <img src="imagenes/TRAININ-ISO-FO.svg" alt="Trainin" class="logo-trainin" />
+</div>
+
 </main>

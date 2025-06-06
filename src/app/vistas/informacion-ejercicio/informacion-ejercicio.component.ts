@@ -85,7 +85,7 @@ export class InformacionEjercicioComponent {
   const clave = this.rutinaService.buscarNombreEjercicio(this.ejercicio?.nombre);
   if (clave === null) {
     console.warn("Nombre de ejercicio inválido.");
-    return NombreEjercicio.PRESS_MILITAR; // O el valor que consideres para un ejercicio desconoci
+    return NombreEjercicio.PRESS_MILITAR;
   }else{
   return clave;
   }
@@ -98,7 +98,7 @@ export class InformacionEjercicioComponent {
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
       case 1:
-        return 5; //ACÁ MODIFIQUE PARA CODEAR EASLY
+        return 5;
       case 2:
         return 30;
       default:
