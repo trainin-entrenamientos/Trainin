@@ -18,11 +18,7 @@ export class UsuarioService {
     return this.http.get(`${this.baseUrl}/usuario/obtenerUsuario/${email}`);
   }
 
-  /*iniciarSesion(usuario:LoginDTO){
-    return this.http.post("http://localhost:5010/api/usuario/login", usuario);
-  }*/
-
-    iniciarSesion(usuario:LoginResponseDTO){
+  iniciarSesion(usuario:LoginResponseDTO){
     return this.http.post("${this.baseUrl}/usuario/login", usuario);
   }
 }

@@ -26,7 +26,7 @@ html {
 }
 
 .semana-dias {
-  background-color: #191919;
+  background-color: #0B1A1E ;
 }
 
 .dia-semana {
@@ -50,7 +50,7 @@ html {
 .detalle-plan-section {
   max-width: 1200px;
   margin-inline: auto;
-  background-color: #191919;
+  background-color: #0B1A1E ;
   padding: 1.5rem;
   border-radius: 1.5rem;
   color: white;
@@ -58,7 +58,7 @@ html {
 
 .image-placeholder {
   height: 120px;
-  background-color: #666;
+  background-color: #00060c;
   object-fit: cover;
 }
 

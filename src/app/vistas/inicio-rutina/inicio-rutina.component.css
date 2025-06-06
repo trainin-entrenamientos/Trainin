@@ -1,3 +1,12 @@
+body {
+  background-color: #00060C;
+  font-family: 'Merriweather Sans', sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  min-height: 80.2vh;
+}
 * {
   margin: 0;
   padding: 0;
@@ -16,12 +25,6 @@ html {
   flex-direction: column;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 80.2vh;
-}
-
 .fa-arrow-left{
 cursor:pointer;
 }
@@ -31,13 +34,209 @@ cursor:pointer;
 }
 
 .rutina-card {
-  background-color: #1e1e1e;
-  width: 70%;
+  background-color: #00060c;
+  width: 100%;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   color: white;
-  padding: 4em;
   margin: 0 auto;
+  align-items: center;
+
 }
+
+.cerrar-rutina {
+  position: absolute;
+  top: 1.4rem;
+  right: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cerrar-rutina:hover {
+  color: #13ff3a;
+}
+
+.contenedor-carrusel{
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+
+.cards {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10px;
+  height: auto; /* Evitá forzar 55vh si no hace falta */
+  min-height: 625px;
+}
+
+.card {
+  position: absolute;
+  width: 85%;
+  border-radius: 10px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  cursor: pointer;
+  opacity: 0.4;
+  z-index: 0;
+  background-color: #0B1A1E ;
+  color:white;
+  box-sizing: border-box;
+  min-height: 600px;
+}
+
+.card img {
+  height: auto;
+  max-height: 40vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+.card.centro {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+  border: #13FF3A 2px solid;
+}
+
+.card.izquierda {
+  transform: translateX(-40%) scale(0.8);
+}
+
+.card.derecha {
+  transform: translateX(40%) scale(0.8);
+}
+
+.nombre-ejercicio{
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.grupo-muscular{
+  text-align: center;
+  font-style: italic;
+  padding-bottom: 15px;
+}
+.titulo-grupo-muscular{
+  font-size: 1rem;
+
+}
+.duracion-rutina-texto{
+  margin-bottom: 15px;
+}
+.boton-iniciar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.flecha-izquierda,
+.flecha-derecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.flecha-izquierda {
+  left: -30px;
+}
+
+.flecha-derecha {
+  right: -30px;
+}
+
+.flecha-izquierda:hover,
+.flecha-derecha:hover {
+  color: #13ff3a;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+@media (max-width: 1308px) {
+ .contenedor-carrusel {
+  align-self: center;
+  margin-bottom: 40px;
+  height: 80%;
+  width: 500px;
+}
+.card {
+  min-height: 300px;
+}
+.cards {
+ min-height: 450px;
+}
+}
+
+@media (max-width: 790px) {
+  main{
+    margin: 0;
+    padding: 0;
+  }
+ 
+ .contenedor-carrusel {
+  align-self: center;
+  margin-bottom: 40px;
+  height: 60%;
+  width: 400px;
+}
+.text-center{
+  font-size: 1.2rem;
+}
+.text-center .fs-5 .fst-italic .mb-4{
+  font-size: 0.5rem;
+}
+
+.nombre-ejercicio{
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.grupo-muscular{
+  font-size: 0.5rem;
+}
+.titulo-grupo-muscular{
+  font-size: 0.7rem;
+}
+
+.card {
+  min-height: 175px;
+}
+.cards {
+ min-height: 325px;
+}
+.btn-trainin {
+  font-size: 10px;
+}
+}
+
+@media (max-width: 500px) {
+  .boton-iniciar {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+ .contenedor-carrusel {
+  align-self: center;
+  margin-bottom: 40px;
+  height: 40%;
+  width: 30vh;
+}
+.card {
+  min-height: 125px;
+}
+.cards {
+ min-height: 250px;
+}
+}
+

@@ -463,6 +463,7 @@ body {
   max-width: 380px;
   flex: 1 1 380px;
   margin: 0 auto;
+  background-color: #0B1A1E;
 }
 
 .subscription-section {

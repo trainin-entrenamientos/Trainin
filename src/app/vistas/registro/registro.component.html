@@ -8,124 +8,249 @@
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-user"></i>
-                <input type="text" id="firstName" formControlName="nombre" class="form-control trainin-input"
-                  placeholder=" " required />
+                <input
+                  type="text"
+                  id="firstName"
+                  formControlName="nombre"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
                 <label for="firstName" class="form-label">Nombre</label>
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.get('nombre')?.hasError('required') &&
                   registroForm.get('nombre')?.touched
-                ">
+                "
+              >
                 Ingresá tu <strong style="color: #13ff3a">nombre</strong> para
                 continuar
+              </div>
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
+                  registroForm.get('nombre')?.hasError('pattern') &&
+                  registroForm.get('nombre')?.touched
+                "
+              >
+                El <strong style="color: #13ff3a">nombre</strong> debe contener
+                caracteres de la A a la Z
               </div>
             </div>
 
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-user-tag"></i>
-                <input type="text" id="lastName" formControlName="apellido" class="form-control trainin-input"
-                  placeholder=" " required />
+                <input
+                  type="text"
+                  id="lastName"
+                  formControlName="apellido"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
                 <label for="lastName" class="form-label">Apellido</label>
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.get('apellido')?.hasError('required') &&
                   registroForm.get('apellido')?.touched
-                ">
-                Ingresá tu <strong style="color: #13ff3a">apellido</strong> para continuar
+                "
+              >
+                Ingresá tu <strong style="color: #13ff3a">apellido</strong> para
+                continuar
+              </div>
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
+                  registroForm.get('apellido')?.hasError('pattern') &&
+                  registroForm.get('apellido')?.touched
+                "
+              >
+                El <strong style="color: #13ff3a">apellido</strong> debe
+                contener caracteres de la A a la Z
               </div>
             </div>
 
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-calendar-alt"></i>
-                <input type="date" id="birthDate" formControlName="fechaNacimiento" class="form-control trainin-input"
-                  placeholder=" " required />
-                <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  formControlName="fechaNacimiento"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
+                <label for="birthDate" class="form-label"
+                  >Fecha de nacimiento</label
+                >
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.get('fechaNacimiento')?.hasError('required') &&
                   registroForm.get('fechaNacimiento')?.touched
-                ">
-                Ingresá tu <strong style="color: #13ff3a">fecha de nacimiento</strong> para continuar
+                "
+              >
+                Ingresá tu
+                <strong style="color: #13ff3a">fecha de nacimiento</strong> para
+                continuar
+              </div>
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
+                  registroForm.get('fechaNacimiento')?.hasError('edadMinima') &&
+                  registroForm.get('fechaNacimiento')?.touched
+                "
+              >
+                Tenés que ser mayor de
+                <strong style="color: #13ff3a">16 años</strong> para continuar
               </div>
             </div>
 
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-envelope"></i>
-                <input type="email" id="email" formControlName="email" class="form-control trainin-input"
-                  placeholder=" " required />
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
                 <label for="email" class="form-label">Correo electrónico</label>
               </div>
 
-              <div *ngIf="
-      registroForm.get('email')?.hasError('required') &&
-      registroForm.get('email')?.touched
-    " style="color: white; margin-top: 0.25rem;">
-                El <strong style="color: #13ff3a">correo electrónico</strong> debe contener un arroba y tener formato.
-                válido
+              <div
+                *ngIf="
+                  registroForm.get('email')?.hasError('email') &&
+                  registroForm.get('email')?.touched
+                "
+                style="color: white; margin-top: 0.25rem"
+              >
+                El
+                <strong style="color: #13ff3a">correo electrónico</strong> debe
+                contener un arroba y tener formato válido
               </div>
             </div>
 
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" id="password" formControlName="contrasenia" class="form-control trainin-input"
-                  placeholder=" " required />
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="contrasenia"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
                 <label for="password" class="form-label">Contraseña</label>
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.get('contrasenia')?.hasError('required') &&
                   registroForm.get('contrasenia')?.touched
-                ">
-                Ingresá la <strong style="color: #13ff3a">contraseña</strong> para continuar
+                "
+              >
+                Ingresá la
+                <strong style="color: #13ff3a">contraseña</strong> para
+                continuar
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.get('contrasenia')?.hasError('pattern') &&
                   registroForm.get('contrasenia')?.touched
-                ">
-                La <strong style="color: #13ff3a">contraseña</strong> debe tener al menos 6 caracteres, un número y un
-                símbolo
+                "
+              >
+                La <strong style="color: #13ff3a">contraseña</strong> debe tener
+                al menos 6 caracteres, un número y un símbolo
               </div>
             </div>
 
             <div class="mb-4">
               <div class="input-container">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" id="password2" formControlName="repetirContrasenia"
-                  class="form-control trainin-input" placeholder=" " required />
-                <label for="password2" class="form-label">Confirmar contraseña</label>
+                <input
+                  type="password"
+                  id="password2"
+                  formControlName="repetirContrasenia"
+                  class="form-control trainin-input"
+                  placeholder=" "
+                  required
+                />
+                <label for="password2" class="form-label"
+                  >Confirmar contraseña</label
+                >
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
-                  registroForm.get('repetirContrasenia')?.hasError('required') &&
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
+                  registroForm
+                    .get('repetirContrasenia')
+                    ?.hasError('required') &&
                   registroForm.get('repetirContrasenia')?.touched
-                ">
-                Volvé a ingresar la <strong style="color: #13ff3a">contraseña</strong> para continuar
+                "
+              >
+                Volvé a ingresar la
+                <strong style="color: #13ff3a">contraseña</strong> para
+                continuar
               </div>
-              <div style="color: white; margin-top: 0.25rem;" *ngIf="
+              <div
+                style="color: white; margin-top: 0.25rem"
+                *ngIf="
                   registroForm.hasError('contrasenasNoCoinciden') &&
                   registroForm.get('repetirContrasenia')?.touched
-                ">
-                Las <strong style="color: #13ff3a">contraseñas</strong> no coinciden
+                "
+              >
+                Las <strong style="color: #13ff3a">contraseñas</strong> no
+                coinciden
               </div>
             </div>
 
             <div class="mb-4">
               <div class="form-check">
-                <input class="form-check-input trainin-checkbox" type="checkbox" id="terms"
-                  formControlName="aceptarTerminos" />
-                <label class="form-check-label trainin-checkbox-label" for="terms">
+                <input
+                  class="form-check-input trainin-checkbox"
+                  type="checkbox"
+                  id="terms"
+                  formControlName="aceptarTerminos"
+                />
+                <label
+                  class="form-check-label trainin-checkbox-label"
+                  for="terms"
+                >
                   Acepto
-                  <a target="_blank" routerLink="/terminos-condiciones" class="trainin-link">términos y condiciones</a>
+                  <a
+                    target="_blank"
+                    routerLink="/terminos-condiciones"
+                    class="trainin-link"
+                    >términos y condiciones</a
+                  >
                   y
-                  <a target="_blank" routerLink="/politicas-privacidad" class="trainin-link">políticas de privacidad</a>
+                  <a
+                    target="_blank"
+                    routerLink="/politicas-privacidad"
+                    class="trainin-link"
+                    >políticas de privacidad</a
+                  >
                 </label>
               </div>
-              <div style="color: white" *ngIf="
+              <div
+                style="color: white"
+                *ngIf="
                   registroForm.get('aceptarTerminos')?.hasError('required') &&
                   registroForm.get('aceptarTerminos')?.touched
-                ">
+                "
+              >
                 Debés aceptar los
                 <strong style="color: #13ff3a">términos y condiciones</strong>
                 para continuar
@@ -134,12 +259,19 @@
 
             <div class="d-flex justify-content-center">
               <div class="botones-registro">
-                <button type="button" class="btn btn-trainin" routerLink="/inicio">
-                  Cancelar
-                </button>
-                <button type="submit" class="btn btn-trainin" [disabled]="!esFormularioValido()">
-                  Registrarse
-                </button>
+                <app-boton-trainin
+                  ruta="/inicio"
+                  clase="btn btn-trainin"
+                  tipo="button"
+                >
+                  Cancelar</app-boton-trainin
+                >
+                <app-boton-trainin
+                  [disabled]="!esFormularioValido()"
+                  clase="btn btn-trainin"
+                  tipo="submit"
+                  >Registrarse</app-boton-trainin
+                >
               </div>
             </div>
           </form>

@@ -20,7 +20,7 @@ html {
 
 .pregunta {
   cursor: pointer;
-  background-color: #111111;
+  background-color: #0B1A1E ;
   border-radius: 5px 5px 0 0;
 }
 
@@ -31,7 +31,7 @@ html {
 
 .informacion {
   padding-top: 0 !important;
-  background-color: #111111;
+  background-color: #0B1A1E;
   display: none;
   border-radius: 0 0 5px 5px;
 }

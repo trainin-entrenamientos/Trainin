@@ -1,0 +1,237 @@
+html, body, main{
+  background-color: 00060C;
+  margin: 0%;
+  padding: 0%;
+}
+.profile-page {
+  background-color: #00060C; 
+  color: #ffffff;           
+  font-family: 'Merriweather Sans', sans-serif;
+}
+.profile-page .row.align-items-center {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+}
+.profile-page h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.profile-page p.text-muted {
+  color: #ffffff; 
+}
+.row{
+  margin-right:0;
+}
+.btn-outline-success {
+  border-color: #13FF3A;
+  color: #13FF3A;
+  border-radius: 2rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+}
+.btn-outline-success:hover {
+  background-color: #13FF3A;
+  color: #ffffff;
+}
+.profile-img {
+  max-width: 180px;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+.stats-row {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+.stats-row .col-4 h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.stats-row .col-4 p {
+  margin: 0;
+  color: #ffffff; 
+}
+.stats-row .col-4:not(:last-child) {
+  border-right: 1px solid #ffffff; 
+}
+.card.metric {
+  background-color: #ffffff; 
+  border: 1px solid #ffffff; 
+  border-radius: 1rem;
+  height: 100%;
+}
+.card.metric .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.card.metric .fa-2x {
+  margin-bottom: 0.5rem;
+}
+.card.metric .display-4 {
+  font-weight: 700;
+}
+.card.metric .small {
+  margin-top: -0.5rem;
+}
+.card.metric p.card-text {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.card.metric .text-warning { color: #ffc107 !important; }
+.card.metric .text-success { color: #13FF3A !important; }
+.card.metric .text-primary { color: #1e90ff !important; }
+
+.card.achievements {
+  background-color: #ffffff; 
+  border: 1px solid #ffffff; 
+  border-radius: 1rem;
+}
+.card.achievements .card-header {
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.list-group-flush .list-group-item {
+  background-color: transparent;
+  border-bottom: 1px solid #ffffff; 
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-group-flush .list-group-item:last-child {
+  border-bottom: none;
+}
+.list-group-flush .list-group-item i {
+  color: #ffffff; 
+  margin-right: 0.75rem;
+}
+.card.streak {
+  background-color: #ffffff; 
+  border: 1px solid #ffffff; 
+  border-radius: 1rem;
+}
+.card.streak .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.card.streak .fa-fire {
+  font-size: 3rem;
+  color: #13FF3A !important;
+  margin-bottom: 0.5rem;
+}
+.completed-plans .card {
+  background-color: transparent;
+  border: 1px solid #ffffff; 
+  border-radius: 1rem;
+  color: #ffffff;
+}
+.completed-plans .card-body {
+  padding: 1.5rem;
+  text-align: center;
+}
+.card-title{
+  color: #13FF3A;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.completed-plans .card-subtitle {
+  color: #ffffff; 
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+.completed-plans .small {
+  color: #ffffff; 
+  display: block;
+  line-height: 1.2;
+}
+.profile-page { background: #00060C; color: #fff; padding: 2rem 0; }
+.profile-img { max-width: 180px; height: auto; /*border-radius: 1rem; */}
+
+@media (max-width: 767.98px) {
+  .profile-page {
+    padding: 1rem 0;
+  }
+  .profile-img {
+    max-width: 120px;
+    margin: 0 auto 1rem;
+  }
+  .stats-row .col-4 {
+    border: none !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .card.metric, .card.achievements, .card.streak {
+    margin-bottom: 1.5rem;
+  }
+   #datosUsuario {
+    text-align: center;
+  }
+  #datosUsuario .col-12 {
+    margin-bottom: 1rem;
+  }
+  #datosUsuario .col-md-6, 
+  #datosUsuario .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  h5.text-center.mb-3.pb-2 {
+    font-size: 1.1rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .profile-img {
+    max-width: 140px;
+  }
+}
+@media (min-width: 992px) {
+  .profile-img {
+    max-width: 200px;
+  }
+  #datosUsuario{
+    margin: 0.25rem;
+  }
+}
+#informacionUsuario, #informacionUsuario2{
+margin: 2rem;
+}
+#historialTarjetas{
+ display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.card.achievements.h-100,
+.card.streak.h-100.text-center {
+  background-color: #0B1A1E ;  
+  color: #f0f0f0;             
+}
+#logros{
+  color: #ffffff;
+}
+#datosUsuario{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.card {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+.card:hover {
+  transform: scale(1.05);
+  z-index: 10; 
+}
+.foto-perfil img{
+  width: 150px; height: 150px
+}

@@ -1,5 +1,6 @@
 <body>
-  <main *ngIf="!rutina">
+  <app-loader *ngIf="cargando"></app-loader>
+  <main *ngIf="!rutina && !cargando">
     <section>
       <article class="text-center">
         <h2 class="p-4 m-4">Ya realizaste la rutina de hoy!</h2>
@@ -8,41 +9,55 @@
     </section>
   </main>
 
-<main *ngIf="rutina" class="rutina-card text-white my-4">
+<main *ngIf="rutina && !cargando" class="rutina-card text-white my-4">
+   
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <i routerLink="/planes" class="fa-solid fa-arrow-left fa-xl" ></i>
-    <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina}}</h2>
-    <!--<h2 class="m-0 text-center flex-grow-1">Plan #1 – Día 1</h2>-->
+    <h2 class="m-0 text-center flex-grow-1">Plan {{rutina.categoriaEjercicio}}– Día {{ rutina.numeroRutina}}</h2>
     <span style="width: 24px"></span>
   </div>
 
-  <p class="text-center fs-5 fst-italic mb-4">
-    Duración estimada de la rutina: <strong>{{rutina.duracionEstimada}} min</strong>
+  <p class="duracion-rutina-texto">
+    Duración estimada de la rutina: <strong>{{rutina.duracionEstimada}}min</strong>
   </p>
 
-  <div class="d-flex flex-wrap justify-content-center gap-5">
-    <div
-      class="text-center"
-      *ngFor="let ejercicio of rutina.ejercicios"
-      style="width: 180px"
-    >
-      <div class="image-placeholder rounded mb-2" style="height: 120px; background-color: #666">
-         <img class="mr-2" [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}" style="width: 100%; height: 100%; object-fit: cover;"> 
+        <div class="contenedor-carrusel">
+        <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="anteriorEjercicio()"></i>
+        <div class="cards">
+          <div
+            class="card"
+            *ngFor="let ejercicio of ejercicios; let i = index"
+            [class.centro]="i === selectedEjercicioIndex"
+            [class.izquierda]="
+              i ===
+              (selectedEjercicioIndex - 1 + ejercicios.length) %
+                ejercicios.length
+            "
+            [class.derecha]="
+              i === (selectedEjercicioIndex + 1) % ejercicios.length
+            "
+            (click)="selectEjercicio(i)"
+          >
+
+            <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
+            
+
+            <div>
+          <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
+            <div class="nombre-ejercicio">{{i+1}}- {{ actual.nombre }}</div>
+             <div class="grupo-muscular">
+              <h4 class="titulo-grupo-muscular">Este ejercicio trabaja:</h4>
+              <p *ngFor="let grupoMuscular of actual.grupoMuscular; let i = index">{{grupoMuscular.nombre}}</p>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
 
-      <h5>{{ ejercicio.nombre }}</h5>
-      <div class="fw-semibold mb-1 pb-1">Grupo muscular</div>
-      <div class="subrayado-grup-musc w-50 mx-auto mb-2"></div>
-
-      <ul class="list-unstyled fst-italic small">
-        <li *ngFor="let grupo of ejercicio.grupoMuscular">
-          {{ grupo.nombre }}
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="text-center mt-4">
+  <div class="boton-iniciar">
+    <app-boton-trainin type="button" class="btn-trainin"  routerLink="/planes" >Volver al Inicio</app-boton-trainin>
     <app-boton-trainin type="button" class="btn-trainin" (clickBoton)="iniciarRutina()">Iniciar Rutina</app-boton-trainin>
   </div>
 </main>

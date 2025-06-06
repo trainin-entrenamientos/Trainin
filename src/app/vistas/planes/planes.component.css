@@ -39,7 +39,7 @@ p {
 }
 
 .plan-card {
-  background-color: #191919;
+  background-color: #0B1A1E ;
   border-radius: 10px;
   width: 100%;
   transition: transform 0.3s;
@@ -87,14 +87,14 @@ p {
 }
 
 #ultimo-entrenamiento {
-  background-color: #191919;
+  background-color: #0B1A1E ;
   border-radius: 10px;
   padding: 1rem;
   transition: transform 0.3s;
 }
 
 #racha-semanal {
-  background-color: #191919;
+  background-color: #0B1A1E ;
   border-radius: 10px;
   padding: 1rem;
   transition: transform 0.3s;
@@ -173,7 +173,7 @@ p {
   position: relative;
   width: 350px;
   height: 300px;
-  background-color: #393939;
+  background-color: #0B1A1E ;
   border-radius: 50%;
   z-index: 1;
 }
@@ -217,6 +217,17 @@ p {
 
 .contenedor-info-plan-imagen {
   gap: 5rem;
+}
+.realizado{
+  background-color: #0B1A1E;
+  border-radius: 20px;
+  border: 1px solid ;
+  padding:10px;
+}
+
+.realizado:hover{
+  background-color: #00060c;
+  color:White;
 }
 @media screen and (max-width: 1195px) {
   .plan-card p {
@@ -474,7 +485,7 @@ p {
   position: relative;
   width: 250px;
   height: 250px;
-  background-color: #393939;
+  background-color: #00060c ;
   border-radius: 50%;
   z-index: 1;
 }

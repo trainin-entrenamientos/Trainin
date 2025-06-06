@@ -1,199 +1,140 @@
-import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
-import type { Keypoint } from '@tensorflow-models/pose-detection';
-import { Router } from '@angular/router';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+
+import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
+import { FabricaManejadoresService } from '../../core/servicios/correccion-postura/fabrica-manejadores.service';
+import { ManejadorCorreccion } from '../../compartido/interfaces/manejador-correccion.interface';
+import { ResultadoCorreccion } from '../../compartido/interfaces/resultado-correccion.interface';
+import { formatearNombreEjercicio, stripHtml } from '../../compartido/utilidades/correccion-postura.utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalReintentoCorreccionComponent } from '../../compartido/componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
 
 @Component({
-  selector: 'app-correccion-postura',
   standalone: false,
+  selector: 'app-correccion-postura',
   templateUrl: './correccion-postura.component.html',
   styleUrls: ['./correccion-postura.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
-
+export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('webcam', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('outputCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  detector: poseDetection.PoseDetector | null = null;
-  camaraActiva = false;
-  corrigiendo = false;
-  videoUrl?: SafeResourceUrl;
-
-  private contexto!: CanvasRenderingContext2D;
+  // modelo & cámara
+  private detector: poseDetection.PoseDetector | null = null;
   private idFrameAnimacion: number | null = null;
+  camaraActiva = false;
   cargandoCamara = true;
-  totalRepeticiones: number;
-  estado: 'arriba' | 'abajo';
-  resultados: (boolean | 'hombro' | 'codo' | 'espalda' | 'rango' | 'otro')[] = [];
-  repeticionesActuales: number;
-  retroalimentacion: string;
-  resumen: string;
-  REPETICIONES_EVALUACION = 5;
-  umbralBajada = 110;
-  umbralSubida = 160;
-  tamanoBuffer = 5;
-  bufferAngulos: number[] = [];
-  indicadorRepeticionActivo = false;
-  ultimaRepeticionPerfecta = false;
-  ultimaRepeticionConError = false;
-  errorDetectado = false;
-  colorRetroalimentacion = '';
+
+  // dinámico
+  ejercicio!: NombreEjercicio;
+  manejador!: ManejadorCorreccion;
+
+  // UI
+  nombreEjercicio = '';
+  videoUrl!: SafeResourceUrl;
+  corrigiendo = false;
   mostrarBotonIniciar = true;
   mostrarBotonReintentar = false;
+  repeticionesActuales = 0;
+  retroalimentacion = '';
+  colorRetroalimentacion = '';
+  resumenHtml = '';
+  ultimoPorcentaje = 0;
+  reintentos = 0;
+  maxReintentos = 3;
+  resultados: boolean[] = [];
+
+  // countdown
   contador = 0;
-  lastPorcentaje = 0;              // almacena el último % calculado
-  reintentos = 0;                  // cuántas veces ya intentó continuar
-  readonly maxReintentos = 3;      // tope de reintentos
-  private errorRepeticionEnFrame = false;
-  private mensajePorDefectoMostrado = false;
+
+  // constantes
+  readonly repeticionesEvaluacion = 5;
+  circulos = Array(this.repeticionesEvaluacion);
+
+  // audio
   private contextoAudio!: AudioContext;
-  private contadorIntervalo: any;
-  private feedbackConfig = [
-    {
-      minPct: 100,
-      titles: ['¡Técnica Impecable!', '¡Sos muy bueno en esto!', 'Excelente ejecución'],
-      tips: ['Mantené este nivel.', 'Segui así.']
-    },
-    {
-      minPct: 90,
-      titles: ['Muy Buena Técnica', '¡Buen Trabajo!', 'Casi perfecto'],
-      tips: ['Revisá tu alineación de hombros.', 'Controlá tu respiración al subir.']
-    },
-    {
-      minPct: 80,
-      titles: ['Técnica Sólida', '¡Vas Muy Bien!', 'Buen Ritmo'],
-      tips: ['No abras demasiado los codos.', 'Mantené la espalda neutra.']
-    },
-    {
-      minPct: 70,
-      titles: ['Técnica Aceptable', '¡Vas Mejorando!', 'Seguí Practicando'],
-      tips: ['Trabajá tu rango completo de movimiento.', 'Cuidá la posición de tu torso.']
-    },
-    {
-      minPct: 0,
-      titles: ['Técnica a Mejorar', '¡Ánimo y Más Práctica!', 'Enfoca tu Postura'],
-      tips: ['Empezá con menos peso.', 'Usá un espejo o compañero para feedback.']
-    },
-  ];
-
-
-  /*SOLO DE PRUEBA*/
-  private chosenVoice: SpeechSynthesisVoice | null = null;
-  private feedbackQueue: { html: string, color: string }[] = [];
-  private isSpeaking = false;
-
-  ultimoErrorHombro = false;
+  private vozElegida: SpeechSynthesisVoice | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private rutinaServicio: RutinaService,
-    private modalService: NgbModal,
-    private sanitizer: DomSanitizer
-  ) {
-    this.corrigiendo = false;
-    this.mostrarBotonIniciar = true;
-    this.mostrarBotonReintentar = false;
-    this.estado = 'arriba';
-    this.totalRepeticiones = 0;
-    this.repeticionesActuales = 0;
-    this.retroalimentacion = '';
-    this.resumen = '';
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-    'https://www.youtube.com/embed/mbIhJZ2Sbcc?si=dOyisz_cXOi395wJ&autoplay=1&mute=1&loop=1&playlist=mbIhJZ2Sbcc&controls=0&modestbranding=1&rel=0'
-  );
+    private sanitizer: DomSanitizer,
+    private fabrica: FabricaManejadoresService,
+    private correccionData: CorreccionDataService,
+    private modalService: NgbModal
+  ) { }
+
+  ngOnInit() {
+    // 1) Leo el parámetro “ejercicio” de la URL (por ejemplo "press_militar")
+    const clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio;
+    this.ejercicio = clave;
+    this.manejador = this.fabrica.obtenerManejador(this.ejercicio);
+
+    this.nombreEjercicio = formatearNombreEjercicio(this.ejercicio);
+
+    const raw = sessionStorage.getItem('rutina');
+    if (raw) {
+      try {
+        const datosRutina = JSON.parse(raw);
+        const listaEjercicios: any[] = datosRutina.ejercicios || [];
+
+        const entradaEjercicio = listaEjercicios.find(ej => {
+          return ej.nombre.toLowerCase() === this.nombreEjercicio.toLowerCase();
+        });
+
+        if (entradaEjercicio && entradaEjercicio.video) {
+          let rawVideoUrl: string = entradaEjercicio.video.trim();
+          if (rawVideoUrl.includes('watch?v=')) {
+            const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];
+            rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          }
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawVideoUrl);
+        } else {
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+        }
+      } catch (err) {
+        console.error('Error parseando sessionStorage.rutina:', err);
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+      }
+    } else {
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
+    }
   }
 
   async ngAfterViewInit() {
-
-    // 1) forzamos la carga inicial
+    this.contextoAudio = new (window.AudioContext || (window as any).webkitAudioContext)();
     speechSynthesis.getVoices();
-    // 2) cuando cambian —es decir, ya están disponibles— elegimos “Tomas”
-    speechSynthesis.onvoiceschanged = () => this.pickVoice();
-    // llamamos una vez por si ya estaba lista
-    this.pickVoice();
-
+    speechSynthesis.onvoiceschanged = () => this.elegirVoz();
+    this.elegirVoz();
     await this.crearDetector();
     await this.iniciarCamara();
-    window.addEventListener('resize', this.manejarRedimension);
+    window.addEventListener('resize', this.onResize);
   }
 
   ngOnDestroy() {
     this.detenerCamara();
-    window.removeEventListener('resize', this.manejarRedimension);
+    window.removeEventListener('resize', this.onResize);
   }
 
-  /** Se invoca al clickear play: muestra el countdown */
-  iniciar() {
-    this.contador = 5;
-
-    this.contadorIntervalo = setInterval(() => {
-      this.contador--;
-      if (this.contador <= 0) {
-        clearInterval(this.contadorIntervalo);
-        this.contador = 0;
-        this.mostrarBotonIniciar = false;
-        this.iniciarCorreccion();
-      }
-    }, 1000);
+  private onResize = () => {
+    const v = this.videoRef.nativeElement;
+    const c = this.canvasRef.nativeElement;
+    c.width = v.clientWidth;
+    c.height = v.clientHeight;
   }
 
-
-  /** Empieza la corrección de técnica */
-  iniciarCorreccion() {
-    this.corrigiendo = true;
-    this.mostrarBotonIniciar = false;
-    this.totalRepeticiones = 0;
-    this.repeticionesActuales = 0;
-    this.resultados = [];
-    this.establecerRetroalimentacion('Recuerda no abrir tanto los codos.', 'orange');
-    this.mensajePorDefectoMostrado = true;
-    this.resumen = '';
-
-    if (!this.contextoAudio) {
-      this.contextoAudio = new (window.AudioContext || (window as any).webkitAudioContext)();
-      this.contextoAudio.resume();
-    }
-  }
-
-  private manejarRedimension = () => {
-    this.ajustarTamanoCanvas();
-  };
-
-  /** Genera un beep para feedback auditivo */
-  private reproducirBeep(frecuencia = 440, duracion = 0.1) {
-    const oscilador = this.contextoAudio.createOscillator();
-    const ganancia = this.contextoAudio.createGain();
-    oscilador.type = 'sine';
-    oscilador.frequency.value = frecuencia;
-    oscilador.connect(ganancia);
-    ganancia.connect(this.contextoAudio.destination);
-    oscilador.start();
-    oscilador.stop(this.contextoAudio.currentTime + duracion);
-  }
-
-  /** Ajusta el tamaño del canvas al del video */
-  private ajustarTamanoCanvas() {
-    const video = this.videoRef.nativeElement;
-    const canvas = this.canvasRef.nativeElement;
-    canvas.width = video.clientWidth;
-    canvas.height = video.clientHeight;
-  }
-
-  /** Carga el modelo de corrección de postura */
   private async crearDetector() {
     try {
       this.detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.BlazePose,
         { runtime: 'mediapipe', solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose' }
       );
-    } catch (e) {
-      console.warn('MediaPipe falló, usando TFJS:', e);
+    } catch {
       this.detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.BlazePose,
         { runtime: 'tfjs', modelType: 'full' }
@@ -201,405 +142,207 @@ export class CorreccionPosturaComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /** Accede a la cámara del usuario */
-  private async iniciarCamara(intento = 0) {
+  private async iniciarCamara(intento = 0): Promise<void> {
     if (!navigator.mediaDevices?.getUserMedia) {
       alert('Tu navegador no soporta cámara.');
       return;
     }
     const video = this.videoRef.nativeElement;
-    this.contexto = this.canvasRef.nativeElement.getContext('2d')!;
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       video.srcObject = stream;
       video.onloadedmetadata = () => {
-        this.ajustarTamanoCanvas();
+        this.onResize();
         this.cargandoCamara = false;
       }
       await video.play();
-      this.ajustarTamanoCanvas();
+      this.onResize();
       this.camaraActiva = true;
-      this.bucleDeteccionPostura();
-    } catch (error: any) {
-      if (error.name === 'AbortError' && intento < 3) {
-        console.warn('Timeout iniciando cámara, reintentando en 1 segundo...');
+      this.bucleDeteccion();
+    } catch (err: any) {
+      if (err.name === 'AbortError' && intento < 5) {
+        console.warn(`Timeout cámara (int ${intento + 1}/5), reintentando…`);
         setTimeout(() => this.iniciarCamara(intento + 1), 1000);
       } else {
-        alert('No se pudo acceder a la cámara. Verifica permisos o reinicia el navegador.');
+        alert('No se pudo acceder a la cámara. Revisa permisos.');
       }
     }
   }
 
-  /** Detiene la cámara y limpia el canvas */
   private detenerCamara() {
-    if (this.idFrameAnimacion) {
-      cancelAnimationFrame(this.idFrameAnimacion);
-      this.idFrameAnimacion = null;
-    }
+    if (this.idFrameAnimacion) cancelAnimationFrame(this.idFrameAnimacion);
     const video = this.videoRef.nativeElement;
     if (video.srcObject) {
       (video.srcObject as MediaStream).getTracks().forEach(t => t.stop());
       video.srcObject = null;
     }
     this.camaraActiva = false;
-    this.contexto.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
   }
 
-  /** Bucle continuo de estimación de postura */
-  private async bucleDeteccionPostura() {
+  /** Play -> 5s countdown -> corrección */
+  iniciar() {
+    this.contador = 5;
+    this.mostrarBotonIniciar = true;
+    const iv = setInterval(() => {
+      this.contador--;
+      if (this.contador <= 0) {
+        clearInterval(iv);
+        this.mostrarBotonIniciar = false;
+        this.comenzarCorreccion();
+      }
+    }, 1000);
+  }
+
+  comenzarCorreccion() {
+    this.manejador.reset();
+    this.corrigiendo = true;
+    this.mostrarBotonReintentar = false;
+    this.retroalimentacion = '';
+    this.colorRetroalimentacion = '';
+    this.repeticionesActuales = 0;
+    this.resumenHtml = '';
+    this.resultados = [];
+    this.updateCirculos();
+  }
+
+  private async bucleDeteccion() {
     if (!this.camaraActiva || !this.detector) return;
-
     const video = this.videoRef.nativeElement;
-
-    try {
-      const poses = await this.detector.estimatePoses(video);
-      this.dibujarPostura(poses);
-
-      // Sólo procesar técnica cuando corrigiendo === true
-      if (this.corrigiendo && poses[0]) {
-        this.manejarTecnica(poses[0].keypoints);
-      }
-    } catch (e) {
-      console.warn('Error estimando postura:', e);
+    const poses = await this.detector.estimatePoses(video);
+    this.dibujarLandmarks(poses[0]?.keypoints || []);
+    if (this.corrigiendo && poses[0]) {
+      const res = this.manejador.manejarTecnica(poses[0].keypoints);
+      this.procesarResultado(res);
     }
-
-    this.idFrameAnimacion = requestAnimationFrame(() => this.bucleDeteccionPostura());
+    this.idFrameAnimacion = requestAnimationFrame(() => this.bucleDeteccion());
   }
 
-  /** Lógica de conteo y feedback de cada repetición */
-  private manejarTecnica(lm: Keypoint[]) {
-    // --- 1) Si ya llegamos al tope, salimos inmediatamente ---
-    if (this.totalRepeticiones >= this.REPETICIONES_EVALUACION) {
-      return;
+  private dibujarLandmarks(lm: poseDetection.Keypoint[]) {
+    const ctx = this.canvasRef.nativeElement.getContext('2d')!;
+    const v = this.videoRef.nativeElement;
+    ctx.clearRect(0, 0, v.clientWidth, v.clientHeight);
+    const sx = v.clientWidth / (v.videoWidth || v.clientWidth);
+    const sy = v.clientHeight / (v.videoHeight || v.clientHeight);
+    lm.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x! * sx, p.y! * sy, 5, 0, Math.PI * 2);
+      ctx.fillStyle = this.colorRetroalimentacion || 'limegreen';
+      ctx.fill();
+    });
+  }
+
+  private procesarResultado(r: ResultadoCorreccion) {
+    if (r.mensaje) {
+      this.retroalimentacion = r.mensaje;
+      this.colorRetroalimentacion = r.color;
+      if (r.color === 'green' || r.color === 'red') {
+        this.hablar(stripHtml(r.mensaje));
+      }
     }
 
-    const hombro = lm.find(p => p.name === 'right_shoulder');
-    const codo = lm.find(p => p.name === 'right_elbow');
-    const muneca = lm.find(p => p.name === 'right_wrist');
-    if (!hombro || !codo || !muneca) return;
-
-    const angBruto = this.calcularAngulo(hombro, codo, muneca);
-    const angSuave = this.suavizar(this.bufferAngulos, angBruto);
-    this.errorRepeticionEnFrame = false;
-
-    if (this.estado === 'arriba' && angSuave < this.umbralBajada) {
-      this.estado = 'abajo';
-      const error = this.deteccionErrores(lm, 'abajo');
-      this.establecerRetroalimentacion(error || '¡Descenso correcto! 👇', error ? 'orange' : 'green');
-
-    } else if (this.estado === 'abajo' && angSuave > this.umbralSubida) {
-      this.estado = 'arriba';
-      const error = this.deteccionErrores(lm, 'arriba');
-      this.ultimaRepeticionConError = !!error;
-
-      if (error) {
-        this.establecerRetroalimentacion('Subida incorrecta, tené cuidado', 'red');
-        this.resultados.push(false);
-        this.dispararFeedbackError();
-        this.errorDetectado = true;
-        this.errorRepeticionEnFrame = true;
-      } else {
-        this.establecerRetroalimentacion('¡Subida perfecta!', 'green');
-        this.resultados.push(true);
-        this.dispararFeedbackExito();
-      }
-
-      // --- 2) Solo incremento si aún no llegamos a 5 ---
-      this.totalRepeticiones++;
-      this.repeticionesActuales = this.totalRepeticiones;
+    if (r.repContada) {
+      this.repeticionesActuales = r.totalReps;
+      this.resultados.push(r.color === 'green');
+      this.dispararBeep(r.color === 'green' ? 880 : 220);
       this.updateCirculos();
-
-      // --- 3) Si justo alcanzamos 5, muestro resumen y detengo ---
-      if (this.totalRepeticiones === this.REPETICIONES_EVALUACION) {
-        this.mostrarResumen();
-        // opcionalmente: this.corrigiendo = false; // ya lo hace mostrarResumen()
-      }
     }
 
-    if (!this.errorDetectado && !this.mensajePorDefectoMostrado) {
-      this.establecerRetroalimentacion('Recuerda no abrir tanto los codos.', 'orange');
-      this.mensajePorDefectoMostrado = true;
+    if (r.termino) {
+      const exitosas = this.resultados.filter(v => v).length;
+      this.ultimoPorcentaje = Math.round((exitosas / this.repeticionesEvaluacion) * 100);
+      this.retroalimentacion = '';
+      this.colorRetroalimentacion = '';
+      this.resumenHtml = r.resumenHtml!;
+      this.corrigiendo = false;
+      this.mostrarBotonReintentar = true;
+      this.correccionData.registrarResultado(
+        this.ejercicio,
+        this.ultimoPorcentaje,
+        this.reintentos
+      );
+      this.hablar(stripHtml(this.resumenHtml));
     }
   }
 
-
-  /** Actualiza las clases CSS de los círculos según resultados */
-  private updateCirculos() {
-    const selectores = ['.repeticiones-pc .circulo', '.repeticiones-mobile .circulo'];
-    selectores.forEach(sel => {
-      const circulos = document.querySelectorAll<HTMLElement>(sel);
-      circulos.forEach((div, i) => {
-        div.classList.remove('activo', 'correcto', 'incorrecto');
-        if (i < this.resultados.length) {
-          div.classList.add('activo', this.resultados[i] ? 'correcto' : 'incorrecto');
-        }
-      });
-    });
+  private dispararBeep(freq: number) {
+    const osc = this.contextoAudio.createOscillator();
+    osc.frequency.value = freq;
+    osc.connect(this.contextoAudio.destination);
+    osc.start(); osc.stop(this.contextoAudio.currentTime + 0.1);
   }
 
-  /** Suaviza una serie de valores */
-  private suavizar(buffer: number[], valor: number): number {
-    buffer.push(valor);
-    if (buffer.length > this.tamanoBuffer) buffer.shift();
-    return buffer.reduce((a, b) => a + b, 0) / buffer.length;
+  /** Voz argentina femenina si existe */
+  private hablar(texto: string) {
+    const u = new SpeechSynthesisUtterance(texto);
+    const vozAR = speechSynthesis.getVoices().find(v =>
+      v.name.toLowerCase().includes('elena')
+    ) || null;
+    if (vozAR) u.voice = vozAR;
+    u.lang = vozAR?.lang || 'es-ES';
+    speechSynthesis.speak(u);
   }
 
-  /** Dibuja los keypoints sobre el canvas */
-  private dibujarPostura(poses: poseDetection.Pose[]) {
-    const canvas = this.canvasRef.nativeElement;
-    const video = this.videoRef.nativeElement;
-    this.contexto.clearRect(0, 0, canvas.width, canvas.height);
-    if (!poses.length) return;
-
-    const escalaX = canvas.width / video.videoWidth;
-    const escalaY = canvas.height / video.videoHeight;
-    poses[0].keypoints.forEach(p => {
-      const x = p.x * escalaX, y = p.y * escalaY;
-      this.contexto.beginPath();
-      this.contexto.arc(x, y, 6, 0, Math.PI * 2);
-      this.contexto.fillStyle = this.errorRepeticionEnFrame ? 'red' : 'limegreen';
-      this.contexto.fill();
-    });
+  reintentar() {
+    this.reintentos++;
+    this.mostrarBotonReintentar = false;
+    this.retroalimentacion = '';
+    this.resumenHtml = '';
+    this.iniciar();
   }
 
-  /** Calcula el ángulo entre tres puntos */
-  private calcularAngulo(a: Keypoint, b: Keypoint, c: Keypoint): number {
-    if ([a, b, c].some(pt => pt.x === undefined || pt.y === undefined)) {
-      throw new Error('Coordenadas inválidas');
-    }
-    const ab = [a.x - b.x, a.y - b.y];
-    const cb = [c.x - b.x, c.y - b.y];
-    const dot = ab[0] * cb[0] + ab[1] * cb[1];
-    const mag = Math.hypot(...ab) * Math.hypot(...cb);
-    return Math.acos(dot / mag) * (180 / Math.PI);
-  }
 
-  /*  finalizarPractica() {
-    this.detenerCamara();
-    this.router.navigate(['/realizar-ejercicio-por-tiempo']);
-  } */
   finalizarPractica() {
-    if (this.lastPorcentaje < 60) {
+    // 1) Si no aprobó (<60%), bloqueo el botón y muestro mensaje,  
+    if (this.ultimoPorcentaje < 60) {
       if (this.reintentos < this.maxReintentos) {
-        this.reintentos++;
         return;
       }
 
       const modalRef = this.modalService.open(ModalReintentoCorreccionComponent, {
         centered: true
       });
-
-      modalRef.result.then((result) => {
-        if (result === 'continuar') {
+      modalRef.result.then(res => {
+        if (res === 'continuar') {
           this.detenerCamara();
-          this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+          this.router.navigate(['/realizar-ejercicio']);
         }
-      }, () => {
-        // Se cerró el modal sin confirmar, no hacer nada o manejar si querés
       });
-
       return;
     }
 
+    // 2) Si aprobó (>=60%), avanza directo
     this.detenerCamara();
-    this.router.navigate(['/realizar-ejercicio-por-tiempo']);
+    this.router.navigate(['/realizar-ejercicio']);
   }
 
 
-
-
-  cerrarModal() {
-    console.log('Modal cerrado');
-  }
-
-  /** Detecta errores de postura en fase subida/descenso */
-  private deteccionErrores(lm: Keypoint[], fase: 'arriba' | 'abajo'): string | null {
-    const hombro = lm.find(p => p.name === 'right_shoulder');
-    const codo = lm.find(p => p.name === 'right_elbow');
-    const cadera = lm.find(p => p.name === 'right_hip');
-    if (!hombro || !codo || !cadera) return null;
-
-    const angTorso = this.calcularAngulo(hombro, cadera, { x: cadera.x, y: cadera.y + 100 });
-    if (Math.abs(codo.x - hombro.x) > 40) {
-      this.ultimoErrorHombro = true;
-      return 'Recuerda no abrir tanto los codos.';
-    }
-    this.ultimoErrorHombro = false;
-    if (angTorso < 70) return 'Mantén la espalda recta.';
-
-    const muneca = lm.find(p => p.name === 'right_wrist');
-    if (!muneca) return null;
-    const angBruto = this.calcularAngulo(hombro, codo, muneca);
-    if (fase === 'abajo' && angBruto > this.umbralBajada) return 'Baja más el brazo antes de subir.';
-    if (fase === 'arriba' && angBruto < this.umbralSubida) return 'Extiende completamente al subir.';
-    return null;
-  }
-
-  private dispararFeedbackError() {
-    this.reproducirBeep(220, 0.2);
-    this.indicadorRepeticionActivo = true;
-  }
-
-  private dispararFeedbackExito() {
-    this.reproducirBeep(880, 0.08);
-    this.indicadorRepeticionActivo = true;
-  }
-
-  private mostrarResumen() {
-    // 1) Cálculo de aciertos y porcentaje
-    const exitosas = this.resultados.filter(r => r === true).length;
-    const porcentaje = Math.round((exitosas / this.REPETICIONES_EVALUACION) * 100);
-    this.lastPorcentaje = porcentaje;
-
-    // 2) Conteo de errores por tipo
-    const errores = {
-      hombros: this.resultados.filter(r => r === 'hombro').length,
-      codos: this.resultados.filter(r => r === 'codo').length,
-      espalda: this.resultados.filter(r => r === 'espalda').length,
-      rango: this.resultados.filter(r => r === 'rango').length,
-      otros: this.resultados.filter(r => r === 'otro').length,
-    };
-
-    // 3) Obtengo la configuración que corresponde a este porcentaje
-    const cfg = this.feedbackConfig
-      .sort((a, b) => b.minPct - a.minPct)
-      .find(f => porcentaje >= f.minPct)!;
-
-    // 4) Elijo un título al azar
-    const titulo = cfg.titles[
-      Math.floor(Math.random() * cfg.titles.length)
-    ];
-
-    // 5) Selecciono dos consejos base al azar
-    const shuffledBase = [...cfg.tips].sort(() => 0.5 - Math.random());
-    const baseTips = shuffledBase.slice(0, 2);
-
-    // 6) Genero consejos de errores detectados
-    const errorTips: string[] = [];
-    if (errores.hombros) errorTips.push(`Corrige la alineación de hombros (${errores.hombros} error(es)).`);
-    if (errores.codos) errorTips.push(`Evita abrir demasiado los codos (${errores.codos} error(es)).`);
-    if (errores.espalda) errorTips.push(`Mantén la espalda recta (${errores.espalda} error(es)).`);
-    if (errores.rango) errorTips.push(`Completa todo el rango de movimiento (${errores.rango} error(es)).`);
-    if (errores.otros) errorTips.push(`Otros errores: ${errores.otros}.`);
-
-    // 7) Combino todos los consejos
-    const consejos = [...baseTips, ...errorTips];
-
-    // 8) Color según rango
-    const claseColor = porcentaje === 100
-      ? 'color-green'
-      : porcentaje >= 70
-        ? 'color-orange'
-        : 'color-red';
-
-    // 9) Construyo el HTML final
-    const html = `
-    <div class="resumen-container">
-      <strong class="resumen-titulo ${claseColor}">
-        ${titulo}
-      </strong>
-      <div class="resultado ${claseColor}">
-        Resultado: ${porcentaje}% (${exitosas}/${this.REPETICIONES_EVALUACION})
-      </div>
-      <div class="resumen-consejos">
-        ${consejos.map(t => `<div class="tip">${t}</div>`).join('')}
-      </div>
-    </div>
-  `;
-
-    // 10) Pinto y actualizo estado
-    this.establecerRetroalimentacion(html, '');
-    this.corrigiendo = false;
-    this.mostrarBotonReintentar = true;
-    this.mostrarBotonIniciar = false;
-  }
-
-  /*private establecerRetroalimentacion(mensaje: string, color: string) {
-    this.retroalimentacion = mensaje;
-    this.colorRetroalimentacion = color;
-  }*/
-
-  reintentar() {
-    this.totalRepeticiones = 0;
-    this.repeticionesActuales = 0;
-    this.resultados = [];
-    this.updateCirculos();
-    this.mostrarBotonIniciar = true;
-    this.mostrarBotonReintentar = false;
-    this.retroalimentacion = '';
-    this.iniciarCorreccion();
-  }
-
-  cerrar() {
-    console.log('Modal cerrado');
-  }
-
-  private applyFeedback(html: string, color: string) {
-    this.retroalimentacion = html;
-    this.colorRetroalimentacion = color;
-  }
-
-  /** Se quitan todos los tags HTML para que la voz lea solo texto */
-  private stripHtml(html: string): string {
-    const tmp = document.createElement('DIV');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-  }
-
-  private speakFeedback(text: string) {
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'es-ES';
-
-    /*VOZ TOMAS*/
-    if (this.chosenVoice) {
-      utter.voice = this.chosenVoice;
-    }
-    utter.rate = 1.0;
-    utter.pitch = 1.0;
-
-    utter.onend = () => {
-      this.isSpeaking = false;
-      // cuando termina, si hay más en cola, los procesamos
-      if (this.feedbackQueue.length) {
-        const next = this.feedbackQueue.shift()!;
-        this.applyFeedback(next.html, next.color);
-        this.isSpeaking = true;
-        this.speakFeedback(this.stripHtml(next.html));
-      }
-    };
-    this.isSpeaking = true;
-    speechSynthesis.speak(utter);
-  }
-
-  private establecerRetroalimentacion(html: string, color: string) {
-    const textoPlano = this.stripHtml(html).trim();
-
-    // Si es el mensaje por defecto, solo actualizamos UI y salimos
-    if (textoPlano === 'Recuerda no abrir tanto los codos.') {
-      this.applyFeedback(html, color);
-      return;
-    }
-
-    // Si ya está hablando, encolamos
-    if (this.isSpeaking) {
-      this.feedbackQueue.push({ html, color });
-    } else {
-      // Si no, aplicamos y hablamos
-      this.applyFeedback(html, color);
-      this.speakFeedback(textoPlano);
-    }
-  }
-
-  private pickVoice() {
-    const voices = speechSynthesis.getVoices();
-    this.chosenVoice = voices.find(v =>
-      v.name.toLowerCase().includes('elena')
-    ) || null;
-  }
-
-  volverARutina() {
+  volver() {
     this.detenerCamara();
     this.router.navigate(['/informacion-ejercicio']);
   }
+
+  private updateCirculos() {
+    const selectors = [
+      '.repeticiones-pc .circulo',
+      '.repeticiones-mobile .circulo'
+    ];
+    selectors.forEach(sel => {
+      const elems = document.querySelectorAll<HTMLElement>(sel);
+      elems.forEach((div, idx) => {
+        div.classList.remove('activo', 'correcto', 'incorrecto');
+        if (idx < this.resultados.length) {
+          div.classList.add('activo');
+          div.classList.add(this.resultados[idx] ? 'correcto' : 'incorrecto');
+        }
+      });
+    });
+  }
+
+  private elegirVoz() {
+    const voces = speechSynthesis.getVoices();
+    this.vozElegida = voces.find(v =>
+      v.lang === 'es-AR' && /female|femenina/i.test(v.name)
+    ) || null;
+  }
+
 }

@@ -1,21 +1,18 @@
-body {
+main {
   background-color: #00060C;
-  font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
   display: flex;
   flex-direction: column;
 }
 
 .session-card {
-  background-color: #1e1e1e;
+  background-color: #00060C;
   width: 100%;
-  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   color: white;
-  padding: 4em;
 }
 
 .exercise-preview {
@@ -42,11 +39,13 @@ body {
 .preview-timer small {
   font-size: 0.9rem;
   color: #f0f0f0;
+
 }
 .preview-timer .display-4 {
   font-size: 3rem;
   margin: 0;
   line-height: 1;
+  font-weight: bold;
 }
 
 .preview-timer .progress {
@@ -64,17 +63,15 @@ body {
 .preview-timer .btn-outline-success {
   border-color: #13FF3A;
   color: #13FF3A;
-  font-weight: 600;
   border-radius: 50px;
   padding: 0.75rem 2rem;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .preview-timer .btn-outline-success:hover{
-      background-color: #13FF3A;
+  background-color: #13FF3A;
   transform: scale(1.2);
   color: black;
-  font-weight: bold;
 }
 
 .help-icon {
@@ -88,16 +85,23 @@ body {
 }
 
 .help-icon:hover {
-   transform: scale(1.5);
+  transform: scale(1.5);
   color: #13FF3A;
-  font-weight: bold;
 }
 
-.text-muted-white, .mb-1{
-    padding-top: 0.3em;
-    padding-bottom: 0.3em;
+.titulo-y-pausa {
+  flex-wrap: wrap;
+  gap: 1rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
+.titulo-ejercicio {
+  font-size: 2.2rem;
+  flex-shrink: 1;
+  word-break: break-word;
+}
 .iconosPausaClose {
   position: absolute;
   top: 0.5rem;       
@@ -105,6 +109,7 @@ body {
   display: flex;
   gap: 0.5rem;
   z-index: 10;
+  position: static;
 }
 
 .iconosPausaClose div{
@@ -114,7 +119,7 @@ body {
 }
 
 .iconosPausaClose i {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: #fff;
   transition: color 0.2s;
 }
@@ -148,48 +153,173 @@ body {
 
 @keyframes pulse-red {
   0%   { color: #fff; }
-  50%  { color: #ff4c4c; }
+  50%  { color: #F24130 ; }
   100% { color: #fff; }
 }
 
 .countdown-warning {
-  animation: pulse-red 1s infinite;
-  font-weight: bold;       
-  text-shadow: 0 0 8px red;
+  animation: pulse-red 1s infinite;     
+  text-shadow: 0 0 8px #F24130 ;
 }
 
 .practicar {
     display: flex;     
     align-items: center;      
     justify-content: center; 
-    margin-top: 1rem;
 }
 
 h4{
+  font-size: 35px;
+  
+}
+
+.text-muted-white{
+    font-size: 15px;
+}
+.duracion-ejercicio{
+  font-size: 18px;
+}
+
+.contenedor-ejercicio {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  width: 100%;
+}
+
+.ejercicio-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: fit-content;
+  transition: all 0.4s ease;
+}
+
+.ejercicio-box.expandido {
+  width: 1200px;
+  justify-content: center;
+  margin-left: 200px;
+}
+.ejercicio-box.expandido .imagen-con-borde {
+  transform: translateX(-100px);
+  transition: transform 0.4s ease;
+}
+
+.imagen-con-borde {
+  display: flex;
+  align-items: flex-start;
+  border: 2px solid #13FF3A;
+  border-radius: 0.5rem;
+  padding: 10px;
+  position: relative;
+  transition: all 0.4s ease;
+  width: auto;
+  max-width: 700px;
+  overflow: hidden;
+  background-color: #0B1A1E;
+}
+
+.imagen-con-borde img{
+  max-width: 600px;
+}
+
+.imagen-con-borde.expandida {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.descripcion-ejercicio {
+  position: relative;
+  margin-left: 1rem;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 0.5s ease, opacity 0.5s ease;
+  padding: 0;
+  flex-shrink: 0;
+  width: 0;
+  margin-top: 2rem;
+  color: #fff;
+  align-self: center;
+}
+.descripcion-ejercicio p {
+  font-style: italic;
+}
+
+.descripcion-ejercicio.visible {
+  max-width: 400px;
+  width: 400px;
+  opacity: 1;
+  padding: 1rem;
+}
+
+.descripcion-ejercicio {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+
+  &.visible {
+    max-height: 300px; 
+    opacity: 1;
+  }
+}
+
+
+.btn-info {
+  margin: 1rem;
   font-size: 2rem;
-  padding-bottom: 0.5rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  align-self: center;
 }
 
-.text-muted-white.d-block{
-    font-size: 1.2rem;
+.btn-info:hover {
+  transform: scale(1.2);
+  color: #13FF3A;
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
+.btn-volver {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.btn-volver:hover {
+  transform: scale(1.2);
+    color: #13FF3A;
+
+}
+
+
+@media (min-width: 768px) and (max-width: 1050.98px) {
+   .ejercicio-box.expandido .imagen-con-borde {
+    transform: none !important; 
+  }
 .preview-timer .btn-outline-success {
     border-color: #13FF3A;
     color: #13FF3A;
-    font-weight: 350;
     border-radius: 50px;
     transition: background-color 0.2s ease, transform 0.2s ease;
     padding: 0.5rem 1.5rem;
     font-size: 0.9rem;
   }
 
+  
   .preview-timer .btn-outline-success:hover {
     background-color: #13FF3A;
     transform: scale(1.2);
     color: black;
-    font-weight: bold;
   }
 
   .iconosPausaClose {
@@ -197,12 +327,70 @@ h4{
     right: 0.5rem;
   }
 
-  .preview-timer {
-    padding-top: 3rem;
+  .ejercicio-box.expandido {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
   }
+
+  .imagen-con-borde {
+    flex-direction: column;
+    max-width: 100%;
+    height: 95%;
+  }
+  .imagen-con-borde.expandida {
+   
+    height: 100%;
+  }
+
+  .imagen-con-borde img {
+    max-width: 100%;
+    height: auto;
+  }
+  .btn-info{
+    padding: 0;
+    margin:0;
+    margin-top: 10px;
+  
+    font-size: 3rem;
+  }
+
+  .descripcion-ejercicio.visible {
+    max-width: 90%;
+    width: 100%;
+    text-align: left;
+    padding: 1rem;
+  }
+
 }
 
+
 @media (max-width: 767.98px) {
+
+    .titulo-ejercicio {
+    font-size: 1.5rem;
+  }
+    h4 {
+    font-size: 1.3rem; /* antes: 2rem */
+  }
+
+  .text-muted-white {
+    font-size: 15px; /* antes: 15px */
+  }
+
+  .duracion-ejercicio {
+    font-size: 15px; /* antes: 18px */
+  }
+
+  .preview-timer .display-4 {
+    font-size: 2.5rem; /* antes: 3rem */
+  }
+   .contenedor-ejercicio {
+  margin-bottom: 2rem;
+}
+   .ejercicio-box.expandido .imagen-con-borde {
+    transform: none !important; 
+  }
  body{
     text-align: center;
  }
@@ -221,4 +409,68 @@ h4{
     max-height: 200px;
     object-fit: contain;
   }
+   .contenedor-ejercicio {
+    margin: 0;
+    padding: 0;
+  }
+
+  .ejercicio-box {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+
+  .ejercicio-box.expandido {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .imagen-con-borde {
+    flex-direction: column;
+    max-height: 90%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .imagen-con-borde.expandida {
+   max-height: 100%;
+   margin-bottom: 20px;
+  }
+
+  .imagen-con-borde img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .descripcion-ejercicio.visible {
+    max-width: 100%;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    margin-left: 0;
+  }
+
+  .btn-info {
+    align-self: center;
+    margin: 1rem 0;
+  }
+
+  .btn-volver {
+    top: 5px;
+    right: 5px;
+  }
 }
+@media (max-width: 480px) {
+  .titulo-ejercicio {
+    font-size: 1.2rem;
+  }
+
+  .iconosPausaClose i {
+    font-size: 1.5rem;
+  }
+}
+
+
