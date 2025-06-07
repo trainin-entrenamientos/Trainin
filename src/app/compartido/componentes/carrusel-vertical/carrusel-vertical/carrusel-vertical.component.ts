@@ -5,6 +5,8 @@ import {
   AfterViewInit,
   HostListener,
   ChangeDetectorRef,
+  input,
+  Input,
 } from '@angular/core';
 
 interface CarruselItem {
@@ -19,15 +21,18 @@ interface CarruselItem {
   standalone:false
 })
 export class CarruselVerticalComponent implements AfterViewInit {
-  items: CarruselItem[] = [
-    { tipo: 'texto', contenido: 'Ejercicio del día: Plancha' }, //desharcodear
+  
+  items: { tipo: 'texto' | 'imagen', contenido: string }[] = [
     { tipo: 'imagen', contenido: '/imagenes/motivacion.jpeg' },
-    { tipo: 'texto', contenido: 'Racha: 0 semanas' }, //desharcodear
     { tipo: 'imagen', contenido: '/imagenes/TRAININ-ISO-FO.svg' },
-    //{ tipo: 'texto', contenido: 'Última rutina: No realizada' }, //desharcodear
-    //{ tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
+    { tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
   ];
 
+  @Input() set nuevoItem(item: { tipo: 'texto' | 'imagen', contenido: string } | undefined) {
+    if (item) {
+      this.items.push(item);
+    }
+  }
   constructor(private detectorDeCambios: ChangeDetectorRef) {}
 
   @ViewChild('contenido') contenido!: ElementRef;
