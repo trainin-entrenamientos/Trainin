@@ -76,7 +76,7 @@ constructor(private http: HttpClient, private router: Router) {
 
 
   registrarUsuario(dto: RegistroDTO): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/registro`, dto);
+    return this.http.post<any>(`${this.baseUrl}/usuario/registro`, dto);
   }
 }
 
