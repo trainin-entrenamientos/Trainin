@@ -34,23 +34,24 @@ describe('PlanEntrenamientoService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyResponse);
   });
-  it('debería maneja error al no obtener planes de entrenamiento', () => {
+
+  it('debería manejar error al no obtener planes de entrenamiento', () => {
     const idUsuario = 5;
-    const errorMsg = 'Error: No se puedieron obtener planes de entrenamieto';
+    const errorMsg = 'Error: No se pudieron obtener planes de entrenamieto';
     
     service.getPlanesDeEntrenamiento(idUsuario).subscribe({
       next: () => fail('No debería haber obtenido planes'),
       error: (error) => {
         expect(error.status).toBe(404);
         expect(error.statusText).toBe('Not Found');
-        expect(error.error).toBe(errorMsg);
+        expect(error.error.message).toBe(errorMsg);
       }
     });
 
     const req = httpMock.expectOne(`${baseUrl}/plan/obtenerPlanes/${idUsuario}`);
     expect(req.request.method).toBe('GET');
 
-    req.flush(null,{
+    req.flush({ message: errorMsg },{
       status: 404,
       statusText: 'Not Found',
     }) 
