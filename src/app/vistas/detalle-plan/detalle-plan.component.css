@@ -103,9 +103,6 @@ html {
   transform: scale(1.05);
 }
 
-
-
-/* Responsive */
 @media (max-width: 576px) {
   h1 {
     font-size: 1.2rem;
