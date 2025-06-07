@@ -55,11 +55,14 @@ html {
   border-radius: 1.5rem;
   color: white;
 }
-
-.image-placeholder {
-  height: 120px;
+img{
+   height: 120px;
+  width: 100%;
   background-color: #00060c;
-  object-fit: cover;
+  object-fit: contain;
+}
+.image-placeholder {
+  font-size: 1rem;
 }
 
 .subrayado-grup-musc {
@@ -103,9 +106,6 @@ html {
   transform: scale(1.05);
 }
 
-
-
-/* Responsive */
 @media (max-width: 576px) {
   h1 {
     font-size: 1.2rem;
