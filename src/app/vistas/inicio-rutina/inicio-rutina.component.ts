@@ -36,6 +36,7 @@ export class InicioRutinaComponent {
     if (!this.rutina) return;
     
     this.rutinaService.setIndiceActual(0);
+    this.temporizadorService.reiniciarTiempo();
     this.temporizadorService.iniciarTiempo();
     this.router.navigate(['/informacion-ejercicio']);
   }
