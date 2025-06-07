@@ -1,0 +1,167 @@
+<div class="container mt-4">
+  <h3>{{ esEdicion ? 'Editar Ejercicio' : 'Crear Ejercicio' }}</h3>
+
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        class="form-control"
+        formControlName="nombre"
+        [ngClass]="{ 'is-invalid': formulario.get('nombre')?.touched && formulario.get('nombre')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('nombre')?.hasError('required')">
+        Nombre obligatorio.
+      </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea
+        id="descripcion"
+        class="form-control"
+        rows="3"
+        formControlName="descripcion"
+        [ngClass]="{ 'is-invalid': formulario.get('descripcion')?.touched && formulario.get('descripcion')?.invalid }"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="formulario.get('descripcion')?.hasError('required')">
+        Descripción obligatoria.
+      </div>
+    </div>
+
+    <!-- idGrupoMuscular -->
+    <div class="mb-3">
+      <label for="idGrupoMuscular" class="form-label">Grupo Muscular (ID)</label>
+      <input
+        id="idGrupoMuscular"
+        type="number"
+        class="form-control"
+        formControlName="idGrupoMuscular"
+        [ngClass]="{ 'is-invalid': formulario.get('idGrupoMuscular')?.touched && formulario.get('idGrupoMuscular')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('idGrupoMuscular')?.hasError('required')">
+        ID de grupo obligatorio.
+      </div>
+    </div>
+
+    <!-- Video -->
+    <div class="mb-3">
+      <label for="video" class="form-label">URL Video</label>
+      <input
+        id="video"
+        type="text"
+        class="form-control"
+        formControlName="video"
+        [ngClass]="{ 'is-invalid': formulario.get('video')?.touched && formulario.get('video')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('video')?.hasError('required')">
+        URL obligatoria.
+      </div>
+    </div>
+
+    <!-- idCategoriaEjercicio -->
+    <div class="mb-3">
+      <label for="idCategoriaEjercicio" class="form-label">ID Categoría</label>
+      <input
+        id="idCategoriaEjercicio"
+        type="number"
+        class="form-control"
+        formControlName="idCategoriaEjercicio"
+        [ngClass]="{ 'is-invalid': formulario.get('idCategoriaEjercicio')?.touched && formulario.get('idCategoriaEjercicio')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('idCategoriaEjercicio')?.hasError('required')">
+        ID de categoría obligatorio.
+      </div>
+    </div>
+
+    <!-- Valor MET -->
+    <div class="mb-3">
+      <label for="valorMet" class="form-label">Valor MET</label>
+      <input
+        id="valorMet"
+        type="number"
+        class="form-control"
+        formControlName="valorMet"
+        [ngClass]="{ 'is-invalid': formulario.get('valorMet')?.touched && formulario.get('valorMet')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('valorMet')?.hasError('min')">
+        Debe ser ≥ 0.
+      </div>
+    </div>
+
+    <!-- Landmark -->
+    <div class="mb-3">
+      <label for="landmark" class="form-label">Landmark</label>
+      <input
+        id="landmark"
+        type="text"
+        class="form-control"
+        formControlName="landmark"
+        [ngClass]="{ 'is-invalid': formulario.get('landmark')?.touched && formulario.get('landmark')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('landmark')?.hasError('required')">
+        Landmark obligatorio.
+      </div>
+    </div>
+
+    <!-- Tiene Corrección -->
+    <div class="form-check mb-3">
+      <input
+        id="tieneCorreccion"
+        type="checkbox"
+        class="form-check-input"
+        formControlName="tieneCorreccion"
+      />
+      <label for="tieneCorreccion" class="form-check-label">Tiene Corrección</label>
+    </div>
+
+    <!-- Corrección Premium -->
+    <div class="form-check mb-3">
+      <input
+        id="correccionPremium"
+        type="checkbox"
+        class="form-check-input"
+        formControlName="correccionPremium"
+      />
+      <label for="correccionPremium" class="form-check-label">Corrección Premium</label>
+    </div>
+
+    <!-- Imagen -->
+    <div class="mb-3">
+      <label for="imagen" class="form-label">URL Imagen</label>
+      <input
+        id="imagen"
+        type="text"
+        class="form-control"
+        formControlName="imagen"
+        [ngClass]="{ 'is-invalid': formulario.get('imagen')?.touched && formulario.get('imagen')?.invalid }"
+      />
+      <div class="invalid-feedback" *ngIf="formulario.get('imagen')?.hasError('required')">
+        Imagen obligatoria.
+      </div>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">
+        {{ esEdicion ? 'Guardar Cambios' : 'Crear Ejercicio' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+
+    <!-- Indicador de carga -->
+    <div *ngIf="cargando" class="mt-2 alert alert-info">
+      Procesando…
+    </div>
+  </form>
+</div>

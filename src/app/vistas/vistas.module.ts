@@ -6,8 +6,8 @@ import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-p
 import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-frecuentes.component';
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
-import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { AdministradorRoutingModule } from '../compartido/utilidades/administrador-module/administrador-routing.module';
 
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
@@ -36,7 +36,6 @@ import { PerfilComponent } from './perfil/perfil.component';
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
-    InicioAdminComponent,
     InicioRutinaComponent,
     FinalizacionRutinaComponent,
     RegistroComponent,
@@ -49,9 +48,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     CorreccionPosturaComponent,
     CalibracionCamaraComponent,
     VerificarEmailComponent,
-    PerfilComponent
-    LogrosComponent,
     PerfilComponent,
+    LogrosComponent,
+    PerfilComponent 
   ],
 
   imports: [
@@ -61,7 +60,8 @@ import { PerfilComponent } from './perfil/perfil.component';
     ReactiveFormsModule,
     CompartidoModule,
     NgbTooltipModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AdministradorRoutingModule        
   ],
   exports: [
     PlanesComponent,

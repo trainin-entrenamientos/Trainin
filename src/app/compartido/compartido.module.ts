@@ -29,7 +29,7 @@ import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obten
     TemporizadorComponent,
     BotonTraininComponent,
     CarruselVerticalComponent,
-    LogroObtenidoComponent
+    LogroObtenidoComponent,
   ],
   imports: [
     CommonModule,

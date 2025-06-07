@@ -23,6 +23,9 @@ import { RealizarEjercicioComponent } from './vistas/realizar-ejercicio/realizar
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { authGuard } from './core/guards/auth.guards';
+import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
+import { LogrosComponent } from './vistas/logros/logros.component';
+import { EjerciciosFormComponent } from './vistas/ejercicios-formulario/ejercicios-formulario.component';
 
 const routes: Routes = [
   {
@@ -152,14 +155,26 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent
+      },
+      {
+        path: 'ejercicios-form',
+        component: EjerciciosFormComponent
       }
+
     ]
   },
   {
     path: '**',
     redirectTo: '/inicio',
     pathMatch: 'full'
-  }
+  },
+{
+  path: 'admin',
+  loadChildren: () =>
+    import('./compartido/utilidades/administrador-module/administrador.module')
+      .then(m => m.AdministradorModule)
+},
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

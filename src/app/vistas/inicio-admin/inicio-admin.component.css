@@ -1,87 +1,118 @@
-* {
-  box-sizing: border-box;
+/* inicio-admin.component.css */
+
+/* 1) Ajustes del contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  overflow-x: auto; /* Para que en pantallas estrechas permita scroll */
 }
 
-body,
-html {
-  font-family: "Merriweather Sans", sans-serif;
-  background-color: #00060c;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
+/* 2) Header: title + botón “Crear ejercicio” */
+.header-panel {
   display: flex;
-  height: 100%;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.header-panel h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+.header-panel app-boton-trainin.btn-trainin {
+  background-color: #0f0;     /* verde neón */
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+.header-panel app-boton-trainin.btn-trainin:hover {
+  background-color: #0c0;     /* verde oscuro */
+  color: #fff;
 }
 
-.contenedor-principal {
-  width: 80%;
-  margin: auto;
+/* 3) Encabezado de la “tabla” */
+.encabezado-tabla {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 3fr 2fr;
+  align-items: center;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  padding: 0.75rem 0;
+}
+.encabezado-tabla .col {
+  padding-left: 0.5rem;
 }
 
-.titulo {
-  text-decoration: underline;
-  text-decoration-color: #13ff3a;
-  text-decoration-thickness: 2px;
+/* 4) Filas de datos */
+.fila-tabla {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 3fr 2fr;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.75rem 0;
+}
+.fila-tabla:nth-child(even) {
+  background-color: #fafafa;
+}
+.fila-tabla .col {
+  padding-left: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.boton-crear-ejercicio {
-  background-color: #13ff3a;
-  border-radius: 5px;
-  text-decoration: none;
-  color: #00060c;
+/* 5) Botones de acción */
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.acciones button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+.acciones button.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+}
+.acciones button.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.acciones button.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+.acciones button.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
 }
 
-.boton-editar {
-  color: #ffffff;
+/* 6) Mensaje “No hay ejercicios” */
+.sin-ejercicios {
+  text-align: center;
+  padding: 2rem 0;
+  color: #666;
+  font-size: 1rem;
 }
 
-.boton-eliminar {
-  color: red;
-}
-
-.contenedor-ejercicios,
-.contenedor-titulos {
-  margin: 0 !important;
-}
-
-@media screen and (max-width: 768px) {
-  .contenedor-titulos, .contenedor-ejercicios {
-    padding: 0.8rem 0 !important;
+/* 7) Scroll horizontal en pantallas pequeñas */
+@media (max-width: 768px) {
+  .container {
+    overflow-x: auto;
   }
-
-  .boton-editar,
-  .boton-eliminar {
-    padding: 0 !important;
-  }
-
-  .contenedor-titulos div {
-    font-size: 1rem !important;
-  }
-
-  .contenedor-ejercicios div {
-    font-size: 0.8rem !important;
-  }
-
-  i {
-    font-size: 1rem !important;
-  }
-
-  .boton-crear-ejercicio {
-    font-size: 0.8rem !important;
-  }
-}
-
-@media screen and (max-width: 540px) {
-  .contenedor-titulos div {
-    font-size: 0.5rem !important;
-  }
-
-  .contenedor-ejercicios div {
-    font-size: 0.5rem !important;
-  }
-
-  i {
-    font-size: 0.8rem !important;
+  .encabezado-tabla,
+  .fila-tabla {
+    min-width: 600px;
   }
 }

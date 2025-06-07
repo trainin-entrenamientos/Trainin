@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EjercicioService } from '../../core/servicios/ejercicioServicio/ejercicio-servicio.service';
 import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporadoDTO'; 
-import { EjercicioEditadoDTO } from '../../core/modelos/EjercicioEditadoDTO';
 import { CompartidoModule } from "../../compartido/compartido.module"; 
 
 @Component({
@@ -13,6 +12,9 @@ import { CompartidoModule } from "../../compartido/compartido.module";
 })
 
 export class InicioAdminComponent implements OnInit {
+[x: string]: any;
+  selectedEjercicioIndex!: number;
+
   ejercicios: EjercicioIncorporadoDTO[] = [];
   ejercicioParaEliminar: number | null = null;
 
@@ -26,14 +28,14 @@ export class InicioAdminComponent implements OnInit {
   }
 
   cargarEjercicios(): void {
-    this.ejercicioService.obtenerTodos().subscribe({
-      next: (data) => (this.ejercicios = data),
+      this.ejercicioService.obtenerTodosLosEjercicios().subscribe({
+        next: (data) => (this.ejercicios = data),
       error: (err) => console.error(err)
     });
   }
 
   editarEjercicio(id: number): void {
-    this.router.navigate(['/editar-ejercicio', id]);
+    this.router.navigate(['/admin/ejercicios/editar', id]);
   }
 
   abrirModalEliminarEjercicio(id: number): void {
@@ -41,7 +43,7 @@ export class InicioAdminComponent implements OnInit {
   }
 
   eliminarEjercicio(id: number): void {
-    this.ejercicioService.eliminar(id).subscribe({
+    this.ejercicioService.eliminarEjercicio(id).subscribe({
       next: () => {
         this.ejercicioParaEliminar = null;
         this.cargarEjercicios();
