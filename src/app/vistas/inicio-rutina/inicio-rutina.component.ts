@@ -17,6 +17,7 @@ export class InicioRutinaComponent {
   selectedEjercicioIndex: number=0;
   ejercicios: Ejercicio[] = [];
   cargando: boolean = true;
+  minutosTraducidos: string ='';
 
 
   constructor(
@@ -47,10 +48,20 @@ export class InicioRutinaComponent {
         this.rutina = rutina;                        
         this.rutinaService.setRutina(rutina);  
         this.ejercicios = rutina.ejercicios; 
+        this.minutosTraducidos=this.traducirMinutos(this.rutina.duracionEstimada);
         this.cargando=false;  
       },
       error: err => console.error('Error al obtener la rutina:', err)
     });
+  }
+
+ protected traducirMinutos(valor: number): string {
+    const mapa: Record<string, string> = {
+      1: '≈15 min.',
+      2: '≈30 min.',
+      3: '≈45 min.',
+    };
+    return mapa[valor] || 'No especificado';
   }
 
    selectEjercicio(index: number) {
