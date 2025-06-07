@@ -223,12 +223,14 @@ p {
   border-radius: 20px;
   border: 1px solid ;
   padding:10px;
+  
 }
 
 .realizado:hover{
   background-color: #00060c;
   color:White;
 }
+
 @media screen and (max-width: 1195px) {
   .plan-card p {
     font-size: 1.2rem;

@@ -4,6 +4,7 @@ import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
+import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
 
 @Component({
   selector: 'app-planes',
@@ -23,6 +24,7 @@ export class PlanesComponent {
   cargando: boolean = true;
   planAEliminarId: number | null = null;
   mostrarModal: boolean = false;
+  detallePlan: PlanCompleto | undefined;
 
 
   constructor(
@@ -115,4 +117,11 @@ desactivarPlan(idPlan: number): void {
       }
     });
   };
+
+
+  irAlDetalleDelPlan(idPlan: number):void{
+       this.router.navigate(['/detalle-plan', idPlan]);
+  }
+ 
+
 }

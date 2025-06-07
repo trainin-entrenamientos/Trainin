@@ -40,4 +40,9 @@ export class PlanEntrenamientoService {
   actualizarNivelExigencia(idPlan: number, formulario: ActualizarNivelExigenciaDTO): Observable<string> {
     return this.http.patch(`${this.baseUrl}/plan/actualizarNivelExigencia/${idPlan}`, formulario, { responseType: 'text' });
   }
+
+  obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any>{
+    return this.http.get(`http://localhost:5010/api/Plan/obtenerDetallePlan/${idPlan}?idUsuario=${idUsuario}`);
+  }
+ 
 }
