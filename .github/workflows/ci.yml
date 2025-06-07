@@ -1,14 +1,24 @@
-name: CI Angular placeholder
+name: CI Angular
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
-  deploy:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger deploy to Vercel
-        run: |
-          curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_9bmlnYQllkyUL6A9hCIzAMo88cIt/yzV0KNTKmX
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 20.17.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
