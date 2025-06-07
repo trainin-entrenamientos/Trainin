@@ -40,9 +40,9 @@ export class RealizarEjercicioComponent {
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
     this.ejercicioActual = datos.ejercicio;
-    if(this.ejercicioActual?.repeticiones == null || this.ejercicioActual?.repeticiones == undefined) {
+    if(this.ejercicioActual?.tipoEjercicio=="De tiempo") {
       this.esEjercicioDeTiempo = true;
-      this.tiempoTotal = 3;
+      this.tiempoTotal = this.ejercicioActual.duracion ?? 0;
       this.tiempoRestante = this.tiempoTotal;
       this.iniciarTemporizador();
       this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();

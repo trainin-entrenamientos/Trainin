@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-iniciar-sesion',
@@ -15,7 +16,8 @@ export class IniciarSesionComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -33,11 +35,11 @@ export class IniciarSesionComponent {
         if (data.exito && !data.requiereActivacion) {
           this.router.navigate(['/planes']);
         } else {
-          alert('Debes activar tu cuenta antes de iniciar sesión.');
+          this.toastr.error('Debes activar tu cuenta antes de iniciar sesión.');
         }
       },
       error: () => {
-        alert('Credenciales incorrectas o error de servidor.');
+        this.toastr.error('Credenciales incorrectas o error de servidor.');
       }
     });
   }

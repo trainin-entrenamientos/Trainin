@@ -27,6 +27,7 @@ import { VerificarEmailComponent } from './vistas/verificar-email/verificar-emai
 import { LogrosComponent } from './vistas/logros/logros.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { authGuard } from './core/guards/auth.guards';
+import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
 
 const routes: Routes = [
   {
@@ -136,7 +137,7 @@ const routes: Routes = [
         component: CalibracionCamaraComponent
       },
       {
-        path: 'detalle-plan',
+        path: 'detalle-plan/:PlanId',
         component: DetallePlanComponent,
         canActivate: [authGuard]
       },
@@ -166,6 +167,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent
+      },
+      {
+        path: 'pago-exitoso',
+        component: PagoExitosoComponent,
       }
     ]
   },

@@ -22,10 +22,10 @@ export class CarruselVerticalComponent implements AfterViewInit {
   items: CarruselItem[] = [
     { tipo: 'texto', contenido: 'Ejercicio del día: Plancha' }, //desharcodear
     { tipo: 'imagen', contenido: '/imagenes/motivacion.jpeg' },
-    { tipo: 'texto', contenido: 'Racha: 5 semanas' }, //desharcodear
+    { tipo: 'texto', contenido: 'Racha: 0 semanas' }, //desharcodear
     { tipo: 'imagen', contenido: '/imagenes/TRAININ-ISO-FO.svg' },
-    { tipo: 'texto', contenido: 'Última rutina: Cuerpo completo' }, //desharcodear
-    { tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
+    //{ tipo: 'texto', contenido: 'Última rutina: No realizada' }, //desharcodear
+    //{ tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
   ];
 
   constructor(private detectorDeCambios: ChangeDetectorRef) {}

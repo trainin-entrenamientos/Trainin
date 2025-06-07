@@ -14,7 +14,9 @@ main {
   position: relative;
   color: white;
 }
-
+.boton-de-practica{
+  align-self: center;
+}
 .exercise-preview {
   padding-top: 2rem;
   padding-bottom: 2rem;
