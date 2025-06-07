@@ -4,6 +4,7 @@ import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
+import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
 
 @Component({
   selector: 'app-planes',
@@ -21,6 +22,10 @@ export class PlanesComponent {
   router: Router;
   email: string | null = null;
   cargando: boolean = true;
+  planAEliminarId: number | null = null;
+  mostrarModal: boolean = false;
+  detallePlan: PlanCompleto | undefined;
+
 
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
@@ -82,7 +87,26 @@ export class PlanesComponent {
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 
-  desactivarPlan(idPlan: number): void {
+
+  confirmarEliminacion(id: number): void {
+  this.planAEliminarId = id;
+  this.mostrarModal = true;
+}
+
+cancelarEliminacion(): void {
+  this.planAEliminarId = null;
+  this.mostrarModal = false;
+}
+
+eliminarPlanConfirmado(): void {
+  if (this.planAEliminarId !== null) {
+    this.desactivarPlan(this.planAEliminarId);
+    this.planAEliminarId = null;
+  }
+  this.mostrarModal = false;
+}
+
+desactivarPlan(idPlan: number): void {
     this.planEntrenamientoService.desactivarPlanPorId(idPlan, this.idUsuario).subscribe({
       next: (response) => {
         console.log('Plan desactivado:', response);
@@ -93,4 +117,11 @@ export class PlanesComponent {
       }
     });
   };
+
+
+  irAlDetalleDelPlan(idPlan: number):void{
+       this.router.navigate(['/detalle-plan', idPlan]);
+  }
+ 
+
 }

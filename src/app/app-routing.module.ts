@@ -26,6 +26,7 @@ import { authGuard } from './core/guards/auth.guards';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
 import { EjerciciosFormComponent } from './vistas/ejercicios-formulario/ejercicios-formulario.component';
+import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
 
 const routes: Routes = [
   {
@@ -125,7 +126,7 @@ const routes: Routes = [
         component: CalibracionCamaraComponent
       },
       {
-        path: 'detalle-plan',
+        path: 'detalle-plan/:PlanId',
         component: DetallePlanComponent,
         canActivate: [authGuard]
       },
@@ -155,6 +156,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent
+      },
+      {
+        path: 'pago-exitoso',
+        component: PagoExitosoComponent,
       },
       {
         path: 'ejercicios-form',

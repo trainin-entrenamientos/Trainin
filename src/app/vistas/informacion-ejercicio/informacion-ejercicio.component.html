@@ -1,4 +1,4 @@
-<body>
+<main>
   <section class="exercise-preview">
     <div class="container">
       <div class="session-card">
@@ -102,7 +102,7 @@
             container="body"
           ></i>
         </div>
-        <div *ngIf="esUsuarioPremium && ejercicio?.correccionPremium && ejercicio?.tieneCorrecion">          
+        <div class="boton-de-practica" *ngIf="esUsuarioPremium && ejercicio?.correccionPremium && ejercicio?.tieneCorrecion">          
           <app-boton-trainin type="button" class="btn-trainin"
             [disabled]="!ejercicio?.tieneCorrecion"
             [routerLink]="ejercicio?.tieneCorrecion ? ['/calibracion-camara',claveEjercicioCorreccion()] : null"
@@ -129,4 +129,4 @@
       </div>
     </div>
   </section>
-</body>
+</main>

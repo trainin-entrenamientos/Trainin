@@ -12,12 +12,12 @@
 <main *ngIf="rutina && !cargando" class="rutina-card text-white my-4">
    
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <h2 class="m-0 text-center flex-grow-1">Plan – Día {{ rutina.numeroRutina}}</h2>
+    <h2 class="m-0 text-center flex-grow-1">Plan {{rutina.categoriaEjercicio}}– Día {{ rutina.numeroRutina}}</h2>
     <span style="width: 24px"></span>
   </div>
 
   <p class="duracion-rutina-texto">
-    Duración estimada de la rutina: <strong>{{rutina.duracionEstimada}}min</strong>
+    Duración estimada de la rutina: <strong>{{this.minutosTraducidos}}</strong>
   </p>
 
         <div class="contenedor-carrusel">

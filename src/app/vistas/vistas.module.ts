@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerificarEmailComponent } from './verificar-email/verificar-email.component';
 import { LogrosComponent } from './logros/logros.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 
 @NgModule({
 
@@ -51,6 +52,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     PerfilComponent,
     LogrosComponent,
     PerfilComponent 
+    PagoExitosoComponent,
   ],
 
   imports: [

@@ -20,6 +20,9 @@ html, body, main{
 .profile-page p.text-muted {
   color: #ffffff; 
 }
+.row{
+  margin-right:0;
+}
 .btn-outline-success {
   border-color: #13FF3A;
   color: #13FF3A;

@@ -218,6 +218,19 @@ p {
 .contenedor-info-plan-imagen {
   gap: 5rem;
 }
+.realizado{
+  background-color: #0B1A1E;
+  border-radius: 20px;
+  border: 1px solid ;
+  padding:10px;
+  
+}
+
+.realizado:hover{
+  background-color: #00060c;
+  color:White;
+}
+
 @media screen and (max-width: 1195px) {
   .plan-card p {
     font-size: 1.2rem;

@@ -3,6 +3,8 @@ import { PerfilService } from '../../core/servicios/perfilServicio/perfil.servic
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { PerfilDTO } from '../../core/modelos/PerfilDTO';
 import { ToastrService } from 'ngx-toastr';
+import { Logro } from '../../core/modelos/LogroDTO';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,12 +16,13 @@ export class PerfilComponent implements OnInit {
 
   email: string | null = null;
   perfil: PerfilDTO | null = null;
-
+  logros: Logro[] = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
 
   constructor(private perfilService: PerfilService,
     private authService: AuthService, 
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private logroService: LogroService) { }
 
   ngOnInit() {
 
@@ -38,6 +41,19 @@ export class PerfilComponent implements OnInit {
         console.error('Error cargando perfil', err);
       }
     });
+
+    this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
+  next: (data: any) => {
+    console.log('Logros obtenidos:', data.logros);
+
+    this.logros = (data.logros || [])
+      .sort((a: any, b: any) => new Date(b.fecha_obtencion).getTime() - new Date(a.fecha_obtencion).getTime())
+      .slice(0, 3);
+  },
+  error: (err) => {
+    console.error('Error al obtener logros', err);
+  }
+});
   }
 
   onFileSelected(event: Event) {
