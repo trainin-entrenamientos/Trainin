@@ -41,17 +41,19 @@ export class PerfilComponent implements OnInit {
         console.error('Error cargando perfil', err);
       }
     });
-      /*this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
-        next: (data) => {
-          this.logros = (data.logros || [])
-            .filter((l: { obtenido: any; }) => l.obtenido)
-            .sort((a: { fecha_obtencion: string | number | Date; }, b: { fecha_obtencion: string | number | Date; }) => new Date(b.fecha_obtencion).getTime() - new Date(a.fecha_obtencion).getTime())
-            .slice(0, 3);
-        },
-        error: (err) => {
-          console.error('Error al obtener logros', err);
-        }
-      });*/
+
+    this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
+  next: (data: any) => {
+    console.log('Logros obtenidos:', data.logros);
+
+    this.logros = (data.logros || [])
+      .sort((a: any, b: any) => new Date(b.fecha_obtencion).getTime() - new Date(a.fecha_obtencion).getTime())
+      .slice(0, 3);
+  },
+  error: (err) => {
+    console.error('Error al obtener logros', err);
+  }
+});
   }
 
   onFileSelected(event: Event) {
