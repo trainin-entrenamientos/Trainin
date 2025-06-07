@@ -136,7 +136,7 @@ const routes: Routes = [
         component: CalibracionCamaraComponent
       },
       {
-        path: 'detalle-plan',
+        path: 'detalle-plan/:PlanId',
         component: DetallePlanComponent,
         canActivate: [authGuard]
       },
