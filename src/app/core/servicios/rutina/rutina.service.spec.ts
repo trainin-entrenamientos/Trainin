@@ -24,7 +24,7 @@ describe('RutinaService', () => {
         descripcion: 'Descripción del ejercicio 1',
         tieneCorrecion: true,
         grupoMuscular: [],
-        categoria: 'Fuerza'
+        categoria: [{ nombre: 'Fuerza' }]
       },
       {
         id: 2,
@@ -38,12 +38,14 @@ describe('RutinaService', () => {
         descripcion: 'Descripción del ejercicio 2',
         tieneCorrecion: false,
         grupoMuscular: [],
-        categoria: 'Resistencia'
+        categoria: [{ nombre: 'Resistencia' }],
       }
     ],
     numeroRutina: 0,
     duracionEstimada: 0,
     rutinasRealizadas:0,
+    categoriaEjercicio: 'Muscular',
+  caloriasQuemadas: 250,
   };
 
   beforeEach(() => {

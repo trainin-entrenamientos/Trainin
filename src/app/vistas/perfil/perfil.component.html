@@ -1,179 +1,202 @@
 <main>
-<div class="container-fluid my-0 profile-page">
-<div class="row justify-content-center align-items-center mb-4" id="datosUsuario">
-  <div style="width: 150px; height: 150px; position: relative;">
-  <img
-    [src]="fotoMostrar"
-    alt="Foto de perfil"
-    style="width: 100%; height: 100%; border-radius: 30%;"
-  />
-  <label
-    for="fileInput"
-    style="
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      cursor: pointer;
-      background: rgba(0,0,0,0.6);
-      border-radius: 50%;
-      padding: 4px;
-    "
-  >
-    <i class="bi bi-pencil-square" style="color: white; font-size: 24px;"></i>
-  </label>
-  <input
-    type="file"
-    id="fileInput"
-    (change)="onFileSelected($event)"
-    hidden
-    accept="image/*"
-  />
-</div>
-    
-    <div class="col-12 col-md-6" *ngIf="perfil">
-      <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}</h1>
-      <p class="text-muted-white">
-        Fecha de ingreso: {{ perfil.fechaCreacion}}
-      </p>
-    </div>
-
-    <div class="col-12 col-md-3 text-center text-md-right">
-      <app-boton-trainin
-      [ruta]="'/premium'"
-      [clase]="'btn btn-trainin btn btn-outline-success btn-lg mb-2'"
+  <div class="container-fluid my-0 profile-page">
+    <div
+      class="row justify-content-center align-items-center mb-4"
+      id="datosUsuario"
     >
-      TRAININ PREMIUM
-    </app-boton-trainin>
-      <br />
-      <a href="#" class="text-decoration-none text-white">
-        Administrar Suscripción <i class="fas fa-external-link-alt text-white"></i>
-      </a>
+      <div style="width: 150px; height: 150px; position: relative">
+        <img
+          [src]="fotoMostrar"
+          alt="Foto de perfil"
+          style="width: 100%; height: 100%; border-radius: 30%"
+        />
+        <label
+          for="fileInput"
+          style="
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            padding: 4px;
+          "
+        >
+          <i
+            class="bi bi-pencil-square"
+            style="color: white; font-size: 24px"
+          ></i>
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          (change)="onFileSelected($event)"
+          hidden
+          accept="image/*"
+        />
+      </div>
+ 
+      <div class="col-12 col-md-6" *ngIf="perfil">
+        <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}</h1>
+        <p class="text-muted-white">
+          Fecha de ingreso: {{ perfil.fechaCreacion }}
+        </p>
+      </div>
+ 
+      <div class="col-12 col-md-3 text-center text-md-right">
+        <app-boton-trainin
+          [ruta]="'/premium'"
+          [clase]="'btn btn-trainin btn btn-outline-success btn-lg mb-2'"
+        >
+          TRAININ PREMIUM
+        </app-boton-trainin>
+        <br />
+        <a href="#" class="text-decoration-none text-white">
+          Administrar Suscripción
+          <i class="fas fa-external-link-alt text-white"></i>
+        </a>
+      </div>
     </div>
-  </div>
-
-  <div class="row text-center stats-row mb-4" *ngIf="perfil">
-    <div class="col-4">
-      <h2>{{ perfil.peso }}<small class="text-muted-white">kg.</small></h2>
-      <p>Peso</p>
+ 
+    <div class="row text-center stats-row mb-4" *ngIf="perfil">
+      <div class="col-4">
+        <h2>{{ perfil.peso }}<small class="text-muted-white">kg.</small></h2>
+        <p>Peso</p>
+      </div>
+      <div class="col-4">
+        <h2>{{ perfil.altura }}<small class="text-muted-white">cm.</small></h2>
+        <p>Altura</p>
+      </div>
+      <div class="col-4">
+        <h2>{{ perfil.edad }}<small class="text-muted-white"> años</small></h2>
+        <p>Edad</p>
+      </div>
     </div>
-    <div class="col-4">
-      <h2>{{ perfil.altura }}<small class="text-muted-white">cm.</small></h2>
-      <p>Altura</p>
-    </div>
-    <div class="col-4">
-      <h2>{{ perfil.edad }}<small class="text-muted-white"> años</small></h2>
-      <p>Edad</p>
-    </div>
-  </div>
-
-  <div class="row mb-5" id="informacionUsuario">
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card metric text-center h-100">
-        <div class="card-body">
-          <i class="fas fa-fire fa-2x text-warning mb-2"></i>
-          <p class="display-4 mb-0">{{perfil?.caloriasTotales}}<span class="small">cal</span></p>
-          <p class="card-text">Quemadas</p>
+ 
+    <div class="row mb-5" id="informacionUsuario">
+      <div class="col-12 col-md-4 mb-3">
+        <div class="card metric text-center h-100">
+          <div class="card-body">
+            <i class="fas fa-fire fa-2x text-warning mb-2"></i>
+            <p class="display-4 mb-0">{{perfil?.caloriasTotales}}<span class="small">cal</span></p>
+            <p class="card-text">Quemadas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div class="card metric text-center h-100">
+          <div class="card-body">
+            <i class="fas fa-dumbbell fa-2x text-success mb-2"></i>
+            <p class="display-4 mb-0">0</p>
+            <p class="card-text">Entrenamientos hechos</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <div class="card metric text-center h-100">
+          <div class="card-body">
+            <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+            <p class="display-4 mb-0">0</p>
+            <p class="card-text">Tiempo entrenando</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card metric text-center h-100">
-        <div class="card-body">
-          <i class="fas fa-dumbbell fa-2x text-success mb-2"></i>
-          <p class="display-4 mb-0">0</p>
-          <p class="card-text">Entrenamientos hechos</p>
+    <a routerLink="/logros">
+      <div class="row mb-5" id="informacionUsuario">
+        <div class="col-12 col-md-6 mb-3">
+          <div class="card achievements h-100">
+            <div class="card-header">Mis logros</div>
+            <ul class="list-group list-group-flush">
+              <!-- Sin logros -->
+              <li
+                *ngIf="logros.length === 0"
+                class="list-group-item text-white"
+              >
+                <i class="fas fa-info-circle mr-2"></i>
+                No tienes ningún logro desbloqueado
+              </li>
+ 
+              <!-- Lista de logros -->
+              <li
+                *ngFor="let logro of logros"
+                class="list-group-item d-flex justify-content-between align-items-start"
+              >
+                <div id="logros" class="d-flex align-items-start">
+                  <img
+                    [src]="logro.imagen"
+                    alt="Imagen logro"
+                    width="40"
+                    height="40"
+                    class="mr-2 rounded"
+                  />
+                  <div>
+                    <strong>{{ logro.nombre }}</strong
+                    ><br />
+                    <small class="text-muted-white">{{
+                      logro.descripcion
+                    }}</small>
+                  </div>
+                </div>
+                <small class="text-white">{{
+                  logro.fecha_obtencion | date : "dd/MM/yyyy"
+                }}</small>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card metric text-center h-100">
-        <div class="card-body">
-          <i class="fas fa-clock fa-2x text-primary mb-2"></i>
-          <p class="display-4 mb-0">0</p>
-          <p class="card-text">Tiempo entrenando</p>
-        </div>
-      </div>
-    </div>
-  </div>
-<a routerLink="/logros">
-  <div class="row mb-5" id="informacionUsuario">
-    <div class="col-12 col-md-6 mb-3">
-      <div class="card achievements h-100">
-        <div class="card-header">Mis logros</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div id="logros">
-              <i class="fas fa-certificate mr-2"></i>
-              <strong>Nombre logro</strong><br/>
-              <small class="text-muted-white">Descripción logro</small>
+        <div class="col-12 col-md-6 mb-3">
+          <div class="card streak h-100 text-center">
+            <div class="card-body">
+              <i class="fas fa-fire mb-2"></i>
+              <h2 class="mb-1">{{ 0 }}</h2>
+              <p class="card-text text-uppercase mb-0">
+                Entrenamientos consecutivos
+              </p>
+              <small class="text-muted-white"
+                >Lo estás haciendo muy bien, seguí así</small
+              >
             </div>
-            <small class="text-white">DD/MM/YYYY</small>
-          </li>
-<li class="list-group-item d-flex justify-content-between align-items-start">
-            <div id="logros">
-              <i class="fas fa-certificate mr-2"></i>
-              <strong>Nombre logro</strong><br/>
-              <small class="text-muted-white">Descripción logro</small>
-            </div>
-            <small class="text-white">DD/MM/YYYY</small>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div id="logros">
-              <i class="fas fa-certificate mr-2"></i>
-              <strong>Nombre logro</strong><br/>
-              <small class="text-muted-white">Descripción logro</small>
-            </div>
-            <small class="text-white">DD/MM/YYYY</small>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-12 col-md-6 mb-3">
-      <div class="card streak h-100 text-center">
-        <div class="card-body">
-          <i class="fas fa-fire mb-2"></i>
-          <h2 class="mb-1">{{ 0 }}</h2>
-          <p class="card-text text-uppercase mb-0">Entrenamientos consecutivos</p>
-          <small class="text-muted-white">Lo estás haciendo muy bien, seguí así</small>
+      
+    </a>
+    <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
+    <div class="row completed-plans" id="informacionUsuario">
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center" id="historialTarjetas">
+            <h5 class="card-title">Tren Superior</h5>
+            <p class="card-subtitle mb-2">13 de enero de 2025</p>
+            <p class="small mb-1">20 de 20 días completados</p>
+            <p class="small mb-1">{{perfil?.caloriasTotales}} calorías quemadas</p>
+            <p class="small">607 minutos ejercitados</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center" id="historialTarjetas">
+            <img
+              src="imagenes/logo-trainin.svg"
+              alt="Logo Trainin"
+              class="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body text-center" id="historialTarjetas">
+            <h5 class="card-title">Tren Superior</h5>
+            <p class="card-subtitle mb-2">13 de enero de 2025</p>
+            <p class="small mb-1">20 de 20 días completados</p>
+            <p class="small mb-1">{{perfil?.caloriasTotales}} calorías quemadas</p>
+            <p class="small">607 minutos ejercitados</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</a>
-  <h5 class="text-center mb-3 pb-2">
-    Planes de Entrenamiento Completados
-  </h5>
-  <div class="row completed-plans" id="informacionUsuario">
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100">
-        <div class="card-body text-center" id="historialTarjetas">
-          <h5 class="card-title">Tren Superior</h5>
-          <p class="card-subtitle mb-2">13 de enero de 2025</p>
-          <p class="small mb-1">20 de 20 días completados</p>
-          <p class="small mb-1">{{perfil?.caloriasTotales}} calorías quemadas</p>
-          <p class="small">607 minutos ejercitados</p>
-        </div>
-      </div>
-    </div>
- <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100">
-        <div class="card-body text-center" id="historialTarjetas">
-            <img src="imagenes/logo-trainin.svg" alt="Logo Trainin" class="logo">
-        </div>
-      </div>
-    </div>
- <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100">
-        <div class="card-body text-center" id="historialTarjetas">
-          <h5 class="card-title">Tren Superior</h5>
-          <p class="card-subtitle mb-2">13 de enero de 2025</p>
-          <p class="small mb-1">20 de 20 días completados</p>
-          <p class="small mb-1">{{perfil?.caloriasTotales}} calorías quemadas</p>
-          <p class="small">607 minutos ejercitados</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
 </main>
