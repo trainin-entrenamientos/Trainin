@@ -24,7 +24,8 @@ describe('RutinaService', () => {
         descripcion: 'Descripción del ejercicio 1',
         tieneCorrecion: true,
         grupoMuscular: [],
-        categoria: [{ nombre: 'Fuerza' }]
+        categoria: [{ nombre: 'Fuerza' }],
+        tipoEjercicio: ""
       },
       {
         id: 2,
@@ -39,6 +40,7 @@ describe('RutinaService', () => {
         tieneCorrecion: false,
         grupoMuscular: [],
         categoria: [{ nombre: 'Resistencia' }],
+        tipoEjercicio: ""
       }
     ],
     numeroRutina: 0,
