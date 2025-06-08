@@ -14,7 +14,9 @@ main {
   position: relative;
   color: white;
 }
-
+.boton-de-practica{
+  align-self: center;
+}
 .exercise-preview {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -31,9 +33,11 @@ main {
 
 .exercise-image img {
   width: 100%;
-  height: auto;
   border-radius: 0.5rem;
-  object-fit: cover;
+  height: 30vh;
+  object-fit: contain;
+  background-color: black;
+  display: block;
 }
 
 .preview-timer small {

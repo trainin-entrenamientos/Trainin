@@ -53,7 +53,7 @@ export class InformacionEjercicioComponent {
   }
   this.rutina = datos.rutina;
   this.ejercicio = datos.ejercicio;
-    if(this.ejercicio.repeticiones==null || this.ejercicio.repeticiones==undefined){
+    if(this.ejercicio.tipoEjercicio === "De tiempo"){
     this.esEjercicioDeTiempo=true;
     }
   this.indiceActual = datos.indiceActual;
@@ -98,7 +98,7 @@ export class InformacionEjercicioComponent {
   traducirDuracionEstimada(valor: number): number {
     switch (valor) {
       case 1:
-        return 5;
+        return 15;
       case 2:
         return 30;
       default:

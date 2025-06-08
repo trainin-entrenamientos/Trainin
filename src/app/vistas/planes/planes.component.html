@@ -37,6 +37,8 @@
                   </button>
                   
                 </div>
+                
+
               </div>
               <div
                 class="d-flex align-items-center justify-content-between gap-5 contenedor-info-plan"
@@ -56,6 +58,9 @@
                         [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
                       ></div>
                     </div>
+                  </div>
+                  <div>
+                    <app-boton-trainin type="button" class="btn-trainin"  (click)="irAlDetalleDelPlan(plan.id)" >Detalle Plan</app-boton-trainin>
                   </div>
                 </div>
                 <div
@@ -174,7 +179,7 @@
                   <h3 id="nombre-plan">
                     {{ plan.tipoEntrenamiento }}
                   </h3>
-                  <h4 (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#F24130' }" class="realizado">
+                  <h4 (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#FFFFFF' }" class="realizado">
                     {{ plan.estadoRutinaDelDia }}
                   </h4>
                 </div>
@@ -198,7 +203,11 @@
                       ></div>
                     </div>
                   </div>
+                  <div>
+                    <app-boton-trainin type="button" class="btn-trainin"  (click)="irAlDetalleDelPlan(plan.id)" >Detalle Plan</app-boton-trainin>
+                  </div>
                 </div>
+                
                 <div
                   class="d-flex flex-column align-items-center justify-content-center gap-5 contenedor-tacho-borrar"
                 ><i
@@ -238,7 +247,7 @@
           </a>
         </div>
   
-        <app-carrusel-vertical></app-carrusel-vertical>
+        <app-carrusel-vertical [nuevoItem]="{ tipo: 'texto', contenido: 'Calorias Quemadas Totales: ' + usuario?.caloriasTotales }"></app-carrusel-vertical>
       </article>
 
       <article

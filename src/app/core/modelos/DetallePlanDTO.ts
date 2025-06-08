@@ -1,8 +1,7 @@
-
 export interface GrupoMuscular {
   id: number;
   nombre: string;
-  imagen: string;
+  imagen: string | null;
 }
 
 export interface Ejercicio {
@@ -12,26 +11,30 @@ export interface Ejercicio {
   series: number | null;
   duracion: number | null;
   imagen: string;
-  video: string;
-  descripcion: string;
-  tieneCorrecion: boolean;
-  categoria:Categoria[];
+  video: string | null;
+  descripcion: string | null;
   grupoMuscular: GrupoMuscular[];
-  correccionPremium: boolean;
-  tipoEjercicio: string;
 }
 
 export interface Rutina {
   id: number;
   numeroRutina: number;
   duracionEstimada: number;
-  nombre: string;
+  idPlan: number;
   ejercicios: Ejercicio[];
-  categoriaEjercicio: string;
-  rutinasRealizadas: number;
-  caloriasQuemadas: number;
+  estadoRutina: number;
 }
 
-export interface Categoria{
-  nombre:string;
+export interface SemanaRutina {
+  numeroSemana: number;
+  rutinas: Rutina[];
+}
+
+export interface PlanCompleto {
+  id: number;
+  nombrePlan: string;
+  tiempoEstimadoPlanMinutos: number;
+  semanasPlan: number;
+  diasPorSemanaPlan: number;
+  semanaRutinas: SemanaRutina[];
 }
