@@ -70,7 +70,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   ) { }
 
   ngOnInit() {
-    // 1) Leo el parámetro “ejercicio” de la URL (por ejemplo "press_militar")
     const clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio;
     this.ejercicio = clave;
     this.manejador = this.fabrica.obtenerManejador(this.ejercicio);
@@ -179,7 +178,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.camaraActiva = false;
   }
 
-  /** Play -> 5s countdown -> corrección */
   iniciar() {
     this.contador = 5;
     this.mostrarBotonIniciar = true;
@@ -217,7 +215,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.idFrameAnimacion = requestAnimationFrame(() => this.bucleDeteccion());
   }
 
-  private dibujarLandmarks(lm: poseDetection.Keypoint[]) {
+  public dibujarLandmarks(lm: poseDetection.Keypoint[]) {
     const ctx = this.canvasRef.nativeElement.getContext('2d')!;
     const v = this.videoRef.nativeElement;
     ctx.clearRect(0, 0, v.clientWidth, v.clientHeight);
@@ -231,7 +229,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     });
   }
 
-  private procesarResultado(r: ResultadoCorreccion) {
+  public procesarResultado(r: ResultadoCorreccion) {
     if (r.mensaje) {
       this.retroalimentacion = r.mensaje;
       this.colorRetroalimentacion = r.color;
@@ -321,7 +319,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.router.navigate(['/informacion-ejercicio']);
   }
 
-  private updateCirculos() {
+  public updateCirculos() {
     const selectors = [
       '.repeticiones-pc .circulo',
       '.repeticiones-mobile .circulo'
