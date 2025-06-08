@@ -10,6 +10,7 @@ import { SentadillaBulgaraHandler } from '../../../vistas/correccion-postura/man
 import { FondosTricepsHandler } from '../../../vistas/correccion-postura/manejadores/fondos-triceps.handler';
 import { SentadillaLateralHandler } from '../../../vistas/correccion-postura/manejadores/sentadilla-lateral.handler';
 import { AbduccionCaderaHandler } from '../../../vistas/correccion-postura/manejadores/abduccion-cadera.handler';
+import { SaltosTijeraHandler } from '../../../vistas/correccion-postura/manejadores/saltos-tijera.handler';
 
 @Injectable({ providedIn: 'root' })
 export class FabricaManejadoresService {
@@ -34,7 +35,7 @@ export class FabricaManejadoresService {
       case NombreEjercicio.ABDUCCION_CADERA:
         return new AbduccionCaderaHandler();  
       case NombreEjercicio.SALTOS_TIJERA:
-        return new AbduccionCaderaHandler();  
+        return new SaltosTijeraHandler();  
       default:
         throw new Error(`No existe manejador para ${ej}`);
     }

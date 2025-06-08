@@ -31,13 +31,13 @@ export class EjercicioService {
   obtenerEjercicioPorId(id: number): Observable<EjercicioIncorporadoDTO> {
     return this.http.get<EjercicioIncorporadoDTO>(`${this.baseUrl}/${id}`);
   }
-
+/*
     listarCategoriasEjercicio(): Observable<CategoriaEjercicio[]> {
     return this.http.get<CategoriaEjercicio[]>(`${this.apiUrl}/categorias`);
   }
 
    listarGruposMusculares(): Observable<GrupoMuscular[]> {
     return this.http.get<GrupoMuscular[]>(`${this.apiUrl}/grupos-musculares`);
-  }
+  }*/
 
 }
