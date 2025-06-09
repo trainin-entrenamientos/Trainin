@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreo/verificacion-correo.service';
+import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreoServicio/verificacion-correo.service';
 
 @Component({
   selector: 'app-verificar-email',

@@ -8,7 +8,7 @@ import { InformacionEjercicioComponent } from './informacion-ejercicio.component
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { waitForAsync } from '@angular/core/testing';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';

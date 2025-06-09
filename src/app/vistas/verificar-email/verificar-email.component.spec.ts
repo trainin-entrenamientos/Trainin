@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VerificarEmailComponent } from './verificar-email.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreo/verificacion-correo.service';
+import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreoServicio/verificacion-correo.service';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 

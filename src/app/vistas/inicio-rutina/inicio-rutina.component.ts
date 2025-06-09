@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 

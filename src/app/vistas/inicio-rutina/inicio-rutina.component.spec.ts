@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InicioRutinaComponent } from './inicio-rutina.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 

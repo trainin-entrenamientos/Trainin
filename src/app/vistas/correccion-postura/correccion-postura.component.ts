@@ -5,13 +5,13 @@ import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 
 import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
-import { FabricaManejadoresService } from '../../core/servicios/correccion-postura/fabrica-manejadores.service';
+import { FabricaManejadoresService } from '../../core/servicios/correccionPosturaServicio/fabrica-manejadores.service';
 import { ManejadorCorreccion } from '../../compartido/interfaces/manejador-correccion.interface';
 import { ResultadoCorreccion } from '../../compartido/interfaces/resultado-correccion.interface';
 import { formatearNombreEjercicio, stripHtml } from '../../compartido/utilidades/correccion-postura.utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalReintentoCorreccionComponent } from '../../compartido/componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
-import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
+import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 
 @Component({
   standalone: false,

@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import { RealizarEjercicioComponent } from './realizar-ejercicio.component';
 import { Router } from '@angular/router';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TemporizadorComponent } from '../../compartido/componentes/temporizador/temporizador.component';
