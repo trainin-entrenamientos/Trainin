@@ -33,7 +33,7 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
     CarruselVerticalComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
-    ModalSalirDeRutinaComponent,
+    ModalSalirDeRutinaComponent,,
   ],
   imports: [
     CommonModule,

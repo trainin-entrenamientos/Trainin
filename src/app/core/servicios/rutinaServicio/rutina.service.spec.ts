@@ -3,6 +3,7 @@ import { RutinaService } from './rutina.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Rutina, Ejercicio } from '../../modelos/RutinaDTO';
 import { environment } from '../../../../environments/environment';
+import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
 
 describe('RutinaService', () => {
   let service: RutinaService;
@@ -25,8 +26,7 @@ describe('RutinaService', () => {
         tieneCorrecion: true,
         grupoMuscular: [],
         categoria: [{ nombre: 'Fuerza' }],
-        tipoEjercicio: ""
-      },
+        tipoEjercicio: '1' },
      {
         id: 2,
         nombre: 'Ejercicio 2',
@@ -40,8 +40,7 @@ describe('RutinaService', () => {
         tieneCorrecion: false,
         grupoMuscular: [],
         categoria: [{ nombre: 'Resistencia' }],
-        tipoEjercicio: ""
-      }
+        tipoEjercicio: '1' }
     ],
     numeroRutina: 0,
     duracionEstimada: 0,
@@ -160,6 +159,38 @@ describe('RutinaService', () => {
     expect(datos.duracionDelEjercicio).toBe('30 segundos');
     expect(datos.repeticionesDelEjercicio).toBe('10 repeticiones');
     expect(datos.correccionPremium).toBeTrue();
+  });
+
+  it('Debería cargar la rutina al cargar la sesión', () => {
+    sessionStorage.setItem('rutina', JSON.stringify(mockRutina));
+    sessionStorage.setItem('indiceActual', '1');
+
+    service.cargarDesdeSession();
+
+    expect(service.getRutina()).toEqual(mockRutina);
+    expect(service.getIndiceActual()).toBe(1);
+  });
+
+  it('Debería limpiar la rutina y eliminar el sessionStorage', () => {
+    service.setRutina(mockRutina);
+    service.setIndiceActual(2);
+
+    service.limpiarRutina();
+
+    expect(service.getRutina()).toBeNull();
+    expect(service.getIndiceActual()).toBe(0);
+    expect(sessionStorage.getItem('rutina')).toBeNull();
+    expect(sessionStorage.getItem('indiceActual')).toBeNull();
+  });
+
+  it('Debería buscar el nombre de un ejercicio y devolver su valor correspondiente', () => {
+    expect(service.buscarNombreEjercicio('Press militar'))
+      .toBe(NombreEjercicio.PRESS_MILITAR);
+  });
+
+  it('Debería devolver null al buscar el nombre de un ejercicio no mapeado', () => {
+    expect(service.buscarNombreEjercicio('Ejercicio desconocido'))
+      .toBeNull();
   });
 
 });

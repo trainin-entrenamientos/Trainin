@@ -6,10 +6,8 @@ import { PoliticasPrivacidadComponent } from './politicas-privacidad/politicas-p
 import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-frecuentes.component';
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
-import { InicioAdminComponent } from './inicio-admin/inicio-admin.component';
-import { CrearEjercicioComponent } from './crear-ejercicio/crear-ejercicio.component';
-import { EditarEjercicioComponent } from './editar-ejercicio/editar-ejercicio.component';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { AdministradorRoutingModule } from '../compartido/utilidades/administrador-module/administrador-routing.module';
 
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
@@ -39,9 +37,6 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     PreguntasFrecuentesComponent,
     TerminosCondicionesComponent,
     CrearPlanEntrenamientoComponent,
-    InicioAdminComponent,
-    CrearEjercicioComponent,
-    EditarEjercicioComponent,
     InicioRutinaComponent,
     FinalizacionRutinaComponent,
     RegistroComponent,
@@ -54,8 +49,9 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     CorreccionPosturaComponent,
     CalibracionCamaraComponent,
     VerificarEmailComponent,
-    LogrosComponent,
     PerfilComponent,
+    LogrosComponent,
+    PerfilComponent 
     PagoExitosoComponent,
   ],
 
@@ -66,7 +62,8 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     ReactiveFormsModule,
     CompartidoModule,
     NgbTooltipModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AdministradorRoutingModule        
   ],
   exports: [
     PlanesComponent,
