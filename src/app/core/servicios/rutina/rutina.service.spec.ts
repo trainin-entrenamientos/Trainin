@@ -12,7 +12,7 @@ describe('RutinaService', () => {
     id: 1,
     nombre: 'Rutina Test',
     ejercicios: [
-      {
+       {
         id: 1,
         nombre: 'Ejercicio 1',
         duracion: 30,
@@ -27,7 +27,7 @@ describe('RutinaService', () => {
         categoria: [{ nombre: 'Fuerza' }],
         tipoEjercicio: 'De tiempo'
       },
-      {
+     {
         id: 2,
         nombre: 'Ejercicio 2',
         duracion: 20,
