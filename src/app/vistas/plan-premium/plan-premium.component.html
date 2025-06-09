@@ -69,13 +69,18 @@
     </div>
 
     <div>
-      <div>
-        <app-boton-trainin [ruta]="rutaSuscripcion" clase="btn btn-trainin premium-btn"
+      <div *ngIf="!estaLogueado()">
+        <app-boton-trainin routerLink="/iniciar-sesion" clase="btn btn-trainin premium-btn"
           tipo="button">Suscribite</app-boton-trainin>
       </div>
-
-      <div *ngIf="">
-        <app-boton-trainin [ruta]="rutaSuscripcion" clase="btn btn-trainin premium-btn"
+ 
+      <div *ngIf="estaLogueado() && !usuario.esPremium">
+        <app-boton-trainin (click)="pagarPremium()" clase="btn btn-trainin premium-btn"
+          tipo="button">Suscribite</app-boton-trainin>
+      </div>
+ 
+      <div *ngIf="estaLogueado() && usuario.esPremium">
+        <app-boton-trainin routerLink="/planes" clase="btn btn-trainin premium-btn"
           tipo="button">Suscribite</app-boton-trainin>
       </div>
     </div>
