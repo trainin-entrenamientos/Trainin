@@ -41,6 +41,11 @@
                 "glob": "**/*",
                 "input": "public/sfx",
                 "output": "sfx"
+              },
+              {
+                "glob": "firebase-messaging-sw.js",
+                "input": "src",
+                "output": "/"
               }
             ],
 
