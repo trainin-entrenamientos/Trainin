@@ -8,7 +8,6 @@ import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-corr
 import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
-import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 declare var bootstrap: any;
 
 @Component({
@@ -39,8 +38,7 @@ export class FinalizacionRutinaComponent {
     private router: Router,
     private auth: AuthService,
     private temporizadorService: TemporizadorService,
-    private correccionData: CorreccionDataService,
-    private logroService: LogroService
+    private correccionData: CorreccionDataService
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +59,14 @@ export class FinalizacionRutinaComponent {
 
     this.datosCorreccion = this.correccionData.obtenerTodos();
 
-   
+    if (this.rutina && this.email) {
+      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+        next: () => { },
+        error: (err) => {
+          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
+        }
+      });
+    }
   }
 
   selectEjercicio(index: number) {
@@ -149,18 +154,6 @@ export class FinalizacionRutinaComponent {
       email: this.email!
     };
 
-     if (this.rutina && this.email) {
-      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
-        next: (respuesta) => {
-            if (respuesta.logro) {
-              this.logroService.mostrarLogro(respuesta.logro);
-            }
-         },
-        error: (err) => {
-          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
-        }
-      });
-    }
     this.planService.actualizarNivelExigencia(this.rutina.idPlan, dto).subscribe({
       next: (mensaje) => {
         const modalElement = document.getElementById('feedbackModal');
