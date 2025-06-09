@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-correccion';
-import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
+import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
 declare var bootstrap: any;
@@ -68,7 +68,6 @@ export class FinalizacionRutinaComponent {
       });
     }
   }
-
 
   selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;

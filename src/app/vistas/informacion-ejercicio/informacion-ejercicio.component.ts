@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Rutina } from '../../core/modelos/RutinaDTO';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { Router } from '@angular/router';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
@@ -15,6 +15,7 @@ import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
   styleUrl: './informacion-ejercicio.component.css',
 })
 export class InformacionEjercicioComponent {
+ 
 
   rutina: Rutina | null = null;
   indiceActual: number = 0;
@@ -31,6 +32,7 @@ export class InformacionEjercicioComponent {
   mostrarDescripcion = false;
   esEjercicioDeTiempo: boolean = false;
   clave: string | null = null;
+  usuario: any;
 
   constructor(
     private rutinaService: RutinaService,
@@ -64,6 +66,8 @@ export class InformacionEjercicioComponent {
   this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
 
 }
+
+
   obtenerUsuario() {
     this.usuarioServicio.obtenerUsuarioPorId(this.authServicio.getEmail()).subscribe({
       next: (usuario) => {
@@ -85,7 +89,7 @@ export class InformacionEjercicioComponent {
   const clave = this.rutinaService.buscarNombreEjercicio(this.ejercicio?.nombre);
   if (clave === null) {
     console.warn("Nombre de ejercicio inválido.");
-    return NombreEjercicio.PRESS_MILITAR;
+    return NombreEjercicio.ERROR;
   }else{
   return clave;
   }

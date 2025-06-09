@@ -8,7 +8,7 @@
         <img
           [src]="fotoMostrar"
           alt="Foto de perfil"
-          style="width: 100%; height: 100%; border-radius: 30%"
+          style="width: 125px; height: 125px; border-radius: 30%"
         />
         <label
           for="fileInput"
@@ -60,11 +60,11 @@
  
     <div class="row text-center stats-row mb-4" *ngIf="perfil">
       <div class="col-4">
-        <h2>{{ perfil.peso }}<small class="text-muted-white">kg.</small></h2>
+        <h2>{{ perfil.peso }}<small class="text-muted-white"> kg.</small></h2>
         <p>Peso</p>
       </div>
       <div class="col-4">
-        <h2>{{ perfil.altura }}<small class="text-muted-white">cm.</small></h2>
+        <h2>{{ perfil.altura }}<small class="text-muted-white"> cm.</small></h2>
         <p>Altura</p>
       </div>
       <div class="col-4">
@@ -78,7 +78,7 @@
         <div class="card metric text-center h-100">
           <div class="card-body">
             <i class="fas fa-fire fa-2x text-warning mb-2"></i>
-            <p class="display-4 mb-0">{{perfil?.caloriasTotales}}<span class="small">cal</span></p>
+            <p class="display-4 mb-0">{{perfil?.caloriasTotales}}<span class="small"> cal.</span></p>
             <p class="card-text">Quemadas</p>
           </div>
         </div>
@@ -108,7 +108,6 @@
           <div class="card achievements h-100">
             <div class="card-header">Mis logros</div>
             <ul class="list-group list-group-flush">
-              <!-- Sin logros -->
               <li
                 *ngIf="logros.length === 0"
                 class="list-group-item text-white"
@@ -117,7 +116,6 @@
                 No tienes ningún logro desbloqueado
               </li>
  
-              <!-- Lista de logros -->
               <li
                 *ngFor="let logro of logros"
                 class="list-group-item d-flex justify-content-between align-items-start"

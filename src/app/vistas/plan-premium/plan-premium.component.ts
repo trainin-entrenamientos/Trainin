@@ -62,13 +62,17 @@ export class PlanPremiumComponent implements AfterViewInit {
     return this.authService.estaAutenticado();
   }
  
+  redirigir(url: string) {
+  window.location.assign(url);
+}
+
   pagarPremium() {
     this.mercadoPagoServicio
       .pagarSuscripcionPremium(this.usuario.idUsuario, 1)
       .subscribe({
         next: (response: any) => {
           if (response && response.url) {
-            window.location.href = response.url;
+        this.redirigir(response.url); 
           } else {
             console.error(
               'Error al obtener el punto de inicio de pago:',

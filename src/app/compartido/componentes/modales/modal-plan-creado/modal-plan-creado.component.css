@@ -59,11 +59,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
+  background-color: rgba(0, 0, 0, 0.6); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1050; /* Más alto que la mayoría de los elementos */
+  z-index: 1050; 
 }
 
 

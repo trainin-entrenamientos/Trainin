@@ -63,7 +63,6 @@ accionesDePausa(estaPausado: boolean) {
   }, 1000);
 }
 
-
   reiniciarTiempo() {
     this.pausar();
     this.segundosTranscurridos = 0;
