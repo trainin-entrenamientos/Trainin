@@ -13,13 +13,12 @@ describe('RegistroComponent', () => {
   let fixture: ComponentFixture<RegistroComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let toastrSpy: jasmine.SpyObj<ToastrService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let router: Router;
 
   beforeEach(async () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['registrarUsuario']);
     toastrSpy = jasmine.createSpyObj('ToastrService', ['success', 'error']);
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
+    
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -28,7 +27,7 @@ describe('RegistroComponent', () => {
       declarations: [RegistroComponent],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: ToastrService, useValue: toastrSpy },
+        { provide: ToastrService, useValue: toastrSpy},
         
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -36,6 +35,10 @@ describe('RegistroComponent', () => {
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+
     fixture.detectChanges();
   });
 
@@ -123,10 +126,11 @@ describe('RegistroComponent', () => {
     expect(errores?.['edadMinima']).toBeTrue();
   });
   
- /* it('debería registrar usuario exitosamente', () => {
+  it('debería registrar usuario exitosamente', fakeAsync(() => {
+      
       const datosValidos = {
       nombre: 'Juan',
-      apellido: 'Pérez',
+      apellido: 'Perez',
       email: 'juan@example.com',
       contrasenia: 'Test@123',
       repetirContrasenia: 'Test@123',
@@ -134,18 +138,21 @@ describe('RegistroComponent', () => {
       aceptarTerminos: true
       };
         
-      const mockResponse = { mensaje: 'Usuario registrado exitosamente' };
-      component.registroForm.setValue(datosValidos);
-        authServiceSpy.registrarUsuario.and.returnValue(of(mockResponse));
-        component.onSubmit();
-        
-        
-        expect(authServiceSpy.registrarUsuario).toHaveBeenCalled();
-        expect(toastrSpy.success).toHaveBeenCalledWith(
-          mockResponse.mensaje,
-          'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.'
-        );
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['/iniciar-sesion']);
-      })
- */ 
+       const mockResponse = { mensaje: 'Usuario registrado exitosamente' };
+  authServiceSpy.registrarUsuario.and.returnValue(of(mockResponse));
+  component.registroForm.setValue(datosValidos);
+  console.log(component.registroForm.valid); // Debería mostrar true
+  console.log(component.registroForm.value);
+
+  component.onSubmit();
+
+  tick();
+  expect(authServiceSpy.registrarUsuario).toHaveBeenCalled();
+  expect(toastrSpy.success).toHaveBeenCalledWith(
+    mockResponse.mensaje,
+    'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.'
+  );
+  expect(router.navigate).toHaveBeenCalledWith(['/iniciar-sesion']);
+      }));
+  
 });
