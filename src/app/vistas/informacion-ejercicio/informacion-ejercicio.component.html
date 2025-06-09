@@ -68,12 +68,10 @@
         <img [src]="ejercicio?.imagen" alt="Ejercicio" />
       </div>
 
-      <!-- Botón Info -->
       <button class="btn-info" *ngIf="!mostrarDescripcion" (click)="mostrarDescripcion = true">
         <i class="fas fa-info-circle"></i>
       </button>
 
-      <!-- Panel Descripción dentro del mismo borde -->
       <div class="descripcion-ejercicio" [class.visible]="mostrarDescripcion">
         <button class="btn-volver" (click)="mostrarDescripcion = false">
           <i class="fas fa-arrow-left"></i>

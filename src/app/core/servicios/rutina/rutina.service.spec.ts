@@ -127,7 +127,7 @@ describe('RutinaService', () => {
     
     expect(service.getIndiceActual()).toBe(1);
     service.avanzarAlSiguienteEjercicio();
-    expect(service.getIndiceActual()).toBe(2); // out of bounds, but allowed
+    expect(service.getIndiceActual()).toBe(2); 
   });
 
   it('Deberia obtener ejercicio actual', () => {

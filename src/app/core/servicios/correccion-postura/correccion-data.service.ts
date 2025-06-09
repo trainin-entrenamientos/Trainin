@@ -28,11 +28,6 @@ export class CorreccionDataService {
     }
   }
 
-  /**
-   * Registra un nuevo resultado para un ejercicio.
-   * Si ya existían datos, compara el porcentaje y actualiza el máximo y los reintentos.
-   * Además persiste el Map completo en sessionStorage.
-   */
   registrarResultado(
     nombreEjercicio: string,
     porcentajeObtenido: number,
@@ -57,33 +52,19 @@ export class CorreccionDataService {
     this.actualizarStorage();
   }
 
-  /**
-   * Devuelve un array con los datos de todos los ejercicios corregidos.
-   */
   obtenerTodos(): DatosEjercicio[] {
     return Array.from(this.datosMap.values());
   }
 
-  /**
-   * Opción extra: para borrar datos (p. ej. al reiniciar la rutina).
-   * Además borra la clave del sessionStorage.
-   */
   limpiarDatos() {
     this.datosMap.clear();
     sessionStorage.removeItem(STORAGE_KEY);
   }
 
-  /**
-   * Devuelve los datos de un solo ejercicio por su nombre.
-   */
   obtenerPorEjercicio(nombreEjercicio: string): DatosEjercicio | undefined {
     return this.datosMap.get(nombreEjercicio);
   }
 
-
-  /**
-   * Toma el contenido actual del Map y lo guarda como JSON en sessionStorage
-   */
   private actualizarStorage() {
     const lista: DatosEjercicio[] = Array.from(this.datosMap.values());
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(lista));

@@ -13,7 +13,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
   private total = 0;
   private resultados: boolean[] = [];
 
-  // Umbrales dinámicos
   private static readonly UMBRALES = {
     legOpenFactor: 1.5,
     legCloseFactor: 1.2, 
@@ -202,7 +201,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
     const lw = lm.find(p => p.name === 'left_wrist')!;
     const rw = lm.find(p => p.name === 'right_wrist')!;
 
-    // Calculo radio piernas: distancia tobillos / distancia hombros
     const shoulderDist = Math.abs(ls.x - rs.x);
     const ankleDist    = Math.abs(la.x - ra.x);
     const rawRatio     = ankleDist / (shoulderDist || 1);
@@ -235,7 +233,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
       color   = 'orange';
     }
 
-    // Si ya van 5 repes, muestro resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

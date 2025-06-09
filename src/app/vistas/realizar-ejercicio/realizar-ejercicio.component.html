@@ -3,7 +3,6 @@
 
         <div class="fila-contenido">
 
-          <!-- 🎥 Video -->
           <div class="columna-video">
             <div class="video-cuadrado">
               <iframe
@@ -35,7 +34,6 @@
               </i>
             </div>
 
-            <!-- Nombre del ejercicio -->
             <div class="contenedorTimer">
               <h3 class="titulo-ejercicio">
                 {{ ejercicioActual?.nombre }}
@@ -44,7 +42,6 @@
             @if (esEjercicioDeTiempo){
 
            
-            <!-- Temporizador -->
             <div class="contenedorTimer">
               <h5 class="text-muted-white">Tiempo Restante</h5>
               <div id="countdown" [ngClass]="{ 'countdown-warning': esAdvertencia }">
@@ -52,7 +49,6 @@
               </div>
             </div>
 
-            <!-- Barra de progreso -->
             <div class="progress">
               <div
                 id="progressBar"

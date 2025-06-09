@@ -122,7 +122,6 @@ describe('PlanEntrenamientoService', () => {
   const req = httpMock.expectOne(`${baseUrl}/plan/crearPlan`);
   expect(req.request.method).toBe('POST');
 
-  // Simulamos que el servidor responde con un 400 por plan inválido
   req.flush('Plan sin relacion con usuario valido', {
     status: 400,
     statusText: 'Bad Request'

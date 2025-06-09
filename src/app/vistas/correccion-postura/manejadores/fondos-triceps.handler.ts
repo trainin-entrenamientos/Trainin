@@ -14,7 +14,6 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
     private total = 0;
     private resultados: boolean[] = [];
 
-    // --- Umbrales ---
     private static readonly UMBRALES = {
         down: 160,
         up: 90,
@@ -217,7 +216,6 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
             return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
         }
 
-        // Calculo y suavizo el ángulo de codo
         const raw = calcularAngulo(sh, elb, wri);
         const ang = suavizar(this.buffer, raw, FondosTricepsHandler.BUFFER_SIZE);
 
@@ -228,7 +226,6 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
         if (this.fase === 'down' && ang <= FondosTricepsHandler.UMBRALES.up) {
             this.fase = 'up';
 
-            // chequeo desplazamiento lateral del torso
             const swing = Math.abs(sh.x - hip.x);
             const esError = swing > FondosTricepsHandler.UMBRALES.trunkLimit;
 
@@ -253,7 +250,6 @@ export class FondosTricepsHandler implements ManejadorCorreccion {
             color = 'orange';
         }
 
-        // Si ya se hizo las 5 repeticiones, muestro resumen
         const termino = this.total === 5;
         let resumenHtml: string | undefined;
         if (termino) {

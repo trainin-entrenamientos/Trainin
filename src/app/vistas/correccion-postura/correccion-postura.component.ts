@@ -24,17 +24,14 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   @ViewChild('webcam', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('outputCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  // modelo & cámara
   private detector: poseDetection.PoseDetector | null = null;
   private idFrameAnimacion: number | null = null;
   camaraActiva = false;
   cargandoCamara = true;
 
-  // dinámico
   ejercicio!: NombreEjercicio;
   manejador!: ManejadorCorreccion;
 
-  // UI
   nombreEjercicio = '';
   videoUrl!: SafeResourceUrl;
   corrigiendo = false;
@@ -49,14 +46,11 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   maxReintentos = 3;
   resultados: boolean[] = [];
 
-  // countdown
   contador = 0;
 
-  // constantes
   readonly repeticionesEvaluacion = 5;
   circulos = Array(this.repeticionesEvaluacion);
 
-  // audio
   private contextoAudio!: AudioContext;
   private vozElegida: SpeechSynthesisVoice | null = null;
 
@@ -269,7 +263,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     osc.start(); osc.stop(this.contextoAudio.currentTime + 0.1);
   }
 
-  /** Voz argentina femenina si existe */
   private hablar(texto: string) {
     const u = new SpeechSynthesisUtterance(texto);
     const vozAR = speechSynthesis.getVoices().find(v =>
@@ -290,7 +283,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
 
 
   finalizarPractica() {
-    // 1) Si no aprobó (<60%), bloqueo el botón y muestro mensaje,  
     if (this.ultimoPorcentaje < 60) {
       if (this.reintentos < this.maxReintentos) {
         return;
@@ -308,7 +300,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       return;
     }
 
-    // 2) Si aprobó (>=60%), avanza directo
     this.detenerCamara();
     this.router.navigate(['/realizar-ejercicio']);
   }
