@@ -35,7 +35,7 @@ export class CrearPlanEntrenamientoComponent {
   constructor(
     private fb: FormBuilder,
     private renderer: Renderer2,
-    private el: ElementRef,
+    public el: ElementRef,
     private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
     private router: Router,
