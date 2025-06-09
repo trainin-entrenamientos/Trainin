@@ -12,6 +12,6 @@ export class PagoExitosoComponent {
   constructor(private router: Router) { }
 
   ngOnInit() {
-      this.router.navigate(['/inicio']);
+      this.router.navigate(['/planes']);
   }
 }

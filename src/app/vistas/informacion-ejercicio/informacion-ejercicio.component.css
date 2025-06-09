@@ -33,9 +33,11 @@ main {
 
 .exercise-image img {
   width: 100%;
-  height: auto;
   border-radius: 0.5rem;
-  object-fit: cover;
+  height: 30vh;
+  object-fit: contain;
+  background-color: black;
+  display: block;
 }
 
 .preview-timer small {
