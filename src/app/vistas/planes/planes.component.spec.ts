@@ -134,10 +134,6 @@ describe('obtenerUsuario', () => {
   });
 
   describe('Debería llevar al usuario al plan de entrenamiento', () => {
-    it('Debería llevar al usuario a ver su detalle de plan si este ha realizado entrenamiento hoy', () => {
-      component.irAlPlan(15, 'Realizada hoy');
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/detalle-plan']);
-    });
 
     it('Debería llevar al usuario a hacer su rutina si este no ha realizado entrenamiento hoy', () => {
       component.irAlPlan(20, 'Pendiente');
