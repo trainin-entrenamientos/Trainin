@@ -55,7 +55,7 @@ export class InicioRutinaComponent {
     });
   }
 
- protected traducirMinutos(valor: number): string {
+ public traducirMinutos(valor: number): string {
     const mapa: Record<string, string> = {
       1: '≈15 min.',
       2: '≈30 min.',

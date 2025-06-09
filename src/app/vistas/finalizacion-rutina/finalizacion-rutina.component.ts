@@ -69,7 +69,6 @@ export class FinalizacionRutinaComponent {
     }
   }
 
-
   selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;
   }
