@@ -15,7 +15,6 @@
           </iframe>
         </div>
 
-        <!-- CONTADOR DE REPETICIONES (PC) -->
         <div class="repeticiones-pc">
           <p>Repeticiones Actuales: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
           <div class="contenedor-circulos">
@@ -27,7 +26,6 @@
           </div>
         </div>
 
-        <!-- BOTONES -->
          <div class="botones-acciones">
           <app-boton-trainin type="button" class="btn-trainin" (click)="volver()">Volver a la Rutina</app-boton-trainin>
           <app-boton-trainin type="button" class="btn-trainin" (click)="finalizarPractica()"
@@ -84,7 +82,6 @@
         </div>
         </div>
 
-        <!-- CONTADOR DE REPETICIONES (MOBILE) -->
 
         <div class="right-bottom">
           <div id="feedback" [innerHTML]="retroalimentacion" [style.color]="colorRetroalimentacion">
@@ -97,7 +94,6 @@
 
       </div>
 
-      <!-- VISTA MÓVIL ENCIMA -->
       <div class="info-ejercicio-mobile">
         <h2>Práctica: {{ nombreEjercicio }}</h2>
         <hr />

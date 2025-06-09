@@ -81,7 +81,7 @@ export class PlanesComponent {
 
   irAlPlan(idPlan: number, estado: string): void {
     if (estado === 'Realizada hoy') {
-      this.router.navigate(['/detalle-plan'/*, idPlan*/]);
+      this.router.navigate(['/detalle-plan', idPlan]);
       return;
     }
     this.router.navigate(['/inicio-rutina', idPlan]);

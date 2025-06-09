@@ -5,13 +5,13 @@ import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 
 import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
-import { FabricaManejadoresService } from '../../core/servicios/correccion-postura/fabrica-manejadores.service';
+import { FabricaManejadoresService } from '../../core/servicios/correccionPosturaServicio/fabrica-manejadores.service';
 import { ManejadorCorreccion } from '../../compartido/interfaces/manejador-correccion.interface';
 import { ResultadoCorreccion } from '../../compartido/interfaces/resultado-correccion.interface';
 import { formatearNombreEjercicio, stripHtml } from '../../compartido/utilidades/correccion-postura.utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalReintentoCorreccionComponent } from '../../compartido/componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
-import { CorreccionDataService } from '../../core/servicios/correccion-postura/correccion-data.service';
+import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 
 @Component({
   standalone: false,
@@ -24,17 +24,14 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   @ViewChild('webcam', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('outputCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  // modelo & cámara
   private detector: poseDetection.PoseDetector | null = null;
   private idFrameAnimacion: number | null = null;
   camaraActiva = false;
   cargandoCamara = true;
 
-  // dinámico
   ejercicio!: NombreEjercicio;
   manejador!: ManejadorCorreccion;
 
-  // UI
   nombreEjercicio = '';
   videoUrl!: SafeResourceUrl;
   corrigiendo = false;
@@ -49,14 +46,11 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   maxReintentos = 3;
   resultados: boolean[] = [];
 
-  // countdown
   contador = 0;
 
-  // constantes
   readonly repeticionesEvaluacion = 5;
   circulos = Array(this.repeticionesEvaluacion);
 
-  // audio
   private contextoAudio!: AudioContext;
   private vozElegida: SpeechSynthesisVoice | null = null;
 
@@ -70,7 +64,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
   ) { }
 
   ngOnInit() {
-    // 1) Leo el parámetro “ejercicio” de la URL (por ejemplo "press_militar")
     const clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio;
     this.ejercicio = clave;
     this.manejador = this.fabrica.obtenerManejador(this.ejercicio);
@@ -179,7 +172,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.camaraActiva = false;
   }
 
-  /** Play -> 5s countdown -> corrección */
   iniciar() {
     this.contador = 5;
     this.mostrarBotonIniciar = true;
@@ -217,7 +209,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.idFrameAnimacion = requestAnimationFrame(() => this.bucleDeteccion());
   }
 
-  private dibujarLandmarks(lm: poseDetection.Keypoint[]) {
+  public dibujarLandmarks(lm: poseDetection.Keypoint[]) {
     const ctx = this.canvasRef.nativeElement.getContext('2d')!;
     const v = this.videoRef.nativeElement;
     ctx.clearRect(0, 0, v.clientWidth, v.clientHeight);
@@ -231,7 +223,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     });
   }
 
-  private procesarResultado(r: ResultadoCorreccion) {
+  public procesarResultado(r: ResultadoCorreccion) {
     if (r.mensaje) {
       this.retroalimentacion = r.mensaje;
       this.colorRetroalimentacion = r.color;
@@ -271,7 +263,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     osc.start(); osc.stop(this.contextoAudio.currentTime + 0.1);
   }
 
-  /** Voz argentina femenina si existe */
   private hablar(texto: string) {
     const u = new SpeechSynthesisUtterance(texto);
     const vozAR = speechSynthesis.getVoices().find(v =>
@@ -292,7 +283,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
 
 
   finalizarPractica() {
-    // 1) Si no aprobó (<60%), bloqueo el botón y muestro mensaje,  
     if (this.ultimoPorcentaje < 60) {
       if (this.reintentos < this.maxReintentos) {
         return;
@@ -310,7 +300,6 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
       return;
     }
 
-    // 2) Si aprobó (>=60%), avanza directo
     this.detenerCamara();
     this.router.navigate(['/realizar-ejercicio']);
   }
@@ -321,7 +310,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
     this.router.navigate(['/informacion-ejercicio']);
   }
 
-  private updateCirculos() {
+  public updateCirculos() {
     const selectors = [
       '.repeticiones-pc .circulo',
       '.repeticiones-mobile .circulo'

@@ -53,16 +53,13 @@ html {
   border-radius: 20px;
   padding: 10px;
   min-height: 60vh;
-  /* asegura espacio visible */
 }
 
 .right-top {
   position: relative;
   width: 100%;
   height: 60vh;
-  /* altura visible */
   min-height: 300px;
-  /* para móviles */
   overflow: hidden;
 }
 
@@ -165,8 +162,6 @@ p {
   font-size: 0.7rem;
 }
 }
-
-/* MEDIA QUERIES */
 
 @media screen and (max-width: 1024px) {
  html,

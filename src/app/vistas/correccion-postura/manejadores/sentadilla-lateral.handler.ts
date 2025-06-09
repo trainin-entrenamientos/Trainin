@@ -14,7 +14,6 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
   private total = 0;
   private resultados: boolean[]  = [];
 
-  // Umbrales
   private static readonly UMBRALES = {
     down:        100,
     up:          160,
@@ -68,7 +67,6 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
       return { mensaje:null, color:'', repContada:false, totalReps:this.total, termino:false };
     }
 
-    // Calculo y suavizo el ángulo de rodilla
     const raw = calcularAngulo(hip, kne, ank);
     const ang = suavizar(this.buffer, raw, SentadillaLateralHandler.BUFFER_SIZE);
 
@@ -79,7 +77,6 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
     if (this.fase==='down' && ang < SentadillaLateralHandler.UMBRALES.down) {
       this.fase = 'up';
 
-      // Chequeo desplazamiento lateral del tronco
       const midShoulderX = (sh.x + sh2.x)/2;
       const displacement = Math.abs(midShoulderX - hip.x);
       const esError = displacement > SentadillaLateralHandler.UMBRALES.trunkLimit;
@@ -103,7 +100,6 @@ export class SentadillaLateralHandler implements ManejadorCorreccion {
       color   = 'orange';
     }
 
-    // Genero resumen al completar 5 repeticiones
     const termino = this.total===5;
     let resumenHtml: string|undefined;
     if (termino) {

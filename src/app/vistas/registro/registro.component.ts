@@ -99,7 +99,7 @@ export class RegistroComponent {
 
 
   private formatearFecha(fecha: Date | string): string {
-    return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
+    return new Date(fecha).toISOString(); 
   }
 
   marcarCamposComoTocados(): void {

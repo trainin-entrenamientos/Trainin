@@ -14,7 +14,6 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
     private total = 0;
     private resultados: boolean[] = [];
 
-    // Umbrales para curl de bíceps 
     private static readonly UMBRALES = {
         down: 160,
         up: 45,
@@ -204,15 +203,12 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
                 lm.find(p => p.name === 'left_wrist')!
             );
 
-            // Se calcula cuanto se aleja cada brazo en fase bajada
             const devR = Math.abs(angR - CurlBicepsHandler.UMBRALES.down);
             const devL = Math.abs(angL - CurlBicepsHandler.UMBRALES.down);
 
-            // Si uno de los dos supera el umbral de extensión
             if (angR > CurlBicepsHandler.UMBRALES.down || angL > CurlBicepsHandler.UMBRALES.down) {
                 this.brazo = devR >= devL ? 'right' : 'left';
             } else {
-                // Ninguno extendido aún -> esperamos
                 return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
             }
         }
@@ -234,7 +230,6 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
             this.total++;
             repContada = true;
 
-            // chequeo de balanceo de hombro en px
             const swing = Math.abs(sh.x - hip.x);
             const esError = swing > CurlBicepsHandler.UMBRALES.swingLimit;
 

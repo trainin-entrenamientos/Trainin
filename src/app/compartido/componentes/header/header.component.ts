@@ -35,7 +35,7 @@ export class HeaderComponent {
   }
 obtenerRutaLogo(): string | null {
   if (this.enRutina) {
-    return null;
+    return null; 
   }
 
   return this.estaLogueado() ? '/planes' : '/inicio';

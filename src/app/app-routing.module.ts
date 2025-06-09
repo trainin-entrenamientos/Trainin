@@ -25,7 +25,8 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { authGuard } from './core/guards/auth.guards';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
-import { EjerciciosFormComponent } from './vistas/ejercicios-formulario/ejercicios-formulario.component';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { authGuard } from './core/guardias/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
 
 const routes: Routes = [

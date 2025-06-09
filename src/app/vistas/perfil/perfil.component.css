@@ -157,7 +157,7 @@ html, body, main{
   line-height: 1.2;
 }
 .profile-page { background: #00060C; color: #fff; padding: 2rem 0; }
-.profile-img { max-width: 180px; height: auto; /*border-radius: 1rem; */}
+.profile-img { max-width: 180px; height: auto; }
 
 @media (max-width: 767.98px) {
   .profile-page {

@@ -14,7 +14,6 @@ body {
 }
 
 
-/* Contenedor general */
 .contenedor-general {
   min-height: 78vh;  
   height: 100%;
@@ -27,7 +26,6 @@ body {
   background-color: #00060c;
 }
 
-/* Card principal */
 .session-card {
   background-color: #00060c;
   border-radius: 0.5rem;
@@ -42,7 +40,6 @@ body {
   
 }
 
-/* Contenido en filas */
 .fila-contenido {
   display: flex;
   flex-wrap: wrap;
@@ -52,7 +49,6 @@ body {
   height: 70vh;
 }
 
-/* Columna video */
 .columna-video {
   flex: 1 1 550px;
   display: flex;
@@ -63,7 +59,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 800px;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%; 
   background: #000;
   border-radius: 10px;
   overflow: hidden;
@@ -78,7 +74,6 @@ body {
   border: none;
 }
 
-/* Columna datos */
 .columna-datos {
   flex: 1 1 300px;
   display: flex;
@@ -89,7 +84,6 @@ body {
   align-self: center;
 }
 
-/* Timer y pausa */
 .timerYPausa {
   display: flex;
   justify-content: center;
@@ -111,7 +105,6 @@ body {
   color: #13ff3a;
 }
 
-/* Temporizador */
 .contenedorTimer {
   display: flex;
   flex-direction: column;
@@ -135,7 +128,6 @@ body {
   font-weight: bold;
 }
 
-/* Animación advertencia */
 @keyframes pulse-red {
   0%, 100% { color: #fff; }
   50% { color: #ff4c4c; }
@@ -146,7 +138,6 @@ body {
   text-shadow: 0 0 8px red;
 }
 
-/* Barra de progreso */
 .progress {
   width: 90%;
   height: 8px;
@@ -161,7 +152,6 @@ body {
   transition: width 0.3s ease;
 }
 
-/* Íconos comunes */
 .fa-arrow-left {
   cursor: pointer;
 }
@@ -170,7 +160,6 @@ body {
   color: #13ff3a;
 }
 
-/* Responsive */
 @media (max-width: 1000px) {
   .contenedor-general {
     height: 100vh;
@@ -178,7 +167,7 @@ body {
   }
   .fila-contenido {
     flex-direction: column-reverse;
-    height: auto; /* importante para evitar limitación de altura */
+    height: auto; 
   }
   .session-card {
     padding: 0;
@@ -214,29 +203,18 @@ body {
   .timerYPausa{
     font-size: 15px;
   }
-  /*.contenedor-general{
-    height:80vh;
-  }*/
+ 
 }
 
-/* 🔥 Este bloque tiene que ir FUERA del anterior */
 @media (max-width: 576px) {
 
   .video-cuadrado {
     max-width: 100%;
     padding-top: 56.25%;
   }
-   /* .contenedor-general{
-    height: 70vh;
-  }*/
+ 
 }
 
-@media (max-width: 389px) {
-
-  /*.contenedor-general{
-    height: 100vh;
-  }*/
-}
 
 
 

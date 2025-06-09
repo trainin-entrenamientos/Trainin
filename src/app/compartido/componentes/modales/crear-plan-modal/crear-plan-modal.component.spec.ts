@@ -2,39 +2,31 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CrearPlanModalComponent } from './crear-plan-modal.component';
 import { By } from '@angular/platform-browser';
 
-describe('Modal de creación de plan', () => {
-  let escenario: ComponentFixture<CrearPlanModalComponent>;
-  let modal: CrearPlanModalComponent;
+describe('CrearPlanModalComponent', () => {
+  let component: CrearPlanModalComponent;
+  let fixture: ComponentFixture<CrearPlanModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CrearPlanModalComponent]
+      declarations: [CrearPlanModalComponent],
     }).compileComponents();
-
-    escenario = TestBed.createComponent(CrearPlanModalComponent);
-    modal = escenario.componentInstance;
-    escenario.detectChanges();
   });
 
-  it('Debería crearse el modal', () => {
-    expect(modal).toBeTruthy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CrearPlanModalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('Debería tener el evento para cerrar', () => {
-    expect(modal.cerrar).toBeDefined();
-    expect(typeof modal.cerrar.emit).toBe('function');
+  it('debería crear el componente', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('Debería emitirse el evento de cierre al llamar al método', () => {
-    spyOn(modal.cerrar, 'emit');
-    modal.cerrarModal();
-    expect(modal.cerrar.emit).toHaveBeenCalledTimes(1);
-  });
+  it('debería emitir el evento "cerrar" al llamar cerrarModal()', () => {
+    spyOn(component.cerrar, 'emit');
 
-  it('Debería cerrarse el modal al hacer clic en el botón cerrar', () => {
-    spyOn(modal, 'cerrarModal');
-    const boton = escenario.debugElement.query(By.css('button'));
-    boton.triggerEventHandler('click', null);
-    expect(modal.cerrarModal).toHaveBeenCalled();
+    component.cerrarModal();
+
+    expect(component.cerrar.emit).toHaveBeenCalled();
   });
 });

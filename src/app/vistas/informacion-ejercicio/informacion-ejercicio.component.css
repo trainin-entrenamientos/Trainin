@@ -375,19 +375,19 @@ h4{
     font-size: 1.5rem;
   }
     h4 {
-    font-size: 1.3rem; /* antes: 2rem */
+    font-size: 1.3rem; 
   }
 
   .text-muted-white {
-    font-size: 15px; /* antes: 15px */
+    font-size: 15px; 
   }
 
   .duracion-ejercicio {
-    font-size: 15px; /* antes: 18px */
+    font-size: 15px; 
   }
 
   .preview-timer .display-4 {
-    font-size: 2.5rem; /* antes: 3rem */
+    font-size: 2.5rem; 
   }
    .contenedor-ejercicio {
   margin-bottom: 2rem;

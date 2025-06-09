@@ -204,7 +204,6 @@ p {
   font-size: 0.9rem;
 }
 
-/* RESPONSIVE - TABLET */
 @media screen and (max-width: 1200px) {
   .correccion-postura-container {
     flex-direction: column-reverse;
@@ -292,7 +291,6 @@ p {
   }
 }
 
-/* RESPONSIVE - MOBILE */
 @media screen and (max-width: 768px) {
   .correccion-postura-container {
     max-width: 100%;
@@ -478,7 +476,6 @@ p {
   opacity: 1;
 }
 
-/* ESTILOS - FABIO*/
 .resumen-container {
   text-align: center;
   margin: 1rem 0;
