@@ -7,7 +7,6 @@ import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-f
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { CompartidoModule } from '../compartido/compartido.module';
-import { AdministradorRoutingModule } from '../compartido/utilidades/administrador-module/administrador-routing.module';
 
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
@@ -51,7 +50,7 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     VerificarEmailComponent,
     PerfilComponent,
     LogrosComponent,
-    PerfilComponent 
+    PerfilComponent,
     PagoExitosoComponent,
   ],
 
@@ -63,7 +62,6 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     CompartidoModule,
     NgbTooltipModule,
     BrowserAnimationsModule,
-    AdministradorRoutingModule        
   ],
   exports: [
     PlanesComponent,
