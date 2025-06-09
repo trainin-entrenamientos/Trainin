@@ -9,4 +9,6 @@ export enum NombreEjercicio {
     SENTADILLA_LATERAL = 'sentadilla_lateral',
     ABDUCCION_CADERA = 'abduccion_cadera',
     SALTOS_TIJERA = 'saltos_tijera',
+    PLANCHA = "PLANCHA",
+    ERROR="ERROR"
 }

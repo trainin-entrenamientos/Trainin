@@ -12,7 +12,7 @@ describe('RutinaService', () => {
     id: 1,
     nombre: 'Rutina Test',
     ejercicios: [
-      {
+       {
         id: 1,
         nombre: 'Ejercicio 1',
         duracion: 30,
@@ -24,9 +24,10 @@ describe('RutinaService', () => {
         descripcion: 'Descripción del ejercicio 1',
         tieneCorrecion: true,
         grupoMuscular: [],
-        categoria: [{ nombre: 'Fuerza' }]
+        categoria: [{ nombre: 'Fuerza' }],
+        tipoEjercicio: '1'
       },
-      {
+     {
         id: 2,
         nombre: 'Ejercicio 2',
         duracion: 20,
@@ -39,6 +40,7 @@ describe('RutinaService', () => {
         tieneCorrecion: false,
         grupoMuscular: [],
         categoria: [{ nombre: 'Resistencia' }],
+        tipoEjercicio: '1'
       }
     ],
     numeroRutina: 0,
