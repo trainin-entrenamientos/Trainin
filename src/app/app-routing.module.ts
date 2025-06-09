@@ -15,17 +15,14 @@ import { CorreccionPosturaComponent } from './vistas/correccion-postura/correcci
 
 import { PlanesComponent } from './vistas/planes/planes.component';
 import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
-import { InicioAdminComponent } from './vistas/inicio-admin/inicio-admin.component';
 import { InicioRutinaComponent } from './vistas/inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './vistas/finalizacion-rutina/finalizacion-rutina.component';
 import { DetallePlanComponent } from './vistas/detalle-plan/detalle-plan.component';
 import { RealizarEjercicioComponent } from './vistas/realizar-ejercicio/realizar-ejercicio.component';
 import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/informacion-ejercicio.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
-import { authGuard } from './core/guards/auth.guards';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
-import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { authGuard } from './core/guardias/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
 
@@ -96,11 +93,6 @@ const routes: Routes = [
         canActivate: [authGuard]
       },
       {
-        path: 'inicio-admin',
-        component: InicioAdminComponent,
-        canActivate: [authGuard]
-      },
-      {
         path: 'inicio-rutina/:PlanId',
         component: InicioRutinaComponent,
         canActivate: [authGuard]
@@ -161,12 +153,7 @@ const routes: Routes = [
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
-      },
-      {
-        path: 'ejercicios-form',
-        component: EjerciciosFormComponent
       }
-
     ]
   },
   {
@@ -174,12 +161,6 @@ const routes: Routes = [
     redirectTo: '/inicio',
     pathMatch: 'full'
   },
-{
-  path: 'admin',
-  loadChildren: () =>
-    import('./compartido/utilidades/administrador-module/administrador.module')
-      .then(m => m.AdministradorModule)
-},
   { path: '**', redirectTo: '' }
 ];
 

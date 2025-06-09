@@ -26,12 +26,7 @@ describe('RutinaService', () => {
         tieneCorrecion: true,
         grupoMuscular: [],
         categoria: [{ nombre: 'Fuerza' }],
-<<<<<<< HEAD:src/app/core/servicios/rutina/rutina.service.spec.ts
-        tipoEjercicio: '1'
-=======
-        tipoEjercicio: ""
->>>>>>> cf0b494c60214363504ba30210469eb6b698dbdf:src/app/core/servicios/rutinaServicio/rutina.service.spec.ts
-      },
+        tipoEjercicio: '1' },
      {
         id: 2,
         nombre: 'Ejercicio 2',
@@ -45,12 +40,7 @@ describe('RutinaService', () => {
         tieneCorrecion: false,
         grupoMuscular: [],
         categoria: [{ nombre: 'Resistencia' }],
-<<<<<<< HEAD:src/app/core/servicios/rutina/rutina.service.spec.ts
-        tipoEjercicio: '1'
-=======
-        tipoEjercicio: ""
->>>>>>> cf0b494c60214363504ba30210469eb6b698dbdf:src/app/core/servicios/rutinaServicio/rutina.service.spec.ts
-      }
+        tipoEjercicio: '1' }
     ],
     numeroRutina: 0,
     duracionEstimada: 0,
