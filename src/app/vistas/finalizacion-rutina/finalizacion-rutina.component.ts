@@ -152,7 +152,7 @@ siguienteEjercicio() {
       nivelExigencia: this.nivel,
       email: this.email!
     };
-
+      
      if (this.rutina && this.email) {
       this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
         next: (respuesta) => {
