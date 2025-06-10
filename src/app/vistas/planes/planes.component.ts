@@ -54,6 +54,7 @@ export class PlanesComponent {
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
+         this.cargando = false;
         console.error('No existen planes de entrenamiento', err);
       }
     });

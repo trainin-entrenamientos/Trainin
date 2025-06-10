@@ -207,6 +207,10 @@ p {
   border-radius: 5px;
   overflow: hidden;
 }
+h4{
+  text-align: center;
+  font-size: 1rem;
+}
 
 .barra-progreso .relleno {
   background-color: #13ff3a;
@@ -229,6 +233,7 @@ p {
 .realizado:hover{
   background-color: #00060c;
   color:White;
+  border: #13ff3a 1px solid;
 }
 
 @media screen and (max-width: 1195px) {
