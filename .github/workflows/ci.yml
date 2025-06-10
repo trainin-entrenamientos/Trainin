@@ -2,8 +2,9 @@ name: CI Angular
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   build-and-test:
@@ -22,3 +23,22 @@ jobs:
 
       - name: Run unit tests
         run: npm test -- --watch=false --browsers=ChromeHeadless
+
+  deploy-to-vercel:
+    needs: build-and-test
+    if: >
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.build-and-test.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code again
+        uses: actions/checkout@v3
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token:      ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id:     ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args:       '--prod'

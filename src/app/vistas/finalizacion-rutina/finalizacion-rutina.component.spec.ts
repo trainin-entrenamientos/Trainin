@@ -60,7 +60,7 @@ describe('FinalizacionRutinaComponent', () => {
   });
 
   it('debería inicializar la rutina y cargar datos en ngOnInit', () => {
-    //dadoQueSeInicializaElComponente();
+    dadoQueSeInicializaElComponente();
 
     entoncesSeDebeCargarRutinaYDatos();
   });
