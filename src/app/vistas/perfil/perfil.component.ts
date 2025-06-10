@@ -18,6 +18,7 @@ export class PerfilComponent implements OnInit {
   perfil: PerfilDTO | null = null;
   logros: Logro[] = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
+  cargando: boolean=true;
 
   constructor(private perfilService: PerfilService,
     private authService: AuthService, 
@@ -25,7 +26,6 @@ export class PerfilComponent implements OnInit {
     private logroService: LogroService) { }
 
   ngOnInit() {
-
     this.email = this.authService.getEmail();
 
     if (!this.email) {
@@ -49,6 +49,7 @@ export class PerfilComponent implements OnInit {
     this.logros = (data.logros || [])
       .sort((a: any, b: any) => new Date(b.fecha_obtencion).getTime() - new Date(a.fecha_obtencion).getTime())
       .slice(0, 3);
+      this.cargando=false;
   },
   error: (err) => {
     console.error('Error al obtener logros', err);

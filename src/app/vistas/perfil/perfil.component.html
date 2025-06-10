@@ -1,5 +1,9 @@
-<main>
-  <div class="container-fluid my-0 profile-page">
+  <app-loader *ngIf="cargando"></app-loader>
+
+
+<body>
+<main >
+  <div *ngIf="!cargando" class="container-fluid my-0 profile-page">
     <div
       class="row justify-content-center align-items-center mb-4"
       id="datosUsuario"
@@ -198,3 +202,4 @@
     </div>
   </div>
 </main>
+</body>

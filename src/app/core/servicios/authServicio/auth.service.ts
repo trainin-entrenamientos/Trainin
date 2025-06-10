@@ -9,7 +9,6 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:5010/api/Usuario';
   private readonly TOKEN_KEY = 'token';
   private CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
   private usuarioSubject = new BehaviorSubject<string | null>(null);
