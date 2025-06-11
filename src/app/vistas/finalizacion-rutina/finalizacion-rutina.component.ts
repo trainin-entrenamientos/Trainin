@@ -60,7 +60,7 @@ export class FinalizacionRutinaComponent {
     this.datosCorreccion = this.correccionData.obtenerTodos();
 
     if (this.rutina && this.email) {
-      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+      this.rutinaService.fueRealizada(this.rutina.id, this.email, segundosTotales).subscribe({
         next: () => { },
         error: (err) => {
           console.error('Error al marcar la rutina como realizada en ngOnInit:', err);

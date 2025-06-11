@@ -9,9 +9,11 @@ export class PerfilDTO {
   fechaCreacion: Date;
   fotoDePerfil?: string;
   caloriasTotales?: number;
+  entrenamientosHechos?: number;
+  tiempoTotalEntrenado?: number;
 
   constructor(id: number, nombre: string, apellido: string, email: string, peso: number, altura: number, edad: number,
-    fechaCreacion: Date, fotoDePerfil: string, caloriasTotales: number){
+    fechaCreacion: Date, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number){
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
@@ -22,5 +24,7 @@ export class PerfilDTO {
     this.fechaCreacion = fechaCreacion;
     this.fotoDePerfil = fotoDePerfil;
     this.caloriasTotales = caloriasTotales;
+    this.entrenamientosHechos = entrenamientosHechos;
+    this.tiempoTotalEntrenado = tiempoTotalEntrenado;
   }
 }
