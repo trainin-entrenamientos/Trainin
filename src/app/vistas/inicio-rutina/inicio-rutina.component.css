@@ -1,244 +1,347 @@
-body {
-  background-color: #00060C;
-  font-family: 'Merriweather Sans', sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  min-height: 80.2vh;
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body,
-html {
-  font-family: "Merriweather Sans", sans-serif;
-  background-color: #00060c;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.fa-arrow-left{
-cursor:pointer;
-}
-
-.fa-arrow-left:hover{
-  color:#13ff3a;
-}
-
-.rutina-card {
-  background-color: #00060c;
-  width: 100%;
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: white;
-  margin: 0 auto;
-  align-items: center;
-
-}
-
-.cerrar-rutina {
-  position: absolute;
-  top: 1.4rem;
-  right: 1rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.cerrar-rutina:hover {
-  color: #13ff3a;
-}
-
-.contenedor-carrusel{
-  width: 100%;
-  max-width: 800px;
-  position: relative;
-}
-
-
-.cards {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  margin-bottom: 10px;
-  height: auto; 
-  min-height: 625px;
-}
-
-.card {
-  position: absolute;
-  width: 85%;
-  border-radius: 10px;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  cursor: pointer;
-  opacity: 0.4;
-  z-index: 0;
-  background-color: #0B1A1E ;
-  color:white;
-  box-sizing: border-box;
-  min-height: 600px;
-}
-
-.card img {
-  width: 100%;
-  height: 40vh; 
-  object-fit: contain;
-  background-color: black; 
-  display: block;
-}
-
-
-
-.card.centro {
-  transform: translateX(0) scale(1);
-  opacity: 1;
-  z-index: 2;
-  border: #13FF3A 2px solid;
-}
-
-.card.izquierda {
-  transform: translateX(-40%) scale(0.8);
-}
-
-.card.derecha {
-  transform: translateX(40%) scale(0.8);
-}
-
-.nombre-ejercicio{
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-.grupo-muscular{
-  text-align: center;
-  font-style: italic;
-  padding-bottom: 15px;
-}
-.titulo-grupo-muscular{
-  font-size: 1rem;
-
-}
-.duracion-rutina-texto{
-  margin-bottom: 15px;
-}
-.boton-iniciar{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.flecha-izquierda,
-.flecha-derecha {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-  z-index: 10;
-  padding: 10px;
-  border-radius: 50%;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.flecha-izquierda {
-  left: -30px;
-}
-
-.flecha-derecha {
-  right: -30px;
-}
-
-.flecha-izquierda:hover,
-.flecha-derecha:hover {
-  color: #13ff3a;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-
-@media (max-width: 1308px) {
- .contenedor-carrusel {
-  align-self: center;
-  margin-bottom: 40px;
-  height: 80%;
-  width: 500px;
-}
-.card {
-  min-height: 300px;
-}
-.cards {
- min-height: 450px;
-}
-}
-
-@media (max-width: 790px) {
-  main{
+  body {
+    background-color: #00060C;
+    font-family: 'Merriweather Sans', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    min-height: 85vh;
+  }
+  * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+  }
+
+  body,
+  html {
+    font-family: "Merriweather Sans", sans-serif;
+    background-color: #00060c;
+    font-style: normal;
+    font-weight: 400;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fa-arrow-left{
+  cursor:pointer;
+  }
+
+  .fa-arrow-left:hover{
+    color:#13ff3a;
+  }
+
+  .rutina-card {
+    background-color: #00060c;
+    width: 100%;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: start;
+    margin-top: 40px;
+  }
+
+  .cerrar-rutina {
+    position: absolute;
+    top: 1.4rem;
+    right: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .cerrar-rutina:hover {
+    color: #13ff3a;
+  }
+
+  .contenedor-carrusel{
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+  }
+
+  .carrusel-con-flechas {
+    position: relative;
+    display: flex;
+  }
+
+  .cards {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 450px;
+  }
+
+  .card {
+    position: absolute;
+    width: 80%;
+    height: 40vh;
+    border-radius: 10px;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    cursor: pointer;
+    opacity: 0.4;
+    z-index: 0;
+    background-color: #0B1A1E;
+    color: white;
+    margin: 1rem;
+  }
+
+  .card img {
+    width: 100%;
+    height: 30vh; 
+    object-fit: contain;
+    background-color: black; 
+    display: block;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+  }
+
+
+  .card.centro {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 2;
+    border: #13FF3A 1px solid;
+  }
+
+  .card.izquierda {
+    transform: translateX(-40%) scale(0.8);
+  }
+
+  .card.derecha {
+    transform: translateX(40%) scale(0.8);
+  }
+
+  .nombre-ejercicio{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .grupo-muscular{
+    text-align: center;
+    font-style: italic;
+    padding-bottom: 15px;
+  }
+  .titulo-grupo-muscular{
+    font-size: 1rem;
+
+  }
+  .duracion-rutina-texto{
+    margin-bottom: 15px;
+  }
+  .boton-iniciar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .flecha-izquierda,
+  .flecha-derecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .flecha-izquierda {
+    left: -30px;
+  }
+
+  .flecha-derecha {
+    right: -30px;
+  }
+
+  .flecha-izquierda:hover,
+  .flecha-derecha:hover {
+    color: #13ff3a;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+
+  @media (max-width: 1308px) {
+   
+    body{
+      min-height: 80vh;
+    }
+  .contenedor-carrusel{
+    max-width: 480px;
+    position: relative;
+  }
+  .card {
+    width: 100%;
+    height: 350px;
+  }
+  .cards {
+  height: 420px;
+  }
+
+  .flecha-derecha{
+  right: -50px;
+  }
+  .flecha-izquierda{
+    left: -50px;
+  }
+  }
+  @media (max-width: 790px) {
+  .flecha-derecha{
+  right: -35px;
+  }
+  .flecha-izquierda{
+    left: -35px;
+  }}
+
+  @media (max-width: 790px) {
+  
+  .text-center{
+    font-size: 1.2rem;
+    
+  }
+  .nombre-ejercicio{
+    font-size: 0.8rem;
+  }
+  .text-center .fs-5 .fst-italic .mb-4{
+    font-size: 0.5rem;
+  }
+
+  .nombre-ejercicio{
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .grupo-muscular{
+    font-size: 0.5rem;
+  }
+  .titulo-grupo-muscular{
+    font-size: 0.7rem;
+  }
+  .flecha-derecha{
+  right: 25px;
+  }
+  .flecha-izquierda{
+    left: 25px;
+  }
+  .card {
+    width: 72%;
+  }
+
+  .btn-trainin {
+    font-size: 10px;
+  }
   }
  
- .contenedor-carrusel {
-  align-self: center;
-  margin-bottom: 40px;
-  height: 60%;
-  width: 400px;
-}
-.text-center{
-  font-size: 1.2rem;
-}
-.text-center .fs-5 .fst-italic .mb-4{
-  font-size: 0.5rem;
-}
-
-.nombre-ejercicio{
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-.grupo-muscular{
-  font-size: 0.5rem;
-}
-.titulo-grupo-muscular{
-  font-size: 0.7rem;
-}
-
-.card {
-  min-height: 175px;
-}
-.cards {
- min-height: 325px;
-}
-.btn-trainin {
-  font-size: 10px;
-}
-}
-
-@media (max-width: 500px) {
-  .boton-iniciar {
-    flex-direction: column-reverse;
-    align-items: center;
+  @media (max-width: 550px) {
+    body{
+      height: 55vh;
+    }
+    .rutina-card{
+      height: 40vh;
+       justify-content: start;
+      margin-top: -90px;
+    }
+.contenedor-carrusel{
+    max-width: 380px;
+    position: relative;
+  }
+  .boton-iniciar{
+    margin-bottom: 40px;
+  }
+ .nombre-ejercicio{
+    font-size: 0.6rem;
+  }
+.card img {
+    height: 20vh; 
   }
  .contenedor-carrusel {
-  align-self: center;
-  margin-bottom: 40px;
-  height: 40%;
-  width: 30vh;
-}
-.card {
-  min-height: 125px;
-}
-.cards {
- min-height: 250px;
-}
-}
+    align-self: center;
+    margin-bottom: 40px;
+    height: 30vh;
+    width: 30vh;
+  }
+    .rutina-card{
+      height: 40vh;
+    }
+ 
+  .card {
+    width: 82%;
+    height: 255px;
+  }
+  .cards {
+  height: 250px;
+  }
 
+  .flecha-derecha{
+  right: -45px;
+  }
+  .flecha-izquierda{
+    left: -45px;
+  }
+  }
+@media (max-width: 400px) {
+    body{
+      height: 55vh;
+    }
+    .rutina-card{
+      height: 40vh;
+       justify-content: start;
+      margin-top: -90px;
+    }
+.contenedor-carrusel{
+    max-width: 380px;
+    position: relative;
+  }
+  .boton-iniciar{
+    margin-bottom: 40px;
+  }
+ .nombre-ejercicio{
+    font-size: 0.6rem;
+  }
+.card img {
+    height: 20vh; 
+  }
+ .contenedor-carrusel {
+    align-self: center;
+    margin-bottom: 40px;
+    height: 30vh;
+    width: 30vh;
+  }
+    .rutina-card{
+      height: 40vh;
+    }
+ 
+  .card {
+    width: 82%;
+    height: 225px;
+  }
+  .cards {
+  height: 250px;
+  }
+
+  .flecha-derecha{
+  right: -45px;
+  }
+  .flecha-izquierda{
+    left: -45px;
+  }
+  }
+
+@media (max-width: 375px) and (max-height: 667px) {
+.card {
+    width: 82%;
+    height: 205px;
+  }
+  .cards {
+  height: 250px;
+  }
+}

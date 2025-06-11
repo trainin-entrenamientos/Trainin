@@ -18,7 +18,7 @@ describe('PerfilComponent', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let logroServiceSpy: jasmine.SpyObj<LogroService>;
   let toastrSpy: jasmine.SpyObj<ToastrService>;
-
+  
   beforeEach(waitForAsync(() => {
     const perfilSpy = jasmine.createSpyObj('PerfilService', ['getPerfil', 'actualizarFotoPerfil']);
     const authSpy = jasmine.createSpyObj('AuthService', ['getEmail']);

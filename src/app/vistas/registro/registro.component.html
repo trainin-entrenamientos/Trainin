@@ -1,10 +1,15 @@
-<body>
+<body class="loader" *ngIf="cargando">
+  <app-loader></app-loader>
+</body>
+<body *ngIf="!cargando">
   <section class="registration-section py-5">
     <div class="container">
+      <div class="registration-card mx-auto" *ngIf="cargando">
+      </div>  
       <div class="registration-card mx-auto">
         <div class="campos-registro">
           <h2 class="section-title text-center mb-4">Registro</h2>
-          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+          <form  [formGroup]="registroForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <div class="input-container">
                 <i class="fa-solid fa-user"></i>

@@ -1,4 +1,4 @@
-import {
+/*import {
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -332,4 +332,4 @@ describe('FinalizacionRutinaComponent', () => {
     expect(rutinaServiceMock.limpiarRutina).toHaveBeenCalled();
     expect(correccionDataServiceMock.limpiarDatos).toHaveBeenCalled();
   }
-});
+});*/

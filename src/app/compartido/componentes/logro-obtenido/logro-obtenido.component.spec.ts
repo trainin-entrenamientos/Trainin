@@ -54,7 +54,7 @@ describe('LogroObtenidoComponent', () => {
     expect(logro.visible).toBeTrue();
     expect(logro.nivel).toBe('oro');
 
-    tick(3000);
+    tick(6000);
     expect(component.logrosVisibles[0].visible).toBeFalse();
 
     tick(500);

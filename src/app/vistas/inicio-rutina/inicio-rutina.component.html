@@ -9,7 +9,7 @@
     </section>
   </main>
 
-<main *ngIf="rutina && !cargando" class="rutina-card text-white my-4">
+<main *ngIf="rutina && !cargando" class="rutina-card text-white">
    
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h2 class="m-0 text-center flex-grow-1">Plan {{rutina.categoriaEjercicio}}– Día {{ rutina.numeroRutina}}</h2>
@@ -44,10 +44,6 @@
             <div>
           <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
             <div class="nombre-ejercicio">{{i+1}}- {{ actual.nombre }}</div>
-             <div class="grupo-muscular">
-              <h4 class="titulo-grupo-muscular">Este ejercicio trabaja:</h4>
-              <p *ngFor="let grupoMuscular of actual.grupoMuscular; let i = index">{{grupoMuscular.nombre}}</p>
-            </div>
           </div>
         </div>
           </div>
