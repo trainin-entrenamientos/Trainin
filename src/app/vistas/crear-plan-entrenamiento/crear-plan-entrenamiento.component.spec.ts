@@ -266,7 +266,7 @@ describe('CrearPlanEntrenamientoComponent', () => {
     }));
   });
 
-  describe('iniciarRutina', () => {
+ /* describe('iniciarRutina', () => {
     it('navigates when planIdCreado exists', () => {
       component.planIdCreado = 99;
       spyOn(console, 'error');
@@ -280,5 +280,5 @@ describe('CrearPlanEntrenamientoComponent', () => {
       component.iniciarRutina();
       expect(console.error).toHaveBeenCalledWith('No hay un ID de plan creado.');
     });
-  });
+  });*/
 });

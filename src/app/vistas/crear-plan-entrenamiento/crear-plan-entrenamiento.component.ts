@@ -504,11 +504,17 @@ export class CrearPlanEntrenamientoComponent {
     }
   }
 
-  iniciarRutina() {
-    if (this.planIdCreado) {
-      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-    } else {
-      console.error('No hay un ID de plan creado.');
-    }
+  manejarAccion(tipo: 'detalle' | 'iniciar') {
+  if (!this.planIdCreado) {
+    console.error('No hay un ID de plan creado.');
+    return;
   }
+
+  if (tipo === 'detalle') {
+    this.router.navigate(['/detalle-plan', this.planIdCreado]);
+  } else if (tipo === 'iniciar') {
+    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+  }
+}
+
 }

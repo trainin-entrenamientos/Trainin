@@ -653,7 +653,10 @@
       
     </div>
 
-    <app-modal-plan-creado *ngIf="mostrarModal && seEnvioForm" (aceptar)="iniciarRutina()">
-      </app-modal-plan-creado>
+    <app-modal-plan-creado
+  *ngIf="mostrarModal && seEnvioForm"
+  (accionSeleccionada)="manejarAccion($event)">
+</app-modal-plan-creado>
+
   </main>
 </body>

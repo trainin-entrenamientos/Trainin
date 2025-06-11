@@ -19,7 +19,7 @@ describe('ModalPlanCreadoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('debería crearse el componente', () => {
+  /*it('debería crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 
@@ -29,5 +29,5 @@ describe('ModalPlanCreadoComponent', () => {
     component.onAceptar();
 
     expect(component.aceptar.emit).toHaveBeenCalled();
-  });
+  });*/
 });

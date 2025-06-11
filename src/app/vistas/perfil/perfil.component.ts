@@ -43,7 +43,7 @@ export class PerfilComponent implements OnInit {
     });
 
     this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
-  next: (data: any) => {
+    next: (data: any) => {
     console.log('Logros obtenidos:', data.logros);
 
     this.logros = (data.logros || [])
