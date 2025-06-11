@@ -1,4 +1,5 @@
-<main>
+<main *ngIf="cargando"><app-loader ></app-loader></main>
+<main *ngIf="!cargando">
 <div class="glass-radio-group" [formGroup]="filtroForm">
   <input type="radio" id="filtro-todos" value="todos" formControlName="filtroSeleccionado" />
   <label for="filtro-todos">Todos</label>

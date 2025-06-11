@@ -1,7 +1,15 @@
-html, body, main{
-  background-color: 00060C;
-  margin: 0%;
-  padding: 0%;
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .profile-page {
   background-color: #00060C; 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
@@ -48,9 +48,13 @@ export class PlanesComponent {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
         this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
+        setTimeout(() => {
+          this.cargando = false;
+        }, 500);
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
+         this.cargando = false;
         console.error('No existen planes de entrenamiento', err);
       }
     });
@@ -62,9 +66,7 @@ export class PlanesComponent {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
-        setTimeout(() => {
-          this.cargando = false;
-        }, 500);
+        
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);

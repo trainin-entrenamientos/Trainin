@@ -8,6 +8,7 @@ import { DatosEjercicio } from '../../compartido/interfaces/datos-ejercicio-corr
 import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 declare var bootstrap: any;
 
 @Component({
@@ -38,7 +39,8 @@ export class FinalizacionRutinaComponent {
     private router: Router,
     private auth: AuthService,
     private temporizadorService: TemporizadorService,
-    private correccionData: CorreccionDataService
+    private correccionData: CorreccionDataService,
+    private logroService: LogroService
   ) { }
 
   ngOnInit(): void {
@@ -58,30 +60,27 @@ export class FinalizacionRutinaComponent {
     this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
 
     this.datosCorreccion = this.correccionData.obtenerTodos();
-
-    if (this.rutina && this.email) {
-      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
-        next: () => { },
-        error: (err) => {
-          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
-        }
-      });
-    }
   }
 
   selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;
+    this.indiceGrupoVisible = 0;
   }
 
   anteriorEjercicio() {
-    this.selectedEjercicioIndex =
-      (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
-  }
+  if (this.ejercicios.length === 0) return;
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) %
+    this.ejercicios.length;
+  this.indiceGrupoVisible = 0;
+}
 
-  siguienteEjercicio() {
-    this.selectedEjercicioIndex =
-      (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
-  }
+siguienteEjercicio() {
+  if (this.ejercicios.length === 0) return;
+  this.selectedEjercicioIndex =
+    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+  this.indiceGrupoVisible = 0;
+}
 
 
   opcionSeleccionadaSidebar(index: number) {
@@ -153,7 +152,19 @@ export class FinalizacionRutinaComponent {
       nivelExigencia: this.nivel,
       email: this.email!
     };
-
+      
+     if (this.rutina && this.email) {
+      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+        next: (respuesta) => {
+            if (respuesta.logro) {
+              this.logroService.mostrarLogro(respuesta.logro);
+            }
+         },
+        error: (err) => {
+          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
+        }
+      });
+    }
     this.planService.actualizarNivelExigencia(this.rutina.idPlan, dto).subscribe({
       next: (mensaje) => {
         const modalElement = document.getElementById('feedbackModal');

@@ -1,4 +1,7 @@
-<body class="inicio-sesion-body">
+<body *ngIf="cargando" class="inicio-sesion-body">
+      <app-loader ></app-loader>
+</body>  
+<body *ngIf="!cargando" class="inicio-sesion-body">
   <section class="login-section py-5">
     <div class="container" id="loginForm">
       <div class="registration-card">

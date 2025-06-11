@@ -104,7 +104,7 @@ export class InformacionEjercicioComponent {
       case 1:
         return 15;
       case 2:
-        return 30;
+        return 15;
       default:
         return 10;
     }

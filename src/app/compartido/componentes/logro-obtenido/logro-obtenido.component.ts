@@ -37,7 +37,7 @@ logrosVisibles: { nombre: string; imagen: string; visible: boolean; nivel: strin
     setTimeout(() => {
       this.logrosVisibles = this.logrosVisibles.filter(l => l !== nuevoLogro);
     }, 500);
-  }, 3000);
+  }, 20000);
 }
 
   obtenerNivelDesdeImagen(imagen: string): string {
