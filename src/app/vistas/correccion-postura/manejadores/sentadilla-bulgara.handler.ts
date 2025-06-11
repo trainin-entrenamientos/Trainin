@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class SentadillaBulgaraHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.SENTADILLA_BULGARA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZsentadillaBulgara?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/iaqHm0ODgss?autoplay=1&mute=1&loop=1&playlist=iaqHm0ODgss&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up' = 'down';
   private lado: 'right'|'left'|null = null;

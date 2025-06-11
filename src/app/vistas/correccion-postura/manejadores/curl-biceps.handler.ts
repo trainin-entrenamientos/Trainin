@@ -6,8 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class CurlBicepsHandler implements ManejadorCorreccion {
     readonly nombreEjercicio = NombreEjercicio.CURL_BICEPS;
-    readonly videoUrl = 'https://www.youtube.com/embed/XYZcurlBiceps?autoplay=1';
-
+readonly videoUrl = 'https://www.youtube.com/embed/DOEN0eIg0w0?autoplay=1&mute=1&loop=1&playlist=DOEN0eIg0w0&controls=0&modestbranding=1&rel=0';
     private fase: 'down' | 'up' = 'down';
     private brazo: 'right' | 'left' | null = null;
     private buffer: number[] = [];

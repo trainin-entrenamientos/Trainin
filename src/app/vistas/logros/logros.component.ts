@@ -17,6 +17,7 @@ export class LogrosComponent implements OnInit {
   filtroActivo: 'todos' | 'obtenidos' | 'faltantes' = 'todos';
   filtroForm: FormGroup;
   email: string | null = null;
+  cargando: boolean= false;
 
   constructor(private fb: FormBuilder,
         private logroService: LogroService,
@@ -29,13 +30,14 @@ export class LogrosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  this.cargando=true;
   this.email = this.authService.getEmail();
-
+  
   if (!this.email) {
     console.error("No se encontró el email del usuario");
     return;
   }
-
+  
   const logrosObtenidos$ = this.logroService.obtenerLogrosPorUsuario(this.email);
   const todosLosLogros$ = this.logroService.obtenerTodosLosLogros();
 
@@ -51,7 +53,7 @@ export class LogrosComponent implements OnInit {
             ...logro,
             obtenido: idsObtenidos.includes(logro.id) 
           }));
-
+          this.cargando=false;
           this.aplicarFiltro();
         },
         error: err => console.error('Error al obtener todos los logros:', err)

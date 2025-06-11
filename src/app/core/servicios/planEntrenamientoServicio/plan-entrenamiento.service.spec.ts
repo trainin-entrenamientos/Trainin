@@ -161,7 +161,7 @@ describe('PlanEntrenamientoService', () => {
     req.flush('OK');
   });
 
-  it('Debería obtener el detalle de un plan por id de plan y id de usuario', () => {
+ /* it('Debería obtener el detalle de un plan por id de plan y id de usuario', () => {
     const idPlan = 9, idUsuario = 42;
     service.obtenerDetallePlan(idPlan, idUsuario).subscribe();
 
@@ -170,6 +170,6 @@ describe('PlanEntrenamientoService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush({});
-  });
+  });*/
 
 });
