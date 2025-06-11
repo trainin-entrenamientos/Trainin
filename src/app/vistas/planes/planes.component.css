@@ -337,6 +337,13 @@ h4{
   #progreso-plan {
     font-size: 0.8rem !important;
   }
+  .imagen-con-circulo{
+    display: none;
+  }
+  .circulo-fondo{
+    display: none;
+  }
+
 }
 
 @media screen and (max-width: 690px) {

@@ -73,7 +73,7 @@ describe('PlanEntrenamientoService', () => {
 
   it('debería obtener objetivos', () => {
     const dummyObjetivos = ['Perder peso', 'Ganar masa'];
-    const url = 'http://localhost:5010/api/categoriaejercicio/obtenerObjetivos';
+    const url = `${environment.URL_BASE}/categoriaejercicio/obtenerObjetivos`;
 
     service.obtenerObjetivos().subscribe(data => {
       expect(data).toEqual(dummyObjetivos);
@@ -166,7 +166,7 @@ describe('PlanEntrenamientoService', () => {
     service.obtenerDetallePlan(idPlan, idUsuario).subscribe();
 
     const req = httpMock.expectOne(
-      `http://localhost:5010/api/Plan/obtenerDetallePlan/${idPlan}?idUsuario=${idUsuario}`
+      `${environment.URL_BASE}/plan/obtenerDetallePlan/${idPlan}?idUsuario=${idUsuario}`
     );
     expect(req.request.method).toBe('GET');
     req.flush({});
