@@ -152,9 +152,9 @@ siguienteEjercicio() {
       nivelExigencia: this.nivel,
       email: this.email!
     };
-      
+     const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
      if (this.rutina && this.email) {
-      this.rutinaService.fueRealizada(this.rutina.id, this.email).subscribe({
+      this.rutinaService.fueRealizada(this.rutina.id, this.email, segundosTotales).subscribe({
         next: (respuesta) => {
             if (respuesta.logro) {
               this.logroService.mostrarLogro(respuesta.logro);

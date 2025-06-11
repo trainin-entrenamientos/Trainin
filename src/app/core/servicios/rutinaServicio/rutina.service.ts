@@ -25,10 +25,10 @@ export class RutinaService {
     );
   }
 
-  fueRealizada(idRutina: number, email: string): Observable<any> {
+  fueRealizada(idRutina: number, email: string, segundosTotales: number): Observable<any> {
     return this.http.patch<any>(
       `${this.baseUrl}/rutina/fueRealizada/${idRutina}`,
-      { email }
+      { email, segundosTotales }
     );
   }
 
