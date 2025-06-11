@@ -4,5 +4,5 @@ export interface Logro {
   descripcion: string;
   imagen: string;
   obtenido: boolean;
-  fecha_obtencion: Date;
+  fechaObtencion: Date;
 }

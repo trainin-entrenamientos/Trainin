@@ -16,7 +16,7 @@ export class PerfilComponent implements OnInit {
 
   email: string | null = null;
   perfil: PerfilDTO | null = null;
-  logros: Logro[] = [];
+  logros: Logro[] | undefined = [] ;
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
   cargando: boolean=true;
 
@@ -26,35 +26,24 @@ export class PerfilComponent implements OnInit {
     private logroService: LogroService) { }
 
   ngOnInit() {
+ 
     this.email = this.authService.getEmail();
-
+ 
     if (!this.email) {
       return;
     }
-
+ 
     this.perfilService.getPerfil(this.email).subscribe({
       next: (data) => {
         this.perfil = data.perfil;
         this.fotoMostrar = this.perfil?.fotoDePerfil ? this.perfil.fotoDePerfil : this.fotoMostrar;
+        this.logros = this.perfil?.logros;
+        this.cargando=false;
       },
       error: (err) => {
         console.error('Error cargando perfil', err);
       }
     });
-
-    this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
-    next: (data: any) => {
-    console.log('Logros obtenidos:', data.logros);
-
-    this.logros = (data.logros || [])
-      .sort((a: any, b: any) => new Date(b.fecha_obtencion).getTime() - new Date(a.fecha_obtencion).getTime())
-      .slice(0, 3);
-      this.cargando=false;
-  },
-  error: (err) => {
-    console.error('Error al obtener logros', err);
-  }
-});
   }
 
   onFileSelected(event: Event) {

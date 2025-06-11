@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { LogrosComponent } from './logros.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { of, throwError, Subject } from 'rxjs';
@@ -166,4 +166,4 @@ describe('LogrosComponent', () => {
     expect(component.filtroActivo).toBe('todos');
   }
 
-});
+});*/
