@@ -1,0 +1,25 @@
+<table class="table table-striped" *ngIf="ejercicios.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <button class="btn btn-primary mb-3" routerLink="/crear">
+    <i class="bi bi-plus-circle"></i> Crear ejercicio
+    </button>
+
+    <tr *ngFor="let e of ejercicios">
+      <td>{{ e.id }}</td>
+      <td>{{ e.nombre }}</td>
+      <td>
+        
+        <button (click)="editar(e)"  class="btn btn-sm btn-secondary">Editar</button>
+        <button (click)="eliminar(e)" class="btn btn-sm btn-danger">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
