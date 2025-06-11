@@ -6,7 +6,7 @@ import { generarResumen, suavizar } from '../../../compartido/utilidades/correcc
 
 export class SaltosTijeraHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.SALTOS_TIJERA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZjumpingJacks?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/_GMnNmWwYpg?autoplay=1&mute=1&loop=1&playlist=_GMnNmWwYpg&controls=0&modestbranding=1&rel=0';
 
   private fase: 'closed' | 'open' = 'closed';
   private buffer: number[] = [];

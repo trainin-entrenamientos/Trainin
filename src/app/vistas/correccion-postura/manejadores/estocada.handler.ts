@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class EstocadaHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.ESTOCADA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZestocada?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/Sw7Lc0bk3EQ?autoplay=1&mute=1&loop=1&playlist=Sw7Lc0bk3EQ&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up' = 'down';
   private lado: 'right'|'left'|null = null;

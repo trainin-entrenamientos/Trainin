@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class FondosTricepsHandler implements ManejadorCorreccion {
     readonly nombreEjercicio = NombreEjercicio.FONDOS_TRICEPS;
-    readonly videoUrl = 'https://www.youtube.com/embed/XYZfondosTriceps?autoplay=1';
+    readonly videoUrl = 'https://www.youtube.com/embed/F4u88tYU_20?autoplay=1&mute=1&loop=1&playlist=F4u88tYU_20&controls=0&modestbranding=1&rel=0';
 
     private fase: 'down' | 'up' = 'down';
     private brazo: 'right' | 'left' | null = null;
