@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class AbduccionCaderaHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.ABDUCCION_CADERA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZabduccionCadera?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/-Cr8dmyJHBQ?autoplay=1&mute=1&loop=1&playlist=-Cr8dmyJHBQ&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up'                = 'down';
   private pierna: 'right'|'left' | null    = null;

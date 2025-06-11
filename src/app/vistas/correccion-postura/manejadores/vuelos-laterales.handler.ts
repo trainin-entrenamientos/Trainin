@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class VuelosLateralesHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.VUELOS_LATERALES;
-  readonly videoUrl = 'https://www.youtube.com/embed/XYZdelVuelo?autoplay=1';
+  readonly videoUrl = 'https://www.youtube.com/embed/4hdTwXrqwAY?autoplay=1&mute=1&loop=1&playlist=4hdTwXrqwAY&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down' | 'up' = 'down';
   private buffer: number[] = [];
