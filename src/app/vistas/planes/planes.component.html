@@ -5,82 +5,13 @@
       <div class="m-auto contenedor-titulo pt-5">
         <h1 class="pt-4">Planes de Entrenamiento</h1>
       </div>
-
+      <!--SIN PLANES, NO PREMIUM-->
       <article
-        *ngIf="planEntrenamiento.length && usuario?.esPremium"
+        *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
       >
         <div id="contenedor-planes" class="w-100">
-          <div
-            *ngFor="let plan of planEntrenamiento; let i = index"
-            class="w-100 d-flex contenedor-plan text-white"
-            
-          >
-            <div
-              class="plan-card"
-            >
-              <div
-                class="d-flex align-items-center gap-3 contendor-imagen-plan"
-              >
-                <img
-                  id="imagen-plan"
-                  [src]="'imagenes/cuerpo-completo.png'"
-                  alt="Entrenamiento de cuerpo completo"
-                  class="img-fluid"
-                />
-                <div class="contenedor-tipo-entrenamiento">
-                  <h3 id="nombre-plan">
-                    {{ plan.tipoEntrenamiento }}
-                  </h3>
-                  <button (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#FFFFFF' }" class="realizado">
-                    {{ plan.estadoRutinaDelDia }}
-                  </button>
-                  
-                </div>
-                
-
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-between gap-5 contenedor-info-plan"
-              >
-                <div
-                  class="d-flex flex-column align-items-center justify-content-center gap-3"
-                >
-                  <div class="progreso-plan">
-                    <span id="progreso-plan"
-                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
-                        plan.cantidadRutinas
-                      }})</span
-                    >
-                    <div class="barra-progreso">
-                      <div
-                        class="relleno"
-                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <app-boton-trainin type="button" class="btn-trainin"  (click)="irAlDetalleDelPlan(plan.id)" >Detalle Plan</app-boton-trainin>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-column align-items-center justify-content-center gap-5 contenedor-tacho-borrar"
-                >
-                  <i
-                    class="fa-solid fa-trash tacho-borrar"
-                    (click)="confirmarEliminacion(plan.id)"
-                  ></i>
-                  <span style="color: #13ff3a"
-                    >{{ i + 1 }}/{{ planEntrenamiento.length }}</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-            <div id="contenedor-planes" class="w-100">
-                  <a
-            *ngIf="planEntrenamiento.length < 4"
+            <a
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
@@ -88,72 +19,41 @@
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
               </div>
-              <div class="plan-texto" style="padding-left: 7rem;">
+                <div class="plan-texto texto-premium">
                 <p style="color: #ffffff; font-style: italic">
-                  Crea un nuevo <span style="color: #13ff3a">plan</span> para empezar a entrenar
+                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
                 </p>
               </div>
             </div>
           </a>
-        <p *ngIf="planEntrenamiento.length >= 4" class="text-center text-light mt-3">
-        Ya has creado el máximo de <strong style="color: #13ff3a">4 planes</strong> permitidos.
-      </p>
-        </div>
-        </div>
-        <app-carrusel-vertical [nuevoItem]="{ tipo: 'texto', contenido: 'Calorias Quemadas Totales: ' + usuario?.caloriasTotales }"></app-carrusel-vertical>
-      </article>
-
-        
-
-      <article
-        *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
-      >
-        <div id="contenedor-planes" class="w-100">
-          <a
-            routerLink="/formulario-crear-plan"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
-          <div class="plan-card">
-        <div class="custom-icon-absolute">
-          <div class="icon custom-icon">+</div>
-        </div>
-        <div class="plan-texto" style="padding-left: 7rem;">
-          <p style="color: #ffffff; font-style: italic">
-            Creá <span style="color: #13ff3a">tu plan</span> para empezar a entrenar
-          </p>
-        </div>
-      </div>
-          </a>
-          <a
+           <a
             routerLink="/premium"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-          <div class="plan-card">
-        <div class="custom-icon-absolute">
-          <div class="icon custom-icon">+</div>
-        </div>
-        <div class="plan-texto" style="padding-left: 7rem;">
-          <p style="color: #ffffff; font-style: italic">
-                Únete a <span style="color: #13ff3a">premium</span> para crear
-                múltiples planes
-              </p>
-        </div>
-      </div>
-        
-          </a>
+            <div class="plan-card">
+              <div class="custom-icon-absolute">
+                <div class="icon custom-icon">+</div>
+              </div>
+                <div class="plan-texto texto-premium">
+                <p style="color: #ffffff; font-style: italic">
+                  Únete a <span class="brillo-premium">premium</span> para crear
+                  múltiples planes
+                </p>
+              </div>
+            </div>
+          </a><app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
+
         </div>
         <div class="contenedor-imagen-circulo">
-    <div class="circulo-fondo"></div>
-    <img
-      src="/imagenes/image-hero-planes.png"
-      alt="Imagen de planes de entrenamiento"
-      class="img-fluid imagen-con-circulo"
-    />
-  </div>
+          <div class="circulo-fondo"></div>
+          <img
+            src="/imagenes/image-hero-planes.png"
+            alt="Imagen de planes de entrenamiento"
+            class="img-fluid imagen-con-circulo"
+          />
+        </div>
       </article>
-
-
+      <!--CON PLANES, NO PREMIUM-->
       <article
         *ngIf="planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
@@ -164,34 +64,36 @@
             class="w-100 d-flex contenedor-plan text-white"
           >
             <div
-              class="plan-card"
+              class="card"
+              (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
+              style="cursor: pointer"
             >
-              <div 
-                class="d-flex align-items-center gap-3 contendor-imagen-plan"
-              >
-                <img
-                  id="imagen-plan"
-                  [src]="'imagenes/cuerpo-completo.png'"
-                  alt="Entrenamiento de cuerpo completo"
-                  class="img-fluid"
-                />
-                <div class="contenedor-tipo-entrenamiento">
-                  <h3 id="nombre-plan">
-                    {{ plan.tipoEntrenamiento }}
-                  </h3>
-                  <h4 (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" [ngStyle]="{ 'color': plan.estadoRutinaDelDia === 'Realizada hoy' ? '#13ff3a' : '#FFFFFF' }" class="realizado">
-                    {{ plan.estadoRutinaDelDia }}
-                  </h4>
+              <div class="contenido-card">
+                <div class="imagen-y-texto">
+                  <img
+                    id="imagen-plan"
+                    [src]="'imagenes/cuerpo-completo.png'"
+                    alt="Entrenamiento de cuerpo completo"
+                    class="img-fluid"
+                  />
+                  <div class="text">
+                    <span>{{ plan.tipoEntrenamiento }}</span>
+                    <p
+                      class="subtitle realizado"
+                      [ngStyle]="{
+                        color:
+                          plan.estadoRutinaDelDia === 'Realizada hoy'
+                            ? '#13ff3a'
+                            : '#FFFFFF'
+                      }"
+                    >
+                      {{ plan.estadoRutinaDelDia }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-between gap-5 contenedor-info-plan"
-              >
-                <div
-                  class="d-flex flex-column align-items-center justify-content-center gap-3"
-                >
+                <div class="footer-card">
                   <div class="progreso-plan">
-                    <span id="progreso-plan"
+                    <span
                       >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
                         plan.cantidadRutinas
                       }})</span
@@ -203,25 +105,19 @@
                       ></div>
                     </div>
                   </div>
-                  <div>
-                    <app-boton-trainin type="button" class="btn-trainin"  (click)="irAlDetalleDelPlan(plan.id)" >Detalle Plan</app-boton-trainin>
-                  </div>
                 </div>
-                
-                <div
-                  class="d-flex flex-column align-items-center justify-content-center gap-5 contenedor-tacho-borrar"
-                ><i
-                    class="fa-solid fa-trash tacho-borrar"
-                    routerLink="/planes/(plan.id)"
-                  ></i>
+              </div>
+
+              <div class="icons" (click)="$event.stopPropagation()">
+                <a class="btn" (click)="irAlDetalleDelPlan(plan.id)">
                   <i
-                    class="fa-solid fa-trash tacho-borrar"
-                    (click)="confirmarEliminacion(plan.id)"
+                    class="fa-solid fa-circle-info fa-xl icono-fontawesome"
                   ></i>
-                  <span style="color: #13ff3a"
-                    >{{ i + 1 }}/{{ planEntrenamiento.length }}</span
-                  >
-                </div>
+                </a>
+
+                <a class="btn" (click)="confirmarEliminacion(plan.id)">
+                  <i class="fa-solid fa-trash fa-xl icono-fontawesome"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -230,55 +126,180 @@
             routerLink="/premium"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-            <div
-              class="plan-card" style="padding-left: 5rem;"
-            >
-            <div class="custom-icon-absolute">
-          <div class="icon custom-icon">+</div>
-         </div>
-             <div class="plan-texto" style="padding-left: 7rem;">
-          <p style="color: #ffffff; font-style: italic">
-                Únete a <span style="color: #13ff3a">premium</span> para crear
-                múltiples planes
-              </p>
-        </div>
-              
+            <div class="plan-card">
+              <div class="custom-icon-absolute">
+                <div class="icon custom-icon">+</div>
+              </div>
+                <div class="plan-texto texto-premium">
+                <p style="color: #ffffff; font-style: italic">
+                  Únete a <span class="brillo-premium">premium</span> para crear
+                  múltiples planes
+                </p>
+              </div>
             </div>
-          </a>
+          </a>  
         </div>
-  
-        <app-carrusel-vertical [nuevoItem]="{ tipo: 'texto', contenido: 'Calorias Quemadas Totales: ' + usuario?.caloriasTotales }"></app-carrusel-vertical>
+        
       </article>
+         @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="false"
+            [sinPlanes]="false"
+          ></app-carrusel-vertical>
+        }
 
+      <!--SIN PLANES, PREMIUM-->
       <article
         *ngIf="!planEntrenamiento.length && usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes premium-sin-planes"
       >
-         <div id="contenedor-planes" class="w-100">
-          <a
+        <div id="contenedor-planes" class="w-100">
+           <a
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
-          <div class="plan-card">
-        <div class="custom-icon-absolute">
-          <div class="icon custom-icon">+</div>
-        </div>
-        <div class="plan-texto" style="padding-left: 7rem;">
-          <p style="color: #ffffff; font-style: italic">
-            Creá <span style="color: #13ff3a">tu plan</span> para empezar a entrenar
-          </p>
-        </div>
-      </div>
+            <div class="plan-card">
+              <div class="custom-icon-absolute">
+                <div class="icon custom-icon">+</div>
+              </div>
+                <div class="plan-texto texto-premium">
+                <p style="color: #ffffff; font-style: italic">
+                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
+                </p>
+              </div>
+            </div>
           </a>
+            <app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
         </div>
-       <app-carrusel-vertical></app-carrusel-vertical>
+
+         <div class="contenedor-imagen-circulo-con-premium">
+          <div class="circulo-fondo"></div>
+          <img
+            src="/imagenes/image-hero-planes.png"
+            alt="Imagen de planes de entrenamiento"
+            class="img-fluid imagen-con-circulo"
+          />
+        </div>
       </article>
+
+      <!--CON PLANES, PREMIUM-->
+      <article
+        *ngIf="planEntrenamiento.length && usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
+      >
+        <div id="contenedor-planes" class="w-100">
+          <div
+            *ngFor="let plan of planEntrenamiento; let i = index"
+            class="w-100 d-flex contenedor-plan text-white"
+          >
+            <div
+              class="card"
+              (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
+              style="cursor: pointer"
+            >
+              <div class="contenido-card">
+                <div class="imagen-y-texto">
+                  <img
+                    id="imagen-plan"
+                    [src]="'imagenes/cuerpo-completo.png'"
+                    alt="Entrenamiento de cuerpo completo"
+                    class="img-fluid"
+                  />
+                  <div class="text">
+                    <span>{{ plan.tipoEntrenamiento }}</span>
+                    <p
+                      class="subtitle realizado"
+                      [ngStyle]="{
+                        color:
+                          plan.estadoRutinaDelDia === 'Realizada hoy'
+                            ? '#13ff3a'
+                            : '#FFFFFF'
+                      }"
+                    >
+                      {{ plan.estadoRutinaDelDia }}
+                    </p>
+                  </div>
+                </div>
+                <div class="footer-card">
+                  <div class="progreso-plan">
+                    <span
+                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
+                        plan.cantidadRutinas
+                      }})</span
+                    >
+                    <div class="barra-progreso">
+                      <div
+                        class="relleno"
+                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="icons" (click)="$event.stopPropagation()">
+                <a class="btn" (click)="irAlDetalleDelPlan(plan.id)">
+                  <i
+                    class="fa-solid fa-circle-info fa-xl icono-fontawesome"
+                  ></i>
+                </a>
+
+                <a class="btn" (click)="confirmarEliminacion(plan.id)">
+                  <i class="fa-solid fa-trash fa-xl icono-fontawesome"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div id="contenedor-planes" class="w-100">
+             <a
+           *ngIf="planEntrenamiento.length < 4"
+              routerLink="/formulario-crear-plan"
+              class="w-100 d-flex justify-content-center contenedor-plan"
+          >
+            <div class="plan-card">
+              <div class="custom-icon-absolute">
+                <div class="icon custom-icon">+</div>
+              </div>
+                <div class="plan-texto texto-premium">
+                <p style="color: #ffffff; font-style: italic">
+                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
+                </p>
+              </div>
+            </div>
+          </a>
+            <p
+              *ngIf="planEntrenamiento.length >= 4"
+              class="text-center text-light mt-3"
+            >
+              Ya has creado el máximo de
+              <strong style="color: #13ff3a">4 planes</strong> permitidos.
+            </p>
+          </div>
+        </div>
+        
+        @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="true"
+          ></app-carrusel-vertical>
+        }
+      </article>
+      @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="false"
+            [sinPlanes]="false"
+          ></app-carrusel-vertical>
+        }
+          
     </section>
+
+
+
     <app-modal-confirmacion-borrar-plan
-          [visible]="mostrarModal"
-          [mensaje]="'¿Estás segura/o que querés desactivar este plan?'"
-          (onConfirm)="eliminarPlanConfirmado()"
-          (onCancel)="cancelarEliminacion()"
-        ></app-modal-confirmacion-borrar-plan>
+      [visible]="mostrarModal"
+      [mensaje]="'¿Estás segura/o que querés desactivar este plan?'"
+      (onConfirm)="eliminarPlanConfirmado()"
+      (onCancel)="cancelarEliminacion()"
+    ></app-modal-confirmacion-borrar-plan>
   </main>
 </body>

@@ -131,32 +131,7 @@ p {
   max-width: 300px;
 }
 
-.custom-icon-absolute {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 8rem; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none; 
-}
 
-.custom-icon {
-  height: 100%;
-  width: 30em;
-  font-size: 5rem;
-  color: white;
- 
-  background: linear-gradient(to bottom right, #13ff3a 100%);
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .contenedor-imagen-circulo {
   position: relative;
   width: 300px;
@@ -167,16 +142,71 @@ p {
   justify-content: center;
   overflow: visible; 
   padding-bottom: 40px;
+  top:125px;
+}
+.contenedor-imagen-circulo-con-premium{
+    position: relative;
+  width: 300px;
+  height: 300px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; 
+  padding-bottom: 40px;
+  top:65px;
 }
 
 .circulo-fondo {
   position: relative;
-  width: 350px;
+  width: 300px;
   height: 300px;
-  background-color: #0B1A1E ;
   border-radius: 50%;
+  background-color: #0B1A1E;
   z-index: 1;
 }
+
+.circulo-fondo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: conic-gradient(#13ff3a 0deg, transparent 90deg, #13ff3a 180deg, transparent 270deg, #13ff3a 360deg);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  padding: 1px;
+  animation: rotarGradiente 4s linear infinite;
+  z-index: 2;
+}
+
+.imagen-con-circulo {
+  position: absolute;
+  width: 400px;
+  max-width: none;
+  z-index: 3;
+  object-fit: contain;
+}
+
+
+
+/* Animación */
+@keyframes rotarGradiente {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 .imagen-con-circulo {
   position: absolute;
@@ -184,7 +214,6 @@ p {
   max-width: none; 
   z-index: 2;
   object-fit: contain;
-  
 }
 
 .circulo {
@@ -222,19 +251,301 @@ h4{
 .contenedor-info-plan-imagen {
   gap: 5rem;
 }
-.realizado{
-  background-color: #0B1A1E;
-  border-radius: 20px;
-  border: 1px solid ;
-  padding:10px;
-  
+.imagen-y-texto{
+  display: flex;
+  flex-direction: row;
+  gap: 1%;
 }
 
-.realizado:hover{
-  background-color: #00060c;
-  color:White;
-  border: #13ff3a 1px solid;
+.texto-premium {
+  padding-left: 1rem; 
+  transition: padding-left 0.4s ease;
 }
+
+.plan-card:hover .texto-premium {
+  padding-left: 9rem; 
+}
+.brillo-premium {
+  color: #13ff3a;
+  font-weight: bold;
+  transition: text-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.plan-card:hover .brillo-premium {
+  text-shadow: 0 0 8px #13ff3a, 0 0 16px #13ff3a;
+  transform: scale(1.05);
+  animation: brilloResplandor 1s infinite alternate;
+}
+
+@keyframes brilloResplandor {
+  0% {
+    text-shadow: 0 0 4px #13ff3a, 0 0 8px #13ff3a;
+  }
+  100% {
+    text-shadow: 0 0 10px #13ff3a, 0 0 20px #13ff3a;
+  }
+}
+
+
+.custom-icon-absolute {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.custom-icon-absolute {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.custom-icon {
+  height: 100%;
+  width: 1rem;
+  font-size: 0rem;
+  color: white;
+  background: linear-gradient(to bottom right, #13ff3a 100%);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  transform-origin: left; 
+  z-index: 1;
+}
+
+.plan-card:hover .custom-icon {
+  width: 8rem;
+  font-size: 5rem;
+}
+
+.custom-icon::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: #13ff3a;
+  z-index: 0;
+  opacity: 0.2;
+  transition: height 0.4s ease;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  clip-path: inherit;
+}
+
+.plan-card:hover .custom-icon::before {
+  height: 100%;
+}
+
+
+
+/* Hover: se transforma en trapecio diagonal */
+.plan-card:hover .custom-icon {
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+}
+
+
+
+
+
+
+
+/* ESTO ES LO NUEVO*/
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 1.5rem;
+  padding-right:0;
+  background-color: #0B1A1E;
+  border-radius: 10px;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row; 
+  gap: 1rem;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px rgba(19, 255, 58, 0.1);
+  z-index: 3;
+  margin-bottom: 15px;
+}
+.contenido-card {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+/* NUEVO: Gradiente animado tipo fuego */
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #13ff3a33, #13ff3a00);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  animation: fuegoSubiendo 0.8s forwards ease-out;
+  opacity: 1;
+}
+
+@keyframes fuegoSubiendo {
+  0% {
+    bottom: -100%;
+    opacity: 0;
+  }
+  50% {
+    bottom: -20%;
+    opacity: 0.5;
+  }
+  100% {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+.text {
+  flex-grow: 1;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.text span {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+}
+
+.btn {
+  border-radius: 8px;
+  background-color: transparent;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #13ff3a20;
+}
+
+.svg-icon {
+  width: 60px;
+  height: 60px;
+  stroke: #13ff3a;
+  color:white;
+ 
+}
+
+.fa-xl{
+  font-size: 35px;
+}
+
+.footer-card {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+.icons {
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color:white;
+}
+
+
+.progreso-plan {
+  flex: 1;
+}
+
+.progreso-plan span {
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.barra-progreso {
+  background-color: #111;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barra-progreso .relleno {
+  background-color: #13ff3a;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+/* ESTO ES LO NUEVO*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media screen and (max-width: 1195px) {
   .plan-card p {
