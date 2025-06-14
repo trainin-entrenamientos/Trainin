@@ -131,7 +131,9 @@ p {
   max-width: 300px;
 }
 
-
+.cards-horizontales{
+  display: none;
+}
 .contenedor-imagen-circulo {
   position: relative;
   width: 300px;
@@ -193,9 +195,6 @@ p {
   object-fit: contain;
 }
 
-
-
-/* Animación */
 @keyframes rotarGradiente {
   0% {
     transform: rotate(0deg);
@@ -205,8 +204,6 @@ p {
     transform: rotate(360deg);
   }
 }
-
-
 
 .imagen-con-circulo {
   position: absolute;
@@ -295,19 +292,6 @@ h4{
   width: 8rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.custom-icon-absolute {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 8rem;
-  display: flex;
-  align-items: center;
   justify-content: flex-start; 
   pointer-events: none;
   overflow: hidden;
@@ -317,7 +301,7 @@ h4{
   height: 100%;
   width: 1rem;
   font-size: 0rem;
-  color: white;
+  color:#00060c;
   background: linear-gradient(to bottom right, #13ff3a 100%);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -328,12 +312,16 @@ h4{
   transition: all 0.5s ease;
   transform-origin: left; 
   z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .plan-card:hover .custom-icon {
   width: 8rem;
-  font-size: 5rem;
+  font-size: min(10vw, 4rem);
 }
+
 
 .custom-icon::before {
   content: "";
@@ -355,20 +343,10 @@ h4{
   height: 100%;
 }
 
-
-
-/* Hover: se transforma en trapecio diagonal */
 .plan-card:hover .custom-icon {
   clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
 }
 
-
-
-
-
-
-
-/* ESTO ES LO NUEVO*/
 .card {
   position: relative;
   width: 100%;
@@ -400,7 +378,6 @@ h4{
   position: relative;
   z-index: 1;
 }
-/* NUEVO: Gradiente animado tipo fuego */
 .card::after {
   content: "";
   position: absolute;
@@ -533,20 +510,6 @@ h4{
 /* ESTO ES LO NUEVO*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media screen and (max-width: 1195px) {
   .plan-card p {
     font-size: 1.2rem;
@@ -557,7 +520,12 @@ h4{
   .contenedor-progresos {
     flex-direction: unset !important;
   }
-  
+  .cards-verticales{
+    display: none;
+  }
+  .cards-horizontales{
+  display: block;
+}
   .contenedor-info-plan-imagen {
     flex-direction: column;
     gap: 0.5rem;
@@ -595,6 +563,20 @@ h4{
     padding-top: 10px !important;
   }
 
+   .plan-card:hover .custom-icon {
+    width: 4rem;
+    font-size: 3rem;
+  }
+.btn {
+ 
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+  transition: background-color 0.3s ease;
+}
   .contenedor-principal-planes {
     margin-top: 2rem !important;
     
@@ -604,9 +586,7 @@ h4{
     font-size: 1.2rem;
   }
 
-  .icon {
-    font-size: 4rem;
-  }
+  
 
   .contenedor-ultimo-entrenamiento h4 {
     font-size: 1rem;
@@ -648,12 +628,7 @@ h4{
   #progreso-plan {
     font-size: 0.8rem !important;
   }
-  .imagen-con-circulo{
-    display: none;
-  }
-  .circulo-fondo{
-    display: none;
-  }
+
 
 }
 
@@ -661,10 +636,17 @@ h4{
   .contenedor-principal-planes {
     flex-direction: column;
   }
+  
    .plan-card p {
     font-size: 0.8rem;
   }
+.fa-xl{
+  font-size: 25px;
+}
+.icons{
+    margin-right: 10px;
 
+}
  .contenedor-ultimo-entrenamiento h4 {
     font-size: 1.2rem;
   }
@@ -698,9 +680,7 @@ h4{
     font-size: 0.7rem;
   }
 
-  .custom-icon-absolute {
-  width: 5.5rem; 
-}
+  
 
 }
 
@@ -713,10 +693,7 @@ h4{
     margin-top: 2rem !important;
   }
 
-  .icon {
-    font-size: 2rem;
-  }
-
+  
   .plan-card {
     width: 100%;
     padding: 2rem 0.5rem;
@@ -801,10 +778,9 @@ h4{
   .contenedor-tacho-borrar i, span{
     font-size: 12px;
   }
-
-#imagen-plan {
-  display: none;
-}
+  .text span{
+    font-size: 0.9rem;
+  }
   
 .circulo-fondo {
   position: relative;

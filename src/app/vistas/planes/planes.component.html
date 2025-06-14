@@ -277,13 +277,24 @@
             </p>
           </div>
         </div>
-        
-        @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
+        <div class="cards-verticales">
+          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="true"
+            [conPlanesPremium]="true"
           ></app-carrusel-vertical>
         }
+        </div>
+        
       </article>
+       <div class="cards-horizontales">
+          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="true"
+            [conPlanesPremium]="true"
+          ></app-carrusel-vertical>
+        }
+        </div>
       @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="false"
