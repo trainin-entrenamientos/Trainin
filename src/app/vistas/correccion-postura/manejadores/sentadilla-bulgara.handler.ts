@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class SentadillaBulgaraHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.SENTADILLA_BULGARA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZsentadillaBulgara?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/iaqHm0ODgss?autoplay=1&mute=1&loop=1&playlist=iaqHm0ODgss&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up' = 'down';
   private lado: 'right'|'left'|null = null;
@@ -168,7 +168,6 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
     const kneeF = lm.find(p => p.name === `${this.lado}_knee`)!;
     const ankF  = lm.find(p => p.name === `${this.lado}_ankle`)!;
 
-    // Calculo y suavizo ángulo rodilla delantera
     const raw = calcularAngulo(hip, kneeF, ankF);
     const ang = suavizar(this.buffer, raw, SentadillaBulgaraHandler.BUFFER_SIZE);
 
@@ -181,7 +180,6 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
       this.total++;
       repContada = true;
 
-      // verifico torso erguido
       const torsoAng = calcularAngulo(sh, hip, ankF);
       const tilt = Math.abs(180 - torsoAng);
       const esError = tilt > SentadillaBulgaraHandler.UMBRALES.torsoTilt;
@@ -202,7 +200,6 @@ export class SentadillaBulgaraHandler implements ManejadorCorreccion {
       color   = 'orange';
     }
 
-    // Si ya se hicieron 5 repeticiones, muestro resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

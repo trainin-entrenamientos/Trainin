@@ -15,10 +15,7 @@ export function suavizar(buffer: number[], valor: number, bufferSize: number): n
   return buffer.reduce((a, b) => a + b, 0) / buffer.length;
 }
 
-/**
-* Dada la serie de aciertos/fallos y la configuración de feedback,
-* genera el HTML final y el color de la tarjeta resumen.
-*/
+
 export function generarResumen(
   resultados: boolean[],
   feedbackConfig: BloqueFeedback[],
@@ -34,7 +31,6 @@ export function generarResumen(
 
   const allTips = bloque.tips;
 
-  // lógica de color: 0–30 rojo, >30–<70 naranja, >=70 verde
   let color: 'color-green' | 'color-orange' | 'color-red';
   if (pct > 30 && pct < 70) {
     color = 'color-orange';
@@ -65,11 +61,7 @@ export function stripHtml(html: string): string {
   return tmp.textContent || '';
 }
 
-/**
- * Pasa de snake_case a “Title Case”:
- * press_militar  → Press Militar
- * vuelos_laterales → Vuelos Laterales
- */
+
 export function formatearNombreEjercicio(clave: string): string {
   return clave
     .split('_')

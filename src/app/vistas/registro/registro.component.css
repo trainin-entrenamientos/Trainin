@@ -1,11 +1,12 @@
-/* Formulario de Registro */
-/* Body */
 body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
 }
- 
+ .loader{
+  height: 90vh;
+  background-color: #00060C;
+ }
 .section-title {
   display: table;
   margin: 0 auto 2.5rem;

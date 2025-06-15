@@ -2,14 +2,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-modal-plan-creado',
-  standalone: false,
   templateUrl: './modal-plan-creado.component.html',
-  styleUrl: './modal-plan-creado.component.css'
+  styleUrls: ['./modal-plan-creado.component.css'],
+  standalone:false,
 })
 export class ModalPlanCreadoComponent {
- @Output() aceptar = new EventEmitter<void>();
+  @Output() accionSeleccionada = new EventEmitter<'detalle' | 'iniciar'>();
 
-  onAceptar() {
-    this.aceptar.emit();
+  onAccion(tipo: 'detalle' | 'iniciar') {
+    this.accionSeleccionada.emit(tipo);
   }
 }

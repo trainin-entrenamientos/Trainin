@@ -8,6 +8,7 @@ import {
   input,
   Input,
 } from '@angular/core';
+import { PerfilDTO } from '../../../../core/modelos/PerfilDTO';
 
 interface CarruselItem {
   tipo: 'texto' | 'imagen';
@@ -22,7 +23,15 @@ interface CarruselItem {
 })
 export class CarruselVerticalComponent implements AfterViewInit {
   
+  /*
   items: { tipo: 'texto' | 'imagen', contenido: string }[] = [
+    { tipo: 'imagen', contenido: '/imagenes/motivacion.jpeg' },
+    { tipo: 'imagen', contenido: '/imagenes/TRAININ-ISO-FO.svg' },
+    { tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },
+  ];
+  */ 
+
+  @Input() items: { tipo: 'texto' | 'imagen', contenido: string }[] = [
     { tipo: 'imagen', contenido: '/imagenes/motivacion.jpeg' },
     { tipo: 'imagen', contenido: '/imagenes/TRAININ-ISO-FO.svg' },
     { tipo: 'imagen', contenido: '/imagenes/seguridad.jpeg' },

@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class IniciarSesionComponent {
   loginForm: FormGroup;
-
+  cargando: boolean = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -28,17 +28,19 @@ export class IniciarSesionComponent {
 
   iniciarSesion() {
     if (this.loginForm.invalid) return;
-
+    this.cargando=true;
     const credenciales = this.loginForm.value;
     this.authService.login(credenciales).subscribe({
       next: (data) => {
         if (data.exito && !data.requiereActivacion) {
           this.router.navigate(['/planes']);
         } else {
+          this.cargando=false;
           this.toastr.error('Debes activar tu cuenta antes de iniciar sesión.');
         }
       },
       error: () => {
+        this.cargando=false;
         this.toastr.error('Credenciales incorrectas o error de servidor.');
       }
     });

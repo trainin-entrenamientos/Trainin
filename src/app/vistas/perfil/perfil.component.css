@@ -1,7 +1,15 @@
-html, body, main{
-  background-color: 00060C;
-  margin: 0%;
-  padding: 0%;
+body,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .profile-page {
   background-color: #00060C; 
@@ -157,7 +165,7 @@ html, body, main{
   line-height: 1.2;
 }
 .profile-page { background: #00060C; color: #fff; padding: 2rem 0; }
-.profile-img { max-width: 180px; height: auto; /*border-radius: 1rem; */}
+.profile-img { max-width: 180px; height: auto; }
 
 @media (max-width: 767.98px) {
   .profile-page {

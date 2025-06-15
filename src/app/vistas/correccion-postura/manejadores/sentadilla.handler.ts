@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class SentadillaHandler implements ManejadorCorreccion {
     readonly nombreEjercicio = NombreEjercicio.SENTADILLA;
-    readonly videoUrl = 'https://www.youtube.com/embed/XYZsentadillaPerfil?autoplay=1';
+    readonly videoUrl = 'https://www.youtube.com/embed/LU5lO76BOwk?autoplay=1&mute=1&loop=1&playlist=LU5lO76BOwk&controls=0&modestbranding=1&rel=0';
 
     private fase: 'down' | 'up' = 'up';
     private lado: 'right' | 'left' | null = null;
@@ -14,7 +14,6 @@ export class SentadillaHandler implements ManejadorCorreccion {
     private total = 0;
     private resultados: boolean[] = [];
 
-    // Umbrales para sentadilla de perfil
     private static readonly UMBRALES = {
         kneeDown: 70,
         kneeUp: 160,
@@ -216,7 +215,6 @@ export class SentadillaHandler implements ManejadorCorreccion {
         const ank = lm.find(p => p.name === `${this.lado}_ankle`)!;
         const sh = lm.find(p => p.name === `${this.lado}_shoulder`)!;
 
-        // Ángulo de rodilla y suavizado
         const rawKnee = calcularAngulo(hip, knee, ank);
         const angKnee = suavizar(this.buffer, rawKnee, SentadillaHandler.BUFFER_SIZE);
 
@@ -234,7 +232,6 @@ export class SentadillaHandler implements ManejadorCorreccion {
             this.total++;
             repContada = true;
 
-            // chequeo de inclinación de torso: ≈ 180 grados
             const rawTorso = calcularAngulo(sh, hip, knee);
             const lean = Math.abs(rawTorso - 180);
             const esError = lean > SentadillaHandler.UMBRALES.leanLimit;
@@ -250,7 +247,6 @@ export class SentadillaHandler implements ManejadorCorreccion {
             color = 'orange';
         }
 
-        // Si se hicieron 5 repeticiones, generar resumen
         const termino = this.total === 5;
         let resumenHtml: string | undefined;
         if (termino) {

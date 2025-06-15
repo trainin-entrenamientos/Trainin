@@ -83,8 +83,9 @@ export class DetallePlanComponent implements OnInit {
   }
 
   get diasSemanaActual() {
-    return this.semanaSeleccionada?.rutinas || [];
-  }
+  return this.semanaSeleccionada?.rutinas ?? [];
+}
+
 
   get ejerciciosDelDia() {
     return this.diasSemanaActual[this.diaActivo]?.ejercicios || [];
@@ -103,7 +104,7 @@ export class DetallePlanComponent implements OnInit {
 getPrimerRutinaActiva(): Rutina | null {
   for (const semana of this.semanas) {
     for (const rutina of semana.rutinas) {
-      if (rutina.estado === 1) { // 1 = Activo
+      if (rutina.estado === 1) { 
         return rutina;
       }
     }
@@ -112,7 +113,7 @@ getPrimerRutinaActiva(): Rutina | null {
 }
 
 esPrimeraRutinaActivaActual(): boolean {
-  const rutinaActual = this.diasSemanaActual[this.diaActivo];
+  const rutinaActual = this.diasSemanaActual?.[this.diaActivo];
   const primeraActiva = this.getPrimerRutinaActiva();
   return rutinaActual?.id === primeraActiva?.id;
 }

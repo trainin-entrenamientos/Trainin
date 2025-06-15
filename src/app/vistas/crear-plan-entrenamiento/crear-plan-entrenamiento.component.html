@@ -536,7 +536,6 @@
                 </div>
                 <br />
 
-                <!-- Paso 5 -->
                 <div class="text-white">
                   <div
                     class="card-header d-flex justify-content-between align-items-center"
@@ -654,7 +653,10 @@
       
     </div>
 
-    <app-modal-plan-creado *ngIf="mostrarModal && seEnvioForm" (aceptar)="iniciarRutina()">
-      </app-modal-plan-creado>
+    <app-modal-plan-creado
+  *ngIf="mostrarModal && seEnvioForm"
+  (accionSeleccionada)="manejarAccion($event)">
+</app-modal-plan-creado>
+
   </main>
 </body>

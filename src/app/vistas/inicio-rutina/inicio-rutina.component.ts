@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { Ejercicio } from '../../core/modelos/RutinaDTO';
-import { RutinaService } from '../../core/servicios/rutina/rutina.service';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
@@ -55,7 +55,7 @@ export class InicioRutinaComponent {
     });
   }
 
- protected traducirMinutos(valor: number): string {
+ public traducirMinutos(valor: number): string {
     const mapa: Record<string, string> = {
       1: '≈15 min.',
       2: '≈30 min.',

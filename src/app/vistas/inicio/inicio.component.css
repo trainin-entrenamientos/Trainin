@@ -1,11 +1,9 @@
-/* Body */
 body {
   background-color: #00060C;
   font-family: 'Merriweather Sans', sans-serif;
   margin: 0;
   overflow-x:hidden;
 }
-/*Hero section*/
 .hero-section {
   min-height: 100vh;
   display: flex;
@@ -14,7 +12,6 @@ body {
   padding-top: 0;
 }
 
-/*Hero Title y líneas */
 .hero-title {
   color: #fff;
   font-weight: 800;
@@ -49,7 +46,6 @@ body {
   margin-bottom: 2.5rem;
 }
 
-/*Botón Unite a TRAININ */
 .btn-trainin {
   background-color: #13FF3A;
   color: #000;
@@ -64,7 +60,6 @@ body {
   transform: scale(1.05);
 }
 
-/*Imágenes hero */
 .hero-img {
   width: 100%;
   max-width: 450px;
@@ -96,7 +91,6 @@ body {
   }
 }
 
-/* Section ¿Por qué elegirnos?*/
 .section-title {
   display: table;
   margin: 0 auto 2.5rem;
@@ -108,13 +102,11 @@ body {
   padding-bottom: 0.25rem;
 }
 
-/* Bloque de texto con espacio para el icono */
 .why-text-block {
   position: relative;
   padding-left: 2.5rem;
 }
 
-/* Ícono verde alineado a la izquierda */
 .why-icon {
   position: absolute;
   top: 0;
@@ -131,7 +123,6 @@ body {
   line-height: 1.2;
 }
 
-/* Párrafos */
 .why-text {
   color: #fff;
   font-size: 1.125rem;
@@ -139,7 +130,6 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Imágenes */
 .why-img {
   width: 300px;
   height: 300px;
@@ -193,16 +183,13 @@ body {
   }
 }
 
-/* Section Corrección en tiempo real*/
 
-/* Contenedor principal */
 .correction-section {
   color: #fff;
   text-align: center;
   padding: 3rem 0;
 }
 
-/* Subtítulo */
 .correction-text {
   font-size: 1rem;
   line-height: 1.6;
@@ -210,7 +197,6 @@ body {
 
 }
 
-/* Timeline - Markers 1 y 3 (3 cols) */
 .row.timeline-row {
   position: relative;
   height: 4rem;
@@ -218,7 +204,6 @@ body {
   border: none;
 }
 
-/*Línea verde*/
 .row.timeline-row::before {
   content: "";
   position: absolute;
@@ -232,7 +217,6 @@ body {
   z-index: 0;
 }
 
-/* Barra vertical */
 .row.timeline-row .marker {
   position: absolute;
   top: 50%;
@@ -268,7 +252,6 @@ body {
     padding: 0;
   }
 
-  /*Imágenes*/
   #correctionGallery .carousel-item img {
     width: 80%;
     max-width: 250px;
@@ -290,7 +273,6 @@ body {
     justify-content: center;
   }
 
-  /* Línea verde vertical */
   .correction-section .timeline-row::before {
     display: flex;
     position: absolute;
@@ -347,7 +329,6 @@ body {
   }
 }
 
-/*Botón Unite a TRAININ */
 .correction-section .btn-trainin {
   padding: 0.75rem 2rem;
   border-radius: 50px;
@@ -365,7 +346,6 @@ body {
   border: 0.5rem solid #13FF3A;
 }
 
-/* Esquina superior izquierda */
 .corner.top-left {
   top: 1rem;
   left: 1rem;
@@ -373,7 +353,6 @@ body {
   border-bottom: none;
 }
 
-/* Esquina superior derecha */
 .corner.top-right {
   top: 1rem;
   right: 1rem;
@@ -381,7 +360,6 @@ body {
   border-bottom: none;
 }
 
-/* Esquina inferior izquierda */
 .corner.bottom-left {
   bottom: 1rem;
   left: 1rem;
@@ -389,7 +367,6 @@ body {
   border-top: none;
 }
 
-/* Esquina inferior derecha */
 .corner.bottom-right {
   bottom: 1rem;
   right: 1rem;
@@ -397,18 +374,15 @@ body {
   border-top: none;
 }
 
-/* Section - Beneficios TRAININ */
 .benefits-section {
   background-color: #00060C;
   color: #fff;
 }
 
-/* Ítems*/
 .benefit-item {
   max-width: 300px;
 }
 
-/* Imágenes */
 .benefit-img {
   width: 250px;
   height: 250px;
@@ -451,7 +425,6 @@ body {
   }
 }
 
-/* Section - Suscripciones */
 .subscription-section .row {
   display: flex;
   flex-wrap: wrap;

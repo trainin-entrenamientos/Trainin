@@ -1,4 +1,3 @@
-/* Desktop Styles */
 body {
   display: flex;
   flex-direction: column;
@@ -182,7 +181,6 @@ body {
   }
 }
 
-/* Mobile */
 @media (max-width: 576px) {
   body{
       height: 80vh;

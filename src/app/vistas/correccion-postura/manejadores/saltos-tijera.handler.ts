@@ -6,14 +6,13 @@ import { generarResumen, suavizar } from '../../../compartido/utilidades/correcc
 
 export class SaltosTijeraHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.SALTOS_TIJERA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZjumpingJacks?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/_GMnNmWwYpg?autoplay=1&mute=1&loop=1&playlist=_GMnNmWwYpg&controls=0&modestbranding=1&rel=0';
 
   private fase: 'closed' | 'open' = 'closed';
   private buffer: number[] = [];
   private total = 0;
   private resultados: boolean[] = [];
 
-  // Umbrales dinámicos
   private static readonly UMBRALES = {
     legOpenFactor: 1.5,
     legCloseFactor: 1.2, 
@@ -202,7 +201,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
     const lw = lm.find(p => p.name === 'left_wrist')!;
     const rw = lm.find(p => p.name === 'right_wrist')!;
 
-    // Calculo radio piernas: distancia tobillos / distancia hombros
     const shoulderDist = Math.abs(ls.x - rs.x);
     const ankleDist    = Math.abs(la.x - ra.x);
     const rawRatio     = ankleDist / (shoulderDist || 1);
@@ -235,7 +233,6 @@ export class SaltosTijeraHandler implements ManejadorCorreccion {
       color   = 'orange';
     }
 
-    // Si ya van 5 repes, muestro resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class AbduccionCaderaHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.ABDUCCION_CADERA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZabduccionCadera?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/-Cr8dmyJHBQ?autoplay=1&mute=1&loop=1&playlist=-Cr8dmyJHBQ&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up'                = 'down';
   private pierna: 'right'|'left' | null    = null;
@@ -14,7 +14,6 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
   private total = 0;
   private resultados: boolean[]           = [];
 
-  // Umbrales de ángulo en la articulación de cadera (shoulder-hip-knee)
   private static readonly UMBRALES = {
     down:      100,
     up:        155,
@@ -90,12 +89,10 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
   }
 
   manejarTecnica(lm: Keypoint[]): ResultadoCorreccion {
-    // 1) Si ya completamos 5 repes, terminamos
     if (this.total >= 5) {
       return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: true };
     }
 
-    // 2) Detecto en qué pierna trabajás: busco un ángulo < down (es decir, ya elevaste)
     if (!this.pierna) {
       for (const side of ['right','left'] as const) {
         const sh  = lm.find(p => p.name === `${side}_shoulder`);
@@ -109,12 +106,10 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
         }
       }
     }
-    // si aún no detectamos pierna, seguimos esperando
     if (!this.pierna) {
       return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
     }
 
-    // 3) Extraigo los 3 puntos de la pierna activa + hombros para chequear tronco
     const shL = lm.find(p => p.name==='left_shoulder')!;
     const shR = lm.find(p => p.name==='right_shoulder')!;
     const shMidX = (shL.x + shR.x)/2;
@@ -123,7 +118,6 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
     const hip = lm.find(p => p.name === `${this.pierna}_hip`)!;
     const kne = lm.find(p => p.name === `${this.pierna}_knee`)!;
 
-    // 4) Cálculo y suavizado de ángulo en la cadera
     const raw = calcularAngulo(sh, hip, kne);
     const ang = suavizar(this.buffer, raw, AbduccionCaderaHandler.BUFFER_SIZE);
 
@@ -134,7 +128,6 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
     if (this.fase === 'down' && ang <= AbduccionCaderaHandler.UMBRALES.up) {
       this.fase = 'up';
 
-      // chequeo desplazamiento lateral del tronco
       const swing = Math.abs(shMidX - hip.x);
       const esError = swing > AbduccionCaderaHandler.UMBRALES.trunkLimit;
 
@@ -159,7 +152,6 @@ export class AbduccionCaderaHandler implements ManejadorCorreccion {
       color = 'orange';
     }
 
-    // 5) Si justo llegamos a 5, armo el resumen
     const termino = this.total === 5;
     let resumenHtml: string|undefined;
     if (termino) {

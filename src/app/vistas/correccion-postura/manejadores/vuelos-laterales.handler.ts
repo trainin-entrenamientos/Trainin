@@ -6,14 +6,13 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class VuelosLateralesHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.VUELOS_LATERALES;
-  readonly videoUrl = 'https://www.youtube.com/embed/XYZdelVuelo?autoplay=1';
+  readonly videoUrl = 'https://www.youtube.com/embed/4hdTwXrqwAY?autoplay=1&mute=1&loop=1&playlist=4hdTwXrqwAY&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down' | 'up' = 'down';
   private buffer: number[] = [];
   private total = 0;
   private resultados: boolean[] = [];
 
-  // Umbrales
   private static readonly UMBRALES = {
     down: 20,
     up: 85,
@@ -195,7 +194,6 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
     const elb = lm.find(p => p.name === 'right_elbow')!;
     const wri = lm.find(p => p.name === 'right_wrist')!;
 
-    // Calculo ángulo y suavizamos
     const raw = calcularAngulo(hip, sh, elb);
     const ang = suavizar(this.buffer, raw, VuelosLateralesHandler.BUFFER_SIZE);
 
@@ -208,7 +206,6 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
       this.total++;
       repContada = true;
 
-      // Comprobamos codo casi recto
       const elbowAng = calcularAngulo(sh, elb, wri);
       const esError = elbowAng < VuelosLateralesHandler.UMBRALES.elbow;
 
@@ -229,7 +226,6 @@ export class VuelosLateralesHandler implements ManejadorCorreccion {
       color = 'orange';
     }
 
-    // Si se alcanzan las 5 repeticiones, genero resumen
     const termino = this.total === 5;
     let resumenHtml: string | undefined;
     if (termino) {

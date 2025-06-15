@@ -6,15 +6,13 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class CurlBicepsHandler implements ManejadorCorreccion {
     readonly nombreEjercicio = NombreEjercicio.CURL_BICEPS;
-    readonly videoUrl = 'https://www.youtube.com/embed/XYZcurlBiceps?autoplay=1';
-
+readonly videoUrl = 'https://www.youtube.com/embed/DOEN0eIg0w0?autoplay=1&mute=1&loop=1&playlist=DOEN0eIg0w0&controls=0&modestbranding=1&rel=0';
     private fase: 'down' | 'up' = 'down';
     private brazo: 'right' | 'left' | null = null;
     private buffer: number[] = [];
     private total = 0;
     private resultados: boolean[] = [];
 
-    // Umbrales para curl de bíceps 
     private static readonly UMBRALES = {
         down: 160,
         up: 45,
@@ -204,15 +202,12 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
                 lm.find(p => p.name === 'left_wrist')!
             );
 
-            // Se calcula cuanto se aleja cada brazo en fase bajada
             const devR = Math.abs(angR - CurlBicepsHandler.UMBRALES.down);
             const devL = Math.abs(angL - CurlBicepsHandler.UMBRALES.down);
 
-            // Si uno de los dos supera el umbral de extensión
             if (angR > CurlBicepsHandler.UMBRALES.down || angL > CurlBicepsHandler.UMBRALES.down) {
                 this.brazo = devR >= devL ? 'right' : 'left';
             } else {
-                // Ninguno extendido aún -> esperamos
                 return { mensaje: null, color: '', repContada: false, totalReps: this.total, termino: false };
             }
         }
@@ -234,7 +229,6 @@ export class CurlBicepsHandler implements ManejadorCorreccion {
             this.total++;
             repContada = true;
 
-            // chequeo de balanceo de hombro en px
             const swing = Math.abs(sh.x - hip.x);
             const esError = swing > CurlBicepsHandler.UMBRALES.swingLimit;
 

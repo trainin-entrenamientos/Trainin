@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class EstocadaHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.ESTOCADA;
-  readonly videoUrl        = 'https://www.youtube.com/embed/XYZestocada?autoplay=1';
+  readonly videoUrl        = 'https://www.youtube.com/embed/Sw7Lc0bk3EQ?autoplay=1&mute=1&loop=1&playlist=Sw7Lc0bk3EQ&controls=0&modestbranding=1&rel=0';
 
   private fase: 'down'|'up' = 'down';
   private lado: 'right'|'left'|null = null;
@@ -135,7 +135,6 @@ export class EstocadaHandler implements ManejadorCorreccion {
     const knee = lm.find(p=>p.name===`${this.lado}_knee`)!;
     const ank  = lm.find(p=>p.name===`${this.lado}_ankle`)!;
 
-    // Ángulo de rodilla + suavizado
     const raw  = calcularAngulo(hip, knee, ank);
     const ang  = suavizar(this.buffer, raw, EstocadaHandler.BUFFER_SIZE);
 
@@ -148,7 +147,6 @@ export class EstocadaHandler implements ManejadorCorreccion {
       this.total++;
       repContada = true;
 
-      // Chequeo torso erguido: ángulo hombro-hip-ankle cerca de 180°
       const torsoAng = calcularAngulo(sh, hip, ank);
       const tilt = Math.abs(180 - torsoAng);
       const esError = tilt > EstocadaHandler.UMBRALES.torsoTilt;
@@ -170,7 +168,6 @@ export class EstocadaHandler implements ManejadorCorreccion {
       color   = 'orange';
     }
 
-    // Si completás 5 repes, armo resumen
     const termino = this.total===5;
     let resumenHtml: string|undefined;
     if (termino) {

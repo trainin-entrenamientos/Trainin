@@ -12,7 +12,7 @@ export class TemporizadorComponent {
 
   constructor(private temporizadorService: TemporizadorService) {}
 
-  ngOnChanges(): void {
+  ngOnChanges(p0: unknown): void {
     if (this.estaPausado) {
       this.temporizadorService.pausar();
     } else {

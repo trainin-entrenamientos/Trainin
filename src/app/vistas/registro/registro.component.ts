@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegistroComponent {
   registroForm: FormGroup;
+  cargando: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +23,8 @@ export class RegistroComponent {
   ) {
     this.registroForm = this.fb.group(
       {
-        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$')]],
+        apellido: ['', [Validators.required, Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$')]],
         email: ['', [Validators.required, Validators.email]],
         contrasenia: [
           '',
@@ -80,16 +81,19 @@ export class RegistroComponent {
     ...formValues,
     fechaNacimiento: this.formatearFecha(formValues.fechaNacimiento),
   };
-
+  this.cargando=true;
   this.authService.registrarUsuario(datos).subscribe({
     next: (response: any) => {
+      this.cargando=false;
       this.toastr.success(response.mensaje, 'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.');
       this.router.navigate(['/iniciar-sesion']);
     },
     error: (err) => {
+       this.cargando=false;
       const errorMsg =
         err.error?.mensaje ??
         (typeof err.error === 'string' ? err.error : 'Ocurrió un error inesperado al registrar el usuario.');
+              this.cargando=false;
 
       this.toastr.error(errorMsg, 'Error de registro');
     }
@@ -99,7 +103,7 @@ export class RegistroComponent {
 
 
   private formatearFecha(fecha: Date | string): string {
-    return new Date(fecha).toISOString(); // Ejemplo: "2002-05-16T00:00:00.000Z"
+    return new Date(fecha).toISOString(); 
   }
 
   marcarCamposComoTocados(): void {

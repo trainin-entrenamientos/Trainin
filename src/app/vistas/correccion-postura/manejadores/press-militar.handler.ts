@@ -6,7 +6,7 @@ import { calcularAngulo, generarResumen, suavizar } from '../../../compartido/ut
 
 export class PressMilitarHandler implements ManejadorCorreccion {
   readonly nombreEjercicio = NombreEjercicio.PRESS_MILITAR;
-  readonly videoUrl = 'https://www.youtube.com/embed/mbIhJZ2Sbcc?autoplay=1…';
+  readonly videoUrl = 'https://www.youtube.com/embed/q3JUAzDE87k?autoplay=1&mute=1&loop=1&playlist=q3JUAzDE87k&controls=0&modestbranding=1&rel=0';
 
   private fase: 'arriba'|'abajo' = 'arriba';
   private buffer: number[] = [];
