@@ -41,7 +41,12 @@
                 "glob": "**/*",
                 "input": "public/sfx",
                 "output": "sfx"
-              }
+              },
+              {
+              "glob": "**/*",
+              "input": "public/fuentes",
+              "output": "fuentes"
+            }
             ],
 
             "styles": [
