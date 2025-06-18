@@ -38,7 +38,7 @@ export class DetallePlanComponent implements OnInit {
   obtenerUsuario(idPlan: number): void {
     if (!this.email) return;
 
-    this.usuarioService.obtenerUsuarioPorId(this.email).subscribe({
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
         this.idUsuario = usuarioObtenido.id;
         

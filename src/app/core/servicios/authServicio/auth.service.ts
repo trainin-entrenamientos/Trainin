@@ -31,10 +31,11 @@ constructor(private http: HttpClient, private router: Router) {
   }
 
   login(credenciales: { email: string; contrasenia: string }): Observable<LoginResponseDTO> {
-    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/login`, credenciales).pipe(
+    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
       tap((response) => {
-        if (response.exito && !response.requiereActivacion) {
-          this.almacenarSesion(response.token);
+        const data = response.objeto;
+        if (response.exito && data && !data.requiereActivacion) {
+          this.almacenarSesion(data.token);
         }
       })
     );

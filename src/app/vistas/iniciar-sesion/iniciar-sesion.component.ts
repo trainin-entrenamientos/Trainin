@@ -32,7 +32,8 @@ export class IniciarSesionComponent {
     const credenciales = this.loginForm.value;
     this.authService.login(credenciales).subscribe({
       next: (data) => {
-        if (data.exito && !data.requiereActivacion) {
+        const datos = data.objeto;
+        if (data.exito && datos && !datos.requiereActivacion) {
           this.router.navigate(['/planes']);
         } else {
           this.cargando=false;

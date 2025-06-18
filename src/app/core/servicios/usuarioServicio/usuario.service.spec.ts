@@ -27,7 +27,7 @@ describe('UsuarioService', () => {
     const mockEmail = 'test@correo.com';
     const mockResponse = { id: 33, email: 'Test@correo.com' };
 
-    service.obtenerUsuarioPorId(mockEmail).subscribe(usuario => {
+    service.obtenerUsuarioPorEmail(mockEmail).subscribe(usuario => {
       expect(usuario).toEqual(mockResponse);
     });
 

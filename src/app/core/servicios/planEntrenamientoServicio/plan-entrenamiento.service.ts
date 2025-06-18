@@ -34,7 +34,7 @@ export class PlanEntrenamientoService {
   }
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/plan/desactivarPlan/${idPlan}`, { idUsuario });
+    return this.http.patch(`${this.baseUrl}/plan/desactivar/${idPlan}`, { IdUsuario: idUsuario });
   }
 
   actualizarNivelExigencia(idPlan: number, formulario: ActualizarNivelExigenciaDTO): Observable<string> {

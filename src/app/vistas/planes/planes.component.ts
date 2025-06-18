@@ -61,7 +61,7 @@ export class PlanesComponent {
   }
 
   obtenerUsuario(): void {
-    this.usuarioService.obtenerUsuarioPorId(this.email).subscribe({
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;

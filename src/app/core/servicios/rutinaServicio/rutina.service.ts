@@ -21,7 +21,7 @@ export class RutinaService {
 
   getDetalleEjercicios(planId: number): Observable<Rutina> {
     return this.http.get<Rutina>(
-      `${this.baseUrl}/rutina/obtenerPorPlan/${planId}`
+      `${this.baseUrl}/api/rutina/obtenerPorPlan/${planId}`
     );
   }
 

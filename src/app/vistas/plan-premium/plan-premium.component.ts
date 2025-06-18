@@ -71,8 +71,9 @@ export class PlanPremiumComponent implements AfterViewInit {
       .pagarSuscripcionPremium(this.usuario.idUsuario, 1)
       .subscribe({
         next: (response: any) => {
-          if (response && response.url) {
-        this.redirigir(response.url); 
+          console.log(response)
+          if (response && response.objeto) {
+        this.redirigir(response.objeto); 
           } else {
             console.error(
               'Error al obtener el punto de inicio de pago:',
@@ -87,7 +88,7 @@ export class PlanPremiumComponent implements AfterViewInit {
   }
  
   obtenerUsuarioPorEmail() {
-    this.usuarioServicio.obtenerUsuarioPorId(this.email).subscribe({
+    this.usuarioServicio.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {
         console.log('Usuario obtenido:', response);
         if (response && response.id) {
