@@ -42,7 +42,7 @@ export class PlanEntrenamientoService {
   }
 
   obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any>{
-    return this.http.get(`${this.baseUrl}/plan/obtenerDetallePlan/${idPlan}?idUsuario=${idUsuario}`);
+    return this.http.get(`${this.baseUrl}/plan/obtenerDetalle/${idPlan}?idUsuario=${idUsuario}`);
   }
  
 }
