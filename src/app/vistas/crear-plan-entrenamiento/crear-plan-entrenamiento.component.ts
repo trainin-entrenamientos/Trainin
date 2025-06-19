@@ -275,24 +275,21 @@ volverAlResumen(): void {
   }
 
   obtenerOpcionesEntrenamiento(): void {
-    this.planDeEntrenamientoService
-      .obtenerOpcionesEntrenamiento()
-      .subscribe((tiposEntrenamiento: any[]) => {
-        this.opcionesEntrenamiento = tiposEntrenamiento;
+    this.planDeEntrenamientoService.obtenerOpcionesEntrenamiento()
+      .subscribe((respuesta: any) => {
+        this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
 
   obtenerEquipamiento(): void {
-    this.planDeEntrenamientoService
-      .obtenerEquipamiento()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
+    this.planDeEntrenamientoService.obtenerEquipamiento()
+      .subscribe((respuesta: any) => {
+        this.equipamientosOpciones = respuesta.objeto;
       });
   }
-
+ //Esto se usa?
   obtenerObjetivos(): void {
-    this.planDeEntrenamientoService
-      .obtenerObjetivos()
+    this.planDeEntrenamientoService.obtenerObjetivos()
       .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
@@ -493,16 +490,14 @@ volverAlResumen(): void {
   enviarFormulario() {
     this.cargando=true;
     if (this.formularioForm.valid) {
-      this.planDeEntrenamientoService
-        .crearPlanEntrenamiento({
+      this.planDeEntrenamientoService.crearPlanEntrenamiento({
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
-          
         })
         
         .subscribe(
           (response) => {
-            this.planIdCreado = response.planId;
+            this.planIdCreado = response.objeto.planId
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }
