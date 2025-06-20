@@ -110,7 +110,7 @@ describe('obtenerUsuario', () => {
     it('Debería mostrar un error en consola si no se puede cargar los datos del usuario', () => {
       const error = new Error('fail');
       spyOn(console, 'error');
-      usuarioServiceSpy.obtenerUsuarioPorId.and.returnValue(throwError(() => error));
+      usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(throwError(() => error));
 
       component.obtenerUsuario();
 

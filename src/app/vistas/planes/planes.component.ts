@@ -47,7 +47,7 @@ export class PlanesComponent {
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
-        this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
+        this.planEntrenamiento = planObtenido.objeto;
         setTimeout(() => {
           this.cargando = false;
         }, 500);
@@ -61,10 +61,10 @@ export class PlanesComponent {
   }
 
   obtenerUsuario(): void {
-    this.usuarioService.obtenerUsuarioPorId(this.email).subscribe({
-      next: (usuarioObtenido: any) => {
-        this.usuario = usuarioObtenido;
-        this.idUsuario = usuarioObtenido.id;
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
+      next: (response: any) => {
+        this.usuario = response.objeto;
+        this.idUsuario = response.objeto.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {

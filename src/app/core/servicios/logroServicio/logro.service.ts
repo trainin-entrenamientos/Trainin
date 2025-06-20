@@ -28,6 +28,6 @@ export class LogroService {
     }
 
    obtenerTodosLosLogros(): Observable<any> {
-      return this.http.get(`${this.baseUrl}/logro/obtenerLogros`);
+      return this.http.get(`${this.baseUrl}/logro/obtener`);
     }
 }

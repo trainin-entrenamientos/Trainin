@@ -7,7 +7,6 @@ import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-f
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { CompartidoModule } from '../compartido/compartido.module';
-
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -28,6 +27,8 @@ import { LogrosComponent } from './logros/logros.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 import { ErrorComponent } from './error/error.component';
+import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
+import { FormAdminComponent } from './form-admin/form-admin.component';
 
 @NgModule({
 
@@ -54,6 +55,8 @@ import { ErrorComponent } from './error/error.component';
     PerfilComponent,
     PagoExitosoComponent,
     ErrorComponent,
+    ListadoDeEjerciciosComponent,
+    FormAdminComponent,
   ],
 
   imports: [

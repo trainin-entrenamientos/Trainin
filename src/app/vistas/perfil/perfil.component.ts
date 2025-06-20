@@ -35,7 +35,7 @@ export class PerfilComponent implements OnInit {
  
     this.perfilService.getPerfil(this.email).subscribe({
       next: (data) => {
-        this.perfil = data.perfil;
+        this.perfil = data.objeto;
         this.fotoMostrar = this.perfil?.fotoDePerfil ? this.perfil.fotoDePerfil : this.fotoMostrar;
         this.logros = this.perfil?.logros;
         this.cargando=false;

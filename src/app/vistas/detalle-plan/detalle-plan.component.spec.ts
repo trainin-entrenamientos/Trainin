@@ -113,13 +113,13 @@ describe('DetallePlanComponent', () => {
 
     component.ngOnInit();
 
-    expect(mockUsuarioService.obtenerUsuarioPorId).not.toHaveBeenCalled();
+    expect(mockUsuarioService.obtenerUsuarioPorEmail).not.toHaveBeenCalled();
     expect(component.cargando).toBeTrue();
   });
 
   it('debe manejar el error si falla obtenerUsuarioPorId', () => {
     dadoQueElUsuarioTieneEmail();
-    mockUsuarioService.obtenerUsuarioPorId.and.returnValue(
+    mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(
       throwError(() => new Error('Fallo al obtener usuario'))
     );
 
@@ -188,7 +188,7 @@ describe('DetallePlanComponent', () => {
   }
 
   function dadoQueElUsuarioEsDevueltoConID(id: number) {
-    mockUsuarioService.obtenerUsuarioPorId.and.returnValue(of({ id }));
+    mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(of({ id }));
   }
 
   function dadoQueElPlanEsDevueltoConSemanas() {

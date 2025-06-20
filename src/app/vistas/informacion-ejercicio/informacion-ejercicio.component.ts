@@ -69,7 +69,7 @@ export class InformacionEjercicioComponent {
 
 
   obtenerUsuario() {
-    this.usuarioServicio.obtenerUsuarioPorId(this.authServicio.getEmail()).subscribe({
+    this.usuarioServicio.obtenerUsuarioPorEmail(this.authServicio.getEmail()).subscribe({
       next: (usuario) => {
         if (!usuario) {
           console.error('Usuario no encontrado. Redirigiendo...');

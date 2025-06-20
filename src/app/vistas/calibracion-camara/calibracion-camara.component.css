@@ -42,7 +42,21 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: left;
 }
+
+.left p{
+    position: relative;
+    padding-left: 25px;
+}
+
+.left::before {
+    content: "✔️"; 
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 
 .right {
   flex: 1 1 auto;
