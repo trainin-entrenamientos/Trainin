@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Rutina } from '../../modelos/RutinaDTO';
 import { HttpClient } from '@angular/common/http';
 import { Ejercicio } from '../../modelos/RutinaDTO';
@@ -19,11 +19,12 @@ export class RutinaService {
   constructor(private http: HttpClient) {
   }
 
-  getDetalleEjercicios(planId: number): Observable<Rutina> {
-    return this.http.get<Rutina>(
-      `${this.baseUrl}/rutina/obtenerPorPlan/${planId}`
-    );
-  }
+  getDetalleEjercicios(planId: number): Observable<Rutina> { 
+  return this.http.get<any>(`${this.baseUrl}/rutina/obtenerPorPlan/${planId}`).pipe(
+    map((response: { objeto: Rutina; }) => response.objeto as Rutina)
+  );
+}
+  
 
   fueRealizada(idRutina: number, email: string, segundosTotales: number): Observable<any> {
     return this.http.patch<any>(

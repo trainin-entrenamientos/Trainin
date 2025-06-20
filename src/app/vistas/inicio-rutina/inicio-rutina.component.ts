@@ -32,8 +32,8 @@ export class InicioRutinaComponent {
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
     this.cargarRutina(idPlan);
   }
-    
-    iniciarRutina(): void {
+  
+  iniciarRutina(): void {
     if (!this.rutina) return;
     
     this.rutinaService.setIndiceActual(0);
@@ -41,11 +41,12 @@ export class InicioRutinaComponent {
     this.temporizadorService.iniciarTiempo();
     this.router.navigate(['/informacion-ejercicio']);
   }
-
- private cargarRutina(idPlan: number): void {
+  
+  private cargarRutina(idPlan: number): void {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
       next: rutina => {
-        this.rutina = rutina;                        
+        this.rutina = rutina;
+        console.log(this.rutina)            
         this.rutinaService.setRutina(rutina);  
         this.ejercicios = rutina.ejercicios; 
         this.minutosTraducidos=this.traducirMinutos(this.rutina.duracionEstimada);
