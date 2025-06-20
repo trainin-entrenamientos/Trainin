@@ -23,7 +23,7 @@ import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/in
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
-import { authGuard } from './core/guardias/auth.guard';
+import { authGuard } from './core/guardias/auth/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
 
 const routes: Routes = [
