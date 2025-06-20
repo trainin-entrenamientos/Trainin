@@ -39,8 +39,8 @@ export class DetallePlanComponent implements OnInit {
     if (!this.email) return;
 
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
-      next: (usuarioObtenido: any) => {
-        this.idUsuario = usuarioObtenido.id;
+      next: (response: any) => {
+        this.idUsuario = response.objeto.id;
         
         this.obtenerDetalleDelPlan(idPlan);
       },
@@ -53,9 +53,9 @@ export class DetallePlanComponent implements OnInit {
 
   obtenerDetalleDelPlan(idPlan: number): void {
     this.planEntrenamientoService.obtenerDetallePlan(idPlan, this.idUsuario).subscribe({
-      next: (data) => {
-        this.detallePlan = data;
-        this.semanas = data.semanaRutinas || [];
+      next: (response) => {
+        this.detallePlan = response.objeto;
+        this.semanas = response.objeto.semanaRutinas || [];
         this.semanaActual = 0;
         this.diaActivo = 0;
         this.cargando = false;
