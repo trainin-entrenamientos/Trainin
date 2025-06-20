@@ -15,7 +15,7 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   obtenerUsuarioPorId(email: string | null): Observable<any> {
-    return this.http.get(`${this.baseUrl}/usuario/obtenerUsuario/${email}`);
+    return this.http.get(`${this.baseUrl}/usuario/obtenerPorEmail/${email}`);
   }
 
   iniciarSesion(usuario:LoginResponseDTO){

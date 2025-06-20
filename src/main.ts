@@ -4,8 +4,8 @@ import { AppModule } from './app/app.module';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('firebase-messaging-sw.js')
-    .then(reg => console.log('SW de FCM registrado con scope:', reg.scope))
+    .register('/firebase-messaging-sw.js')
+    .then()
     .catch(err => console.error('Error registrando SW de FCM:', err));
 }
 
