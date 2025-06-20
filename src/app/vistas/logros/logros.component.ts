@@ -30,36 +30,46 @@ export class LogrosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  this.cargando=true;
+  this.cargando = true;
   this.email = this.authService.getEmail();
-  
+
   if (!this.email) {
     console.error("No se encontró el email del usuario");
+    this.cargando = false;
     return;
   }
-  
+
   const logrosObtenidos$ = this.logroService.obtenerLogrosPorUsuario(this.email);
   const todosLosLogros$ = this.logroService.obtenerTodosLosLogros();
 
   logrosObtenidos$.subscribe({
     next: logrosObtenidos => {
-      this.logrosObtenidos = logrosObtenidos.logros;
+      const logrosUsuario = logrosObtenidos?.objeto ?? [];
+      this.logrosObtenidos = logrosUsuario;
 
       todosLosLogros$.subscribe({
         next: todosLosLogros => {
-          const idsObtenidos = this.logrosObtenidos.map(l => l.id);
+          const todos = todosLosLogros?.objeto ?? [];
+          const idsObtenidos = logrosUsuario.map((l: { id: any; }) => l.id);
 
-          this.todosLosLogros = todosLosLogros.logros.map((logro: { id: number; }) => ({
+          this.todosLosLogros = todos.map((logro: { id: number }) => ({
             ...logro,
-            obtenido: idsObtenidos.includes(logro.id) 
+            obtenido: idsObtenidos.includes(logro.id)
           }));
-          this.cargando=false;
+
+          this.cargando = false;
           this.aplicarFiltro();
         },
-        error: err => console.error('Error al obtener todos los logros:', err)
+        error: err => {
+          console.error('Error al obtener todos los logros:', err);
+          this.cargando = false;
+        }
       });
     },
-    error: err => console.error('Error al obtener los logros del usuario:', err)
+    error: err => {
+      console.error('Error al obtener los logros del usuario:', err);
+      this.cargando = false;
+    }
   });
 
   this.filtroForm.get('filtroSeleccionado')?.valueChanges.subscribe(valor => {

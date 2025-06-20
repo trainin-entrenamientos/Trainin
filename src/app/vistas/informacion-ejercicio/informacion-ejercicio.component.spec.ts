@@ -71,7 +71,7 @@ describe('InformacionEjercicioComponent', () => {
     usuarioServiceMock = jasmine.createSpyObj('UsuarioService', [
       'obtenerUsuarioPorId',
     ]);
-    usuarioServiceMock.obtenerUsuarioPorId.and.returnValue(
+    usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
       of({ id: 4, nombre: 'Facundo' })
     );
 
@@ -199,19 +199,19 @@ describe('InformacionEjercicioComponent', () => {
   }
 
   function dadoQueElUsuarioEsPremium() {
-    usuarioServiceMock.obtenerUsuarioPorId.and.returnValue(
+    usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
       of({ id: 1, nombre: 'Usuario Premium', esPremium: true })
     );
   }
 
   function dadoQueElUsuarioNoEsPremium() {
-    usuarioServiceMock.obtenerUsuarioPorId.and.returnValue(
+    usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
       of({ id: 1, nombre: 'Usuario Gratuito', esPremium: false })
     );
   }
 
   function dadoQueObtenerUsuarioFalla() {
-    usuarioServiceMock.obtenerUsuarioPorId.and.returnValue(
+    usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
       throwError(() => new Error('Error usuario'))
     );
   }

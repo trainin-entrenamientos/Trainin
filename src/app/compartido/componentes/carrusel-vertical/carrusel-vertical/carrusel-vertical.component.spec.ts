@@ -1,3 +1,4 @@
+/* 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { CarruselVerticalComponent } from './carrusel-vertical.component';
@@ -113,5 +114,7 @@ describe('CarruselVerticalComponent', () => {
     component.seleccionarItem(0);
     expect(component.indiceSeleccionado).toBeNull();
   });
-
 });
+
+EL CARRUSEL VERTICAL YA NO EXISTE
+*/

@@ -12,7 +12,7 @@ export class MercadoPagoService {
   constructor(private http: HttpClient) { }
 
   pagarSuscripcionPremium(idUsuario: number, idPremium: number): Observable<any> {
-    return this.http.post<any>(`${this.url}/premium/pagar`, {
+    return this.http.post<any>(`${this.url}/mercadoPago/pagar`, {
         IdUsuario: idUsuario,
         IdPremium: idPremium
     });
