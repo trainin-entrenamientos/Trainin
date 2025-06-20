@@ -28,6 +28,7 @@ import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.compone
 import { ErrorComponent } from './vistas/error/error.component';
 import { FormAdminComponent } from './vistas/form-admin/form-admin.component';
 import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/listado-de-ejercicios.component';
+import { adminGuard } from './core/guardias/admin/admin.guard';
 
 const routes: Routes = [
   {
@@ -163,7 +164,8 @@ const routes: Routes = [
       },
       {
         path: 'listarEjercicios',
-        component: ListadoDeEjerciciosComponent
+        component: ListadoDeEjerciciosComponent,
+        canActivate: [adminGuard]
       },
       {
         path: 'crear',

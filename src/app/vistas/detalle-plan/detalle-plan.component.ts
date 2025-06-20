@@ -5,6 +5,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-detalle-plan',
   standalone: false,
@@ -55,15 +56,16 @@ export class DetallePlanComponent implements OnInit {
   obtenerDetalleDelPlan(idPlan: number): void {
   this.planEntrenamientoService.obtenerDetallePlan(idPlan, this.idUsuario).subscribe({
     next: (data) => {
-      data.semanaRutinas.forEach((semana: any) => {
+      
+        data.objeto.semanaRutinas.forEach((semana: any) => {
         semana.rutinas.forEach((rutina: any) => {
           rutina.estado = rutina.estadoRutina; 
         });
       });
 
-      this.detallePlan = data;
+      this.detallePlan = data.objeto;
       this.idPlan = this.detallePlan?.id ?? 0;
-      this.semanas = data.semanaRutinas || [];
+      this.semanas = data.objeto.semanaRutinas || [];
       this.seleccionarPrimerRutinaActiva();
       this.cargando = false;
     },
