@@ -54,6 +54,7 @@ body {
   min-height: 80%;
   width: 100%;
 }
+
 .columna-objetivos {
   padding: 50px;
   border-radius: 20px;
@@ -66,11 +67,12 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
-  height: 40vh;
+  align-items: top;
+  height: 55vh;
   position: relative;
   width: 90%;
   align-self: center;
+  margin-bottom: 20px;
 }
 
 .esquina {
@@ -239,7 +241,7 @@ input.form-control {
 .mensajeErrorForm {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 input[type="number"].form-completarInfo {
   background: transparent;
@@ -795,7 +797,6 @@ font-size: 0.8rem;
    .primer-paso-columnas {
     flex-direction: column;
     height: auto;
-    gap: 30px;
   }
   .form-layout {
     flex-direction: column;
