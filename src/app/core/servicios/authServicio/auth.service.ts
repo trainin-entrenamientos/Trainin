@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { LoginResponseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginResponseDTO, responseDTO } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
 import { tokenExpirado } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
@@ -31,11 +31,12 @@ constructor(private http: HttpClient, private router: Router) {
     return this.usuarioSubject.asObservable();
   }
 
-  login(credenciales: { email: string; contrasenia: string }): Observable<LoginResponseDTO> {
-    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
+
+  login(credenciales: { email: string; contrasenia: string }): Observable<responseDTO> {
+    return this.http.post<responseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
       tap((response) => {
-        if (response.exito && !response.requiereActivacion) {
-          this.almacenarSesion(response.token);
+        if (response.objeto.exito && !response.objeto.requiereActivacion) {
+          this.almacenarSesion(response.objeto.token);
         }
       })
     );
