@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NotificacionesService } from '../../core/servicios/notificacionesServicio/notificaciones.service';
 
 @Component({
   selector: 'app-iniciar-sesion',
@@ -16,6 +17,7 @@ export class IniciarSesionComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private notificacionServicio: NotificacionesService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -32,8 +34,8 @@ export class IniciarSesionComponent {
     const credenciales = this.loginForm.value;
     this.authService.login(credenciales).subscribe({
       next: (data) => {
-        const datos = data.objeto;
-        if (data.exito && datos && !datos.requiereActivacion) {
+        if (data.objeto.exito && !data.objeto.requiereActivacion) {
+          this.notificacionServicio.pedirPermisoYRegistrar();
           this.router.navigate(['/planes']);
         } else {
           this.cargando=false;

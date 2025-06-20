@@ -13,7 +13,6 @@ export class UsuarioService {
   private baseUrl = environment.URL_BASE;
 
   constructor(private http: HttpClient) { }
-
   obtenerUsuarioPorEmail(email: string | null): Observable<any> {
     return this.http.get(`${this.baseUrl}/usuario/obtenerPorEmail/${email}`);
   }
