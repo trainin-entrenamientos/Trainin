@@ -21,7 +21,7 @@ import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 })
 export class CrearPlanEntrenamientoComponent {
   currentStep: number = 1;
-  totalSteps: number = 6;
+  totalSteps: number = 5;
   editandoDesdeResumen: boolean = false;
   formularioForm: FormGroup;
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
@@ -30,6 +30,8 @@ export class CrearPlanEntrenamientoComponent {
   mostrarModal: boolean = false;
   cargando: boolean = false;
   seEnvioForm:boolean=false;
+  progresoVisual = 20; 
+
 
 
   constructor(
@@ -44,7 +46,7 @@ export class CrearPlanEntrenamientoComponent {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
         null,
-        [Validators.required, Validators.min(35), Validators.max(220)],
+        [Validators.required, Validators.min(35), Validators.max(300)],
       ],
       alturaUsuario: [
         null,
@@ -66,7 +68,7 @@ export class CrearPlanEntrenamientoComponent {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.currentStep === 5) {
+      if (this.currentStep === 4) {
         this.configurarSliders();
       }
     });
@@ -75,22 +77,28 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   nextStep(): void {
-       if (!this.esPasoActualValido()) {
-      this.marcarCamposDelPasoComoTocados(this.currentStep);
-      return;
-    }
+  if (!this.esPasoActualValido()) {
+    this.marcarCamposDelPasoComoTocados(this.currentStep);
+    return;
+  }
 
-    if (this.currentStep < this.totalSteps) {
+  if (this.currentStep < this.totalSteps) {
+    this.progresoVisual = (this.currentStep + 1) * 20;
+
+    setTimeout(() => {
       this.currentStep++;
+
       if (this.currentStep === this.totalSteps) {
         this.cargarResumen();
       }
 
-      if (this.currentStep === 5) {
+      if (this.currentStep === 4) {
         setTimeout(() => this.configurarSliders(), 0);
       }
-    }
+    }, 200); 
   }
+}
+
 
 
   marcarCamposDelPasoComoTocados(paso: number): void {
@@ -98,18 +106,15 @@ export class CrearPlanEntrenamientoComponent {
 
     switch (paso) {
       case 1:
-        controles.push('pesoUsuario', 'alturaUsuario');
+        controles.push('pesoUsuario', 'alturaUsuario', 'objetivo');
         break;
       case 2:
-        controles.push('objetivo');
-        break;
-      case 3:
         controles.push('tipoEntrenamiento');
         break;
-      case 4:
+      case 3:
         controles.push('equipamientos');
         break;
-      case 5:
+      case 4:
         controles.push(
           'nivelExigencia',
           'diasDisponibles',
@@ -125,44 +130,57 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   previousStep(): void {
-    if (this.currentStep > 1) {
+  if (this.currentStep > 1) {
+    this.progresoVisual = (this.currentStep - 1) * 20;
+
+    setTimeout(() => {
       this.currentStep--;
 
-      if (this.currentStep === 5) {
+      if (this.currentStep === 4) {
         setTimeout(() => this.configurarSliders(), 0);
       }
-    }
+    }, 200);
   }
+}
+
 
   irAPaso(numero: number): void {
+  this.progresoVisual = numero * 20;
+
+  setTimeout(() => {
     this.currentStep = numero;
     this.editandoDesdeResumen = true;
 
-    if (this.currentStep === 5) {
+    if (this.currentStep === 4) {
       setTimeout(() => this.configurarSliders(), 0);
     }
-  }
+  }, 200);
+}
 
-  volverAlResumen(): void {
+volverAlResumen(): void {
+  this.progresoVisual = this.totalSteps * 20;
+
+  setTimeout(() => {
     this.currentStep = this.totalSteps;
     this.editandoDesdeResumen = false;
     this.cargarResumen();
-  }
+  }, 200);
+}
+
 
   esPasoActualValido(): boolean {
     switch (this.currentStep) {
       case 1:
         return (
           !!this.formularioForm.get('pesoUsuario')?.valid &&
-          !!this.formularioForm.get('alturaUsuario')?.valid
+          !!this.formularioForm.get('alturaUsuario')?.valid &&
+          !!this.formularioForm.get('objetivo')?.valid
         );
       case 2:
-        return !!this.formularioForm.get('objetivo')?.valid;
-      case 3:
         return !!this.formularioForm.get('tipoEntrenamiento')?.valid;
-      case 4:
+      case 3:
         return !!this.formularioForm.get('equipamientos')?.valid;
-      case 5:
+      case 4:
         return (
           !!this.formularioForm.get('nivelExigencia')?.valid &&
           !!this.formularioForm.get('diasDisponibles')?.valid &&
@@ -281,12 +299,9 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   opcionesObjetivo = [
-    { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
-    { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
-    { id: 3, nombre: 'Ganar masa muscular – Aumentar fuerza' },
-    { id: 4, nombre: 'Mejorar la flexibilidad y movilidad' },
-    { id: 5, nombre: 'Mantenerme activo/a y con energía cada día' },
-    { id: 6, nombre: 'Combatir el sedentarismo' },
+    { id: 1, nombre: 'Mejorar la flexibilidad y movilidad' },
+    { id: 2, nombre: 'Mantenerme activo/a y con energía cada día' },
+    { id: 3, nombre: 'Combatir el sedentarismo' },
   ];
 
   opcionSeleccionada: string | null = null;
@@ -516,5 +531,13 @@ export class CrearPlanEntrenamientoComponent {
     this.router.navigate(['/inicio-rutina', this.planIdCreado]);
   }
 }
+
+pasos = [
+  { nombre: 'Datos', icono: 'fas fa-user' },
+  { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
+  { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
+  { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
+  { nombre: 'Resumen', icono: 'fas fa-list-alt' }
+];
 
 }

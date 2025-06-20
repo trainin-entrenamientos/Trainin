@@ -46,7 +46,13 @@
                 "glob": "firebase-messaging-sw.js",
                 "input": "src",
                 "output": "/"
-              }
+              },
+              {
+              "glob": "**/*",
+              "input": "public/fuentes",
+              "output": "fuentes"
+            }
+
             ],
 
             "styles": [
