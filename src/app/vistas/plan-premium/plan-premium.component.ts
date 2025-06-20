@@ -90,11 +90,9 @@ export class PlanPremiumComponent implements AfterViewInit {
   obtenerUsuarioPorEmail() {
     this.usuarioServicio.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {
-        console.log('Usuario obtenido:', response);
-        if (response && response.id) {
-          this.usuario.idUsuario = response.id;
-          this.usuario.esPremium = response.esPremium || false;
-          console.log('Usuario:', this.usuario);
+        if (response) {
+          this.usuario.idUsuario = response.objeto.id;
+          this.usuario.esPremium = response.objeto.esPremium || false;
         } else {
           console.error('Error al obtener el ID del usuario:', response);
         }
