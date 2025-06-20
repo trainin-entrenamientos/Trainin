@@ -66,7 +66,6 @@ export class PlanesComponent {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
-        
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);

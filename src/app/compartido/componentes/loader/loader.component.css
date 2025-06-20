@@ -81,28 +81,25 @@
 }
 
 .loader > div:nth-child(1) {
-  animation: anm-BL-53-move1 1.5s infinite linear;
+  animation: anm-BL-53-move1 2s infinite linear;
 }
-
 .loader > div:nth-child(2) {
-  animation: anm-BL-53-move2 1.5s infinite linear;
+  animation: anm-BL-53-move2 2s infinite linear;
   animation-delay: 0.2s;
 }
-
 .loader > div:nth-child(3) {
-  animation: anm-BL-53-move3 1.5s infinite linear;
-  animation-delay: 0.3s;
-}
-
-.loader > div:nth-child(4) {
-  animation: anm-BL-53-move4 1.5s infinite linear;
+  animation: anm-BL-53-move3 2s infinite linear;
   animation-delay: 0.4s;
 }
-
-.loader > div:nth-child(5) {
-  animation: anm-BL-53-move5 1.5s infinite linear;
-  animation-delay: 0.5s;
+.loader > div:nth-child(4) {
+  animation: anm-BL-53-move4 2s infinite linear;
+  animation-delay: 0.6s;
 }
+.loader > div:nth-child(5) {
+  animation: anm-BL-53-move5 2s infinite linear;
+  animation-delay: 0.8s;
+}
+
 
 @keyframes anm-BL-53-move1 {
   50% {

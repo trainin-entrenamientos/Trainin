@@ -27,6 +27,7 @@ import { VerificarEmailComponent } from './verificar-email/verificar-email.compo
 import { LogrosComponent } from './logros/logros.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
 
@@ -52,6 +53,7 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     LogrosComponent,
     PerfilComponent,
     PagoExitosoComponent,
+    ErrorComponent,
   ],
 
   imports: [

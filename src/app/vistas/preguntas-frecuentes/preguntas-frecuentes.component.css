@@ -44,3 +44,28 @@ html {
   transform: rotate(180deg);
   color: #13ff3a;
 }
+
+
+
+@media (max-width: 768px) {
+  .contenedor-preguntas-frecuentes h4 {
+    font-size: 1rem;
+  }
+
+  .contenedor-preguntas-frecuentes p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .contenedor-preguntas-frecuentes h4 {
+    font-size: 0.95rem;
+  }
+
+  .contenedor-preguntas-frecuentes p {
+    font-size: 0.85rem;
+  }
+
+}

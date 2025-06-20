@@ -25,6 +25,7 @@ import { VerificarEmailComponent } from './vistas/verificar-email/verificar-emai
 import { LogrosComponent } from './vistas/logros/logros.component';
 import { authGuard } from './core/guardias/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
+import { ErrorComponent } from './vistas/error/error.component';
 
 const routes: Routes = [
   {
@@ -153,12 +154,16 @@ const routes: Routes = [
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
+      },
+      {
+        path: 'error',
+        component: ErrorComponent,
       }
     ]
   },
   {
     path: '**',
-    redirectTo: '/inicio',
+    redirectTo: '/error',
     pathMatch: 'full'
   },
   { path: '**', redirectTo: '' }

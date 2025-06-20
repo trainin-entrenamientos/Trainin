@@ -51,7 +51,10 @@ export class InicioRutinaComponent {
         this.minutosTraducidos=this.traducirMinutos(this.rutina.duracionEstimada);
         this.cargando=false;  
       },
-      error: err => console.error('Error al obtener la rutina:', err)
+      
+      error: err => {
+        this.cargando=false;  
+      }
     });
   }
 
