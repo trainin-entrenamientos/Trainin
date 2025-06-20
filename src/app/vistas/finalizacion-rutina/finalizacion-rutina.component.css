@@ -5,7 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 80.2vh;
+  max-height: 100vh;
 }
 
 * {
@@ -13,19 +13,6 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
-
-body,
-html {
-  font-family: "Merriweather Sans", sans-serif;
-  background-color: #00060c;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 
 #ctn-ejercicios {
   gap: 3rem;
@@ -45,9 +32,9 @@ html {
   padding-left: 4em;
   padding-right: 4em;
   margin: 0 auto;
-  min-height: 60vh;
   width: 100%;
-
+  margin-top: 6rem;
+  margin-bottom: 4rem;
 }
 
 .informacion-rutina i {
@@ -70,6 +57,7 @@ html {
 .nombre-ejercicio {
   color: white;
   text-align: center;
+  font-size: 25px;
 }
 
 .mensaje-finalizacion {
@@ -166,7 +154,7 @@ html {
   }
 }
 
-.contenedor-carrusel {
+  .contenedor-carrusel {
   width: 100%;
   max-width: 1200px;
   margin-bottom: 30px;
@@ -177,13 +165,13 @@ html {
   display: flex;
   justify-content: center;
   position: relative;
-  height: 450px;
+  height: 550px;
   margin-bottom: 30px;
 }
 
-.card {
+  .card {
   position: absolute;
-  width: 60%;
+  width: 40%;
   height: 100%;
   border-radius: 10px;
   transition: transform 0.4s ease, opacity 0.4s ease;
@@ -195,12 +183,10 @@ html {
 .card img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 10px;
   background-color: #00060C;
 }
-
-
 
 .card.centro {
   transform: translateX(0) scale(1);
@@ -217,10 +203,11 @@ html {
   transform: translateX(40%) scale(0.8);
 }
 
+
 .flecha-izquierda,
 .flecha-derecha {
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   font-size: 2rem;
   color: white;
@@ -232,11 +219,11 @@ html {
 }
 
 .flecha-izquierda {
-  left: -30px;
+  left: 125px;
 }
 
 .flecha-derecha {
-  right: -30px;
+  right: 125px;
 }
 
 .flecha-izquierda:hover,
@@ -473,7 +460,8 @@ html {
     flex-direction: column;
     width: 95%;
     align-items: center;
-    margin: 0 auto;
+    padding-left: 4em;
+    padding-right: 4em;
   }
 
   .boton-finalizar-pc {
@@ -755,4 +743,10 @@ html {
 .body-modal-color {
   background-color: #06131C;
   color: #fff;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
 }

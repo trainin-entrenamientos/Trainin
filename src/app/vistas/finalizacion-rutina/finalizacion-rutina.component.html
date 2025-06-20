@@ -1,5 +1,5 @@
 <body>
-  <main class="rutina-card my-5" [class.expandido]="expandido">
+  <main class="rutina-card " [class.expandido]="expandido">
     <div class="informacion-rutina" [class.expandido]="expandido">
       <div class="iconos-laterales" [class.expandido]="expandido">
         <i *ngFor="let opcion of opciones; let i = index" [class.seleccionada]="selectedSidebarIndex === i"

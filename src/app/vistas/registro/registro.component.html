@@ -266,19 +266,22 @@
               <div class="botones-registro">
                 <app-boton-trainin
                   ruta="/inicio"
-                  clase="btn btn-trainin"
+                  clase="btn btn-trainin btn-cancelar" 
                   tipo="button"
                 >
-                  Cancelar</app-boton-trainin
-                >
+                  Cancelar
+                </app-boton-trainin>
+
                 <app-boton-trainin
                   [disabled]="!esFormularioValido()"
                   clase="btn btn-trainin"
                   tipo="submit"
-                  >Registrarse</app-boton-trainin
                 >
+                  Registrarse
+                </app-boton-trainin>
               </div>
             </div>
+
           </form>
         </div>
       </div>

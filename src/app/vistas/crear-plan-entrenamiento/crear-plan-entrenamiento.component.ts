@@ -12,6 +12,8 @@ import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamiento
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
+import { Usuario } from '../../core/modelos/Usuario';
+import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -28,10 +30,15 @@ export class CrearPlanEntrenamientoComponent {
   equipamientosOpciones: Equipamiento[] = [];
   planIdCreado: number | undefined;
   mostrarModal: boolean = false;
-  cargando: boolean = false;
+  cargando: boolean = true;
   seEnvioForm:boolean=false;
   progresoVisual = 20; 
-
+  usuario?: Usuario;
+  email: string | null = null;
+  esPremium?: boolean;
+  cantidadPlanes?: number=0;
+  planEntrenamiento: any[] = [];
+  idUsuario: number = 1;
 
 
   constructor(
@@ -41,7 +48,10 @@ export class CrearPlanEntrenamientoComponent {
     private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
     private router: Router,
-    private logroService: LogroService
+    private logroService: LogroService,
+    private usuarioService: UsuarioService,
+    private planEntrenamientoService: PlanEntrenamientoService
+
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
@@ -64,7 +74,45 @@ export class CrearPlanEntrenamientoComponent {
   equipamientos: string[] = [];
   minutos: string = '';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.email = this.authService.getEmail();
+     this.obtenerUsuario();
+  }
+
+    obtenerUsuario(): void {
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
+      next: (usuarioObtenido: any) => {
+        this.usuario = usuarioObtenido;
+        this.idUsuario = usuarioObtenido.id;
+        this.esPremium = this.usuario?.esPremium;
+        console.log(this.esPremium);
+        this.obtenerPlanEntrenamiento(this.idUsuario);
+      },
+      error: (err: any) => {
+        console.error('Error al obtener el usuario:', err);
+      }
+    });
+  }
+
+  obtenerPlanEntrenamiento(id: number): void {
+    this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
+      next: (planObtenido: any) => {
+        this.cantidadPlanes = planObtenido.length;
+        if(this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4){
+       this.router.navigate(['/planes']);
+        }
+      if(this.esPremium ===false && (this.cantidadPlanes ?? 0) >= 1){
+       this.router.navigate(['/planes']);
+       }
+      this.cargando = false;
+      },
+      error: (err: any) => {
+        this.planEntrenamiento = [];
+        this.cargando = false;
+      }
+    });
+  }
+
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -275,24 +323,21 @@ volverAlResumen(): void {
   }
 
   obtenerOpcionesEntrenamiento(): void {
-    this.planDeEntrenamientoService
-      .obtenerOpcionesEntrenamiento()
-      .subscribe((tiposEntrenamiento: any[]) => {
-        this.opcionesEntrenamiento = tiposEntrenamiento;
+    this.planDeEntrenamientoService.obtenerOpcionesEntrenamiento()
+      .subscribe((respuesta: any) => {
+        this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
 
   obtenerEquipamiento(): void {
-    this.planDeEntrenamientoService
-      .obtenerEquipamiento()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
+    this.planDeEntrenamientoService.obtenerEquipamiento()
+      .subscribe((respuesta: any) => {
+        this.equipamientosOpciones = respuesta.objeto;
       });
   }
-
+ //Esto se usa?
   obtenerObjetivos(): void {
-    this.planDeEntrenamientoService
-      .obtenerObjetivos()
+    this.planDeEntrenamientoService.obtenerObjetivos()
       .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
@@ -300,7 +345,7 @@ volverAlResumen(): void {
 
   opcionesObjetivo = [
     { id: 1, nombre: 'Mejorar la flexibilidad y movilidad' },
-    { id: 2, nombre: 'Mantenerme activo/a y con energía cada día' },
+    { id: 2, nombre: 'Mantenerme activ@ y con energía cada día' },
     { id: 3, nombre: 'Combatir el sedentarismo' },
   ];
 
@@ -493,16 +538,14 @@ volverAlResumen(): void {
   enviarFormulario() {
     this.cargando=true;
     if (this.formularioForm.valid) {
-      this.planDeEntrenamientoService
-        .crearPlanEntrenamiento({
+      this.planDeEntrenamientoService.crearPlanEntrenamiento({
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
-          
         })
         
         .subscribe(
           (response) => {
-            this.planIdCreado = response.planId;
+            this.planIdCreado = response.objeto.planId
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }

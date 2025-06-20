@@ -23,10 +23,12 @@ import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/in
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
-import { authGuard } from './core/guardias/auth.guard';
+import { authGuard } from './core/guardias/auth/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
+import { ErrorComponent } from './vistas/error/error.component';
 import { FormAdminComponent } from './vistas/form-admin/form-admin.component';
 import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/listado-de-ejercicios.component';
+import { adminGuard } from './core/guardias/admin/admin.guard';
 
 const routes: Routes = [
   {
@@ -157,8 +159,13 @@ const routes: Routes = [
         component: PagoExitosoComponent,
       },
       {
+        path: 'error',
+        component: ErrorComponent,
+      },
+      {
         path: 'listarEjercicios',
-        component: ListadoDeEjerciciosComponent
+        component: ListadoDeEjerciciosComponent,
+        canActivate: [adminGuard]
       },
       {
         path: 'crear',
@@ -176,7 +183,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/inicio',
+    redirectTo: '/error',
     pathMatch: 'full'
   },
   { path: '**', redirectTo: '' }

@@ -411,7 +411,6 @@ input[type="radio"].form-check-input:focus {
   width: calc(33.33% - 10px);
   width: 200px;
   height: 225px;
-  background-color: #06131c;
   padding: 10px;
   text-align: center;
   border: 1px solid transparent;

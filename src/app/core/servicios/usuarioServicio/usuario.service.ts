@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../../modelos/Usuario';
 import { Observable, of } from 'rxjs';
-import { LoginResponseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginData } from '../../modelos/LoginResponseDTO';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -13,12 +13,11 @@ export class UsuarioService {
   private baseUrl = environment.URL_BASE;
 
   constructor(private http: HttpClient) { }
-
-  obtenerUsuarioPorId(email: string | null): Observable<any> {
-    return this.http.get(`${this.baseUrl}/usuario/obtenerUsuario/${email}`);
+  obtenerUsuarioPorEmail(email: string | null): Observable<any> {
+    return this.http.get(`${this.baseUrl}/usuario/obtenerPorEmail/${email}`);
   }
 
-  iniciarSesion(usuario:LoginResponseDTO){
+  iniciarSesion(usuario:LoginData){
     return this.http.post(`${this.baseUrl}/usuario/login`, usuario);
   }
 }

@@ -1,14 +1,8 @@
 import {
   Component,
-  ElementRef,
-  ViewChild,
   AfterViewInit,
-  HostListener,
-  ChangeDetectorRef,
-  input,
   Input,
 } from '@angular/core';
-import { PerfilDTO } from '../../../../core/modelos/PerfilDTO';
 
 interface CarruselItem {
   tipo: 'texto' | 'imagen';

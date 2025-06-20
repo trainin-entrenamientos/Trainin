@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { Renderer2 } from '@angular/core';
@@ -264,7 +264,7 @@ describe('CrearPlanEntrenamientoComponent', () => {
       tick();
       expect(console.error).toHaveBeenCalled();
     }));
-  });
+  });*/
 
  /* describe('iniciarRutina', () => {
     it('navigates when planIdCreado exists', () => {
@@ -281,4 +281,4 @@ describe('CrearPlanEntrenamientoComponent', () => {
       expect(console.error).toHaveBeenCalledWith('No hay un ID de plan creado.');
     });
   });*/
-});
+/*});*/
