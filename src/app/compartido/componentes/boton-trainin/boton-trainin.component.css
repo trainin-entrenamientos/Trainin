@@ -37,3 +37,133 @@
   border: none;
   color: #000;
 }
+
+a.btn-trainin {
+  text-decoration: none;
+  display: inline-block; /* para que respete el hover y el padding */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+a.btn-trainin:hover {
+  background-color: #11E835;
+  transform: scale(1.05);
+}
+
+
+.btn-practicar {
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.02rem;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid currentColor;
+  padding: 1rem 1.3rem;
+  font-size: 1rem;
+  color: #13FF3A;
+  position: relative;
+  transition: color 0.3s;
+  z-index: 1;
+}
+
+.btn-practicar span{
+  color:#13FF3A
+}
+
+.btn-practicar:hover{
+  color: #13FF3A;
+}
+
+.btn-practicar:hover::before {
+  width: 0;
+}
+
+.btn-practicar:hover::after {
+  height: 0;
+}
+
+.btn-practicar:active {
+  border-width: 0.25rem;
+}
+
+.btn-practicar::before,
+.btn-practicar::after {
+  content: '';
+  position: absolute;
+  background: #00060C;
+  z-index: -1;
+  transition: all 0.3s;
+}
+
+.btn-practicar::before {
+  width: calc(100% - 3rem);
+  height: calc(101% + 1rem);
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-practicar::after {
+  height: calc(100% - 2rem);
+  width: calc(101% + 1rem);
+  left: -0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-practicar2 {
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.02rem;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid currentColor;
+  padding: 1rem 1.3rem;
+  font-size: 1rem;
+  color: #13FF3A;
+  position: relative;
+  transition: color 0.3s;
+  z-index: 1;
+}
+
+.btn-practicar2 span{
+  color:#13FF3A
+}
+
+.btn-practicar2:hover{
+  color: #13FF3A;
+}
+
+.btn-practicar2:hover::before {
+  width: 0;
+}
+
+.btn-practicar2:hover::after {
+  height: 0;
+}
+
+.btn-practicar2:active {
+  border-width: 0.25rem;
+}
+
+.btn-practicar2::before,
+.btn-practicar2::after {
+  content: '';
+  position: absolute;
+  background: #06131c;
+  z-index: -1;
+  transition: all 0.3s;
+}
+
+.btn-practicar2::before {
+  width: calc(100% - 3rem);
+  height: calc(101% + 1rem);
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-practicar2::after {
+  height: calc(100% - 2rem);
+  width: calc(101% + 1rem);
+  left: -0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}

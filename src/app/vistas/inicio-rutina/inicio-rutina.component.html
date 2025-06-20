@@ -3,8 +3,9 @@
   <main *ngIf="!rutina && !cargando">
     <section>
       <article class="text-center">
-        <h2 class="p-4 m-4">Ya realizaste la rutina de hoy!</h2>
-        <h3>Vuelve mañana para seguir con la rutina!</h3>
+        <h2 class="p-4 m-4">¡Ya realizaste la rutina de hoy!</h2>
+        <h3>Vuelve mañana para seguir con tu entrenamiento</h3><br><br>
+        <app-boton-trainin type="button" class="btn-trainin"  routerLink="/planes" >Volver al Inicio</app-boton-trainin>
       </article>
     </section>
   </main>
@@ -20,35 +21,27 @@
     Duración estimada de la rutina: <strong>{{this.minutosTraducidos}}</strong>
   </p>
 
-        <div class="contenedor-carrusel">
+          <div class="contenedor-carrusel">
         <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="anteriorEjercicio()"></i>
         <div class="cards">
-          <div
-            class="card"
-            *ngFor="let ejercicio of ejercicios; let i = index"
-            [class.centro]="i === selectedEjercicioIndex"
-            [class.izquierda]="
+          <div class="card" *ngFor="let ejercicio of ejercicios; let i = index"
+            [class.centro]="i === selectedEjercicioIndex" [class.izquierda]="
               i ===
               (selectedEjercicioIndex - 1 + ejercicios.length) %
                 ejercicios.length
-            "
-            [class.derecha]="
+            " [class.derecha]="
               i === (selectedEjercicioIndex + 1) % ejercicios.length
-            "
-            (click)="selectEjercicio(i)"
-          >
-
+            " (click)="selectEjercicio(i)">
             <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
-            
+          </div>
 
-            <div>
+        </div>
+
+        <div>
           <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
-            <div class="nombre-ejercicio">{{i+1}}- {{ actual.nombre }}</div>
+            <div class="nombre-ejercicio">{{selectedEjercicioIndex + 1}}- {{ actual.nombre }}</div>
           </div>
         </div>
-          </div>
-        </div>
-
         <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
 

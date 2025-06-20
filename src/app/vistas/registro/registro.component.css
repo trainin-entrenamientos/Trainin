@@ -278,3 +278,20 @@ font-size: 15px;
 
 }
 
+@media (max-width: 520px) {
+  .botones-registro {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.6rem;
+    width: 100%;
+  }
+
+  ::ng-deep app-boton-trainin .btn-trainin {
+  width: 180px !important;
+  text-align: center;
+}
+
+
+}
+
+

@@ -3,7 +3,7 @@ import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamiento
 import { PlanCompleto, Rutina } from '../../core/modelos/DetallePlanDTO';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-plan',
@@ -20,13 +20,14 @@ export class DetallePlanComponent implements OnInit {
   email: string | null = null;
   idUsuario: number = 1;
   rutina: Rutina| undefined;
-  
+  idPlan:number=0;
 
   constructor(
     private planEntrenamientoService: PlanEntrenamientoService,
     private usuarioService: UsuarioService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -52,19 +53,43 @@ export class DetallePlanComponent implements OnInit {
   }
 
   obtenerDetalleDelPlan(idPlan: number): void {
-    this.planEntrenamientoService.obtenerDetallePlan(idPlan, this.idUsuario).subscribe({
-      next: (response) => {
-        this.detallePlan = response.objeto;
-        this.semanas = response.objeto.semanaRutinas || [];
-        this.semanaActual = 0;
-        this.diaActivo = 0;
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al obtener el plan:', err);
+  this.planEntrenamientoService.obtenerDetallePlan(idPlan, this.idUsuario).subscribe({
+    next: (data) => {
+      data.semanaRutinas.forEach((semana: any) => {
+        semana.rutinas.forEach((rutina: any) => {
+          rutina.estado = rutina.estadoRutina; 
+        });
+      });
+
+      this.detallePlan = data;
+      this.idPlan = this.detallePlan?.id ?? 0;
+      this.semanas = data.semanaRutinas || [];
+      this.seleccionarPrimerRutinaActiva();
+      this.cargando = false;
+    },
+    error: (err) => {
+      console.error('Error al obtener el plan:', err);
+    }
+  });
+}
+
+  seleccionarPrimerRutinaActiva(): void {
+  for (let i = 0; i < this.semanas.length; i++) {
+    const semana = this.semanas[i];
+    for (let j = 0; j < semana.rutinas.length; j++) {
+      const rutina = semana.rutinas[j];
+      if (rutina.estado === 1) {
+        this.semanaActual = i;
+        this.diaActivo = j;
+        return;
+
       }
-    });
+    }
   }
+
+  this.semanaActual = 0;
+  this.diaActivo = 0;
+}
 
   cambiarSemana(direccion: number): void {
     const nuevoIndice = this.semanaActual + direccion;
@@ -86,7 +111,9 @@ export class DetallePlanComponent implements OnInit {
   return this.semanaSeleccionada?.rutinas ?? [];
 }
 
-
+get rutinaActual(): Rutina | undefined {
+  return this.diasSemanaActual[this.diaActivo];
+}
   get ejerciciosDelDia() {
     return this.diasSemanaActual[this.diaActivo]?.ejercicios || [];
   }
@@ -116,6 +143,14 @@ esPrimeraRutinaActivaActual(): boolean {
   const rutinaActual = this.diasSemanaActual?.[this.diaActivo];
   const primeraActiva = this.getPrimerRutinaActiva();
   return rutinaActual?.id === primeraActiva?.id;
+}
+
+redirigir() {
+  if (this.detallePlan) {
+    this.router.navigate(['/inicio-rutina', this.detallePlan.id]);
+  } else {
+    console.error('detallePlan no está definido');
+  }
 }
 
 

@@ -86,12 +86,13 @@
 
 
         <div *ngIf="!ejercicio?.correccionPremium && ejercicio?.tieneCorrecion" class="practicar">
-         <app-boton-trainin type="button" class="btn-trainin"
+         <app-boton-trainin type="button" 
+            [clase]="'btn-practicar'" 
+            [tipo]="'button'" 
             [disabled]="!ejercicio?.tieneCorrecion"
             [routerLink]="ejercicio?.tieneCorrecion ? ['/calibracion-camara',claveEjercicioCorreccion()] : null"
             (click)="botonPausar()"
-          >
-            Practicar
+          ><span style="color:white">Practicar</span>
           </app-boton-trainin>
           <i
             class="bi bi-question-circle-fill help-icon"
@@ -101,12 +102,15 @@
           ></i>
         </div>
         <div class="boton-de-practica" *ngIf="esUsuarioPremium && ejercicio?.correccionPremium && ejercicio?.tieneCorrecion">          
-          <app-boton-trainin type="button" class="btn-trainin"
+          <app-boton-trainin type="button" 
+             [clase]="'btn-practicar'" 
+             [tipo]="'button'" 
             [disabled]="!ejercicio?.tieneCorrecion"
             [routerLink]="ejercicio?.tieneCorrecion ? ['/calibracion-camara',claveEjercicioCorreccion()] : null"
             (click)="botonPausar()"
-          >
+          ><span style="color:white">
             Practicar
+          </span>
           </app-boton-trainin>
           <i
             class="bi bi-question-circle-fill help-icon"
