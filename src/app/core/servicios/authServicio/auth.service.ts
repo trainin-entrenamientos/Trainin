@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
 export class AuthService {
   private readonly TOKEN_KEY = 'token';
   private CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
+  private CLAIM_ROLE = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
@@ -31,7 +32,7 @@ constructor(private http: HttpClient, private router: Router) {
   }
 
   login(credenciales: { email: string; contrasenia: string }): Observable<LoginResponseDTO> {
-    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/login`, credenciales).pipe(
+    return this.http.post<LoginResponseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
       tap((response) => {
         if (response.exito && !response.requiereActivacion) {
           this.almacenarSesion(response.token);
@@ -73,9 +74,19 @@ constructor(private http: HttpClient, private router: Router) {
     }
   }
 
-
   registrarUsuario(dto: RegistroDTO): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/usuario/registro`, dto);
+  }
+  
+  getRol(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload[this.CLAIM_ROLE];
+    } catch {
+      return null;
+    }
   }
 }
 
