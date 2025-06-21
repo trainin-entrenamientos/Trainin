@@ -11,7 +11,7 @@ private apiUrl = `${environment.URL_BASE}/usuario/`;
   constructor(private http: HttpClient) {}
 
 getPerfil(email: string): Observable<any> {
-  return this.http.get(`${this.apiUrl}perfil/${encodeURIComponent(email)}`);
+  return this.http.get(`${this.apiUrl}obtenerPerfil/${encodeURIComponent(email)}`);
 }
 
   actualizarFotoPerfil(email: string, fotoBase64: string) {
