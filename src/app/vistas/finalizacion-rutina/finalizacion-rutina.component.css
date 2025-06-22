@@ -550,17 +550,17 @@ body {
   }
 
 
-
 .informacion-rutina.expandido {
   width: 50%;
   align-items: stretch;
-   height: 40rem;
+  height: 40rem;
 }
 
   .informacion-rutina {
     flex-direction: column;
     width: 100%;
     order: 2;
+    
   }
 
 
@@ -666,14 +666,6 @@ body {
     font-size: 1.2rem;
   }
 
-  .lista-estadisticas li i {
-    font-size: 1rem;
-  }
-
-  .lista-estadisticas li span {
-    font-size: 1rem;
-  }
-
    .card {
   width: 60%;
 
@@ -698,6 +690,14 @@ body {
   .cards {
   height: 300px;
 }
+
+  .lista-estadisticas li i {
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 0.76rem;
+  }
 }
 
 
@@ -769,6 +769,17 @@ body {
 
 }
 
+@media (max-width: 420px) {
+
+ .lista-estadisticas li i {
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 0.6rem;
+  }
+
+}
 
 
 .feedback-modal {
