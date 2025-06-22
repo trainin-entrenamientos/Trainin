@@ -41,7 +41,7 @@
                 </p>
               </div>
             </div>
-          </a><app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
+          </a><app-carrusel-vertical [mostrarComoVertical]="false" [conPlanesFree]="false"></app-carrusel-vertical>
 
         </div>
         <div class="contenedor-imagen-circulo">
@@ -138,15 +138,18 @@
               </div>
             </div>
           </a>  
+           @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="false"
+            [conPlanesFree]="true"
+            [conPlanesPremium]="false"
+
+          ></app-carrusel-vertical>
+        }
         </div>
         
       </article>
-         @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
-                <app-carrusel-vertical
-            [mostrarComoVertical]="false"
-            [sinPlanes]="false"
-          ></app-carrusel-vertical>
-        }
+        
 
       <!--SIN PLANES, PREMIUM-->
       <article
@@ -169,7 +172,7 @@
               </div>
             </div>
           </a>
-            <app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
+            <app-carrusel-vertical [mostrarComoVertical]="false" [conPlanesFree]="false" [conPlanesPremium]="false"></app-carrusel-vertical>
         </div>
 
          <div class="contenedor-imagen-circulo-con-premium">
@@ -281,6 +284,7 @@
           @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="true"
+            [conPlanesFree]="false"
             [conPlanesPremium]="true"
           ></app-carrusel-vertical>
         }
@@ -291,6 +295,7 @@
           @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="true"
+            [conPlanesFree]="false"
             [conPlanesPremium]="true"
           ></app-carrusel-vertical>
         }
@@ -298,7 +303,8 @@
       @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="false"
-            [sinPlanes]="false"
+            [conPlanesFree]="false"
+            [conPlanesPremium]="true"
           ></app-carrusel-vertical>
         }
           

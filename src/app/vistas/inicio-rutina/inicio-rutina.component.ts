@@ -35,7 +35,7 @@ export class InicioRutinaComponent {
   
   iniciarRutina(): void {
     if (!this.rutina) return;
-    
+
     this.rutinaService.setIndiceActual(0);
     this.temporizadorService.reiniciarTiempo();
     this.temporizadorService.iniciarTiempo();
@@ -43,16 +43,18 @@ export class InicioRutinaComponent {
   }
   
   private cargarRutina(idPlan: number): void {
+    console.log(idPlan);
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
-      next: rutina => {
+      next: rutina => {       
+         if(rutina==null){
+          this.cargando=false;  
+        }    
         this.rutina = rutina;
-        console.log(this.rutina)            
         this.rutinaService.setRutina(rutina);  
         this.ejercicios = rutina.ejercicios; 
         this.minutosTraducidos=this.traducirMinutos(this.rutina.duracionEstimada);
         this.cargando=false;  
-      },
-      
+      }, 
       error: err => {
         this.cargando=false;  
       }

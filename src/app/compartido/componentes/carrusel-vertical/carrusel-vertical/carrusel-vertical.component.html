@@ -1,4 +1,4 @@
-<div [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'conPlanes': !sinPlanes, 'conPlanesPremium':conPlanesPremium}">
+<div [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'conPlanesFree': conPlanesFree, 'conPlanesPremium':conPlanesPremium}">
 
 <div class="card">
 <div class="face back">
@@ -25,8 +25,8 @@
 <div class="face back">
   <div class="estadisticas-back-calorias">
     <div class="dato">
-      <div class="valor">47</div>
-      <div class="etiqueta">Días</div>
+      <div class="valor-cal">47</div>
+      <div class="etiqueta-cal">Días</div>
     </div>
   </div>
 </div>
@@ -42,6 +42,7 @@
 <div class="face back">
   <div class="estadisticas-back">
     <div class="plan-label">Cuerpo completo</div>
+    <div class="info-plan">
 
     <div class="dato dato-superior">
       <div class="valor">450</div>
@@ -55,6 +56,7 @@
       <div class="etiqueta">Duración</div>
     </div>
   </div>
+      </div>
 </div>
 <div class="face front image-placeholder rounded mb-2">
   <div class="contenido-frontal">
@@ -63,112 +65,5 @@
   </div>
 </div>
 </div>
-
-  <!--<div class="card">
-  <div class="content">
-    <div class="back">
-      <div class="back-content">
-        
-        <strong>Último Entrenamiento</strong>
-        <strong><i class="fa-solid fa-stopwatch-20"></i></strong>
-      </div>
-    </div>
-    <div class="front">
-      
-      <div class="img">
-        <div class="circle">
-        </div>
-        <div class="circle" id="right">
-        </div>
-        <div class="circle" id="bottom">
-        </div>
-      </div>
-
-      <div class="front-content">
-        <div class="description">
-          <div class="title">
-            <p class="title">
-              <strong>Cuerpo Completo</strong>
-            </p>
-          </div>
-          <p class="card-footer">
-            37:14 min &nbsp; | &nbsp; 110 cal.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- <div class="card">
-  <div class="content">
-    <div class="back">
-      <div class="back-content">
-        
-        <strong>Racha Actual</strong>
-        <strong><i class="fa-solid fa-fire"></i></strong>
-      </div>
-    </div>
-    <div class="front">
-      
-      <div class="img">
-        <div class="circle">
-        </div>
-        <div class="circle" id="right">
-        </div>
-        <div class="circle" id="bottom">
-        </div>
-      </div>
-
-      <div class="front-content">
-        <div class="description">
-          <div class="title">
-            <p class="title">
-              <strong>Racha</strong>
-            </p>
-          </div>
-          <p class="card-footer">
-           20 días
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="card">
-  <div class="content">
-    <div class="back">
-      <div class="back-content">
-        
-        <strong>Ejercicio del Día</strong>
-        <strong><i class="fa-solid fa-dumbbell"></i></strong>
-      </div>
-    </div>
-    <div class="front">
-      
-      <div class="img">
-        <div class="circle">
-        </div>
-        <div class="circle" id="right">
-        </div>
-        <div class="circle" id="bottom">
-        </div>
-      </div>
-
-      <div class="front-content">
-        <div class="description">
-          <div class="title">
-            <p class="title">
-              <strong>Cuerpo Completo</strong>
-            </p>
-          </div>
-          <p class="card-footer">
-            37:14 min &nbsp; | &nbsp; 110 cal.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->
- 
 </div>
 

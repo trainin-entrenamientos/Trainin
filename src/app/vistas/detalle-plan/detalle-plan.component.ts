@@ -62,7 +62,7 @@ export class DetallePlanComponent implements OnInit {
           rutina.estado = rutina.estadoRutina; 
         });
       });
-
+      console.log(data.objeto)
       this.detallePlan = data.objeto;
       this.idPlan = this.detallePlan?.id ?? 0;
       this.semanas = data.objeto.semanaRutinas || [];
@@ -88,7 +88,6 @@ export class DetallePlanComponent implements OnInit {
       }
     }
   }
-
   this.semanaActual = 0;
   this.diaActivo = 0;
 }

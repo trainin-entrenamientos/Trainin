@@ -5,7 +5,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center; 
-    max-height: 100vh;
+    min-height: 100vh;
+    max-height: 300vh;
   }
   * {
     margin: 0;
@@ -20,6 +21,23 @@
   .fa-arrow-left:hover{
     color:#13ff3a;
   }
+
+  .realizada{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+
+  .logo img{
+  width: 300px;
+  align-self: center;
+  margin-bottom: 50px;
+}
+
+
 
   .rutina-card {
     background-color: #00060c;
@@ -186,6 +204,19 @@
   .contenedor-carrusel {
     align-self: center;
   }
+
+   .realizada h2{
+    font-size: 1.2rem;
+  }
+  .realizada h3{
+    font-size: 1rem;
+  }
+
+  .logo img{
+  width: 200px;
+  align-self: center;
+  margin-bottom: 50px;
+}
   }
  
   @media (max-width: 600px) {
@@ -222,8 +253,15 @@
 .flecha-derecha {
   right: -50px;
   top: 125px;
-}
 
+  
+}
+  .realizada h2{
+    font-size: 1rem;
+  }
+  .realizada h3{
+    font-size: 0.8rem;
+  }
   }
 @media (max-width: 400px) {
 
