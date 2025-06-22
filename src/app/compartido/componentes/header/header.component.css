@@ -89,3 +89,37 @@ nav img:hover{
     padding: 10px 0;
   }
 }
+
+.dropdown-menu {
+  background-color: #00060C !important;
+  border: 1px solid #222 !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  min-width: 8rem;
+}
+
+.dropdown-item {
+  color: #ccc !important;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #13FF3A !important;
+  color: #000 !important;
+}
+
+.dropdown-divider {
+  border-color: #333 !important;
+}
+
+.dropdown-toggle {
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.dropdown-item.active {
+  background-color: #005500 !important;
+  color: #fff !important;
+}

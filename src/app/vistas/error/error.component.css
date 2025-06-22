@@ -160,7 +160,7 @@ transform: rotate(-20deg);
   transform: rotate(-20deg);
   }
 }
-}
+
 @-moz-keyframes animation_error_2 {
   from { -webkit-transform: rotate(-15deg); 
   transform: rotate(-15deg);

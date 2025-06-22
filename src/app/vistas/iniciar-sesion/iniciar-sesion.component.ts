@@ -27,7 +27,7 @@ export class IniciarSesionComponent {
     });
 
   }
-
+  
   iniciarSesion() {
     if (this.loginForm.invalid) return;
     this.cargando=true;

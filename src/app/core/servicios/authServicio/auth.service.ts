@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { LoginData, responseDTO } from '../../modelos/LoginResponseDTO';
+import { responseDTO } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
 import { tokenExpirado } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
@@ -36,7 +36,6 @@ constructor(private http: HttpClient, private router: Router) {
       tap((response) => {
         if (response.objeto.exito && !response.objeto.requiereActivacion) {
           this.almacenarSesion(response.objeto.token);
-
         }
       })
     );
@@ -60,7 +59,6 @@ constructor(private http: HttpClient, private router: Router) {
   cerrarSesion(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     this.usuarioSubject.next(null);
-    this.router.navigate(['/iniciar-sesion']);
   }
 
   getEmail(): string | null {

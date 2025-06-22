@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './componentes/header/header.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { RouterModule } from '@angular/router';
@@ -16,6 +17,8 @@ import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carru
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
 import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
+import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -34,10 +37,13 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
+    ModalEditarPerfilComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
     ],
   exports: [
     HeaderComponent,

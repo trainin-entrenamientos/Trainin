@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { filter } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 declare const bootstrap: any;
 
@@ -17,6 +18,7 @@ export class HeaderComponent {
 
   constructor(
     public authService: AuthService,
+    private toastr: ToastrService,
     private router: Router
   ) {
     this.router.events
@@ -63,8 +65,15 @@ navegarSiCorresponde(event: MouseEvent): void {
       const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggleEl);
       dropdownInstance.hide();
     }
-
     this.authService.cerrarSesion();
+    this.toastr.info('Has cerrado sesión correctamente.', '',
+      {
+        timeOut: 5000,
+        closeButton: true,
+        tapToDismiss: true
+      }
+    );
+    this.router.navigate(['/iniciar-sesion']);
   }
 
   finalizarRutina() {
