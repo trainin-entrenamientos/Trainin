@@ -45,12 +45,13 @@ main {
 }
 
 .preview-timer .progress {
-  width: 80%;
+  width: 65%;
   margin: 0 auto;
   height: 8px;
   background-color: #fff !important;
   border-radius: 4px;
   overflow: hidden;
+  margin-top: 1.3rem;
 }
 .preview-timer .progress-bar {
   background-color: #13FF3A !important;
@@ -196,24 +197,28 @@ h4{
   width: 1200px;
   justify-content: center;
   margin-left: 200px;
+  align-items: center;
+  display: flex;
 }
 .ejercicio-box.expandido .imagen-con-borde {
   transform: translateX(-100px);
   transition: transform 0.4s ease;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
 }
 
 .imagen-con-borde {
-  display: flex;
+  display: flex;            
+  flex-direction: row;     
   align-items: flex-start;
   border: 2px solid #13FF3A;
   border-radius: 0.5rem;
-  padding: 10px;
   position: relative;
   transition: all 0.4s ease;
-  width: auto;
-  max-width: 700px;
-  overflow: hidden;
-  background-color: #0B1A1E;
+  width: 100%;
+  overflow: hidden;  
+  margin-bottom: 1.5rem;
 }
 
 .imagen-con-borde img{
@@ -227,14 +232,14 @@ h4{
 .descripcion-ejercicio {
   position: relative;
   margin-left: 1rem;
-  max-width: 0;
+  max-width: 100%;
   opacity: 0;
   overflow: hidden;
   transition: max-width 0.5s ease, opacity 0.5s ease;
   padding: 0;
   flex-shrink: 0;
   width: 0;
-  margin-top: 2rem;
+
   color: #fff;
   align-self: center;
   white-space: pre-line;
@@ -248,7 +253,11 @@ h4{
   max-width: 400px;
   width: 400px;
   opacity: 1;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 3rem;
 }
 
 .descripcion-ejercicio {
@@ -262,7 +271,6 @@ h4{
     opacity: 1;
   }
 }
-
 
 .btn-info {
   margin: 1rem;
@@ -298,10 +306,25 @@ h4{
 
 }
 
+.preview-timer {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.preview-timer h3,
+.preview-timer #countdown {
+  margin: 0 0.5rem !important;
+}
 
 @media (min-width: 768px) and (max-width: 1050.98px) {
    .ejercicio-box.expandido .imagen-con-borde {
     transform: none !important; 
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
 .preview-timer .btn-outline-success {
     border-color: #13FF3A;
@@ -311,7 +334,6 @@ h4{
     padding: 0.5rem 1.5rem;
     font-size: 0.9rem;
   }
-
   
   .preview-timer .btn-outline-success:hover {
     background-color: #13FF3A;
@@ -328,6 +350,8 @@ h4{
     width: 100%;
     margin-left: 0;
     justify-content: center;
+    align-items: center;
+    display: flex;
   }
 
   .imagen-con-borde {
@@ -336,10 +360,8 @@ h4{
     height: 95%;
   }
   .imagen-con-borde.expandida {
-   
     height: 100%;
   }
-
  
   .btn-info{
     padding: 0;
@@ -356,7 +378,6 @@ h4{
   }
 
 }
-
 
 @media (max-width: 767.98px) {
 
@@ -383,6 +404,9 @@ h4{
 }
    .ejercicio-box.expandido .imagen-con-borde {
     transform: none !important; 
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
  body{
     text-align: center;
@@ -415,6 +439,8 @@ h4{
     width: 100%;
     margin-left: 0;
     justify-content: center;
+    align-items: center;
+    display: flex;
   }
 
   .imagen-con-borde {
@@ -429,13 +455,12 @@ h4{
    margin-bottom: 20px;
   }
 
-
   .descripcion-ejercicio.visible {
     max-width: 100%;
     width: 100%;
     padding: 1rem;
     text-align: left;
-    margin-left: 0;
+    margin-left: 3rem;
   }
 
   .btn-info {
@@ -457,6 +482,46 @@ h4{
     font-size: 1.5rem;
   }
 }
+
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  .titulo-ejercicio {
+    font-size: 1.8rem !important;
+  }
+
+  .ejercicio-box {
+    max-width: 90% !important;
+    margin: 0 auto !important;
+  }
+
+  .imagen-con-borde {
+    max-width: 500px !important;
+    margin-bottom: 1rem !important;
+  }
+  .imagen-con-borde img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .descripcion-ejercicio.visible {
+    max-width: 400px !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    margin-left: 1rem !important;
+  }
+
+  .btn-info {
+    font-size: 1.5rem !important;
+    margin: 0.5rem !important;
+  }
+
+  .preview-timer .display-4 {
+    font-size: 2rem !important;
+  }
+  .practicar {
+    margin-top: 1rem !important;
+  }
+}
+
 
 
 

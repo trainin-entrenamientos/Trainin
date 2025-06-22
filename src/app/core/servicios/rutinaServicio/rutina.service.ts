@@ -20,7 +20,7 @@ export class RutinaService {
   }
 
   getDetalleEjercicios(planId: number): Observable<Rutina> { 
-  return this.http.get<any>(`${this.baseUrl}/rutina/obtenerPorPlan/${planId}`).pipe(
+  return this.http.get<any>(`${this.baseUrl}/rutina/obtener/${planId}`).pipe(
     map((response: { objeto: Rutina; }) => response.objeto as Rutina)
   );
 }
