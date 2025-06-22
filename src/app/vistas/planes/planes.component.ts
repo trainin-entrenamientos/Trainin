@@ -124,5 +124,7 @@ desactivarPlan(idPlan: number): void {
        this.router.navigate(['/detalle-plan', idPlan]);
   }
  
-
+  iniciarSesionConSpotify() {
+    this.authService.loginWithSpotify();
+  }
 }

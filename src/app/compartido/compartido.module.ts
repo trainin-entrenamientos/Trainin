@@ -16,6 +16,7 @@ import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carru
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
 import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
+import { SpotifyComponent } from "./componentes/spotify/spotify.component";
 
 
 @NgModule({
@@ -34,11 +35,12 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
+    SpotifyComponent
   ],
   imports: [
     CommonModule,
     RouterModule
-    ],
+],
   exports: [
     HeaderComponent,
     FooterComponent,

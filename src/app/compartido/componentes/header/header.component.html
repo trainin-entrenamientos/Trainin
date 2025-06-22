@@ -42,5 +42,11 @@
   (onConfirm)="confirmarSalidaRutina()"
   (onCancel)="cancelarSalidaRutina()"
 ></app-modal-salir-de-rutina>
+@if(mostrarSpotify){
+  <div class="d-flex justify-content-center w-100 position-absolute top-50 start-50 translate-middle-x" style="z-index: 0;">
+    <app-spotify></app-spotify>
+  </div>
+}
+
 
 </header>

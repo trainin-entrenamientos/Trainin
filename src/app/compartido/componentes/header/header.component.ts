@@ -14,6 +14,7 @@ declare const bootstrap: any;
 export class HeaderComponent {
   enRutina: boolean = false;
   mostrarModalSalirRutina: boolean = false;
+  mostrarSpotify: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -48,6 +49,7 @@ navegarSiCorresponde(event: MouseEvent): void {
 }
 
   estaLogueado(): boolean {
+    this.mostrarSpotify = localStorage.getItem('spotify_token') !== null;
     return this.authService.estaAutenticado();
   }
 
