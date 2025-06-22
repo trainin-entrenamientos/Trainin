@@ -41,7 +41,7 @@
                 </p>
               </div>
             </div>
-          </a><app-carrusel-vertical [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-carrusel-vertical>
+          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
 
         </div>
         <!--<div class="contenedor-imagen-circulo">
@@ -139,12 +139,12 @@
             </div>
           </a>  
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
-                <app-carrusel-vertical
+                <app-tarjetas-planes
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
 
-          ></app-carrusel-vertical>
+          ></app-tarjetas-planes>
         }
         </div>
         
@@ -172,7 +172,7 @@
               </div>
             </div>
           </a>
-            <app-carrusel-vertical [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-carrusel-vertical>
+            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
         </div>
 
          <!--<div class="contenedor-imagen-circulo-con-premium">
@@ -280,26 +280,26 @@
             </p>
           </div>
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
-                <app-carrusel-vertical
+                <app-tarjetas-planes
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
-            [variosPlanes]="true"
-          ></app-carrusel-vertical>
+            [variosPlanes]="false"
+          ></app-tarjetas-planes>
         }
          @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
-                <app-carrusel-vertical
+                <app-tarjetas-planes
             [mostrarComoVertical]="true"
             [hastaUnPlan]="false"
             [variosPlanes]="true"
-          ></app-carrusel-vertical>
+          ></app-tarjetas-planes>
         }
         </div>
           @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
-                <app-carrusel-vertical
+                <app-tarjetas-planes
             [mostrarComoVertical]="false"
             [hastaUnPlan]="false"
             [variosPlanes]="true"
-          ></app-carrusel-vertical>
+          ></app-tarjetas-planes>
         }
       </article>
      
