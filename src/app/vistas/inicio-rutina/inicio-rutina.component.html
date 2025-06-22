@@ -2,9 +2,12 @@
   <app-loader *ngIf="cargando"></app-loader>
   <main *ngIf="!rutina && !cargando">
     <section>
-      <article class="text-center">
+      <article class="realizada">
         <h2 class="p-4 m-4">¡Ya realizaste la rutina de hoy!</h2>
         <h3>Vuelve mañana para seguir con tu entrenamiento</h3><br><br>
+        <div class="logo">
+                    <img src="imagenes/logo-trainin.svg" alt="TRAININ Logo" class="img-fluid d-none d-md-block" />
+        </div>
         <app-boton-trainin type="button" class="btn-trainin"  routerLink="/planes" >Volver al Inicio</app-boton-trainin>
       </article>
     </section>

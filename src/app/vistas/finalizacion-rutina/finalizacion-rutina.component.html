@@ -53,20 +53,20 @@
                 ejercicios[selectedEjercicioIndex] as ejercicioSeleccionado
               ">
               <div class="carrusel-muscular">
-                <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="moverCarruselMuscular(-1)"></i>
+                <i class="fa-solid fa-chevron-left flecha-izquierda-muscular" (click)="moverCarruselMuscular(-1)"></i>
 
                 <div class="contenedor-grupos-musculares">
                   <div class="grupo-muscular" *ngFor="
                       let grupo of ejercicioSeleccionado.grupoMuscular;
                       let i = index
                     " [class.visible]="i === indiceGrupoVisible">
-                    <p>{{ejercicioSeleccionado.nombre}}</p><br>
+                    <p class="nombre-ejercicio-muscular">{{ejercicioSeleccionado.nombre}}</p><br>
                     <img [src]="grupo.imagen" [alt]="grupo.nombre" />
                     <p class="nombre-musculo">{{ grupo.nombre }}</p>
                   </div>
                 </div>
 
-                <i class="fa-solid fa-chevron-right flecha-derecha" (click)="moverCarruselMuscular(1)"></i>
+                <i class="fa-solid fa-chevron-right flecha-derecha-muscular" (click)="moverCarruselMuscular(1)"></i>
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@
         </app-boton-trainin>
       </div>
     </div>
-
+    <div class="contenedor-carrusel-ejercicios" [class.shifted]="expandido">
     <div class="contenedor-ejercicios-realizados-y-finalizar-rutina">
       <h2 class="mensaje-finalizacion">
         ¡Buen trabajo!<br class="d-none d-md-block" />
@@ -108,12 +108,16 @@
         </div>
         <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
-      <div class="boton-finalizar-pc">
+    </div>
+    <div class="boton-finalizar-pc">
         <app-boton-trainin type="button" class="btn-trainin " data-bs-toggle="modal" data-bs-target="#feedbackModal">
           Finalizar Rutina
         </app-boton-trainin>
       </div>
     </div>
+    
+
+    
 
     <div class="modal fade" id="feedbackModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
