@@ -20,8 +20,8 @@ export class CarruselVerticalComponent implements AfterViewInit {
 }
 
 @Input() mostrarComoVertical = true;
-@Input() conPlanesFree = true;
-@Input() conPlanesPremium =true;
+@Input() hastaUnPlan = true;
+@Input() variosPlanes =true;
 
 }
 

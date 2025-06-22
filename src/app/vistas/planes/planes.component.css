@@ -131,9 +131,6 @@ p {
   max-width: 300px;
 }
 
-.cards-horizontales{
-  display: none;
-}
 .contenedor-imagen-circulo {
   position: relative;
   width: 300px;
@@ -520,12 +517,7 @@ h4{
   .contenedor-progresos {
     flex-direction: unset !important;
   }
-  .cards-verticales{
-    display: none;
-  }
-  .cards-horizontales{
-  display: block;
-}
+
   .contenedor-info-plan-imagen {
     flex-direction: column;
     gap: 0.5rem;

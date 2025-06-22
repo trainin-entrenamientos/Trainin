@@ -41,17 +41,17 @@
                 </p>
               </div>
             </div>
-          </a><app-carrusel-vertical [mostrarComoVertical]="false" [conPlanesFree]="false"></app-carrusel-vertical>
+          </a><app-carrusel-vertical [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-carrusel-vertical>
 
         </div>
-        <div class="contenedor-imagen-circulo">
+        <!--<div class="contenedor-imagen-circulo">
           <div class="circulo-fondo"></div>
           <img
             src="/imagenes/image-hero-planes.png"
             alt="Imagen de planes de entrenamiento"
             class="img-fluid imagen-con-circulo"
           />
-        </div>
+        </div>-->
       </article>
       <!--CON PLANES, NO PREMIUM-->
       <article
@@ -141,8 +141,8 @@
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="false"
-            [conPlanesFree]="true"
-            [conPlanesPremium]="false"
+            [hastaUnPlan]="true"
+            [variosPlanes]="false"
 
           ></app-carrusel-vertical>
         }
@@ -172,17 +172,17 @@
               </div>
             </div>
           </a>
-            <app-carrusel-vertical [mostrarComoVertical]="false" [conPlanesFree]="false" [conPlanesPremium]="false"></app-carrusel-vertical>
+            <app-carrusel-vertical [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-carrusel-vertical>
         </div>
 
-         <div class="contenedor-imagen-circulo-con-premium">
+         <!--<div class="contenedor-imagen-circulo-con-premium">
           <div class="circulo-fondo"></div>
           <img
             src="/imagenes/image-hero-planes.png"
             alt="Imagen de planes de entrenamiento"
             class="img-fluid imagen-con-circulo"
           />
-        </div>
+        </div>-->
       </article>
 
       <!--CON PLANES, PREMIUM-->
@@ -279,34 +279,30 @@
               <strong style="color: #13ff3a">4 planes</strong> permitidos.
             </p>
           </div>
-        </div>
-        <div class="cards-verticales">
-          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
-                <app-carrusel-vertical
-            [mostrarComoVertical]="true"
-            [conPlanesFree]="false"
-            [conPlanesPremium]="true"
-          ></app-carrusel-vertical>
-        }
-        </div>
-        
-      </article>
-       <div class="cards-horizontales">
-          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
-                <app-carrusel-vertical
-            [mostrarComoVertical]="true"
-            [conPlanesFree]="false"
-            [conPlanesPremium]="true"
-          ></app-carrusel-vertical>
-        }
-        </div>
-      @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
+           @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
                 <app-carrusel-vertical
             [mostrarComoVertical]="false"
-            [conPlanesFree]="false"
-            [conPlanesPremium]="true"
+            [hastaUnPlan]="true"
+            [variosPlanes]="true"
           ></app-carrusel-vertical>
         }
+         @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="true"
+            [hastaUnPlan]="false"
+            [variosPlanes]="true"
+          ></app-carrusel-vertical>
+        }
+        </div>
+          @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
+                <app-carrusel-vertical
+            [mostrarComoVertical]="false"
+            [hastaUnPlan]="false"
+            [variosPlanes]="true"
+          ></app-carrusel-vertical>
+        }
+      </article>
+     
           
     </section>
 
