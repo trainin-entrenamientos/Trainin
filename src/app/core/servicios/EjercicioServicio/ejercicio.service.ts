@@ -12,6 +12,7 @@ interface RespuestaApi<T> {
 
 @Injectable({ providedIn: 'root' })
 export class EjercicioService {
+  [x: string]: any;
 
   private apiUrl = `${environment.URL_BASE}/ejercicio`;
 
