@@ -8,8 +8,15 @@ body {
   min-height: 100vh;
 }
 
-.logo {
+.logo-error {
   width: 300px;
+  margin: auto;
+}
+
+.logo-error-img {
+  width: 100%;
+  max-width: 300px;
+  display: block;
 }
 
 
@@ -27,19 +34,7 @@ position: absolute;
   margin-top:-150px;
 }
 
-.cont_error > h1  {
- font-family: 'Lato', sans-serif;  
-font-weight: 400;
-  font-size:150px;
-color:#fff;
-position: relative;
-left:-100%;
-transition: all 0.5s;
-}
-
-
 .cont_error > p  {
- font-family: 'Lato', sans-serif;  
 font-weight: 300;
   font-size:24px;
   letter-spacing: 5px;
@@ -142,8 +137,6 @@ transform: rotate(-20deg);
 }
 
 
-
-
 @-webkit-keyframes animation_error_2 {
   from { -webkit-transform: rotate(-15deg); 
   transform: rotate(-15deg);
@@ -177,3 +170,49 @@ transform: rotate(-20deg);
   transform: rotate(-20deg);
   }
 }
+
+
+@media (max-width: 900px) {
+
+.cont_error > p  {
+  font-size:18px;
+}
+
+.logo-error {
+  width: 200px;
+  margin: auto;
+}
+
+.logo-error-img {
+  width: 100%;
+  max-width: 200px;
+  display: block;
+}
+  .cont_aura_1 {
+    width: 200px;
+    right: -240px;
+  }
+
+  .cont_aura_2 {
+    height: 200px;
+    bottom: -201px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+.cont_error > p  {
+  font-size:12px;
+}
+ .cont_aura_1 {
+    width: 150px;
+    right: -180px;
+  }
+
+  .cont_aura_2 {
+    height: 150px;
+    bottom: -150px;
+  }
+}
+

@@ -7,8 +7,6 @@
   </a>
   <h1 class="titulo">Detalle sobre tu plan de entrenamiento</h1>
 </div>
-
-
             <div class="container my-4 contenedor-semana">
             <div class="semana-header">
       <i class="fa-solid fa-chevron-left" 
@@ -73,19 +71,13 @@
       </div>
     </div>
     <div class="face front image-placeholder rounded mb-2">
-            <img class="imagen-ejercicio" style="border-radius: 20px;" [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}" >
-            <p class="nombre-ejercicio">{{ ejercicio.nombre }}</p>
-    </div>
+  <div class="nombre-ejercicio">{{ ejercicio.nombre }}</div>
+  <img class="imagen-ejercicio" [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}">
+</div>
   </div>
 </div>
+</div> 
 </div>
-
- 
-</div>
-
-
-
-
     </section>
   </main>
 </body>

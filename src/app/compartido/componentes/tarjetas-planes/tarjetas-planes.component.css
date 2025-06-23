@@ -1,0 +1,564 @@
+.borde-inferior-der,
+.borde-inferior-izq,
+.bordes-inferiores {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.cards-informativas.variosPlanes{
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+}
+
+.cards-informativas.variosPlanes .card{
+ width: 18rem;
+ height: 12rem;
+}
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back {
+  justify-content: center; 
+  align-items: center;     
+  gap: 1rem;              
+}
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap: 1rem;
+}
+
+.cards-informativas.variosPlanes .face.back .plan-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  max-width: 100%;
+}
+
+.cards-informativas.variosPlanes .face.back .dato {
+  align-items: flex-start;
+}
+
+.cards-informativas.variosPlanes .face.back .valor {
+  font-size: 0.9rem;
+}
+
+.cards-informativas.variosPlanes .face.back .etiqueta {
+  font-size: 0.9rem;
+}
+
+.cards-informativas.variosPlanes .face.back .divisor-horizontal {
+  width: 1px;
+  height: 60px;
+  background-color: #13ff3a;
+  margin: 0 1rem;
+}
+
+
+/**************************************************/
+
+.cards-informativas.horizontal.hastaUnPlan .card{
+height: 12rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back {
+  justify-content: center; 
+  align-items: center;     
+  gap: 1rem;              
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap: 1.3rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .plan-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  max-width: 100%;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .dato {
+  align-items: flex-start;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .valor {
+  font-size: 1.2rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .etiqueta {
+  font-size: 1.2rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .divisor-horizontal {
+  width: 1px;
+  height: 60px;
+  background-color: #13ff3a;
+  margin: 0 1rem;
+}
+
+
+.cards-informativas{
+  display: flex;
+  flex-direction: row;
+  gap:30px;
+  width: 100%;
+}
+.card {
+  background: #06131c;
+  border-radius: 15px;
+  height: 350px;
+  margin: 0 auto;
+  position: relative;
+  width: 33%;
+  box-sizing: border-box;
+}
+
+.card-ejercicio {
+  text-align: center;
+}
+
+.card-ejercicio.container {
+  box-sizing: border-box;
+  flex: 1 1 100px;
+  margin: 0;
+}
+.card:hover .contenido-frontal {
+  justify-content: center;
+  gap: 0; 
+}
+
+.card:hover .face.front {
+  justify-content: center;
+  padding: 0;
+  width: 3rem;
+  background-color: #13ff3a;
+}
+
+.card:hover .icono-frontal {
+  transform: scale(1.2);
+  color: black;
+}
+
+.card:hover .imagen-ejercicio {
+  opacity: 0;
+}
+
+.card:hover .texto-frontal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.desc {
+  border-bottom: #13ff3a 1px solid;
+  font-size: 25px;
+  margin-bottom: 2px;
+}
+
+.ejercicios-data {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  max-width: 1600px;
+  padding: 0 1rem;
+}
+
+.face {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  right: 0;
+  left: auto;
+  position: absolute;
+  width: 100%;
+}
+
+.face.back {
+  background-color: #06131c;
+  color: white;
+  padding: 1rem;
+  padding-right: 4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  z-index: 0;
+}
+
+.estadisticas-back {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plan-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.valor-cal{
+  font-size: 2rem;
+  font-weight: bold;
+  color: #13ff3a;
+  align-self: center;
+}
+
+.etiqueta-cal {
+  font-size: 1.5rem;
+  color: white;
+  align-self: center;
+}
+.valor {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #13ff3a;
+  align-self: center;
+}
+
+.etiqueta {
+  font-size: 0.9rem;
+  color: white;
+  align-self: center;
+}
+
+.divisor-horizontal {
+  width: 90%;
+  height: 1px;
+  background-color: #13ff3a;
+  margin: 0.5rem 0;
+}
+
+
+.face.front {
+  align-items: center;
+  background-color: #0B1A1E;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  position: absolute;
+  right: 0; 
+  left: auto;
+  transition: background-color 0.3s ease, width 0.5s ease;
+}
+
+.icono-frontal {
+  color: #13ff3a;
+  flex-shrink: 0;
+  font-size: 2rem;
+  transition: transform 0.5s ease;
+}
+
+.contenido-frontal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: 0.5rem;
+  transition: justify-content 0.3s ease;
+}
+
+.image-placeholder {
+  align-items: center;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.nombre-ejercicio {
+  border-radius: 10px;
+  font-size: 20px;
+  margin: 0;
+  position: absolute;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+
+.subrayado-grup-musc {
+  background-color: #13ff3a;
+  border: 1px solid #13ff3a;
+}
+
+.texto-frontal {
+  flex: 1;
+  transition: opacity 0.5s ease;
+}
+.titulo-texto {
+  transition: opacity 0.5s ease;
+}
+.card:hover .titulo-texto {
+   display: none;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 1200px) {
+
+  .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back .info-plan {
+  gap: 0;
+}
+
+  .cards-informativas.horizontal.hastaUnPlan .face.back .plan-label {
+  font-size: 1.2rem;
+  
+}
+.cards-informativas.horizontal.hastaUnPlan .face.back .valor {
+  font-size: 1rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .etiqueta {
+  font-size: 1rem;
+}
+.valor-cal{
+  font-size: 1.6rem;
+}
+
+.etiqueta-cal {
+  font-size: 1.2rem;
+
+}
+}
+
+@media screen and (max-width:1080px){
+  
+.cards-informativas.variosPlanes{
+  display: flex;
+  flex-direction: row;
+  gap:15px;
+  width: 100%;
+}
+
+.cards-informativas.variosPlanes .card {
+  height: 12rem;
+}
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back {
+  justify-content: center; 
+  align-items: center;     
+  gap: 1rem;              
+}
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap: 1rem;
+}
+
+.cards-informativas.variosPlanes .face.back .plan-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  max-width: 100%;
+}
+
+.cards-informativas.variosPlanes .face.back .dato {
+  align-items: flex-start;
+}
+
+.cards-informativas.variosPlanes .face.back .valor {
+  font-size: 0.9rem;
+}
+
+.cards-informativas.variosPlanes .face.back .etiqueta {
+  font-size: 0.9rem;
+}
+
+.cards-informativas.variosPlanes .face.back .divisor-horizontal {
+  width: 1px;
+  height: 60px;
+  background-color: #13ff3a;
+  margin: 0 1rem;
+}
+
+
+}
+
+@media screen and (max-width: 900px) {
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:0;
+}
+
+.cards-informativas.variosPlanes .face.back .divisor-horizontal {
+  width: 90%;
+  height: 1px;
+  background-color: #13ff3a;
+  margin: 0.5rem 0;
+}
+
+  .cards-informativas.variosPlanes .face.back .plan-label {
+  font-size: 1rem;
+  
+}
+.cards-informativas.variosPlanes .face.back .valor {
+  font-size: 0.8rem;
+}
+
+.cards-informativas.variosPlanes .face.back .etiqueta {
+  font-size: 0.8rem;
+}
+  .cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:0;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .divisor-horizontal {
+  width: 90%;
+  height: 1px;
+  background-color: #13ff3a;
+  margin: 0.5rem 0;
+}
+
+  .cards-informativas.horizontal.hastaUnPlan .face.back .plan-label {
+  font-size: 1rem;
+  
+}
+.cards-informativas.horizontal.hastaUnPlan .face.back .valor {
+  font-size: 0.8rem;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .etiqueta {
+  font-size: 0.8rem;
+}
+.valor-cal{
+  font-size: 1.4rem;
+}
+
+.etiqueta-cal {
+  font-size: 1rem;
+
+}
+}
+
+
+@media screen and (max-width: 660px) {
+
+  .cards-informativas.variosPlanes {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:20px;
+}
+
+.cards-informativas.variosPlanes .card {
+  background: #06131c;
+  border-radius: 15px;
+  height: 150px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ .cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:0;
+}
+
+.cards-informativas.variosPlanes .face.back .divisor-horizontal {
+  width: 1px;
+  height: 60px;
+  background-color: #13ff3a;
+  margin: 0 1rem;
+}
+ .cards-informativas.horizontal.hastaUnPlan {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:20px;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .card {
+  background: #06131c;
+  border-radius: 15px;
+  height: 150px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back .info-plan {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap:0;
+}
+
+.cards-informativas.horizontal.hastaUnPlan .face.back .divisor-horizontal {
+  width: 1px;
+  height: 60px;
+  background-color: #13ff3a;
+  margin: 0 1rem;
+}
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+}
+
+
+

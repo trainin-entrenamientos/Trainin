@@ -13,7 +13,7 @@ import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-r
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
-import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
+import { TarjetasPlanesComponent } from './componentes/tarjetas-planes/tarjetas-planes.component';
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
 import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
@@ -33,7 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent,
-    CarruselVerticalComponent,
+    TarjetasPlanesComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
@@ -55,7 +55,7 @@ import { ToastrModule } from 'ngx-toastr';
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent,
-    CarruselVerticalComponent,
+    TarjetasPlanesComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent

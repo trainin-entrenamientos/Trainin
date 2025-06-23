@@ -135,11 +135,9 @@ export class InformacionEjercicioComponent {
 
    get mensajeCuentaRegresiva(): string {
     if (this.rutinaService.getIndiceActual() === 0) {
-      return '¡Comenzamos en ';
+      return 'Comenzamos en ';
     } else {
-      return `Descanso. Continuá con el ejercicio ${
-        this.ejercicio?.nombre ?? ''
-      } en:`;
+      return `Descanso. Continuá con tu entrenamiento en:`;
     }
   }
 
