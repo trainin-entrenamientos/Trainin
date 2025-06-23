@@ -115,7 +115,7 @@ input[type="checkbox"]:checked::after {
     border-radius: 4px;
     font-weight: 700;
     border: none;
-    transition: background 0.3s ease;
+    transition: 0.3s ease;
     display: inline-block;
 }
 
@@ -126,6 +126,44 @@ input[type="checkbox"]:checked::after {
 .btn-success:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+.grid-grupos,
+.grid-categorias {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 1rem;
+}
+
+.grupo-item.selected,
+.categoria-item.selected {
+  border-color: #13FF3A;
+  background: rgba(19,255,58,0.1);
+}
+
+.grupo-item,
+.categoria-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 1rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.2s ease;
+}
+
+.grupo-item span,
+.categoria-item span {
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+.grid-grupos > label,
+.grid-categorias > label {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 576px) {

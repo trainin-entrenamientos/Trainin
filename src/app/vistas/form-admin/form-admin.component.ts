@@ -16,7 +16,7 @@ import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporado
 export class FormAdminComponent implements OnInit {
   form: FormGroup;
   categorias: any[] = [];
-  grupos:      any[] = [];
+  grupos: any[] = [];
   isEdit = false;
 
   constructor(
@@ -38,7 +38,7 @@ export class FormAdminComponent implements OnInit {
       CorreccionPremium: [false],
       IdTipoEjercicio: [0, Validators.required],
       IdsGrupoMuscular: this.fb.array<number>([], Validators.required),
-      IdsCategorias:    this.fb.array<number>([], Validators.required)
+      IdsCategorias: this.fb.array<number>([], Validators.required)
     });
   }
 
@@ -47,13 +47,13 @@ export class FormAdminComponent implements OnInit {
     const id = idParam ? +idParam : 0;
     this.isEdit = id > 0;
 
-        forkJoin({
+    forkJoin({
       cats: this.svc.obtenerCategorias(),
       grps: this.svc.obtenerGruposMusculares()
     }).subscribe(({ cats, grps }) => {
       console.log(cats);
       this.categorias = cats;
-      this.grupos     = grps;
+      this.grupos = grps;
 
       if (this.isEdit) {
         this.loadEjercicio(id);
@@ -73,8 +73,8 @@ export class FormAdminComponent implements OnInit {
     this.svc.obtenerEjercicioPorId(Id).subscribe(e => {
       this.form.patchValue(e);
 
-     e.IdsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
-      e.IdsCategorias.forEach(i      => this.idsCategorias.push(this.fb.control(i)));
+      e.IdsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+      e.IdsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
     });
   }
 
@@ -94,7 +94,7 @@ export class FormAdminComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    var Ejercicio : EjercicioIncorporadoDTO = {
+    var Ejercicio: EjercicioIncorporadoDTO = {
       Nombre: this.form.get("Nombre")?.value,
       Descripcion: this.form.get("Descripcion")?.value,
       Video: this.form.get("Video")?.value,
@@ -109,8 +109,8 @@ export class FormAdminComponent implements OnInit {
       Id: 0
     };
     this.form.get("IdTipoEjercicio");
-        this.form.get("TieneCorreccion")
-            this.form.get("TieneCorreccionPremium");
+    this.form.get("TieneCorreccion")
+    this.form.get("TieneCorreccionPremium");
 
     console.log(JSON.stringify(this.form.value));
     const dto = this.form.value as any;
@@ -122,4 +122,14 @@ export class FormAdminComponent implements OnInit {
       this.router.navigate(['/listarEjercicios']);
     });
   }
+
+  toggleSeleccion(array: FormArray, id: number) {
+    const idx = array.value.indexOf(id);
+    if (idx >= 0) {
+      array.removeAt(idx);
+    } else {
+      array.push(this.fb.control(id));
+    }
+  }
+
 }

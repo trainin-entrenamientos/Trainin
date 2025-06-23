@@ -810,11 +810,11 @@ body {
   cursor: pointer;
   position: relative;
   font-size: 1.1rem;
-  font-family: "Arial", sans-serif;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 1px;
   display: inline-block;
+  font-family: 'Merriweather Sans', sans-serif;
 }
 
 .button.text-hover .actual-text {
@@ -834,16 +834,19 @@ body {
 .button.verde .hover-text {
   color: #13ff3a;
   border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.amarillo .hover-text {
-  color: #ffc107;
-  border-right: 4px solid #ffc107;
+  color: #13ff3a;
+  border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.rojo .hover-text {
-  color: #e53935;
-  border-right: 4px solid #e53935;
+  color: #13ff3a;
+  border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.text-hover:hover {

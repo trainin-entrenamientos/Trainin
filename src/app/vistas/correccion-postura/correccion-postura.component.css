@@ -20,8 +20,12 @@ body {
   box-sizing: border-box;
 }
 
+.repeticiones-pc{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .correccion-postura-container {
-  max-width: 90%;
   margin: 25px auto;
   padding: 40px 45px;
   border-radius: 15px;
@@ -45,6 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-right: 2.5rem; 
 }
 
 .right {

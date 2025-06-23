@@ -42,21 +42,20 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.left p {
+  position: relative;
+  padding-left: 30px;
   text-align: left;
 }
 
-.left p{
-    position: relative;
-    padding-left: 25px;
+.left p::before {
+  content: "✔️";
+  position: absolute;
+  left: 0;
+  top: 0;
 }
-
-.left::before {
-    content: "✔️"; 
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
 
 .right {
   flex: 1 1 auto;
@@ -180,7 +179,7 @@ p {
 @media screen and (max-width: 1024px) {
  html,
   body {
-    height: 110vh;
+    height: 125vh;
     margin: 0;
     padding: 0;
     padding-top: 20px;
@@ -222,6 +221,7 @@ p {
     right: 10px;
     font-size: 1.5rem;
   }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -333,4 +333,3 @@ p {
   font-size: 0.6rem;
 }
 }
-
