@@ -1,0 +1,31 @@
+<main *ngIf="cargando" class="container"><app-loader ></app-loader></main>
+
+<main class="container" *ngIf="!cargando">
+  <h1>Historial de Planes</h1>
+  <div class="grid-historial">
+    <div class="historial-card" *ngFor="let plan of planesHistorial">
+      <div class="card-contenido">
+        <img
+          [src]="plan.foto"
+          alt="Tipo de entrenamiento"
+          class="card-img"
+        />
+        <div class="card-info">
+          <h3 class="card-titulo">{{ plan.tipoEntrenamiento }}</h3>
+          <div class="card-datos">
+            <span>{{ plan.calorias }} cal</span>
+            <span>{{ plan.tiempo }} min</span>
+          </div>
+          <p class="card-fecha">{{ plan.fechaRealizacion }}</p>
+        </div>
+      </div>
+      <app-boton-trainin
+        type="button"
+        class="btn-trainin"
+        (clickBoton)="irAlDetalle(plan.id)"
+      >
+        Ver Detalle
+      </app-boton-trainin>
+    </div>
+  </div>
+</main>

@@ -29,6 +29,7 @@ import { ErrorComponent } from './vistas/error/error.component';
 import { FormAdminComponent } from './vistas/form-admin/form-admin.component';
 import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/listado-de-ejercicios.component';
 import { adminGuard } from './core/guardias/admin/admin.guard';
+import { HistorialPlanesComponent } from './vistas/historial-planes/historial-planes.component';
 
 const routes: Routes = [
   {
@@ -178,6 +179,10 @@ const routes: Routes = [
         {
         path: 'eliminar/:id',
         component: FormAdminComponent
+      },
+      {
+        path: 'historial-planes',
+        component: HistorialPlanesComponent
       }
     ]
   },
