@@ -13,7 +13,13 @@
       <table class="table table-striped listado-ejercicios" *ngIf="ejercicios.length">
         <thead>
           <tr>
-            <th>ID</th>
+            <th class="sortable" (click)="toggleSort()">
+              ID
+              <i class="bi bi-arrow-down-up" [ngClass]="{
+                   'bi-sort-numeric-down': sortDirection === 'asc',
+                   'bi-sort-numeric-down-alt': sortDirection === 'desc'
+                 }"></i>
+            </th>
             <th>Nombre</th>
             <th>Acciones</th>
           </tr>

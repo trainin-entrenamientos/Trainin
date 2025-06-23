@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
-import { IdNombre } from '../../core/modelos/NombreIdDTO';
 import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporadoDTO';
 
 @Component({
@@ -27,19 +26,20 @@ export class FormAdminComponent implements OnInit {
   ) {
 
     this.form = this.fb.group({
-      Id: [0],
-      Nombre: ['', Validators.required],
-      Descripcion: ['', Validators.required],
-      Video: [''],
-      ValorMet: [0, Validators.required],
-      Landmark: [''],
-      TieneCorreccion: [false],
-      Imagen: [''],
-      CorreccionPremium: [false],
-      IdTipoEjercicio: [0, Validators.required],
-      IdsGrupoMuscular: this.fb.array<number>([], Validators.required),
-      IdsCategorias: this.fb.array<number>([], Validators.required)
+      id: [0],
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      video: [''],
+      valorMet: [0, Validators.required],
+      landmark: [''],
+      tieneCorreccion: [false],
+      imagen: [''],
+      correccionPremium: [false],
+      idTipoEjercicio: [0, Validators.required],
+      idsGrupoMuscular: this.fb.array<number>([], Validators.required),
+      idsCategorias: this.fb.array<number>([], Validators.required)
     });
+
   }
 
   ngOnInit(): void {
@@ -51,30 +51,42 @@ export class FormAdminComponent implements OnInit {
       cats: this.svc.obtenerCategorias(),
       grps: this.svc.obtenerGruposMusculares()
     }).subscribe(({ cats, grps }) => {
-      console.log(cats);
       this.categorias = cats;
       this.grupos = grps;
 
       if (this.isEdit) {
-        this.loadEjercicio(id);
+        this.cargarEjercicio(id);
       }
     });
   }
 
   get idsGrupoMuscular(): FormArray {
-    return this.form.get('IdsGrupoMuscular') as FormArray;
+    return this.form.get('idsGrupoMuscular') as FormArray;
   }
 
   get idsCategorias(): FormArray {
-    return this.form.get('IdsCategorias') as FormArray;
+    return this.form.get('idsCategorias') as FormArray;
   }
 
-  private loadEjercicio(Id: number): void {
-    this.svc.obtenerEjercicioPorId(Id).subscribe(e => {
-      this.form.patchValue(e);
+  private cargarEjercicio(id: number) {
+    this.svc.obtenerEjercicioPorId(id).subscribe(e => {
+      this.form.patchValue({
+        id: e.id,
+        nombre: e.nombre,
+        descripcion: e.descripcion,
+        video: e.video,
+        valorMet: e.valorMet,
+        landmark: e.landmark,
+        tieneCorreccion: e.tieneCorreccion,
+        correccionPremium: e.correccionPremium,
+        idTipoEjercicio: e.idTipoEjercicio,
+        imagen: e.imagen
+      });
 
-      e.IdsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
-      e.IdsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+      this.idsGrupoMuscular.clear();
+      e.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+      this.idsCategorias.clear();
+      e.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
     });
   }
 
@@ -94,32 +106,15 @@ export class FormAdminComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    var Ejercicio: EjercicioIncorporadoDTO = {
-      Nombre: this.form.get("Nombre")?.value,
-      Descripcion: this.form.get("Descripcion")?.value,
-      Video: this.form.get("Video")?.value,
-      ValorMet: this.form.get("ValorMet")?.value,
-      Landmark: this.form.get("Landmark")?.value,
-      TieneCorreccion: this.form.get("TieneCorreccion")?.value == "1" ? true : false,
-      Imagen: this.form.get("Imagen")?.value,
-      CorreccionPremium: this.form.get("CorreccionPremium")?.value == "1" ? true : false,
-      IdTipoEjercicio: Number(this.form.get('IdTipoEjercicio')?.value),
-      IdsGrupoMuscular: this.form.get("IdsGrupoMuscular")?.value,
-      IdsCategorias: this.form.get("IdsCategorias")?.value,
-      Id: 0
-    };
-    this.form.get("IdTipoEjercicio");
-    this.form.get("TieneCorreccion")
-    this.form.get("TieneCorreccionPremium");
 
-    console.log(JSON.stringify(this.form.value));
-    const dto = this.form.value as any;
+    const dto: EjercicioIncorporadoDTO = this.form.value;
     const request$ = this.isEdit
-      ? this.svc.editarEjercicio(dto.Id, dto)
-      : this.svc.crearEjercicio(Ejercicio);
+      ? this.svc.editarEjercicio(dto.id, dto)
+      : this.svc.crearEjercicio(dto);
 
-    request$.subscribe(() => {
-      this.router.navigate(['/listarEjercicios']);
+    request$.subscribe({
+      next: () => this.router.navigate(['/listarEjercicios']),
+      error: err => console.error('Error al guardar ejercicio:', err)
     });
   }
 
@@ -131,5 +126,4 @@ export class FormAdminComponent implements OnInit {
       array.push(this.fb.control(id));
     }
   }
-
 }

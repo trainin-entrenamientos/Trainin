@@ -14,6 +14,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   ejercicioSeleccionado: any = null;
   mensajeModal = '';
   cargando: boolean = true;
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private svc: EjercicioService,
@@ -32,12 +33,10 @@ export class ListadoDeEjerciciosComponent implements OnInit {
         next: res => {
           this.ejercicios = res;
           this.cargando = false;
-          console.log('Data recibida:', res);
         },
         error: err => {
           console.error(err);
           this.cargando = false;
-          console.log('error listado');
         }
       });
   }
@@ -49,7 +48,6 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   eliminar(e: any): void {
     this.svc.eliminarEjercicio(e.id).subscribe({
       next: (msg: any) => {
-        console.log('Borrado:', msg);
         this.ejercicios = this.ejercicios.filter(x => x.id !== e.id);
         this.cancelarEliminarEjercicio();
       },
@@ -69,6 +67,18 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   cancelarEliminarEjercicio(): void {
     this.ejercicioSeleccionado = null;
     this.mostrarModalDeConfirmacion = false;
+  }
+
+  toggleSort(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.ordenarEjercicios();
+  }
+
+  private ordenarEjercicios(): void {
+    this.ejercicios.sort((a, b) => {
+      const diff = a.id - b.id;
+      return this.sortDirection === 'asc' ? diff : -diff;
+    });
   }
 
 }
