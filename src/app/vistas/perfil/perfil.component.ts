@@ -5,6 +5,9 @@ import { PerfilDTO } from '../../core/modelos/PerfilDTO';
 import { ToastrService } from 'ngx-toastr';
 import { Logro } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalEditarPerfilComponent } from '../../compartido/componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
+import { UsuarioEditado } from '../../core/modelos/UsuarioEditadoDTO';
 
 @Component({
   selector: 'app-perfil',
@@ -16,34 +19,39 @@ export class PerfilComponent implements OnInit {
 
   email: string | null = null;
   perfil: PerfilDTO | null = null;
-  logros: Logro[] | undefined = [] ;
+  logros: Logro[] | undefined = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
-  cargando: boolean=true;
+  cargando: boolean = true;
 
   constructor(private perfilService: PerfilService,
-    private authService: AuthService, 
+    private authService: AuthService,
     private toastr: ToastrService,
-    private logroService: LogroService) { }
+    private logroService: LogroService,
+    private modalServicio: NgbModal
+  ) { }
 
   ngOnInit() {
- 
+    this.cargarPerfil();
+  }
+
+  private cargarPerfil(): void {
     this.email = this.authService.getEmail();
- 
-    if (!this.email) {
-      return;
-    }
- 
-    this.perfilService.getPerfil(this.email).subscribe({
-      next: (data) => {
-        this.perfil = data.objeto;
-        this.fotoMostrar = this.perfil?.fotoDePerfil ? this.perfil.fotoDePerfil : this.fotoMostrar;
-        this.logros = this.perfil?.logros;
-        this.cargando=false;
-      },
-      error: (err) => {
-        console.error('Error cargando perfil', err);
-      }
-    });
+    if (!this.email) { this.cargando = false; return; }
+
+    this.cargando = true;
+    this.perfilService.getPerfil(this.email)
+      .subscribe({
+        next: ({ objeto }) => {
+          this.perfil = objeto;
+          this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
+          this.logros = objeto.logros ?? [];
+          this.cargando = false;
+        },
+        error: err => {
+          console.error('Error cargando perfil', err);
+          this.cargando = false;
+        }
+      });
   }
 
   onFileSelected(event: Event) {
@@ -70,6 +78,33 @@ export class PerfilComponent implements OnInit {
       }
     };
     reader.readAsDataURL(file);
+  }
+
+  openEditModal(): void {
+    if (!this.perfil) return;
+
+    const usuario: UsuarioEditado = {
+      id: this.perfil.id!,
+      nombre: this.perfil.nombre,
+      apellido: this.perfil.apellido,
+      fechaNacimiento: this.perfil.fechaNacimiento,
+      altura: this.perfil.altura!
+    };
+
+    console.log(usuario);
+
+    const modalRef = this.modalServicio.open(
+      ModalEditarPerfilComponent,
+      {
+        centered: true,
+        backdrop: 'static',
+        size: 'lg'
+      }
+    );
+
+    modalRef.componentInstance.usuario = usuario;
+
+    modalRef.closed.subscribe(() => this.cargarPerfil());
   }
 
 }

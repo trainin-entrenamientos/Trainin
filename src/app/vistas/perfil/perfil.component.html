@@ -41,7 +41,11 @@
       </div>
 
       <div class="col-12 col-md-6" *ngIf="perfil">
-        <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}</h1>
+        <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}
+          <button type="button" class="btn btn-icon text-white" aria-label="Editar perfil" (click)="openEditModal()">
+            <i class="fas fa-user-edit icono-user"></i>
+          </button>
+        </h1>
         <p class="text-muted-white">
           Fecha de ingreso: {{ perfil.fechaCreacion }}
         </p>

@@ -74,19 +74,6 @@ const routes: Routes = [
         component: PlanPremiumComponent
       },
       {
-        path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
-      },
-      {
-        path: 'verificar-email/:token',
-        component: VerificarEmailComponent
-      },
-      {
-        path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
-      },
-
-      {
         path: 'planes',
         component: PlanesComponent,
         canActivate: [authGuard]
@@ -106,21 +93,10 @@ const routes: Routes = [
         component: FinalizacionRutinaComponent,
         canActivate: [authGuard]
       },
-       {
-        path: 'registro',
-        component: RegistroComponent
-      },
-      {
-        path: 'inicio',
-        component: InicioComponent
-      },
-      {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
-      },
       {
         path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
+        component: CalibracionCamaraComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'detalle-plan/:PlanId',
@@ -143,7 +119,8 @@ const routes: Routes = [
       },
       {
         path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
+        component: CorreccionPosturaComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'logros',
@@ -152,11 +129,13 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
-        component: PerfilComponent
+        component: PerfilComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'error',
