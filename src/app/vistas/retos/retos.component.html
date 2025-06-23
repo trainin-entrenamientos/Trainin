@@ -1,0 +1,89 @@
+<div class="reto-header">
+  <h2>{{ reto?.nombre || 'Cargando reto...' }}</h2>
+  <p>{{ reto?.descripcion }}</p>
+</div>
+<div class="retos-container">
+
+  <div class="video-section" *ngIf="videoUrl">
+    <iframe [src]="videoUrl" frameborder="0" allowfullscreen class="video-iframe">
+    </iframe>
+  </div>
+
+  <div class="camera-section">
+    <div class="camera-container">
+      <video #webcam autoplay muted playsinline class="camera-video" [class.loading]="cargandoCamara">
+      </video>
+
+      <canvas #outputCanvas class="landmarks-canvas">
+      </canvas>
+
+      <div *ngIf="cargandoCamara" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Iniciando cámara...</p>
+      </div>
+    </div>
+
+    <div class="ejercicio-estado">
+      <div class="info">
+        <h3>{{ nombreEjercicio }}</h3>
+        <p>Repeticiones: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
+      </div>
+
+      <div class="repeticiones">
+        <div class="repeticiones-pc">
+          <div *ngFor="let circulo of circulos; let i = index" class="circulo" [class.activo]="i < resultados.length"
+            [class.correcto]="i < resultados.length && resultados[i]"
+            [class.incorrecto]="i < resultados.length && !resultados[i]">
+            {{ i + 1 }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feedback-section" *ngIf="retroalimentacion">
+      <div class="feedback-message" [style.color]="colorRetroalimentacion">
+        {{ retroalimentacion }}
+      </div>
+    </div>
+
+    <div *ngIf="contador > 0" class="countdown-overlay">
+      <div class="countdown-number">{{ contador }}</div>
+      <p>¡Prepárate!</p>
+    </div>
+
+    <!-- Controles -->
+    <div class="controls-section">
+      <button *ngIf="mostrarBotonIniciar && !corrigiendo && contador === 0" (click)="iniciar()"
+        class="btn btn-primary btn-lg" [disabled]="!manejador || cargandoCamara">
+        Comenzar Reto
+      </button>
+
+      <button *ngIf="mostrarBotonReintentar && !retoCompletado && reintentos < maxReintentos" (click)="reintentar()"
+        class="btn btn-warning btn-lg">
+        Reintentar ({{ reintentos }}/{{ maxReintentos }})
+      </button>
+
+      <button *ngIf="mostrarBotonReintentar" (click)="finalizarReto()" class="btn btn-success btn-lg"
+        [class.btn-primary]="!retoCompletado">
+        {{ retoCompletado ? 'Reto Completado ✓' : 'Finalizar' }}
+      </button>
+
+      <button (click)="volver()" class="btn btn-secondary">
+        Volver
+      </button>
+    </div>
+
+    <!-- Resumen de resultados -->
+    <div *ngIf="resumenHtml" class="results-summary">
+      <div [innerHTML]="resumenHtml"></div>
+      <div class="score">
+        <h4>Puntuación: {{ ultimoPorcentaje }}%</h4>
+        <div class="score-bar">
+          <div class="score-fill" [style.width.%]="ultimoPorcentaje" [class.success]="ultimoPorcentaje >= 70"
+            [class.warning]="ultimoPorcentaje >= 50 && ultimoPorcentaje < 70" [class.danger]="ultimoPorcentaje < 50">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
