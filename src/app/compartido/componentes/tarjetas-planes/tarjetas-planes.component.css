@@ -416,6 +416,12 @@ height: 12rem;
 
 @media screen and (max-width: 900px) {
 
+  .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back .info-plan,
+.cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
   display: flex; 
   flex-direction: column;
@@ -443,7 +449,8 @@ height: 12rem;
 .cards-informativas.variosPlanes .face.back .etiqueta {
   font-size: 0.8rem;
 }
-  .cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
+
+.cards-informativas.variosPlanes .face.back .estadisticas-back .info-plan {
   display: flex; 
   flex-direction: column;
   justify-content: center;

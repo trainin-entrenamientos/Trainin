@@ -44,5 +44,9 @@ export class PlanEntrenamientoService {
   obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any>{
     return this.http.get(`${this.baseUrl}/plan/detalle/${idPlan}?IdUsuario=${idUsuario}`);
   }
+
+  obtenerHistorialPlanes(email: string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/plan/historial/${email}`);
+  }
  
 }

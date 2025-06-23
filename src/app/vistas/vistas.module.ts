@@ -29,6 +29,7 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 import { ErrorComponent } from './error/error.component';
 import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
 import { FormAdminComponent } from './form-admin/form-admin.component';
+import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
 
 @NgModule({
 
@@ -57,6 +58,7 @@ import { FormAdminComponent } from './form-admin/form-admin.component';
     ErrorComponent,
     ListadoDeEjerciciosComponent,
     FormAdminComponent,
+    HistorialPlanesComponent,
   ],
 
   imports: [
