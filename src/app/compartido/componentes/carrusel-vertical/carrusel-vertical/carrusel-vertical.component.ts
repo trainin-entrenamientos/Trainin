@@ -22,7 +22,8 @@ export class CarruselVerticalComponent implements AfterViewInit {
 @Input() mostrarComoVertical = true;
 @Input() sinPlanes = true;
 @Input() conPlanesPremium =true;
-
+@Input() tieneRetoDisponible: boolean = false;
+@Input() nombreReto: string = '';
 }
 
 

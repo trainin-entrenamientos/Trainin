@@ -5,6 +5,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
+import { RetoService } from '../../core/servicios/retoServicio/reto.service';
 
 @Component({
   selector: 'app-planes',
@@ -26,13 +27,19 @@ export class PlanesComponent {
   mostrarModal: boolean = false;
   detallePlan: PlanCompleto | undefined;
 
+  existeReto: boolean = false;
+  nombreReto: string = '';
+  retoService: RetoService;
+
 
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
     authService: AuthService,
-    router: Router
+    router: Router,
+    retoService: RetoService
   ) {
+    this.retoService = retoService;
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
     this.authService = authService;
@@ -42,6 +49,7 @@ export class PlanesComponent {
   ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
+    this.verificarSiExisteReto();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
@@ -123,6 +131,22 @@ desactivarPlan(idPlan: number): void {
   irAlDetalleDelPlan(idPlan: number):void{
        this.router.navigate(['/detalle-plan', idPlan]);
   }
- 
-
+  
+  verificarSiExisteReto(): void {
+    this.retoService.obtenerRetoPorIdUsuario(this.idUsuario).subscribe({
+      next: (response: any) => {
+        if (response && response.objeto) {
+          this.existeReto = true;
+          this.nombreReto = response.objeto.nombre;
+        } else {
+          this.existeReto = false;
+          this.nombreReto = '';
+        }
+      },
+      error: (err: any) => {
+        console.warn('Error al verificar el reto:', err);
+        this.existeReto = false;
+      }
+    });
+  }
 }
