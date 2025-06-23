@@ -5,7 +5,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-height: 100vh;
+  min-height: 100vh;
+  max-height: 300vh;
 }
 
 * {
@@ -21,37 +22,49 @@ body {
 .image-placeholder {
   background-color: #666;
 }
+.contenedor-carrusel-ejercicios {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-right: 175px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.contenedor-carrusel-ejercicios.shifted {
+  transform: translateX(100px); 
+}
 
 .rutina-card {
+  height: auto;
   background-color: #00060c;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   color: white;
   padding-left: 4em;
   padding-right: 4em;
   margin: 0 auto;
   width: 100%;
-  margin-top: 6rem;
-  margin-bottom: 4rem;
-}
-
-.informacion-rutina i {
-  font-size: 40px;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .contenedor-ejercicios-realizados-y-finalizar-rutina {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 100%;
   transition: width 0.3s ease;
 }
 
 .rutina-card.expandido .contenedor-ejercicios-realizados-y-finalizar-rutina {
-  width: 60%;
+  width: 100%;
 }
 
 .nombre-ejercicio {
@@ -62,7 +75,6 @@ body {
 
 .mensaje-finalizacion {
   text-align: center;
-  margin-bottom: 30px;
 }
 
 .ejercicios-realizados {
@@ -165,8 +177,9 @@ body {
   display: flex;
   justify-content: center;
   position: relative;
-  height: 550px;
+  height: 450px;
   margin-bottom: 30px;
+  margin-top: 45px;
 }
 
   .card {
@@ -242,15 +255,17 @@ body {
   width: 10%;
   min-width: 60px;
   align-items: center;
-
 }
 
 .informacion-rutina.expandido {
-  width: 40%;
+  width: 50%;
   align-items: stretch;
-
+  height: 30rem;
 }
 
+.informacion-rutina i {
+  font-size: 40px;
+}
 .iconos-laterales {
   display: flex;
   flex-direction: column;
@@ -308,6 +323,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: #06131C;
+  
 }
 
 .estadisticas-texto {
@@ -329,7 +345,9 @@ body {
 .carrusel-muscular button {
   margin-bottom: 30px;
 }
-
+.nombre-ejercicio-muscular{
+  font-size: 23px;
+}
 
 .cerrar-btn {
   position: absolute;
@@ -362,13 +380,43 @@ body {
 
 
 .carrusel-muscular {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 2rem; 
+}
+
+.flecha-izquierda-muscular,
+.flecha-derecha-muscular {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 50%;
+  z-index: 2;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.flecha-izquierda-muscular {
+  left: 0;
+}
+
+.flecha-derecha-muscular {
+  right: 0;
+}
+
+.flecha-izquierda-muscular:hover,
+.flecha-derecha-muscular:hover {
+  background-color: rgba(19, 255, 58, 0.2);
+  color: #13FF3A;
 }
 
 .contenedor-grupos-musculares {
@@ -456,6 +504,10 @@ body {
 }
 
 @media (max-width: 1480px) {
+
+  .carrusel-muscular{
+    padding-top: 0;
+  }
   .rutina-card {
     flex-direction: column;
     width: 95%;
@@ -463,11 +515,19 @@ body {
     padding-left: 4em;
     padding-right: 4em;
   }
-
+  .contenedor-carrusel-ejercicios{
+      margin-right: 0;
+  }
+   .contenedor-carrusel-ejercicios.shifted {
+    transform: none !important;
+    margin-left: 0 !important;
+  }
   .boton-finalizar-pc {
     display: none;
   }
-
+  .musculos-trabajados-texto{
+      margin-bottom: 0;
+  }
   div .boton-finalizar-mobile {
     display: flex;
     justify-content: center;
@@ -489,11 +549,20 @@ body {
     margin-bottom: 2rem;
   }
 
+
+.informacion-rutina.expandido {
+  width: 50%;
+  align-items: stretch;
+  height: 40rem;
+}
+
   .informacion-rutina {
     flex-direction: column;
     width: 100%;
     order: 2;
+    
   }
+
 
   .iconos-laterales.expandido {
     border-top-right-radius: 20px;
@@ -501,7 +570,7 @@ body {
     border-bottom-left-radius: 0px;
     border: #13FF3A 2px solid;
     border-bottom: none;
-    height: 100%;
+    max-height: 100px;
     width: 100%;
     justify-content: center;
   }
@@ -514,6 +583,7 @@ body {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     width: auto;
+    height: auto;
   }
 
   .iconos-laterales i {
@@ -535,6 +605,7 @@ body {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 20px;
     border-left: #13FF3A 2px solid;
+    height: 500px;
   }
 
   .cerrar-btn {
@@ -557,14 +628,21 @@ body {
   .musculos-trabajados-texto {
     font-size: 1.2rem;
   }
-
-  .informacion-rutina {
-    height: 20%;
-  }
+.nombre-ejercicio-muscular{
+  font-size: 18px;
+}
 
   .informacion-rutina.expandido {
-    height: 20%;
-  }
+    width: 80%;
+    height: 30rem;
+}
+.flecha-izquierda {
+  left: 55px;
+}
+
+.flecha-derecha {
+  right: 55px;
+}
 
   .grupo-muscular img {
     height: 150px;
@@ -588,17 +666,57 @@ body {
     font-size: 1.2rem;
   }
 
+   .card {
+  width: 60%;
+
+}
+  .cards {
+  height: 400px;
+}
+
+}
+
+@media (max-width:600px){
+.flecha-izquierda {
+  left: -25px;
+}
+
+.flecha-derecha {
+  right: -25px;
+}
+  .card {
+  width: 80%;
+}
+  .cards {
+  height: 300px;
+}
+
   .lista-estadisticas li i {
     font-size: 1rem;
   }
 
   .lista-estadisticas li span {
-    font-size: 1rem;
+    font-size: 0.76rem;
   }
-
 }
 
-@media (max-width: 640px) {
+
+@media (max-width: 480px) {
+
+.flecha-izquierda {
+  left: 5px;
+}
+
+.flecha-derecha {
+  right: 5px;
+}
+   .card {
+  width: 60%;
+
+}
+   .contenido-derecho {
+    height: 350px;
+  }
   .mensaje-finalizacion {
     font-size: 1.2rem;
   }
@@ -609,7 +727,7 @@ body {
   }
 
   .informacion-rutina.expandido {
-    width: 100%;
+    width: 70%;
   }
 
   .contenedor-carrusel {
@@ -651,6 +769,17 @@ body {
 
 }
 
+@media (max-width: 420px) {
+
+ .lista-estadisticas li i {
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 0.6rem;
+  }
+
+}
 
 
 .feedback-modal {

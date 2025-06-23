@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './componentes/header/header.component';
 import { FooterComponent } from './componentes/footer/footer.component';
 import { RouterModule } from '@angular/router';
@@ -12,10 +13,12 @@ import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-r
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
-import { CarruselVerticalComponent } from './componentes/carrusel-vertical/carrusel-vertical/carrusel-vertical.component';
+import { TarjetasPlanesComponent } from './componentes/tarjetas-planes/tarjetas-planes.component';
 import { LogroObtenidoComponent } from './componentes/logro-obtenido/logro-obtenido.component';
 import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/modal-confirmacion-borrar-plan/modal-confirmacion-borrar-plan.component';
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
+import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -30,14 +33,17 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent,
-    CarruselVerticalComponent,
+    TarjetasPlanesComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
+    ModalEditarPerfilComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
     ],
   exports: [
     HeaderComponent,
@@ -49,7 +55,7 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
     LoaderComponent,
     TemporizadorComponent,
     BotonTraininComponent,
-    CarruselVerticalComponent,
+    TarjetasPlanesComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent

@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <h5 class="modal-title">Editar perfil</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" type="text" class="form-control" formControlName="nombre" />
+      <div *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')" class="text-danger small mt-1">
+        El nombre es obligatorio.
+      </div>
+      <div *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('minlength')" class="text-danger small mt-1">
+        Debe tener al menos 2 caracteres.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="apellido" class="form-label">Apellido</label>
+      <input id="apellido" type="text" class="form-control" formControlName="apellido" />
+      <div *ngIf="form.get('apellido')?.touched && form.get('apellido')?.hasError('required')" class="text-danger small mt-1">
+        El apellido es obligatorio.
+      </div>
+      <div *ngIf="form.get('apellido')?.touched && form.get('apellido')?.hasError('minlength')" class="text-danger small mt-1">
+        Debe tener al menos 2 caracteres.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+      <input id="fechaNacimiento" type="date" class="form-control" formControlName="fechaNacimiento" />
+      <div *ngIf="form.get('fechaNacimiento')?.touched && form.get('fechaNacimiento')?.hasError('required')" class="text-danger small mt-1">
+        La fecha de nacimiento es obligatoria.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="altura" class="form-label">Altura (cm)</label>
+      <input id="altura" type="number" class="form-control" formControlName="altura" />
+      <div *ngIf="form.get('altura')?.touched && form.get('altura')?.hasError('required')" class="text-danger small mt-1">
+        La altura es obligatoria.
+      </div>
+      <div *ngIf="form.get('altura')?.touched && form.get('altura')?.hasError('min')" class="text-danger small mt-1">
+        Valor mínimo 50 cm.
+      </div>
+      <div *ngIf="form.get('altura')?.touched && form.get('altura')?.hasError('max')" class="text-danger small mt-1">
+        Valor máximo 300 cm.
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <app-boton-trainin
+    [tipo]="'button'"
+    [disabled]="loading"
+    (clickBoton)="cancel()">
+    Cerrar
+  </app-boton-trainin>
+
+  <app-boton-trainin
+    [tipo]="'button'"
+    [disabled]="form.invalid || loading"
+    (clickBoton)="save()">
+    <ng-container *ngIf="!loading; else guardando">
+      Confirmar
+    </ng-container>
+  </app-boton-trainin>
+  <ng-template #guardando>Guardando…</ng-template>
+</div>

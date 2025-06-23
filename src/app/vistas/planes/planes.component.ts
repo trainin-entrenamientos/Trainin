@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
@@ -25,6 +25,7 @@ export class PlanesComponent {
   planAEliminarId: number | null = null;
   mostrarModal: boolean = false;
   detallePlan: PlanCompleto | undefined;
+  pantallaChica: boolean = window.innerWidth <= 1080;
 
 
   constructor(
@@ -110,7 +111,6 @@ eliminarPlanConfirmado(): void {
 desactivarPlan(idPlan: number): void {
     this.planEntrenamientoService.desactivarPlanPorId(idPlan, this.idUsuario).subscribe({
       next: (response) => {
-        console.log('Plan desactivado:', response);
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err) => {
@@ -119,10 +119,14 @@ desactivarPlan(idPlan: number): void {
     });
   };
 
-
   irAlDetalleDelPlan(idPlan: number):void{
        this.router.navigate(['/detalle-plan', idPlan]);
   }
  
+
+@HostListener('window:resize', ['$event'])
+onResize(event: any) {
+  this.pantallaChica = event.target.innerWidth <= 1080;
+}
 
 }
