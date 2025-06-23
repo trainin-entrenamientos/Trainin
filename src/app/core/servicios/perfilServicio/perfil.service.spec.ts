@@ -28,7 +28,7 @@ describe('PerfilService', () => {
   it('Debería obtenerse el perfil del usuario por email', () => {
     const email = 'trainin@trainin.com';
     service.getPerfil(email).subscribe();
-    const req = httpMock.expectOne(`${base}perfil/${encodeURIComponent(email)}`);
+    const req = httpMock.expectOne(`${base}obtenerPerfil/${encodeURIComponent(email)}`);
     expect(req.request.method).toBe('GET');
     req.flush({});
   });
