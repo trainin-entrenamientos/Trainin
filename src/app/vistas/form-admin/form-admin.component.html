@@ -1,31 +1,39 @@
 <main>
+  <div class="page-header container text-center">
+    <h1 class="page-title">
+      {{ isEdit
+      ? 'Editá el ejercicio seleccionado'
+      : 'Creá un ejercicio' }}
+    </h1>
+  </div>
+
   <form class="form-wrapper" [formGroup]="form" (ngSubmit)="submit()">
     <div class="mb-3">
 
       <label>Nombre</label>
-      <input formControlName="Nombre" class="form-control">
+      <input formControlName="nombre" class="form-control">
     </div>
     <div class="mb-3">
       <label>Descripción</label>
-      <textarea formControlName="Descripcion" class="form-control"></textarea>
+      <textarea formControlName="descripcion" class="form-control"></textarea>
     </div>
 
     <div class="mb-3">
       <label>Video</label>
-      <input formControlName="Video" class="form-control">
+      <input formControlName="video" class="form-control">
     </div>
     <div class="mb-3">
       <label>ValorMet</label>
-      <input type="number" formControlName="ValorMet" class="form-control">
+      <input type="number" formControlName="valorMet" class="form-control">
     </div>
 
     <div class="mb-3">
       <label>Landmark</label>
-      <input formControlName="Landmark" class="form-control">
+      <input formControlName="landmark" class="form-control">
     </div>
     <div class="mb-3">
       <label>Imagen</label>
-      <textarea formControlName="Imagen" class="form-control"></textarea>
+      <textarea formControlName="imagen" class="form-control"></textarea>
     </div>
 
     <div class="grid-grupos mb-3">
@@ -46,30 +54,33 @@
 
     <div class="mb-3">
       <label>Tiene Corrección</label>
-      <select class="form-control" formControlName="TieneCorreccion">
-        <Option value=1>1: Tiene Corrección</Option>
-        <Option value=0>2: No Tiene Corrección</Option>
+      <select formControlName="tieneCorreccion" class="form-control">
+        <option [ngValue]="true">1: Tiene Corrección</option>
+        <option [ngValue]="false">2: No Tiene Corrección</option>
       </select>
     </div>
 
     <div class="mb-3">
       <label>Tiene Corrección Premium</label>
-      <select class="form-control" formControlName="CorreccionPremium">
-        <Option value=1>1: Tiene Corrección Premium</Option>
-        <Option value=0>2: No Tiene Corrección Premium</Option>
+      <select formControlName="correccionPremium" class="form-control">
+        <option [ngValue]="true">1: Tiene Corrección Premium</option>
+        <option [ngValue]="false">2: No Tiene Corrección Premium</option>
       </select>
     </div>
 
     <div class="mb-3">
       <label>Tipo de Ejercicio</label>
-      <select class="form-control" formControlName="IdTipoEjercicio">
-        <Option value=1>1: Ejercicio por tiempo</Option>
-        <Option value=2>2: Ejercicio por repetición</Option>
+      <select class="form-control" formControlName="idTipoEjercicio">
+        <option [ngValue]="1">Ejercicio por tiempo</option>
+        <option [ngValue]="2">Ejercicio por repetición</option>
       </select>
     </div>
 
-    <button class="btn btn-success" [disabled]="form.invalid">
+    <div class="text-center mb-3">
+    <app-boton-trainin tipo="submit" [disabled]="form.invalid" clase="btn btn-trainin style">
       {{ isEdit ? 'Guardar cambios' : 'Crear ejercicio' }}
-    </button>
+    </app-boton-trainin>
+    </div>
+
   </form>
 </main>
