@@ -5,7 +5,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
-import { RetoService } from '../../core/servicios/retoServicio/reto.service';
+import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 
 @Component({
   selector: 'app-planes',
@@ -30,7 +30,7 @@ export class PlanesComponent {
 
   existeReto: boolean = false;
   nombreReto: string = '';
-  retoService: RetoService;
+  ejercicioService: EjercicioService;
 
 
   constructor(
@@ -38,13 +38,13 @@ export class PlanesComponent {
     UsuarioService: UsuarioService,
     authService: AuthService,
     router: Router,
-    retoService: RetoService
+    ejercicioService: EjercicioService
   ) {
-    this.retoService = retoService;
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
     this.authService = authService;
     this.router = router;
+    this.ejercicioService = ejercicioService;
   }
 
   ngOnInit(): void {
@@ -132,7 +132,7 @@ desactivarPlan(idPlan: number): void {
   }
   
   verificarSiExisteReto(): void {
-    this.retoService.obtenerRetoPorIdUsuario(this.idUsuario).subscribe({
+    this.ejercicioService.obtenerEjercicioDiario().subscribe({
       next: (response: any) => {
         if (response && response.objeto) {
           this.existeReto = true;

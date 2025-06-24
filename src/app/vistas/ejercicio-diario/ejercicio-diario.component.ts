@@ -1,12 +1,11 @@
 import {Component,OnInit} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-
-import { RetoService } from '../../core/servicios/retoServicio/reto.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { Router } from '@angular/router';
-import { RetoDTO } from '../../core/modelos/RetoDTO';
+import { EjercicioDiarioDTO } from '../../core/modelos/RetoDTO';
+import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 
 @Component({
   selector: 'app-ejercicio-diario',
@@ -16,10 +15,8 @@ import { RetoDTO } from '../../core/modelos/RetoDTO';
 })
 export class EjercicioDiarioComponent implements OnInit {
   
-
-  
   email: string | null = null;
-  reto: RetoDTO | null = null;
+  ejercicioDiario: EjercicioDiarioDTO | null = null;
   idUsuario: number = 1;
   
   videoUrl!: SafeResourceUrl;
@@ -27,15 +24,15 @@ export class EjercicioDiarioComponent implements OnInit {
   nombreEjercicio = '';
   
   constructor(
-    private retoService: RetoService,
     private authService: AuthService,
     private usuarioService: UsuarioService,
     private sanitizer: DomSanitizer,
+    private ejercicioService: EjercicioService,    
     private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.reto?.video || '');
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.ejercicioDiario?.video || '');
 
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
@@ -55,17 +52,17 @@ export class EjercicioDiarioComponent implements OnInit {
   }
   
   obtenerRetoPorIdUsuario(idUsuario: number): void {
-    this.retoService.obtenerRetoPorIdUsuario(idUsuario).subscribe({
+    this.ejercicioService.obtenerEjercicioDiario().subscribe({
       next: (response: any) => {
         if (!response || !response.objeto) {
           console.warn("No se encontró un reto para el usuario.");
           return;
         }
 
-        this.reto = response.objeto;
+        this.ejercicioDiario = response.objeto;
          
-          if (this.reto && this.reto.video) {
-            let rawVideoUrl = this.reto.video.trim();
+          if (this.ejercicioDiario && this.ejercicioDiario.video) {
+            let rawVideoUrl = this.ejercicioDiario.video.trim();
 
             if (rawVideoUrl.includes('watch?v=')) {
               const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];

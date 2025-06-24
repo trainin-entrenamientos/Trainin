@@ -71,5 +71,8 @@ export class EjercicioService {
       )
       .pipe(map(res => res.objeto));
   }
+  obtenerEjercicioDiario() {
+    return this.http.get(`${this.apiUrl}/obtenerEjercicioDiario`);
+  }
 
 }

@@ -1,4 +1,4 @@
-export interface RetoDTO {
+export interface EjercicioDiarioDTO {
     id: number;
     nombre: string;
     descripcion: string;
