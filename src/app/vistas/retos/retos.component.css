@@ -1,28 +1,37 @@
 .retos-container {
   padding: 20px;
   width: 100%;
-  margin: 0 auto;
+  margin-top: 65px;
   display: flex;
   flex-direction: row;
   gap: 6rem;
 }
 
-.reto-header {
-  text-align: center;
-  margin-top:  3rem;
-}
-
-.reto-header h2 {
-  color: #333;
-  margin-bottom: 10px;
-}
-
 .video-section {
   padding: 15px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  word-break: break-word;
 }
 
-.video-section h3 {
-  margin-bottom: 15px;
+.video-section h2,
+.video-section p {
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.video-section h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.video-section p {
+  font-size: 1rem;
   color: #555;
 }
 
@@ -33,7 +42,7 @@
 }
 
 .camera-section {
-  width:70%;
+  width:60%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -322,4 +331,29 @@
   .countdown-number {
     font-size: 80px;
   }
+  @media (max-width: 768px) {
+  .retos-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .video-section {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .camera-section {
+    width: 100%;
+  }
+
+  .video-section h2 {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .video-section p {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+}
 }

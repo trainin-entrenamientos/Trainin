@@ -14,6 +14,7 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { Router } from '@angular/router';
 import { RetoDTO } from '../../core/modelos/RetoDTO';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 
 @Component({
   selector: 'app-retos',
@@ -61,32 +62,19 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
     private retoService: RetoService,
     private authService: AuthService,
     private usuarioService: UsuarioService,
+    private rutinaService: RutinaService,
     private sanitizer: DomSanitizer,
     private router: Router,
     private fabrica: FabricaManejadoresService
   ) {}
 
   ngOnInit(): void {
-    // Se carga un video por defecto para evitar errores si no se carga el video del reto
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0'
-    );
-    
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.reto?.video || '');
+
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
     this.nombreEjercicio = formatearNombreEjercicio(this.reto?.nombre || '');
 
-    if(this.reto?.video && this.reto ){
-      let rawVideoUrl = this.reto.video.trim();
-      if (rawVideoUrl.includes('watch?v=')) {
-            const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];
-            rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-          }
-          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawVideoUrl);
-    }else {
-          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
-    }
-    
   }
 
   async ngAfterViewInit() {
@@ -176,7 +164,7 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.contador = 5;
+    this.contador = 10;
     this.mostrarBotonIniciar = true;
     const iv = setInterval(() => {
       this.contador--;
@@ -263,8 +251,8 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.corrigiendo = false;
       this.mostrarBotonReintentar = true;
       
-      // Verificar si el reto fue completado exitosamente
-      if (this.ultimoPorcentaje >= 70) { // Umbral de éxito para retos
+      
+      if (this.ultimoPorcentaje >= 80) { 
         this.retoCompletado = true;
         this.marcarRetoComoCompletado();
       }
@@ -274,7 +262,6 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
   private mostrarFeedbackVisual(exitoso: boolean) {
     if (!this.canvasRef) return;
     
-    // Cambiar temporalmente el borde del canvas
     const canvas = this.canvasRef.nativeElement;
     canvas.style.border = exitoso ? '3px solid #28a745' : '3px solid #dc3545';
     setTimeout(() => {
@@ -316,7 +303,7 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   finalizarReto() {
-    if (this.ultimoPorcentaje < 70 && this.reintentos < this.maxReintentos) {
+    if (this.ultimoPorcentaje < 80 && this.reintentos < this.maxReintentos) {
       // Permitir reintento
       return;
     }
@@ -324,10 +311,8 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.detenerCamara();
     
     if (this.retoCompletado) {
-      // Navegar a pantalla de éxito o dashboard
       this.router.navigate(['/dashboard']);
     } else {
-      // Navegar a pantalla de retos o dashboard
       this.router.navigate(['/retos']);
     }
   }
@@ -386,22 +371,26 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.reto = response.objeto;
+         
         if (this.reto && this.reto.nombre) {
-          this.ejercicio = this.reto.nombre as NombreEjercicio;
+          
+          this.ejercicio = this.claveEjercicioCorreccion()
           this.manejador = this.fabrica.obtenerManejador(this.ejercicio);
           this.nombreEjercicio = formatearNombreEjercicio(this.reto.nombre);
           
-          // Configurar URL del video
           if (this.reto.video) {
             let rawVideoUrl = this.reto.video.trim();
+
             if (rawVideoUrl.includes('watch?v=')) {
               const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];
               rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            }else if (rawVideoUrl.includes('youtu.be/')) {
+              const videoId = rawVideoUrl.split('youtu.be/')[1].split('?')[0];
+              rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             }
             this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawVideoUrl);
-          } else if (this.manejador) {
-            this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manejador.videoUrl);
-          }
+          } 
+
         }
       },
       error: (err: any) => console.error('Error al obtener el reto:', err)
@@ -412,4 +401,13 @@ export class RetosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.detenerCamara();
     this.router.navigate(['/retos']);
   }
+  claveEjercicioCorreccion(): NombreEjercicio {
+  const clave = this.rutinaService.buscarNombreEjercicio(this.reto?.nombre);
+  if (clave === null) {
+    console.warn("Nombre de ejercicio inválido.");
+    return NombreEjercicio.ERROR;
+  }else{
+  return clave;
+  }
+}
 }

@@ -1,12 +1,11 @@
-<div class="reto-header">
-  <h2>{{ reto?.nombre || 'Cargando reto...' }}</h2>
-  <p>{{ reto?.descripcion }}</p>
-</div>
-<div class="retos-container">
 
+<div class="retos-container">
+  
   <div class="video-section" *ngIf="videoUrl">
     <iframe [src]="videoUrl" frameborder="0" allowfullscreen class="video-iframe">
     </iframe>
+    <h2>{{ reto?.nombre || 'Cargando reto...' }}</h2>
+    <p>{{ reto?.descripcion }}</p>
   </div>
 
   <div class="camera-section">
@@ -51,7 +50,6 @@
       <p>¡Prepárate!</p>
     </div>
 
-    <!-- Controles -->
     <div class="controls-section">
       <button *ngIf="mostrarBotonIniciar && !corrigiendo && contador === 0" (click)="iniciar()"
         class="btn btn-primary btn-lg" [disabled]="!manejador || cargandoCamara">
@@ -73,7 +71,6 @@
       </button>
     </div>
 
-    <!-- Resumen de resultados -->
     <div *ngIf="resumenHtml" class="results-summary">
       <div [innerHTML]="resumenHtml"></div>
       <div class="score">
