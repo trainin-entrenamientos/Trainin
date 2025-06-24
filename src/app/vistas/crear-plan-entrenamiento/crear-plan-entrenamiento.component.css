@@ -403,7 +403,7 @@ input[type="radio"].form-check-input:focus {
   gap: 15px;
   justify-content: center;
   max-width: 660px;
-  height: 55vh;
+  height: 75vh;
   align-items: center;
   align-self: center;
 }
