@@ -29,7 +29,7 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 import { ErrorComponent } from './error/error.component';
 import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
 import { FormAdminComponent } from './form-admin/form-admin.component';
-import { RetosComponent } from './retos/retos.component';
+import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.component';
 
 @NgModule({
 
@@ -58,7 +58,7 @@ import { RetosComponent } from './retos/retos.component';
     ErrorComponent,
     ListadoDeEjerciciosComponent,
     FormAdminComponent,
-    RetosComponent,
+    EjercicioDiarioComponent,
   ],
 
   imports: [

@@ -1,0 +1,12 @@
+
+<div class="ejercicio-diario-container">
+  
+  <div class="video-section" *ngIf="videoUrl">
+    <iframe [src]="videoUrl" frameborder="0" allowfullscreen class="video-iframe">
+    </iframe>
+    <h2>{{ reto?.nombre || 'Cargando reto...' }}</h2>
+    <p>{{ reto?.descripcion }}</p>
+  </div>
+
+  
+</div>
