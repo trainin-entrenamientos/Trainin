@@ -30,6 +30,7 @@ import { FormAdminComponent } from './vistas/form-admin/form-admin.component';
 import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/listado-de-ejercicios.component';
 import { adminGuard } from './core/guardias/admin/admin.guard';
 import { EjercicioDiarioComponent } from './vistas/ejercicio-diario/ejercicio-diario.component';
+import { HistorialPlanesComponent } from './vistas/historial-planes/historial-planes.component';
 
 const routes: Routes = [
   {
@@ -75,19 +76,6 @@ const routes: Routes = [
         component: PlanPremiumComponent
       },
       {
-        path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
-      },
-      {
-        path: 'verificar-email/:token',
-        component: VerificarEmailComponent
-      },
-      {
-        path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
-      },
-
-      {
         path: 'planes',
         component: PlanesComponent,
         canActivate: [authGuard]
@@ -107,21 +95,10 @@ const routes: Routes = [
         component: FinalizacionRutinaComponent,
         canActivate: [authGuard]
       },
-       {
-        path: 'registro',
-        component: RegistroComponent
-      },
-      {
-        path: 'inicio',
-        component: InicioComponent
-      },
-      {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
-      },
       {
         path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
+        component: CalibracionCamaraComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'detalle-plan/:PlanId',
@@ -144,7 +121,8 @@ const routes: Routes = [
       },
       {
         path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
+        component: CorreccionPosturaComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'logros',
@@ -153,11 +131,13 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
-        component: PerfilComponent
+        component: PerfilComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'error',
@@ -184,6 +164,10 @@ const routes: Routes = [
         path: 'ejercicio-diario',
         component: EjercicioDiarioComponent,
       },
+      {
+        path: 'historial-planes',
+        component: HistorialPlanesComponent
+      }
     ]
   },
   {

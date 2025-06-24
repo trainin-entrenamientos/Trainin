@@ -41,17 +41,17 @@
                 </p>
               </div>
             </div>
-          </a><app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
+          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
 
         </div>
-        <div class="contenedor-imagen-circulo">
+        <!--<div class="contenedor-imagen-circulo">
           <div class="circulo-fondo"></div>
           <img
             src="/imagenes/image-hero-planes.png"
             alt="Imagen de planes de entrenamiento"
             class="img-fluid imagen-con-circulo"
           />
-        </div>
+        </div>-->
       </article>
       <!--CON PLANES, NO PREMIUM-->
       <article
@@ -138,15 +138,18 @@
               </div>
             </div>
           </a>  
+           @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
+                <app-tarjetas-planes
+            [mostrarComoVertical]="false"
+            [hastaUnPlan]="true"
+            [variosPlanes]="false"
+
+          ></app-tarjetas-planes>
+        }
         </div>
         
       </article>
-         @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
-                <app-carrusel-vertical
-            [mostrarComoVertical]="false"
-            [sinPlanes]="false"
-          ></app-carrusel-vertical>
-        }
+        
 
       <!--SIN PLANES, PREMIUM-->
       <article
@@ -169,17 +172,17 @@
               </div>
             </div>
           </a>
-            <app-carrusel-vertical [mostrarComoVertical]="false" [sinPlanes]="true"></app-carrusel-vertical>
+            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
         </div>
 
-         <div class="contenedor-imagen-circulo-con-premium">
+         <!--<div class="contenedor-imagen-circulo-con-premium">
           <div class="circulo-fondo"></div>
           <img
             src="/imagenes/image-hero-planes.png"
             alt="Imagen de planes de entrenamiento"
             class="img-fluid imagen-con-circulo"
           />
-        </div>
+        </div>-->
       </article>
 
       <!--CON PLANES, PREMIUM-->
@@ -276,37 +279,30 @@
               <strong style="color: #13ff3a">4 planes</strong> permitidos.
             </p>
           </div>
-        </div>
-        <div class="cards-verticales">
-          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
-                <app-carrusel-vertical
-            [tieneRetoDisponible]=existeReto
-            [nombreReto]="nombreReto"
-            [mostrarComoVertical]="true"
-            [conPlanesPremium]="true"
-          ></app-carrusel-vertical>
-        }
-        </div>
-        
-      </article>
-       <div class="cards-horizontales">
-          @if (planEntrenamiento.length >=2 &&  planEntrenamiento.length <4) {
-                <app-carrusel-vertical
-            [tieneRetoDisponible]="existeReto"
-            [nombreReto]="nombreReto"
-            [mostrarComoVertical]="true"
-            [conPlanesPremium]="true"
-            ></app-carrusel-vertical>
-          }
-        </div>
-        @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
-          <app-carrusel-vertical
-            [tieneRetoDisponible]="existeReto"
-            [nombreReto]="nombreReto"
+           @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
+                <app-tarjetas-planes
             [mostrarComoVertical]="false"
-            [sinPlanes]="false"
-          ></app-carrusel-vertical>
+            [hastaUnPlan]="true"
+            [variosPlanes]="false"
+          ></app-tarjetas-planes>
         }
+         @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
+                <app-tarjetas-planes
+            [mostrarComoVertical]="true"
+            [hastaUnPlan]="false"
+            [variosPlanes]="true"
+          ></app-tarjetas-planes>
+        }
+        </div>
+          @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
+                <app-tarjetas-planes
+            [mostrarComoVertical]="false"
+            [hastaUnPlan]="false"
+            [variosPlanes]="true"
+          ></app-tarjetas-planes>
+        }
+      </article>
+     
           
     </section>
 

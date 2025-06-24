@@ -2,19 +2,19 @@
 /* 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
-import { CarruselVerticalComponent } from './carrusel-vertical.component';
+import { TarjetasPlanesComponent } from './tarjetas-planes.component';
 
-describe('CarruselVerticalComponent', () => {
-  let component: CarruselVerticalComponent;
-  let fixture: ComponentFixture<CarruselVerticalComponent>;
+describe('TarjetasPlanesComponent', () => {
+  let component: TarjetasPlanesComponent;
+  let fixture: ComponentFixture<TarjetasPlanesComponent>;
   const fakeElement = { scrollWidth: 120, scrollHeight: 240, style: { transform: '' } };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CarruselVerticalComponent]
+      declarations: [TarjetasPlanesComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CarruselVerticalComponent);
+    fixture = TestBed.createComponent(TarjetasPlanesComponent);
     component = fixture.componentInstance;
     component.contenido = new ElementRef<any>(fakeElement);
   });

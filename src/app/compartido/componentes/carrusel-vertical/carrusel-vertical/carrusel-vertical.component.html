@@ -1,17 +1,9 @@
-<div [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'conPlanes': !sinPlanes, 'conPlanesPremium':conPlanesPremium}">
 
 <div class="card" *ngIf="tieneRetoDisponible">
 <div class="face back">
   <div class="estadisticas-back-reto">
     <p>{{nombreReto}}</p>
-    <app-boton-trainin type="button" 
-             [clase]="'btn-practicar2'" 
-             [tipo]="'button'"  
-             ruta="/EjercicioDiario"
-          ><span style="color:white">
-            Ir al Reto
-          </span>
-          </app-boton-trainin>
+   
   </div>
 </div>
 <div class="face front image-placeholder rounded mb-2">
@@ -171,5 +163,4 @@
   </div>
 </div>-->
  
-</div>
 

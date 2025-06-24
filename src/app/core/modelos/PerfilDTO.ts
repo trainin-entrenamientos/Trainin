@@ -9,6 +9,7 @@ export class PerfilDTO {
   altura?: number;
   edad: number;
   fechaCreacion: Date;
+  fechaNacimiento: string;
   fotoDePerfil?: string;
   caloriasTotales?: number;
   entrenamientosHechos?: number;
@@ -16,7 +17,7 @@ export class PerfilDTO {
   logros?: Logro[];
 
   constructor(id: number, nombre: string, apellido: string, email: string, peso: number, altura: number, edad: number,
-    fechaCreacion: Date, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: Logro[]){
+    fechaCreacion: Date, fechaNacimiento: string, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: Logro[]){
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
@@ -25,6 +26,7 @@ export class PerfilDTO {
     this.altura = altura;
     this.edad = edad;
     this.fechaCreacion = fechaCreacion;
+    this.fechaNacimiento = fechaNacimiento;
     this.fotoDePerfil = fotoDePerfil;
     this.caloriasTotales = caloriasTotales;
     this.entrenamientosHechos = entrenamientosHechos;

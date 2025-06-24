@@ -12,7 +12,6 @@ interface CarruselItem {
 @Component({
   selector: 'app-carrusel-vertical',
   templateUrl: './carrusel-vertical.component.html',
-  styleUrls: ['./carrusel-vertical.component.css'],
   standalone:false
 })
 export class CarruselVerticalComponent implements AfterViewInit {

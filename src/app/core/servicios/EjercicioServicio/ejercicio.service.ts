@@ -1,43 +1,75 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Ejercicio, EjercicioIncorporadoDTO } from '../../modelos/EjercicioIncorporadoDTO';
+import { EjercicioIncorporadoDTO } from '../../modelos/EjercicioIncorporadoDTO';
 import { environment } from '../../../../environments/environment.prod';
+
+interface RespuestaApi<T> {
+  estado: boolean;
+  mensaje: string;
+  objeto: T;
+}
 
 @Injectable({ providedIn: 'root' })
 export class EjercicioService {
-  private apiUrl = `${environment.URL_BASE}/Ejercicios/`;
+  [x: string]: any;
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.URL_BASE}/ejercicio`;
 
-  obtenerTodosLosEjercicios(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}obtenerEjercicios`);
-  }
-/*  obtenerEjercicioPorId(id: number): Observable<Ejercicio> {
-    return this.obtenerTodosLosEjercicios().pipe(
-      map((list: any[]) => list.find((e: { id: number; }) => e.id === id)!)
-    );
-  }*/
- 
-    obtenerEjercicioPorId(id: number): Observable<Ejercicio> {
-  return this.http.get<Ejercicio>(`${this.apiUrl}obtenerEjercicioPorId/${id}`);
-}
+  constructor(private http: HttpClient) { }
 
-  crearEjercicio(dto: any): Observable<any> {
-    console.log(dto);
-    return this.http.post<any>(`${this.apiUrl}agregarEjercicio`, dto);
+  obtenerTodosLosEjercicios(): Observable<EjercicioIncorporadoDTO[]> {
+    return this.http
+      .get<RespuestaApi<EjercicioIncorporadoDTO[]>>(
+        `${this.apiUrl}/obtener`
+      )
+      .pipe(map(res => res.objeto));
   }
-  editarEjercicio(id: number, dto: EjercicioIncorporadoDTO): Observable<any> {
-    return this.http.patch(`${this.apiUrl}editarEjercicio/${id}`, dto);
+
+  obtenerEjercicioPorId(id: number): Observable<EjercicioIncorporadoDTO> {
+    return this.http
+      .get<RespuestaApi<EjercicioIncorporadoDTO>>(
+        `${this.apiUrl}/obtener/${id}`
+      )
+      .pipe(map(res => res.objeto));
   }
-  eliminarEjercicio(id: number): Observable<any> {
-    return this.http.delete(`${environment.URL_BASE}/Ejercicios/eliminar/${id}`);
+
+  crearEjercicio(dto: EjercicioIncorporadoDTO): Observable<string> {
+    return this.http
+      .post<RespuestaApi<string>>(`${this.apiUrl}/agregar`, dto)
+      .pipe(map(res => res.mensaje));
+  }
+
+  editarEjercicio(id: number, dto: EjercicioIncorporadoDTO): Observable<string> {
+    return this.http
+      .patch<RespuestaApi<string>>(
+        `${this.apiUrl}/editar/${id}`, dto
+      )
+      .pipe(map(res => res.mensaje));
+  }
+
+  eliminarEjercicio(id: number): Observable<string> {
+    return this.http
+      .delete<RespuestaApi<string>>(
+        `${this.apiUrl}/eliminar/${id}`
+      )
+      .pipe(map(res => res.mensaje));
   }
 
   obtenerCategorias(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.URL_BASE}/categoriaejercicio/obtenerCategorias`);
+    return this.http
+      .get<RespuestaApi<any[]>>(
+        `${environment.URL_BASE}/categoriaEjercicio/obtener`
+      )
+      .pipe(map(res => res.objeto));
   }
+
   obtenerGruposMusculares(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.URL_BASE}/grupoMuscular/obtenerGruposMusculares`);
+    return this.http
+      .get<RespuestaApi<any[]>>(
+        `${environment.URL_BASE}/grupoMuscular/obtener`
+      )
+      .pipe(map(res => res.objeto));
   }
+
 }

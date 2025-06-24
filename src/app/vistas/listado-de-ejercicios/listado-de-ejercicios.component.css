@@ -1,9 +1,29 @@
-body {
-    background: #00060C;
-    color: #fff;
-    font-family: 'Merriweather Sans', sans-serif;
-    margin: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
     overflow-x: hidden;
+
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .admin-title {
@@ -82,19 +102,134 @@ body {
     align-items: center;
 }
 
-@media (max-width:576px) {
-    .add-btn {
-        position: fixed;
-        right: 1rem;
-        bottom: 1rem;
-        z-index: 1050;
-        border-radius: 50%;
-        padding: .75rem .9rem;
-        margin: 0;
-    }
+.btn {
+  border-radius: 8px;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+  transition: background-color 0.3s ease;
+}
 
-    .listado-ejercicios th:first-child,
-    .listado-ejercicios td:first-child {
-        display: none;
-    }
+.btn:hover {
+  background-color: #13ff3a20;
+}
+
+.botones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+th.sortable i {
+  font-size: 1rem;          
+  margin-left: 0.25rem;    
+  vertical-align: middle;    
+  transition: transform 0.2s ease;
+}
+
+th.sortable.desc i {
+  transform: rotate(180deg);
+}
+
+.listado-ejercicios tbody tr:last-child {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .listado-ejercicios th:first-child,
+  .listado-ejercicios td:first-child {
+    display: none;
+  }
+
+  .listado-ejercicios {
+    width: 100%;
+    margin: 0;
+    table-layout: fixed; 
+  }
+
+  .listado-ejercicios th:nth-child(2),
+  .listado-ejercicios td:nth-child(2) {
+    width: 70%;
+  }
+  .listado-ejercicios th:nth-child(3),
+  .listado-ejercicios td:nth-child(3) {
+    width: 30%;
+  }
+
+  .listado-ejercicios th,
+  .listado-ejercicios td {
+    text-align: center;
+    padding: .5rem;
+    font-size: .85rem;
+  }
+
+  .admin-title {
+    font-size: 1.25rem;
+  }
+  .mb-3 {
+    flex-direction: column;
+    gap: .5rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 767px) {
+  .text-center.mb-3 .btn-trainin {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .listado-ejercicios {
+    width: 100%;
+    margin: 0;
+  }
+
+  .listado-ejercicios th,
+  .listado-ejercicios td {
+    padding: .6rem .75rem;
+    font-size: .9rem;
+  }
+
+  .listado-ejercicios th:nth-child(1),
+  .listado-ejercicios td:nth-child(1) {
+    width: 15%;
+  }
+  .listado-ejercicios th:nth-child(2),
+  .listado-ejercicios td:nth-child(2) {
+    width: 70%;
+  }
+  .listado-ejercicios th:nth-child(3),
+  .listado-ejercicios td:nth-child(3) {
+    width: 15%;
+  }
+
+  .admin-title {
+    font-size: 1.5rem;
+  }
+  .mb-3 {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  .listado-ejercicios th,
+  .listado-ejercicios td {
+    padding: .75rem 1rem;
+  }
+  .listado-ejercicios {
+    width: 100%;
+    margin: 0;
+    table-layout: fixed; 
+  }
+  .admin-title {
+    font-size: 2rem;
+  }
+  .botones button {
+    margin: 0 .25rem;
+  }
 }

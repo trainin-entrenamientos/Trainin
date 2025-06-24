@@ -30,6 +30,7 @@ import { ErrorComponent } from './error/error.component';
 import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
 import { FormAdminComponent } from './form-admin/form-admin.component';
 import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.component';
+import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
 
 @NgModule({
 
@@ -59,6 +60,7 @@ import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.com
     ListadoDeEjerciciosComponent,
     FormAdminComponent,
     EjercicioDiarioComponent,
+    HistorialPlanesComponent,
   ],
 
   imports: [

@@ -1,25 +1,33 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Subject } from 'rxjs';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { HeaderComponent } from './header.component';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { ToastrService, TOAST_CONFIG } from 'ngx-toastr';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let router: Router;
   let authSpy: jasmine.SpyObj<AuthService>;
+  let toastrSpy: jasmine.SpyObj<ToastrService>;
   const eventsSubject = new Subject<any>();
 
   beforeEach(async () => {
     authSpy = jasmine.createSpyObj('AuthService', ['estaAutenticado', 'cerrarSesion']);
+    toastrSpy = jasmine.createSpyObj('ToastrService', ['info']);
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [HeaderComponent],
-      providers: [{ provide: AuthService, useValue: authSpy }],
+      providers: [
+        { provide: AuthService,    useValue: authSpy },
+        { provide: ToastrService,  useValue: toastrSpy },
+        { provide: TOAST_CONFIG,   useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
@@ -42,21 +50,38 @@ describe('HeaderComponent', () => {
     authSpy.estaAutenticado.and.returnValue(true);
     component.enRutina = false;
     expect(component.obtenerRutaLogo()).toBe('/planes');
+
     component.enRutina = true;
     expect(component.obtenerRutaLogo()).toBeNull();
+
     authSpy.estaAutenticado.and.returnValue(false);
     component.enRutina = false;
     expect(component.obtenerRutaLogo()).toBe('/inicio');
   });
 
   it('Debería impedir la navegación cuando el usuario está en la rutina', () => {
-    const event = jasmine.createSpyObj('evt', ['preventDefault']);
+    const evt = jasmine.createSpyObj('evt', ['preventDefault']);
     component.enRutina = true;
-    component.navegarSiCorresponde(event as any);
-    expect(event.preventDefault).toHaveBeenCalled();
+    component.navegarSiCorresponde(evt as any);
+    expect(evt.preventDefault).toHaveBeenCalled();
   });
 
-  it('Debería cerrarse la sesión', () => {
+  it('No debería prevenir la navegación cuando el usuario no está realizando la rutina', () => {
+    const evt = jasmine.createSpyObj('evt', ['preventDefault']);
+    component.enRutina = false;
+    component.navegarSiCorresponde(evt as any);
+    expect(evt.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('Debería indicar si el usuario está autenticado', () => {
+    authSpy.estaAutenticado.and.returnValue(true);
+    expect(component.estaLogueado()).toBeTrue();
+
+    authSpy.estaAutenticado.and.returnValue(false);
+    expect(component.estaLogueado()).toBeFalse();
+  });
+
+  it('Debería cerrarse la sesión llamando a AuthService', () => {
     component.cerrarSesion();
     expect(authSpy.cerrarSesion).toHaveBeenCalled();
   });
@@ -70,6 +95,7 @@ describe('HeaderComponent', () => {
   it('Debería mostrar y ocultar el modal de finalizar rutina correctamente', () => {
     component.abrirModalFinalizarRutina();
     expect(component.mostrarModalSalirRutina).toBeTrue();
+
     component.cancelarSalidaRutina();
     expect(component.mostrarModalSalirRutina).toBeFalse();
   });
@@ -82,40 +108,37 @@ describe('HeaderComponent', () => {
     expect(navSpy).toHaveBeenCalledWith(['/planes']);
   });
 
-  it('Debería indicar si el usuario está autenticado', () => {
-    authSpy.estaAutenticado.and.returnValue(true);
-    expect(component.estaLogueado()).toBeTrue();
-    authSpy.estaAutenticado.and.returnValue(false);
-    expect(component.estaLogueado()).toBeFalse();
-  });
-
-  it('No debería prevenir la navegación cuando el usuario no está realizando la rutina', () => {
-    const event = jasmine.createSpyObj('evt', ['preventDefault']);
-    component.enRutina = false;
-    component.navegarSiCorresponde(event as any);
-    expect(event.preventDefault).not.toHaveBeenCalled();
-  });
-
   it('Debería cerrar sesión y ocultar el menú cuando el usuario hace click en cerrar sesión', () => {
-    const mockEvent = jasmine.createSpyObj('evt', ['preventDefault']);
+    const mockEvt = jasmine.createSpyObj('evt', ['preventDefault']);
     const dropdownEl = document.createElement('div');
     dropdownEl.id = 'userDropdown';
     spyOn(document, 'getElementById').and.returnValue(dropdownEl);
+
     const hideSpy = jasmine.createSpy();
     (window as any).bootstrap = { Dropdown: { getOrCreateInstance: () => ({ hide: hideSpy }) } };
 
-    component.onClickCerrarSesion(mockEvent as any);
-    expect(mockEvent.preventDefault).toHaveBeenCalled();
+    component.onClickCerrarSesion(mockEvt as any);
+
+    expect(mockEvt.preventDefault).toHaveBeenCalled();
     expect(hideSpy).toHaveBeenCalled();
     expect(authSpy.cerrarSesion).toHaveBeenCalled();
+    expect(toastrSpy.info).toHaveBeenCalledWith(
+      'Has cerrado sesión correctamente.',
+      '',
+      { timeOut: 5000, closeButton: true, tapToDismiss: true }
+    );
   });
 
   it('Debería reconocer todas las rutas de rutina como páginas de rutina', () => {
-    ['calibracion-camara', 'correccion-postura', 'realizar-ejercicio', 'finalizacion-rutina']
-      .forEach((ruta, i) => {
-        eventsSubject.next(new NavigationEnd(i, `/${ruta}`, `/${ruta}`));
-        expect(component.enRutina).toBeTrue();
-      });
+    [
+      'informacion-ejercicio',
+      'calibracion-camara',
+      'correccion-postura',
+      'realizar-ejercicio',
+      'finalizacion-rutina'
+    ].forEach((ruta, i) => {
+      eventsSubject.next(new NavigationEnd(i, `/${ruta}`, `/${ruta}`));
+      expect(component.enRutina).toBeTrue();
+    });
   });
-
 });
