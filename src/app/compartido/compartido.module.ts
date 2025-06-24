@@ -19,6 +19,7 @@ import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/moda
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
 import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { ToastrModule } from 'ngx-toastr';
+import { SpotifyComponent } from "./componentes/spotify/spotify.component";
 
 
 @NgModule({
@@ -38,13 +39,14 @@ import { ToastrModule } from 'ngx-toastr';
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
     ModalEditarPerfilComponent,
+    SpotifyComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     ToastrModule.forRoot()
-    ],
+],
   exports: [
     HeaderComponent,
     FooterComponent,

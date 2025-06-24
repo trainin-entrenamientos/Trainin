@@ -6,6 +6,9 @@
         <h1 class="pt-4">Planes de Entrenamiento</h1>
       </div>
       <!--SIN PLANES, NO PREMIUM-->
+      <div>
+        <button (click)="iniciarSesionConSpotify()">Iniciar sesión con Spotify</button>
+      </div>
       <article
         *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"

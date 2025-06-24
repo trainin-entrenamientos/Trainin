@@ -15,6 +15,8 @@ export class AuthService {
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
+  private clientId = 'dbaa742e9e6f4f3aa345f3e0d609aaf2';
+  private redirectUri = 'http://127.0.0.1:4200/callback';
 
 constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
@@ -58,6 +60,9 @@ constructor(private http: HttpClient, private router: Router) {
 
   cerrarSesion(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('spotify_token');
+    localStorage.removeItem('spotify_refresh_token');
+    localStorage.removeItem('spotify_expires_at');
     this.usuarioSubject.next(null);
   }
 
@@ -86,6 +91,23 @@ constructor(private http: HttpClient, private router: Router) {
     } catch {
       return null;
     }
+  }
+
+  loginWithSpotify() {
+    const scope = [
+      'streaming',
+      'user-read-email',
+      'user-read-private',
+      'user-modify-playback-state',
+      'user-read-playback-state'
+    ].join(' ');
+
+    const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.redirectUri)}&scope=${encodeURIComponent(scope)}`;
+    window.location.href = url;
+  }
+
+  exchangeCodeForToken(code: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/spotify/exchange`, { code });
   }
 }
 
