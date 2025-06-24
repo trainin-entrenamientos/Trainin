@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title">Editar perfil</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cancelar()"></button>
 </div>
 
 <div class="modal-body">
@@ -54,16 +54,16 @@
 <div class="modal-footer">
   <app-boton-trainin
     [tipo]="'button'"
-    [disabled]="loading"
-    (clickBoton)="cancel()">
+    [disabled]="cargando"
+    (clickBoton)="cancelar()">
     Cerrar
   </app-boton-trainin>
 
   <app-boton-trainin
     [tipo]="'button'"
-    [disabled]="form.invalid || loading"
-    (clickBoton)="save()">
-    <ng-container *ngIf="!loading; else guardando">
+    [disabled]="form.invalid || cargando"
+    (clickBoton)="guardar()">
+    <ng-container *ngIf="!cargando; else guardando">
       Confirmar
     </ng-container>
   </app-boton-trainin>

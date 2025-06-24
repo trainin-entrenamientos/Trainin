@@ -42,12 +42,26 @@
 
       <div class="col-12 col-md-6" *ngIf="perfil">
         <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}
-          <button type="button" class="btn btn-icon text-white" aria-label="Editar perfil" (click)="openEditModal()">
-            <i class="fas fa-user-edit icono-user"></i>
+          <button
+            type="button"
+            class="btn p-0 text-white d-inline-flex align-items-center icono-user"
+            style="line-height:1;"
+            aria-label="Editar perfil"
+            (click)="abrirEditarPerfilModal()">
+            <i class="fas fa-user-edit"></i>
           </button>
         </h1>
         <p class="text-muted-white">
           Fecha de ingreso: {{ perfil.fechaCreacion }}
+        </p>
+        <p class="text-muted-white">
+          <a role="button"
+            class="text-white d-inline-flex align-items-center gap-2"
+            style="text-decoration: none; cursor: pointer;"
+            (click)="abrirCambioContraseniaModal()">
+            Cambiar contraseña
+            <i class="fas fa-key ml-1"></i>
+          </a>
         </p>
       </div>
 
@@ -59,10 +73,6 @@
           TRAININ PREMIUM
         </app-boton-trainin>
         <br />
-        <a href="#" class="text-decoration-none text-white">
-          Administrar Suscripción
-          <i class="fas fa-external-link-alt text-white"></i>
-        </a>
       </div>
     </div>
 
