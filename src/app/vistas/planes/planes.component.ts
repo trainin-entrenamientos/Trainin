@@ -122,10 +122,11 @@ desactivarPlan(idPlan: number): void {
   irAlDetalleDelPlan(idPlan: number):void{
        this.router.navigate(['/detalle-plan', idPlan]);
   }
- 
+
   iniciarSesionConSpotify() {
     this.authService.loginWithSpotify();
   }
+
 @HostListener('window:resize', ['$event'])
 onResize(event: any) {
   this.pantallaChica = event.target.innerWidth <= 1080;

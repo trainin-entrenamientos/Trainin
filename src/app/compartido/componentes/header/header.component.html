@@ -1,11 +1,7 @@
 <header>
   <nav class="d-flex justify-content-between align-items-center">
     <div>
-      <a 
-        class="logo"
-        [routerLink]="obtenerRutaLogo()"
-        (click)="navegarSiCorresponde($event)"
-      >
+      <a class="logo" [routerLink]="obtenerRutaLogo()" (click)="navegarSiCorresponde($event)">
         <img src="imagenes/logo-trainin.svg" alt="TRAININ Logo" class="img-fluid d-none d-md-block" />
         <img src="imagenes/TRAININ-LOGO-FO.svg" alt="TRAININ Logo Mobile" class="img-fluid d-block d-md-none" />
       </a>
@@ -13,15 +9,15 @@
     </div>
 
     <div>
-<button *ngIf="enRutina" class="boton-finalizar-rutina" (click)="abrirModalFinalizarRutina()">Salir</button>
+      <button *ngIf="enRutina" class="boton-finalizar-rutina" (click)="abrirModalFinalizarRutina()">Salir</button>
 
       <ng-container *ngIf="!enRutina">
         <a routerLink="/premium" routerLinkActive="router-link-active" class="text-white me-3" id="aHover">Premium</a>
         <a routerLink="/nosotros" class="text-white me-3" id="aHover">Nosotros</a>
 
         <ng-container *ngIf="estaLogueado(); else noLogueado">
-          <a id="userDropdown" class="dropdown-toggle" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a id="userDropdown" class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <i class="fas fa-user me-1"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="userDropdown">
@@ -37,16 +33,11 @@
       </ng-container>
     </div>
   </nav>
-  <app-modal-salir-de-rutina
-  [visible]="mostrarModalSalirRutina"
-  (onConfirm)="confirmarSalidaRutina()"
-  (onCancel)="cancelarSalidaRutina()"
-></app-modal-salir-de-rutina>
-@if(mostrarSpotify){
-  <div class="d-flex justify-content-center w-100 position-absolute top-50 start-50 translate-middle-x" style="z-index: 0;">
-    <app-spotify></app-spotify>
-  </div>
-}
-
-
+  <app-modal-salir-de-rutina [visible]="mostrarModalSalirRutina" (onConfirm)="confirmarSalidaRutina()"
+    (onCancel)="cancelarSalidaRutina()"></app-modal-salir-de-rutina>
+  <ng-container *ngIf="mostrarSpotify">
+    <div class="position-absolute start-50 top-50 spotify-overlay" (click)="$event.stopPropagation()">
+      <app-spotify></app-spotify>
+    </div>
+  </ng-container>
 </header>

@@ -1,20 +1,17 @@
 <div class="spotify-player">
-    <div class="track" *ngIf="currentTrack">
-      <img class="album-art" [src]="currentTrack.album.images[0]?.url" alt="Album Cover" />
-  
-      <div class="track-details">
-        <div class="track-name">{{ currentTrack.name }}</div>
-        <div class="track-artist">{{ currentTrack.artists[0].name }}</div>
-      </div>
-    </div>
-  
-    <div class="controls">
-      <button (click)="previousTrack()" class="control-btn">⏮</button>
-      <button (click)="togglePlay()" class="control-btn play-btn">
-        <span *ngIf="!isPlaying">▶️</span>
-        <span *ngIf="isPlaying">⏸️</span>
-      </button>
-      <button (click)="nextTrack()" class="control-btn">⏭</button>
+  <div class="track" *ngIf="currentTrack">
+    <img class="album-art" [src]="currentTrack.album.images[0]?.url" alt="Album Cover" />
+
+    <div class="track-details">
+      <div class="track-name">{{ currentTrack.name }}</div>
+      <div class="track-artist">{{ currentTrack.artists[0].name }}</div>
     </div>
   </div>
-  
+
+  <div class="widget-spotify">
+    <i class="fas fa-step-backward control-btn" (click)="previousTrack()"></i>
+    <i class="fas fa-play-circle play-btn" [ngClass]="{ 'fa-pause-circle': isPlaying, 'fa-play-circle': !isPlaying }"
+      (click)="togglePlay()"></i>
+    <i class="fas fa-step-forward control-btn" (click)="nextTrack()"></i>
+  </div>
+</div>

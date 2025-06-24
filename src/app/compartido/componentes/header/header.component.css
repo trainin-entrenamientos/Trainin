@@ -74,6 +74,15 @@ nav img:hover{
   cursor: pointer;
 }
 
+nav.position-relative {
+
+}
+
+.spotify-overlay {
+  transform: translate(-50%, -50%) !important;
+  z-index: 1000;
+}
+
 @media screen and (max-width: 1366px) {
   header {
     font-size: 0.8rem;
@@ -123,3 +132,51 @@ nav img:hover{
   background-color: #005500 !important;
   color: #fff !important;
 }
+
+@media (max-width: 1024px) {
+  .spotify-overlay {
+    top: 50%;           
+    width: 260px;    
+  }
+  .widget-spotify {
+    padding: 0.25rem 0.6rem;
+    height: 44px;
+    gap: 0.75rem;
+  }
+  .control-btn {
+    font-size: 1.1rem;
+  }
+  .play-btn {
+    font-size: 1.4rem;
+    padding: 0.18rem;
+  }
+}
+@media (max-width: 480px) {
+
+  .spotify-overlay {
+    top: 60% !important;
+    left: 50% !important;
+    width: 180px !important;
+    max-width: 180px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .spotify-overlay app-spotify {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .widget-spotify {
+    padding: 0.1rem 0.25rem !important;
+    gap: 0.3rem !important;
+    height: 28px !important;
+  }
+  .widget-spotify .control-btn {
+    font-size: 0.7rem !important;
+  }
+  .widget-spotify .play-btn {
+    font-size: 0.9rem !important;
+    padding: 0.1rem !important;
+  }
+}
+

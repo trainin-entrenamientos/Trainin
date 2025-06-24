@@ -60,7 +60,8 @@ import { SpotifyComponent } from "./componentes/spotify/spotify.component";
     TarjetasPlanesComponent,
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
-    ModalSalirDeRutinaComponent
+    ModalSalirDeRutinaComponent,
+    SpotifyComponent
   ],
   providers: [],
 })
