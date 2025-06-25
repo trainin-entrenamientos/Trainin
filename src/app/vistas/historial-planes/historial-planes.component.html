@@ -1,6 +1,6 @@
-<main *ngIf="cargando" class="container"><app-loader ></app-loader></main>
+<main *ngIf="cargando" ><app-loader ></app-loader></main>
 
-<main class="container" *ngIf="!cargando">
+<main  *ngIf="!cargando">
   <h1>Historial de Planes</h1>
   <div class="grid-historial">
     <div class="historial-card" *ngFor="let plan of planesHistorial">

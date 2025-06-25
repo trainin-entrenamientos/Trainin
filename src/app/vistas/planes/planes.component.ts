@@ -26,6 +26,7 @@ export class PlanesComponent {
   mostrarModal: boolean = false;
   detallePlan: PlanCompleto | undefined;
   pantallaChica: boolean = window.innerWidth <= 1080;
+  imagenPlan: string = '';
 
 
   constructor(
@@ -60,6 +61,15 @@ export class PlanesComponent {
       }
     });
   }
+
+  tipoPlanAImagen: { [key: string]: string } = {
+  'Cuerpo completo': '/imagenes/cuerpo-completo.png',
+  'Cardio': '/imagenes/cardio.png',
+  'Tren superior': '/imagenes/tren-superior.png',
+  'Tren inferior': '/imagenes/tren-inferior.png',
+};
+
+
 
   obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({

@@ -85,7 +85,6 @@ export class CrearPlanEntrenamientoComponent {
         this.usuario = usuarioObtenido;
         this.idUsuario = usuarioObtenido.id;
         this.esPremium = this.usuario?.esPremium;
-        console.log(this.esPremium);
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
