@@ -1,68 +1,185 @@
-.ejercicio-diario-container {
-  padding: 20px;
-  width: 100%;
-  margin-top: 65px;
+body {
+  background-color: #00060c;
+  color: #fff;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
-  flex-direction: row;
-  gap: 6rem;
+  flex-direction: column;
+}
+
+.ejercicio-diario-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 2rem;
+  background-color: #0d1117;
+  animation: fadeInUp 0.8s ease-in-out;
 }
 
 .video-section {
-  padding: 15px;
-  width: 30%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  word-break: break-word;
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
 }
 
-.video-section h2,
-.video-section p {
-  width: 100%;
-  font-size: 1rem;
-  line-height: 1.4;
-  margin: 0;
-}
-/*
-.video-section h2 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.video-section p {
-  font-size: 1rem;
-  color: #555;
-}
-*/
 .video-iframe {
   width: 100%;
-  height: 300px;
-  border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  margin-bottom: 1rem;
 }
-  
-  @media (max-width: 768px) {
-  .ejercicio-diario-container{
-    flex-direction: column;
-    gap: 30px;
+
+.columna-datos {
+  padding: 2rem;
+  background-color: #121212;
+  color: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.titulo-ejercicio {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.lista-descripcion {
+  list-style: decimal inside;
+  padding-left: 0;
+  margin: 0;
+}
+
+.lista-descripcion li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.1rem;
+  transition: padding-left 0.2s ease;
+}
+
+.lista-descripcion li:hover {
+  padding-left: 10px;
+  background-color: rgba(0, 255, 0, 0.05);
+  border-radius: 6px;
+}
+
+.descripcion-simple {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (min-width: 768px) {
+  .ejercicio-diario-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 
   .video-section {
+    flex-basis: 65%;
+    max-width: 65%;
+  }
+
+  .columna-datos {
+    flex-basis: 35%;
+    max-width: 35%;
+  }
+}
+
+@media (max-width: 767px) {
+  .video-iframe {
+    aspect-ratio: 16 / 9;
     width: 100%;
-    padding: 10px;
   }
 
-  .camera-section {
-    width: 100%;
+  .titulo-ejercicio {
+    font-size: 1.5rem;
   }
 
-  .video-section h2 {
-    font-size: 1.1rem;
-    text-align: center;
+  .columna-datos {
+    padding: 1rem;
   }
 
-  .video-section p {
+  .lista-descripcion li {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ejercicio-diario-container {
+    padding: 1rem;
+  }
+  .titulo-ejercicio {
+    font-size: 1.3rem;
+  }
+  .lista-descripcion li {
     font-size: 0.95rem;
+  } 
+}
+.titulo-principal {
+  font-size: 2.8rem;
+  background-color: #0d1117;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  color: #00ff88;
+  font-weight: bold;
+  animation: fadeInDown 0.7s ease-in-out;
+}
+.botones-ejercicio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.btn-ejercicio {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-ejercicio.volver {
+  background-color: #1e88e5;
+  color: white;
+}
+
+.btn-ejercicio.terminar {
+  background-color: #43a047;
+  color: white;
+}
+
+.btn-ejercicio:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+  .btn-ejercicio {
+    width: 100%;
     text-align: center;
   }
 }

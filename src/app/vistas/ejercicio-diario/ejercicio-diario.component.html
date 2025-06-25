@@ -1,19 +1,29 @@
+<h1 class="titulo-principal">Ejercicio diario</h1>
+
 <div class="ejercicio-diario-container">
 
   <div class="video-section" *ngIf="videoUrl">
-    <iframe [src]="videoUrl" frameborder="0" allowfullscreen class="video-iframe">
-    </iframe>
-    <h2>{{ ejercicioDiario?.nombre || 'Cargando ejercicio diario' }}</h2>
-    <p>{{ ejercicioDiario?.descripcion }}</p>
+    <iframe [src]="videoUrl" frameborder="0" allowfullscreen class="video-iframe"></iframe>
   </div>
 
   <div class="columna-datos">
     <div class="contenedorTimer">
-      <h3 class="titulo-ejercicio">
-        {{ ejercicioDiario?.nombre }}
-      </h3>
-    </div>
+      <h2 class="titulo-ejercicio">{{ ejercicioDiario?.nombre || 'Cargando ejercicio diario' }}</h2>
 
+      <ol *ngIf="descripcionLista?.length" class="lista-descripcion">
+        <li *ngFor="let paso of descripcionLista">{{ paso }}</li>
+      </ol>
+
+      <p *ngIf="!descripcionLista?.length && ejercicioDiario?.descripcion" class="descripcion-simple">
+        {{ ejercicioDiario?.descripcion }}
+      </p>
+    </div>
+    <div class="botones-ejercicio">
+      <app-boton-trainin (clickBoton)="volver()" clase="btn btn-trainin btn-anterior-trainin">Volver al inicio </app-boton-trainin>
+      <app-boton-trainin (clickBoton)="terminar()">Terminar ejercicio</app-boton-trainin>
+    
   </div>
+  </div>
+
 
 </div>

@@ -28,8 +28,8 @@ export class PlanesComponent {
   detallePlan: PlanCompleto | undefined;
   pantallaChica: boolean = window.innerWidth <= 1080;
 
-  existeReto: boolean = false;
-  nombreReto: string = '';
+  EjercicioDiarioDisponible: boolean = false;
+  nombreEjercicioDiario: string = '';
   ejercicioService: EjercicioService;
 
 
@@ -50,7 +50,7 @@ export class PlanesComponent {
   ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
-    this.verificarSiExisteReto();
+    this.verificarDisponibilidadDeEjercicioDiario();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
@@ -131,20 +131,20 @@ desactivarPlan(idPlan: number): void {
        this.router.navigate(['/detalle-plan', idPlan]);
   }
   
-  verificarSiExisteReto(): void {
+  verificarDisponibilidadDeEjercicioDiario(): void {
     this.ejercicioService.obtenerEjercicioDiario().subscribe({
       next: (response: any) => {
         if (response && response.objeto) {
-          this.existeReto = true;
-          this.nombreReto = response.objeto.nombre;
+          this.EjercicioDiarioDisponible = true;
+          this.nombreEjercicioDiario = response.objeto.nombre;
         } else {
-          this.existeReto = false;
-          this.nombreReto = '';
+          this.EjercicioDiarioDisponible = false;
+          this.nombreEjercicioDiario = '';
         }
       },
       error: (err: any) => {
-        console.warn('Error al verificar el reto:', err);
-        this.existeReto = false;
+        console.warn('Error al verificar el ejercicio diario:', err);
+        this.EjercicioDiarioDisponible = false;
       }
     });
   }

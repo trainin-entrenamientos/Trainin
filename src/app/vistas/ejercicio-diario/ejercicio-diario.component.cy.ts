@@ -1,6 +1,6 @@
 import {EjercicioDiarioComponent } from './ejercicio-diario.component'
 
-describe('RetosComponent', () => {
+describe('EjercicioDiarioComponent', () => {
   it('should mount', () => {
     cy.mount(EjercicioDiarioComponent)
   })
