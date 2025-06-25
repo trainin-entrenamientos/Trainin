@@ -1,6 +1,16 @@
 <header>
   <nav class="d-flex justify-content-between align-items-center">
-    <div>
+     <div *ngIf="esAdministrador">
+    <a 
+      class="logo"
+      [routerLink]="esAdministrador ? '/listarEjercicios' : null"
+      (click)="navegarSiCorresponde($event)"
+    >
+      <img src="imagenes/logo-trainin.svg" alt="TRAININ Logo" class="img-fluid d-none d-md-block" />
+      <img src="imagenes/TRAININ-LOGO-FO.svg" alt="TRAININ Logo Mobile" class="img-fluid d-block d-md-none" />
+    </a>
+  </div>
+    <div *ngIf="!esAdministrador">
       <a 
         class="logo"
         [routerLink]="obtenerRutaLogo()"
@@ -12,8 +22,8 @@
 
     </div>
 
-    <div>
-<button *ngIf="enRutina" class="boton-finalizar-rutina" (click)="abrirModalFinalizarRutina()">Salir</button>
+    <div *ngIf="!esAdministrador">
+    <button *ngIf="enRutina" class="boton-finalizar-rutina" (click)="abrirModalFinalizarRutina()">Salir</button>
 
       <ng-container *ngIf="!enRutina">
         <a routerLink="/premium" routerLinkActive="router-link-active" class="text-white me-3" id="aHover">Premium</a>
@@ -27,7 +37,9 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="userDropdown">
             <li><a class="dropdown-item" routerLink="/perfil">Perfil</a></li>
             <li><a class="dropdown-item" routerLink="/logros">Logros</a></li>
+            <li><a class="dropdown-item" routerLink="/historial-planes">Historial</a></li>
             <li><a class="dropdown-item" (click)="onClickCerrarSesion($event)">Cerrar sesión</a></li>
+
           </ul>
         </ng-container>
 
@@ -36,6 +48,16 @@
         </ng-template>
       </ng-container>
     </div>
+
+    <div *ngIf="esAdministrador">
+    <a id="userDropdownAdmin" class="dropdown-toggle text-white" href="#" role="button"
+      data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fas fa-user me-1"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="userDropdown">
+      <li><a class="dropdown-item" (click)="onClickCerrarSesion($event)">Cerrar sesión</a></li>
+    </ul>
+  </div>
   </nav>
   <app-modal-salir-de-rutina
   [visible]="mostrarModalSalirRutina"

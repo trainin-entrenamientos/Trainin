@@ -16,7 +16,7 @@ import { convertirFechaYYYYMMDD } from '../../../utilidades/fecha.utils';
 export class ModalEditarPerfilComponent implements OnInit {
   @Input() usuario!: UsuarioEditado;
   form!: FormGroup;
-  loading = false;
+  cargando = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -34,31 +34,30 @@ export class ModalEditarPerfilComponent implements OnInit {
     });
   }
 
-  cancel(): void {
+  cancelar(): void {
     this.activeModal.dismiss();
   }
 
-  save(): void {
+  guardar(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.loading = true;
-    const updated: UsuarioEditado = {
+    this.cargando = true;
+    const usuarioActualizado: UsuarioEditado = {
       ...this.usuario,
       ...this.form.value
     };
 
-    console.log(updated);
-    this.perfilService.editarPerfil(updated).subscribe({
+    this.perfilService.editarPerfil(usuarioActualizado).subscribe({
       next: () => {
         this.toastr.success('Perfil actualizado correctamente');
         this.activeModal.close();
       },
       error: () => {
         this.toastr.error('Error al actualizar perfil');
-        this.loading = false;
+        this.cargando = false;
       }
     });
   }

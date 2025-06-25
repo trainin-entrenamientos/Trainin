@@ -4,6 +4,8 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { PerfilDTO } from '../../modelos/PerfilDTO';
 import { UsuarioEditado } from '../../modelos/UsuarioEditadoDTO';
+import { CambiarContraseniaDTO } from '../../modelos/CambiarContraseniaDTO';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 @Injectable({ providedIn: 'root' })
 export class PerfilService {
@@ -22,5 +24,12 @@ actualizarFotoPerfil(email: string, fotoBase64: string) {
 editarPerfil(usuario: UsuarioEditado) {
   return this.http.patch(`${this.apiUrl}editarPerfil`, usuario);
 }
+
+cambiarContrasenia(dto: CambiarContraseniaDTO): Observable<RespuestaApi<string>> {
+    return this.http.patch<RespuestaApi<string>>(
+      `${this.apiUrl}cambiarContrasenia`,
+      dto
+    );
+  }
 
 }

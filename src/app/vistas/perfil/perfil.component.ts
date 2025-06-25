@@ -8,6 +8,7 @@ import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalEditarPerfilComponent } from '../../compartido/componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { UsuarioEditado } from '../../core/modelos/UsuarioEditadoDTO';
+import { ModalCambiarContraseniaComponent } from '../../compartido/componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
 
 @Component({
   selector: 'app-perfil',
@@ -80,7 +81,7 @@ export class PerfilComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  openEditModal(): void {
+  abrirEditarPerfilModal(): void {
     if (!this.perfil) return;
 
     const usuario: UsuarioEditado = {
@@ -90,8 +91,6 @@ export class PerfilComponent implements OnInit {
       fechaNacimiento: this.perfil.fechaNacimiento,
       altura: this.perfil.altura!
     };
-
-    console.log(usuario);
 
     const modalRef = this.modalServicio.open(
       ModalEditarPerfilComponent,
@@ -105,6 +104,16 @@ export class PerfilComponent implements OnInit {
     modalRef.componentInstance.usuario = usuario;
 
     modalRef.closed.subscribe(() => this.cargarPerfil());
+  }
+
+   abrirCambioContraseniaModal(): void {
+    if (!this.perfil) return;
+    const modalRef = this.modalServicio.open(
+      ModalCambiarContraseniaComponent,
+      { centered: true, backdrop: 'static', size: 'lg' }
+    );
+
+    modalRef.componentInstance.idUsuario = this.perfil.id!;
   }
 
 }

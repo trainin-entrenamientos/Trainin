@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { filter } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { UsuarioService } from '../../../core/servicios/usuarioServicio/usuario.service';
+import { Usuario } from '../../../core/modelos/Usuario';
+
 
 declare const bootstrap: any;
 
@@ -15,11 +18,15 @@ declare const bootstrap: any;
 export class HeaderComponent {
   enRutina: boolean = false;
   mostrarModalSalirRutina: boolean = false;
-
+  email: string | null = null;
+  usuario: Usuario | null = null;
+  esAdministrador: boolean = false; 
+  
+  
   constructor(
     public authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -35,6 +42,25 @@ export class HeaderComponent {
         ].some(ruta => url.includes(ruta));
       });
   }
+
+ngOnInit() {
+  console.log("Componente Header inicializado");
+
+  this.authService.rol$.subscribe(rol => {
+    this.esAdministrador = rol === 'Administrador';
+  });
+}
+
+
+obtenerRolUsuario(){
+    const rol = this.authService.getRol();
+    console.log("El rol del usuario es:",rol);
+    if (rol === 'Administrador') {
+    this.esAdministrador=true;
+  }
+
+}
+
 obtenerRutaLogo(): string | null {
   if (this.enRutina) {
     return null; 
@@ -55,12 +81,13 @@ navegarSiCorresponde(event: MouseEvent): void {
 
   cerrarSesion() {
     this.authService.cerrarSesion();
+    this.esAdministrador=false;
   }
 
   onClickCerrarSesion(event: MouseEvent) {
     event.preventDefault();
 
-    const dropdownToggleEl = document.getElementById('userDropdown');
+const dropdownToggleEl = document.getElementById('userDropdown') || document.getElementById('userDropdownAdmin');
     if (dropdownToggleEl) {
       const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggleEl);
       dropdownInstance.hide();
