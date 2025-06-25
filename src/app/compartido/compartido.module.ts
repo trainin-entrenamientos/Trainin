@@ -19,6 +19,7 @@ import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/moda
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
 import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { ToastrModule } from 'ngx-toastr';
+import { ModalCambiarContraseniaComponent } from './componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
     ModalEditarPerfilComponent,
+    ModalCambiarContraseniaComponent,
   ],
   imports: [
     CommonModule,
