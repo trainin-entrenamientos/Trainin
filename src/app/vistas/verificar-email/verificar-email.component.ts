@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreoServicio/verificacion-correo.service';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-verificar-email',
@@ -14,7 +16,8 @@ export class VerificarEmailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private verificacionService: VerificacionCorreoService
+    private verificacionService: VerificacionCorreoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +33,7 @@ export class VerificarEmailComponent implements OnInit {
         }
       },
       (error) => {
-        console.error(error);
+        manejarErrorSimple(this.toastr, `No se pudo obtener el mail del usuario`);
       }
     );
   }

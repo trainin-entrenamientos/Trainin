@@ -19,10 +19,6 @@ export class PlanEntrenamientoService {
   obtenerOpcionesEntrenamiento(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ejercicio/obtenerCategorias`);
   }
-  //ESTO SE USA?
-  obtenerObjetivos(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/categoriaEjercicio/obtenerObjetivos`);
-  }
 
   obtenerEquipamiento(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ejercicio/obtenerEquipamientos`);

@@ -120,8 +120,8 @@ export class RutinaService {
     const mapa: Record<string, NombreEjercicio> = {
       'Press militar': NombreEjercicio.PRESS_MILITAR,
       'Vuelos laterales': NombreEjercicio.VUELOS_LATERALES,
-      Estocadas: NombreEjercicio.ESTOCADA,
-      Sentadillas: NombreEjercicio.SENTADILLA,
+      'Estocadas': NombreEjercicio.ESTOCADA,
+      'Sentadillas': NombreEjercicio.SENTADILLA,
       'Sentadilla búlgara': NombreEjercicio.SENTADILLA_BULGARA,
       'Curl de bíceps': NombreEjercicio.CURL_BICEPS,
       'Fondos con banco': NombreEjercicio.FONDOS_TRICEPS,

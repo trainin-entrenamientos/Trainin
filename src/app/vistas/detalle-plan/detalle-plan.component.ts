@@ -4,6 +4,8 @@ import { PlanCompleto, Rutina } from '../../core/modelos/DetallePlanDTO';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-detalle-plan',
@@ -27,7 +29,8 @@ export class DetallePlanComponent implements OnInit {
     private usuarioService: UsuarioService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +49,7 @@ export class DetallePlanComponent implements OnInit {
         this.obtenerDetalleDelPlan(idPlan);
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario`, '/inicio');
         this.cargando = false;
       },
     });
@@ -69,7 +72,7 @@ export class DetallePlanComponent implements OnInit {
           this.cargando = false;
         },
         error: (err) => {
-          console.error('Error al obtener el plan:', err);
+          manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el detalle del plan`, '/planes');
         },
       });
   }
@@ -153,7 +156,7 @@ export class DetallePlanComponent implements OnInit {
     if (this.detallePlan) {
       this.router.navigate(['/inicio-rutina', this.detallePlan.id]);
     } else {
-      console.error('detallePlan no está definido');
+        manejarErrorSimple(this.toastr, 'El detalle del plan no está definido' );       
     }
   }
 }

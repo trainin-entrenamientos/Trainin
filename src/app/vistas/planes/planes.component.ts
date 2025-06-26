@@ -5,7 +5,10 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+
 
 @Component({
   selector: 'app-planes',
@@ -42,6 +45,7 @@ export class PlanesComponent {
     UsuarioService: UsuarioService,
     authService: AuthService,
     router: Router,
+    private toastr: ToastrService,
     ejercicioService: EjercicioService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
@@ -64,18 +68,20 @@ export class PlanesComponent {
         setTimeout(() => {
           this.cargando = false;
         }, 500);
+        if(this.planEntrenamiento.length === 0) {
+           this.planEntrenamiento = [];
+           this.cargando = false;
+        }
       },
       error: (err: any) => {
-        this.planEntrenamiento = [];
-        this.cargando = false;
-        console.error('No existen planes de entrenamiento', err);
+        manejarErrorYRedirigir(this.toastr, this.router, "Error al obtener los planes de entrenamiento", '/inicio');
       },
     });
   }
 
   tipoPlanAImagen: { [key: string]: string } = {
     'Cuerpo completo': '/imagenes/cuerpo-completo.png',
-    Cardio: '/imagenes/cardio.png',
+    'Cardio': '/imagenes/cardio.png',
     'Tren superior': '/imagenes/tren-superior.png',
     'Tren inferior': '/imagenes/tren-inferior.png',
   };
@@ -88,7 +94,7 @@ export class PlanesComponent {
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario`, '/inicio');
       },
     });
   }
@@ -160,7 +166,7 @@ export class PlanesComponent {
           this.obtenerPlanEntrenamiento(this.idUsuario);
         },
         error: (err) => {
-          console.error('Error al desactivar el plan:', err);
+          manejarErrorSimple(this.toastr, `Error al desactivar el plan`);
         },
       });
   }

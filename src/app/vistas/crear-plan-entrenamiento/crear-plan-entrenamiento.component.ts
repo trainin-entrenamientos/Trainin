@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -43,7 +46,8 @@ export class CrearPlanEntrenamientoComponent {
     private router: Router,
     private logroService: LogroService,
     private usuarioService: UsuarioService,
-    private planEntrenamientoService: PlanEntrenamientoService
+    private planEntrenamientoService: PlanEntrenamientoService,
+    private toastr: ToastrService
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
@@ -74,13 +78,14 @@ export class CrearPlanEntrenamientoComponent {
   obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
-        this.usuario = usuarioObtenido;
-        this.idUsuario = usuarioObtenido.id;
+        this.usuario = usuarioObtenido.objeto;
+        this.idUsuario = usuarioObtenido.objeto.id;
         this.esPremium = this.usuario?.esPremium;
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
+        console.log(err)
+          manejarErrorYRedirigir(this.toastr, this.router, `${err.error.mensaje}`, '/planes');
       },
     });
   }
@@ -88,18 +93,19 @@ export class CrearPlanEntrenamientoComponent {
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
-        this.cantidadPlanes = planObtenido.length;
+        this.cantidadPlanes = planObtenido.objeto.length;
         if (this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4) {
-          this.router.navigate(['/planes']);
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste 4 planes de entrenamiento.', '/planes');
         }
         if (this.esPremium === false && (this.cantidadPlanes ?? 0) >= 1) {
-          this.router.navigate(['/planes']);
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste un plan de entrenamiento.', '/planes');
         }
         this.cargando = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.planEntrenamiento = [];
         this.cargando = false;
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el plan de entrenamiento`, '/planes');
       },
     });
   }
@@ -323,14 +329,6 @@ export class CrearPlanEntrenamientoComponent {
         this.equipamientosOpciones = respuesta.objeto;
       });
   }
-  //Esto se usa?
-  obtenerObjetivos(): void {
-    this.planDeEntrenamientoService
-      .obtenerObjetivos()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
-      });
-  }
 
   opcionesObjetivo = [
     { id: 1, nombre: 'Mejorar la flexibilidad y movilidad' },
@@ -532,7 +530,6 @@ export class CrearPlanEntrenamientoComponent {
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
         })
-
         .subscribe(
           (response) => {
             console.log(response)
@@ -545,17 +542,17 @@ export class CrearPlanEntrenamientoComponent {
             this.mostrarModal = true;
           },
           (error) => {
-            console.error('Error al crear el plan de entrenamiento:', error);
+           manejarErrorYRedirigir(this.toastr, this.router, "No se pudo crear el plan de entrenamiento", '/planes');
           }
         );
     } else {
-      console.log('El formulario no es válido');
+      manejarErrorSimple(this.toastr, 'El formulario no es válido');
     }
   }
 
   manejarAccion(tipo: 'detalle' | 'iniciar') {
     if (!this.planIdCreado) {
-      console.error('No hay un ID de plan creado.');
+      manejarErrorSimple(this.toastr, 'No hay un ID de plan creado.');
       return;
     }
 

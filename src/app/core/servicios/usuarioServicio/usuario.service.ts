@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { LoginData } from '../../modelos/LoginResponseDTO';
+import { Observable} from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -15,9 +14,4 @@ export class UsuarioService {
     return this.http.get(`${this.baseUrl}/usuario/obtener/${email}`);
   }
 
-  iniciarSesion(usuario: LoginData) {
-    return this.http.post(`${this.baseUrl}/usuario/login`, usuario);
-  }
-
- 
 }

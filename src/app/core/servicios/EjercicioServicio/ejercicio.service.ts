@@ -54,7 +54,7 @@ export class EjercicioService {
   obtenerCategorias(): Observable<any[]> {
     return this.http
       .get<RespuestaApi<any[]>>(
-        `${environment.URL_BASE}/categoriaEjercicio/obtener`
+        `${environment.URL_BASE}/obtenerCategorias`
       )
       .pipe(map(res => res.objeto));
   }
@@ -62,7 +62,7 @@ export class EjercicioService {
   obtenerGruposMusculares(): Observable<any[]> {
     return this.http
       .get<RespuestaApi<any[]>>(
-        `${environment.URL_BASE}/grupoMuscular/obtener`
+        `${environment.URL_BASE}/obtenerGruposMusculares`
       )
       .pipe(map(res => res.objeto));
   }

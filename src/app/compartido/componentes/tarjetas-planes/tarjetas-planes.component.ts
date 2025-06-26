@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { RutinaService } from '../../../core/servicios/rutinaServicio/rutina.service';
 import { UltimaRutina } from '../../../core/modelos/UltimaRutinaDTO';
+import { LogroService } from '../../../core/servicios/logroServicio/logro.service';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple } from '../../utilidades/errores-toastr';
 
 @Component({
   selector: 'app-tarjetas-planes',
@@ -17,26 +20,51 @@ export class TarjetasPlanesComponent implements OnInit {
   @Input() ejercicioDiarioDisponible: boolean = false;
 
   ultimaRutina: UltimaRutina | null = null;
+  cantidadLogros: number = 0;
+  tieneRutina: boolean = true;
 
   constructor(
     private authService: AuthService,
-    private rutinaServicio: RutinaService
+    private rutinaServicio: RutinaService,
+    private logrosService: LogroService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     const email = this.authService.getEmail();
     if (email) {
       this.obtenerUltimaRutina(email);
+      this.obtenerLogros(email);
     }
+  }
+
+  obtenerLogros(emailUsuario: string) {
+    this.logrosService.obtenerLogrosPorUsuario(emailUsuario).subscribe({
+      next: (response: any) => {
+        this.cantidadLogros = response.objeto.length;
+      },
+      error: (err) => {
+        manejarErrorSimple(
+          this.toastr,
+          `Error al obtener los logros del usuario. ${err.mensaje}`
+        );
+      },
+    });
   }
 
   obtenerUltimaRutina(email: string): void {
     this.rutinaServicio.obtenerUltimaRutina(email).subscribe({
       next: (rutina: any) => {
         this.ultimaRutina = rutina.objeto;
+        if(this.ultimaRutina== null) {
+          this.tieneRutina=false;
+        }     
       },
       error: (err: any) => {
-        console.error('No existe una última rutina de entrenamiento', err);
+         manejarErrorSimple(
+          this.toastr,
+          `No existe una última rutina de entrenamiento. ${err.mensaje}`
+        );
       },
     });
   }

@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class VerificacionCorreoService {
-  private apiUrl = `${environment.URL_BASE}/usuario/confirmarEmail/`;
+  private apiUrl = `${environment.URL_BASE}/usuario/activar/`;
 
   constructor(private http: HttpClient) {}
 

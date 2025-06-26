@@ -18,11 +18,11 @@ getPerfil(email: string): Observable<any> {
 }
 
 actualizarFotoPerfil(email: string, fotoBase64: string) {
-  return this.http.patch(`${this.apiUrl}perfil/`, { email, fotoBase64 });
+  return this.http.patch(`${this.apiUrl}actualizarFoto/`, { email, fotoBase64 });
 }
 
 editarPerfil(usuario: UsuarioEditado) {
-  return this.http.patch(`${this.apiUrl}editarPerfil`, usuario);
+  return this.http.patch(`${this.apiUrl}editar`, usuario);
 }
 
 cambiarContrasenia(dto: CambiarContraseniaDTO): Observable<RespuestaApi<string>> {

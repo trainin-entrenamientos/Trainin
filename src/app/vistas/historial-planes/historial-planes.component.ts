@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { HistorialPlanDTO } from '../../core/modelos/HistorialPlanDTO';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-historial-planes',
@@ -15,11 +17,13 @@ export class HistorialPlanesComponent {
   email: string | null = null;
 
   planesHistorial: HistorialPlanDTO[] = [];
+  tienePlanes: boolean = true;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private planService: PlanEntrenamientoService
+    private planService: PlanEntrenamientoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -29,15 +33,19 @@ export class HistorialPlanesComponent {
 
   obtenerHistorialPlanes() {
     if (!this.email) {
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario`, '/planes');
       return;
     }
     this.planService.obtenerHistorialPlanes(this.email).subscribe({
       next: (data) => {
         this.planesHistorial = data.objeto;
         this.cargando = false;
+        if(this.planesHistorial.length === 0) {
+          this.tienePlanes= false;
+        }
       },
       error: (err) => {
-        console.error('Error cargando historial', err);
+        manejarErrorYRedirigir(this.toastr, this.router, "No se obtuvo el historial de planes", '/planes');
       },
     });
   }

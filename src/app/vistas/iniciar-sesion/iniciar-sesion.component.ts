@@ -4,6 +4,7 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NotificacionesService } from '../../core/servicios/notificacionesServicio/notificaciones.service';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-iniciar-sesion',
@@ -45,12 +46,12 @@ export class IniciarSesionComponent {
           }
         } else {
           this.cargando = false;
-          this.toastr.error('Debes activar tu cuenta antes de iniciar sesión.');
+          manejarErrorSimple(this.toastr,'Debes activar tu cuenta antes de iniciar sesión.');
         }
       },
-      error: () => {
+      error: (err) => {
         this.cargando = false;
-        this.toastr.error('Credenciales incorrectas o error de servidor.');
+        manejarErrorSimple(this.toastr,'Credenciales incorrectas o error de servidor.');
       },
     });
   }

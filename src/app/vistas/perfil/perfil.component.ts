@@ -11,6 +11,7 @@ import { UsuarioEditado } from '../../core/modelos/UsuarioEditadoDTO';
 import { ModalCambiarContraseniaComponent } from '../../compartido/componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
 import { Router } from '@angular/router';
 import { HistorialPlanDTO } from '../../core/modelos/HistorialPlanDTO';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-perfil',
@@ -42,7 +43,7 @@ export class PerfilComponent implements OnInit {
   private cargarPerfil(): void {
     this.email = this.authService.getEmail();
     if (!this.email) {
-      this.cargando = false;
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario`, '/planes');
       return;
     }
 
@@ -56,9 +57,7 @@ export class PerfilComponent implements OnInit {
         this.ultimosPlanesRealizados = objeto.planesCompletados;
       },
       error: (err) => {
-        console.error('Error cargando perfil', err);
-        this.cargando = false;
-      },
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },
     });
   }
 
@@ -84,7 +83,7 @@ export class PerfilComponent implements OnInit {
               );
             },
             error: (err) => {
-              this.toastr.error('Error al actualizar la foto');
+              manejarErrorSimple(this.toastr, `Error al actualizar la foto de perfil`);
             },
           });
       }
