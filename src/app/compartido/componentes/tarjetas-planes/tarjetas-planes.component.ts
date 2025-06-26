@@ -16,6 +16,8 @@ export class TarjetasPlanesComponent implements OnInit {
   @Input() mostrarComoVertical = true;
   @Input() hastaUnPlan = true;
   @Input() variosPlanes = true;
+  @Input() nombreEjercicioDiario: string = '';
+  @Input() ejercicioDiarioDisponible: boolean = false;
 
   ultimaRutina: UltimaRutina | null = null;
   cantidadLogros: number = 0;
@@ -79,3 +81,10 @@ export class TarjetasPlanesComponent implements OnInit {
       : `${pad(minutos)}:${pad(segundosRestantes)}`;
   }
 }
+
+
+
+
+
+
+

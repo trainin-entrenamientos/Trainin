@@ -5,15 +5,10 @@
       <div class="m-auto contenedor-titulo pt-5">
         <h1 class="pt-4">Planes de Entrenamiento</h1>
       </div>
-      <article
-        *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
-      >
+      <article *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
-          <a
-            routerLink="/formulario-crear-plan"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
+          <a routerLink="/formulario-crear-plan" class="w-100 d-flex justify-content-center contenedor-plan">
             <div class="plan-card">
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
@@ -26,10 +21,7 @@
               </div>
             </div>
           </a>
-          <a
-            routerLink="/premium"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
+          <a routerLink="/premium" class="w-100 d-flex justify-content-center contenedor-plan">
             <div class="plan-card">
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
@@ -40,64 +32,43 @@
                   múltiples planes
                 </p>
               </div>
-            </div> </a
-          ><app-tarjetas-planes
-            [mostrarComoVertical]="false"
-            [hastaUnPlan]="true"
-            [variosPlanes]="false"
-          ></app-tarjetas-planes>
+            </div>
+          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible">
+          </app-tarjetas-planes>
+
         </div>
-      
+
       </article>
-      <article
-        *ngIf="planEntrenamiento.length && !usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
-      >
+      <article *ngIf="planEntrenamiento.length && !usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
-          <div
-            *ngFor="let plan of planEntrenamiento; let i = index"
-            class="w-100 d-flex contenedor-plan text-white"
-          >
-            <div
-              class="card"
-              (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
-              style="cursor: pointer"
-            >
+          <div *ngFor="let plan of planEntrenamiento; let i = index" class="w-100 d-flex contenedor-plan text-white">
+            <div class="card" (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" style="cursor: pointer">
               <div class="contenido-card">
                 <div class="imagen-y-texto">
-                  <img
-                    id="imagen-plan"
-                    [src]="tipoPlanAImagen[plan.tipoEntrenamiento]"
-                    alt="Entrenamiento imagen"
-                    class="img-fluid"
-                  />
+                  <img id="imagen-plan" [src]="tipoPlanAImagen[plan.tipoEntrenamiento]" alt="Entrenamiento imagen"
+                    class="img-fluid" />
                   <div class="text">
                     <span>{{ plan.tipoEntrenamiento }}</span>
-                    <p
-                      class="subtitle realizado"
-                      [ngStyle]="{
+                    <p class="subtitle realizado" [ngStyle]="{
                         color:
                           plan.estadoRutinaDelDia === 'Realizada hoy'
                             ? '#13ff3a'
                             : '#FFFFFF'
-                      }"
-                    >
+                      }">
                       {{ plan.estadoRutinaDelDia }}
                     </p>
                   </div>
                 </div>
                 <div class="footer-card">
                   <div class="progreso-plan">
-                    <span
-                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
-                        plan.cantidadRutinas
-                      }})</span
-                    >
+                    <span>Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
+                      plan.cantidadRutinas
+                      }})</span>
                     <div class="barra-progreso">
-                      <div
-                        class="relleno"
-                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
-                      ></div>
+                      <div class="relleno" [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"></div>
                     </div>
                   </div>
                 </div>
@@ -105,9 +76,7 @@
 
               <div class="icons" (click)="$event.stopPropagation()">
                 <a class="btn" (click)="irAlDetalleDelPlan(plan.id)">
-                  <i
-                    class="fa-solid fa-circle-info fa-xl icono-fontawesome"
-                  ></i>
+                  <i class="fa-solid fa-circle-info fa-xl icono-fontawesome"></i>
                 </a>
 
                 <a class="btn" (click)="confirmarEliminacion(plan.id)">
@@ -117,10 +86,7 @@
             </div>
           </div>
 
-          <a
-            routerLink="/premium"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
+          <a routerLink="/premium" class="w-100 d-flex justify-content-center contenedor-plan">
             <div class="plan-card">
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
@@ -134,25 +100,18 @@
             </div>
           </a>
           @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
-          <app-tarjetas-planes
-            [mostrarComoVertical]="false"
-            [hastaUnPlan]="true"
-            [variosPlanes]="false"
-          ></app-tarjetas-planes>
+          <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"></app-tarjetas-planes>
           }
         </div>
       </article>
 
       <!--SIN PLANES, PREMIUM-->
-      <article
-        *ngIf="!planEntrenamiento.length && usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes premium-sin-planes"
-      >
+      <article *ngIf="!planEntrenamiento.length && usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes premium-sin-planes">
         <div id="contenedor-planes" class="w-100">
-          <a
-            routerLink="/formulario-crear-plan"
-            class="w-100 d-flex justify-content-center contenedor-plan"
-          >
+          <a routerLink="/formulario-crear-plan" class="w-100 d-flex justify-content-center contenedor-plan">
             <div class="plan-card">
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
@@ -165,63 +124,40 @@
               </div>
             </div>
           </a>
-          <app-tarjetas-planes
-            [mostrarComoVertical]="false"
-            [hastaUnPlan]="true"
-            [variosPlanes]="false"
-          ></app-tarjetas-planes>
+          <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"></app-tarjetas-planes>
         </div>
       </article>
 
-      <article
-        *ngIf="planEntrenamiento.length && usuario?.esPremium"
-        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
-      >
+      <article *ngIf="planEntrenamiento.length && usuario?.esPremium"
+        class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
-          <div
-            *ngFor="let plan of planEntrenamiento; let i = index"
-            class="w-100 d-flex contenedor-plan text-white"
-          >
-            <div
-              class="card"
-              (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)"
-              style="cursor: pointer"
-            >
+          <div *ngFor="let plan of planEntrenamiento; let i = index" class="w-100 d-flex contenedor-plan text-white">
+            <div class="card" (click)="irAlPlan(plan.id, plan.estadoRutinaDelDia)" style="cursor: pointer">
               <div class="contenido-card">
                 <div class="imagen-y-texto">
-                  <img
-                    id="imagen-plan"
-                    [src]="tipoPlanAImagen[plan.tipoEntrenamiento]"
-                    alt="Entrenamiento imagen"
-                    class="img-fluid"
-                  />
+                  <img id="imagen-plan" [src]="tipoPlanAImagen[plan.tipoEntrenamiento]" alt="Entrenamiento imagen"
+                    class="img-fluid" />
                   <div class="text">
                     <span>{{ plan.tipoEntrenamiento }}</span>
-                    <p
-                      class="subtitle realizado"
-                      [ngStyle]="{
+                    <p class="subtitle realizado" [ngStyle]="{
                         color:
                           plan.estadoRutinaDelDia === 'Realizada hoy'
                             ? '#13ff3a'
                             : '#FFFFFF'
-                      }"
-                    >
+                      }">
                       {{ plan.estadoRutinaDelDia }}
                     </p>
                   </div>
                 </div>
                 <div class="footer-card">
                   <div class="progreso-plan">
-                    <span
-                      >Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
-                        plan.cantidadRutinas
-                      }})</span
-                    >
+                    <span>Progreso del plan ({{ plan.cantidadRutinasHechas }}/{{
+                      plan.cantidadRutinas
+                      }})</span>
                     <div class="barra-progreso">
-                      <div
-                        class="relleno"
-                        [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"
-                      ></div>
+                      <div class="relleno" [ngStyle]="{ width: calcularPorcentajeProgreso(plan) }"></div>
                     </div>
                   </div>
                 </div>
@@ -229,9 +165,7 @@
 
               <div class="icons" (click)="$event.stopPropagation()">
                 <a class="btn" (click)="irAlDetalleDelPlan(plan.id)">
-                  <i
-                    class="fa-solid fa-circle-info fa-xl icono-fontawesome"
-                  ></i>
+                  <i class="fa-solid fa-circle-info fa-xl icono-fontawesome"></i>
                 </a>
 
                 <a class="btn" (click)="confirmarEliminacion(plan.id)">
@@ -242,11 +176,8 @@
           </div>
 
           <div id="contenedor-planes" class="w-100">
-            <a
-              *ngIf="planEntrenamiento.length < 4"
-              routerLink="/formulario-crear-plan"
-              class="w-100 d-flex justify-content-center contenedor-plan"
-            >
+            <a *ngIf="planEntrenamiento.length < 4" routerLink="/formulario-crear-plan"
+              class="w-100 d-flex justify-content-center contenedor-plan">
               <div class="plan-card">
                 <div class="custom-icon-absolute">
                   <div class="icon custom-icon">+</div>
@@ -259,46 +190,33 @@
                 </div>
               </div>
             </a>
-            <p
-              *ngIf="planEntrenamiento.length >= 4"
-              class="text-center text-light mt-3"
-            >
+            <p *ngIf="planEntrenamiento.length >= 4" class="text-center text-light mt-3">
               Ya has creado el máximo de
               <strong style="color: #13ff3a">4 planes</strong> permitidos.
               <br /><br />
             </p>
           </div>
           @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
-          <app-tarjetas-planes
-            [mostrarComoVertical]="false"
-            [hastaUnPlan]="true"
-            [variosPlanes]="false"
-          ></app-tarjetas-planes>
-          } @if (pantallaChica && planEntrenamiento.length >=2 &&
-          planEntrenamiento.length <=4) {
-          <app-tarjetas-planes
-            [mostrarComoVertical]="true"
-            [hastaUnPlan]="false"
-            [variosPlanes]="true"
-          ></app-tarjetas-planes>
+          <app-tarjetas-planes [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible" [mostrarComoVertical]="false"
+            [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
           }
+          @if (pantallaChica && planEntrenamiento.length >=2 && planEntrenamiento.length <=4) { <app-tarjetas-planes
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario" [mostrarComoVertical]="true" [hastaUnPlan]="false"
+            [variosPlanes]="true"></app-tarjetas-planes>
+            }
         </div>
-        @if (!pantallaChica && planEntrenamiento.length >=2 &&
-        planEntrenamiento.length <=4) {
-        <app-tarjetas-planes
-          [mostrarComoVertical]="false"
-          [hastaUnPlan]="false"
-          [variosPlanes]="true"
-        ></app-tarjetas-planes>
-        }
+        @if (!pantallaChica && planEntrenamiento.length >=2 && planEntrenamiento.length <=4) { <app-tarjetas-planes
+          [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
+          [nombreEjercicioDiario]="this.nombreEjercicioDiario" [mostrarComoVertical]="false" [hastaUnPlan]="false"
+          [variosPlanes]="true"></app-tarjetas-planes>
+          }
       </article>
     </section>
 
-    <app-modal-confirmacion-borrar-plan
-      [visible]="mostrarModal"
-      [mensaje]="'¿Estás segura/o que querés desactivar este plan?'"
-      (onConfirm)="eliminarPlanConfirmado()"
-      (onCancel)="cancelarEliminacion()"
-    ></app-modal-confirmacion-borrar-plan>
+    <app-modal-confirmacion-borrar-plan [visible]="mostrarModal"
+      [mensaje]="'¿Estás segura/o que querés desactivar este plan?'" (onConfirm)="eliminarPlanConfirmado()"
+      (onCancel)="cancelarEliminacion()"></app-modal-confirmacion-borrar-plan>
   </main>
 </body>

@@ -3,12 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { EjercicioIncorporadoDTO } from '../../modelos/EjercicioIncorporadoDTO';
 import { environment } from '../../../../environments/environment.prod';
-
-interface RespuestaApi<T> {
-  estado: boolean;
-  mensaje: string;
-  objeto: T;
-}
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 @Injectable({ providedIn: 'root' })
 export class EjercicioService {
@@ -70,6 +65,12 @@ export class EjercicioService {
         `${environment.URL_BASE}/obtenerGruposMusculares`
       )
       .pipe(map(res => res.objeto));
+  }
+  obtenerEjercicioDiario(email: string): Observable<any> {
+    return this.http.get<RespuestaApi<any[]>>(`${this.apiUrl}/diario/${email}`).pipe(map(res => res.objeto));
+  }
+   marcarEjercicioDiarioRealizado(emailUsuario: string) {
+    return this.http.get(`${this.apiUrl}/DiarioCompletado/${emailUsuario}`);
   }
 
 }

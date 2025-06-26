@@ -15,8 +15,7 @@ html {
   display: flex;
   height: 100%;
   flex-direction: column;
-    overflow-x: hidden;
-
+  overflow-x: hidden;
 }
 
 main {
@@ -137,7 +136,7 @@ th.sortable.desc i {
 }
 
 .listado-ejercicios tbody tr:last-child {
-  display: none;
+  margin-bottom: 0;
 }
 
 @media (max-width: 576px) {

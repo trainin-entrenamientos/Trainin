@@ -532,7 +532,8 @@ export class CrearPlanEntrenamientoComponent {
         })
         .subscribe(
           (response) => {
-            this.planIdCreado = response.objeto.planId;
+            console.log(response)
+            this.planIdCreado = response.objeto.Id
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }

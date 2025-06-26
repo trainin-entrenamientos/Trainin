@@ -70,28 +70,29 @@ export class FormAdminComponent implements OnInit {
   }
 
   private cargarEjercicio(id: number) {
-    this.svc.obtenerEjercicioPorId(id).subscribe((e) => {
-      this.form.patchValue({
-        id: e.id,
-        nombre: e.nombre,
-        descripcion: e.descripcion,
-        video: e.video,
-        valorMet: e.valorMet,
-        landmark: e.landmark,
-        tieneCorreccion: e.tieneCorreccion,
-        correccionPremium: e.correccionPremium,
-        idTipoEjercicio: e.idTipoEjercicio,
-        imagen: e.imagen,
-      });
+    this.svc.obtenerEjercicioPorId(id).subscribe({
+      next: e => {
+        this.form.patchValue({
+          id: e.id,
+          nombre: e.nombre,
+          descripcion: e.descripcion,
+          video: e.video,
+          valorMet: e.valorMet,
+          landmark: e.landmark,
+          tieneCorreccion: e.tieneCorreccion,
+          correccionPremium: e.correccionPremium,
+          idTipoEjercicio: e.idTipoEjercicio,
+          imagen: e.imagen
+        });
 
-      this.idsGrupoMuscular.clear();
-      e.idsGrupoMuscular.forEach((i) =>
-        this.idsGrupoMuscular.push(this.fb.control(i))
-      );
-      this.idsCategorias.clear();
-      e.idsCategorias.forEach((i) =>
-        this.idsCategorias.push(this.fb.control(i))
-      );
+        this.idsGrupoMuscular.clear();
+        e.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+        this.idsCategorias.clear();
+        e.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+      },
+      error: err => {
+        console.error('Error al cargar el ejercicio:', err);
+      }
     });
   }
 

@@ -143,13 +143,6 @@ main {
     flex-direction: column;
 }
 
-.preview-timer{
-    display: flex;    
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 @keyframes pulse-red {
   0%   { color: #fff; }
   50%  { color: #F24130 ; }
@@ -310,7 +303,7 @@ h4{
 
 .preview-timer {
   display: flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
   flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: center !important;
@@ -383,6 +376,9 @@ h4{
 
 @media (max-width: 767.98px) {
 
+  .practicar{
+    margin-top: 2rem;
+  }
     .titulo-ejercicio {
     font-size: 1.5rem;
   }
@@ -428,6 +424,7 @@ h4{
    .contenedor-ejercicio {
     margin: 0;
     padding: 0;
+    flex-direction: column !important;
   }
 
   .ejercicio-box {
@@ -466,8 +463,8 @@ h4{
   }
 
   .btn-info {
-    align-self: center;
-    margin: 1rem 0;
+    margin: 0 auto 0 auto !important;
+    align-self: center !important;
   }
 
   .btn-volver {
@@ -521,6 +518,17 @@ h4{
   }
   .practicar {
     margin-top: 1rem !important;
+  }
+}
+
+@media (max-width: 1050.98px) and (min-width: 768px) {
+  .contenedor-ejercicio {
+    flex-direction: column !important;
+  }
+  .btn-info {
+    margin: 1rem auto 0 auto !important;
+    order: 1 !important;
+    align-self: center !important;
   }
 }
 

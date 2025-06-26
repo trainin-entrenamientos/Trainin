@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
 import { ToastrService } from 'ngx-toastr';
 import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+
 
 @Component({
   selector: 'app-planes',
@@ -15,6 +17,9 @@ import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/uti
   styleUrl: './planes.component.css',
 })
 export class PlanesComponent {
+    eliminar(arg0: number) {
+        throw new Error('Method not implemented.');
+    }
   idUsuario: number = 1;
   planEntrenamiento: any[] = [];
   usuario?: Usuario;
@@ -30,22 +35,30 @@ export class PlanesComponent {
   pantallaChica: boolean = window.innerWidth <= 1080;
   imagenPlan: string = '';
 
+  EjercicioDiarioDisponible: boolean = false;
+  nombreEjercicioDiario: string = '';
+  ejercicioService: EjercicioService;
+
+
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
     authService: AuthService,
     router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    ejercicioService: EjercicioService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
     this.authService = authService;
     this.router = router;
+    this.ejercicioService = ejercicioService;
   }
 
   ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
+    this.verificarDisponibilidadDeEjercicioDiario();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
@@ -118,6 +131,32 @@ export class PlanesComponent {
     }
     this.mostrarModal = false;
   }
+
+  verificarDisponibilidadDeEjercicioDiario(): void {
+
+    if (!this.email) {
+      this.EjercicioDiarioDisponible = false;
+      this.nombreEjercicioDiario = '';
+      return;
+    }
+
+    this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
+      next: (response: any) => {
+        if (response) {
+          this.EjercicioDiarioDisponible = true;
+          this.nombreEjercicioDiario = response.nombre;
+        } else {
+          this.EjercicioDiarioDisponible = false;
+          this.nombreEjercicioDiario = '';
+        }
+      },
+      error: (err: any) => {
+        console.warn('Error al verificar el ejercicio diario:', err);
+        this.EjercicioDiarioDisponible = false;
+      }
+    });
+  }
+
 
   desactivarPlan(idPlan: number): void {
     this.planEntrenamientoService

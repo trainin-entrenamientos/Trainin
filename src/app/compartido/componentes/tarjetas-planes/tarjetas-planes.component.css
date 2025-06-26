@@ -563,6 +563,13 @@ height: 16rem;
     box-sizing: border-box !important;
   }
 }
+.card.apagada {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+  transform: none !important;
+}
 
 
 
