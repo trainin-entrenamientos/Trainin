@@ -49,7 +49,7 @@ export class DetallePlanComponent implements OnInit {
         this.obtenerDetalleDelPlan(idPlan);
       },
       error: (err: any) => {
-        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario. ${err.mensaje}`, '/inicio');
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario`, '/inicio');
         this.cargando = false;
       },
     });
@@ -72,7 +72,7 @@ export class DetallePlanComponent implements OnInit {
           this.cargando = false;
         },
         error: (err) => {
-          manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el detalle del plan. ${err.mensaje}`, '/planes');
+          manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el detalle del plan`, '/planes');
         },
       });
   }

@@ -181,8 +181,7 @@ export class FinalizacionRutinaComponent {
                   }
                 },
                 error: (err) => {
-                  manejarErrorSimple(this.toastr, err.mensaje);
-                  /*manejarErrorYRedirigir(this.toastr, this.router, 'Error al marcar la rutina como realizada.', '/planes');*/ //TENGO DUDA
+                  manejarErrorYRedirigir(this.toastr, this.router, "No se pudo completar la rutina", '/finalizacion-rutina');
                 },
               });
           }
@@ -191,8 +190,7 @@ export class FinalizacionRutinaComponent {
           this.router.navigate(['/planes']);
         },
         error: (err) => {
-          manejarErrorSimple(this.toastr, err.mensaje);
-          /*manejarErrorYRedirigir(this.toastr, this.router, 'Ocurrió un error al actualizar el nivel de exigencia.', '/planes')*/ //TENGO DUDA
+          manejarErrorYRedirigir(this.toastr, this.router, "No se pudo enviar el feedback correctamente", '/finalizacion-rutina');
         },
       });
   }

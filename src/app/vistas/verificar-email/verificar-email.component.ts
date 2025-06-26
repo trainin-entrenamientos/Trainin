@@ -33,7 +33,7 @@ export class VerificarEmailComponent implements OnInit {
         }
       },
       (error) => {
-        manejarErrorSimple(this.toastr, `No se pudo obtener el mail del usuario. ${error.mensaje}`);
+        manejarErrorSimple(this.toastr, `No se pudo obtener el mail del usuario`);
       }
     );
   }

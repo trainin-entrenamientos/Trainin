@@ -39,7 +39,7 @@ export class LogrosComponent implements OnInit {
     this.email = this.authService.getEmail();
 
     if (!this.email) {
-      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario. `, '/planes');
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario`, '/planes');
       return;
     }
 
@@ -72,12 +72,12 @@ export class LogrosComponent implements OnInit {
             this.aplicarFiltro();
           },
           error: (err) => {
-            manejarErrorYRedirigir(this.toastr, this.router, `Error al obtener todos los logros: ${err.mensaje}`, '/planes');
+            manejarErrorYRedirigir(this.toastr, this.router, `Error al obtener todos los logros`, '/planes');
           },
         });
       },
       error: (err) => {
-        manejarErrorSimple(this.toastr, `Error al obtener logros obtenidos: ${err.mensaje}`);
+        manejarErrorSimple(this.toastr, `Error al obtener tus logros`);
         this.cargando = false;
       },
     });

@@ -33,7 +33,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
         this.cargando = false;
       },
       error: (err) => {
-        manejarErrorSimple(this.toastr, `No se pudo obtener la lista de ejercicios. ${err.mensaje}`);
+        manejarErrorSimple(this.toastr, `No se pudo obtener la lista de ejercicios`);
         this.cargando = false;
       },
     });
@@ -54,7 +54,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
         this.cancelarEliminarEjercicio();
       },
       error: (err) => {
-        manejarErrorSimple(this.toastr, `No se pudo eliminar el ejercicio. ${err.mensaje}`);
+        manejarErrorSimple(this.toastr, `No se pudo eliminar el ejercicio`);
         this.cancelarEliminarEjercicio();
       },
     });

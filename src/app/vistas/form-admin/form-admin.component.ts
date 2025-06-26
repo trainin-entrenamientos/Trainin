@@ -120,8 +120,7 @@ export class FormAdminComponent implements OnInit {
     request$.subscribe({
       next: () => this.router.navigate(['/listarEjercicios']),
       error: (err) =>
-          manejarErrorSimple(this.toastr, `Error al guardar ejercicio. ${err.mensaje}`),
-          /*manejarErrorYRedirigir(this.toastr, this.router, `Error al guardar ejercicio. ${err.mensaje}`, '/listarEjercicios')*/ //TENGO DUDA
+          manejarErrorSimple(this.toastr, `Error al guardar ejercicio.`),
     });
   }
 

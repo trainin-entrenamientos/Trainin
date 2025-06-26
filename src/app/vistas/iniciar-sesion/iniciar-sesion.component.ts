@@ -47,10 +47,9 @@ export class IniciarSesionComponent {
         } else {
           this.cargando = false;
           manejarErrorSimple(this.toastr,'Debes activar tu cuenta antes de iniciar sesión.');
-
         }
       },
-      error: () => {
+      error: (err) => {
         this.cargando = false;
         manejarErrorSimple(this.toastr,'Credenciales incorrectas o error de servidor.');
       },

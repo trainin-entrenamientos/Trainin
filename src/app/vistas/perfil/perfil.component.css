@@ -457,3 +457,12 @@ margin: 2rem;
 ::ng-deep app-boton-trainin .btn-trainin:hover {
   background-color: #18c42f !important;
 }
+
+.sin-subrayado {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sin-subrayado * {
+  text-decoration: none !important;
+}

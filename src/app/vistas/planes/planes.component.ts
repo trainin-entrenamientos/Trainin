@@ -55,18 +55,20 @@ export class PlanesComponent {
         setTimeout(() => {
           this.cargando = false;
         }, 500);
+        if(this.planEntrenamiento.length === 0) {
+           this.planEntrenamiento = [];
+           this.cargando = false;
+        }
       },
       error: (err: any) => {
-        this.planEntrenamiento = [];
-        this.cargando = false;
-        console.error('No existen planes de entrenamiento', err);
+        manejarErrorYRedirigir(this.toastr, this.router, "Error al obtener los planes de entrenamiento", '/inicio');
       },
     });
   }
 
   tipoPlanAImagen: { [key: string]: string } = {
     'Cuerpo completo': '/imagenes/cuerpo-completo.png',
-    Cardio: '/imagenes/cardio.png',
+    'Cardio': '/imagenes/cardio.png',
     'Tren superior': '/imagenes/tren-superior.png',
     'Tren inferior': '/imagenes/tren-inferior.png',
   };
@@ -79,7 +81,7 @@ export class PlanesComponent {
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario.${err.mensaje}`, '/inicio');
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario`, '/inicio');
       },
     });
   }
@@ -125,7 +127,7 @@ export class PlanesComponent {
           this.obtenerPlanEntrenamiento(this.idUsuario);
         },
         error: (err) => {
-          manejarErrorSimple(this.toastr, `Error al desactivar el plan. ${err.mensaje}`);
+          manejarErrorSimple(this.toastr, `Error al desactivar el plan`);
         },
       });
   }

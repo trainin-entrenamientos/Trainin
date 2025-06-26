@@ -36,7 +36,7 @@ export class RealizarEjercicioComponent {
     this.rutinaService.cargarDesdeSession();
     const datos = this.rutinaService.getDatosIniciales();
     if (!datos.rutina) {
-       manejarErrorYRedirigir(this.toastr, this.router, `No se encontró la rutina.`, '/planes');
+       manejarErrorYRedirigir(this.toastr, this.router, `No se encontró la rutina`, '/planes');
        return;
     }
     this.rutina = datos.rutina;

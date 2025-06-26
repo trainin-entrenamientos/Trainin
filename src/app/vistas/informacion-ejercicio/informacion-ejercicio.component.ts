@@ -7,6 +7,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -37,7 +39,8 @@ export class InformacionEjercicioComponent {
     private router: Router,
     private temporizadorService: TemporizadorService,
     private usuarioServicio: UsuarioService,
-    private authServicio: AuthService
+    private authServicio: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +49,7 @@ export class InformacionEjercicioComponent {
     const datos = this.rutinaService.getDatosIniciales();
 
     if (!datos.rutina) {
-      console.error('No se encontró la rutina. Redirigiendo...');
-      this.router.navigate(['/planes']);
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina`, '/planes');
       return;
     }
     this.rutina = datos.rutina;
@@ -71,16 +73,10 @@ export class InformacionEjercicioComponent {
       .obtenerUsuarioPorEmail(this.authServicio.getEmail())
       .subscribe({
         next: (usuario) => {
-          if (!usuario) {
-            console.error('Usuario no encontrado. Redirigiendo...');
-            this.router.navigate(['/ruta-de-error-o-plan']);
-            return;
-          }
-          this.esUsuarioPremium = usuario.esPremium;
+          this.esUsuarioPremium = usuario.objeto.esPremium;
         },
         error: (error) => {
-          console.error('Error al obtener el usuario:', error);
-          this.router.navigate(['/ruta-de-error-o-plan']);
+            manejarErrorYRedirigir(this.toastr, this.router, "No se pudo obtener al usuario" , '/informacion-ejercicio');
         },
       });
   }
@@ -90,7 +86,6 @@ export class InformacionEjercicioComponent {
       this.ejercicio?.nombre
     );
     if (clave === null) {
-      console.warn('Nombre de ejercicio inválido.');
       return NombreEjercicio.ERROR;
     } else {
       return clave;

@@ -76,13 +76,13 @@ export class PlanPremiumComponent implements AfterViewInit {
           if (response && response.objeto) {
             this.redirigir(response.objeto);
           } else {
-            manejarErrorSimple(this.toastr, `Error al obtener el punto de inicio de pago: ${response.mensaje}`);
+            manejarErrorSimple(this.toastr, `Error al obtener el punto de inicio de pago`);
           }
         },
         error: (error: any) => {
           manejarErrorSimple(
             this.toastr,
-            `Error al procesar el pago: ${error.mensaje}`
+            `Error al procesar el pago`
           );
         },
       });
@@ -95,11 +95,11 @@ export class PlanPremiumComponent implements AfterViewInit {
           this.usuario.idUsuario = response.objeto.id;
           this.usuario.esPremium = response.objeto.esPremium || false;
         } else {
-          manejarErrorSimple(this.toastr, `No se pudo obtener el ID del usuario. ${response.mensaje}`);
+          manejarErrorSimple(this.toastr, `No se pudo obtener al usuario`);
         }
       },
       error: (error: any) => {
-        manejarErrorSimple(this.toastr, `Error al obtener el usuario. ${error.mensaje}`);
+        manejarErrorSimple(this.toastr, `Error al obtener el usuario`);
       },
     });
   }

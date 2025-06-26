@@ -78,13 +78,14 @@ export class CrearPlanEntrenamientoComponent {
   obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
-        this.usuario = usuarioObtenido;
+        this.usuario = usuarioObtenido.objeto;
         this.idUsuario = usuarioObtenido.objeto.id;
         this.esPremium = this.usuario?.esPremium;
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-          manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario. ${err.mensaje}`, '/inicio');
+        console.log(err)
+          manejarErrorYRedirigir(this.toastr, this.router, `${err.error.mensaje}`, '/planes');
       },
     });
   }
@@ -101,10 +102,10 @@ export class CrearPlanEntrenamientoComponent {
         }
         this.cargando = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.planEntrenamiento = [];
-        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el plan de entrenamiento. ${err.mensaje}`, '/planes'); //TENGO DUDA
         this.cargando = false;
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el plan de entrenamiento`, '/planes');
       },
     });
   }
@@ -329,14 +330,6 @@ export class CrearPlanEntrenamientoComponent {
       });
   }
 
-  obtenerObjetivos(): void {
-    this.planDeEntrenamientoService
-      .obtenerObjetivos()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
-      });
-  }
-
   opcionesObjetivo = [
     { id: 1, nombre: 'Mejorar la flexibilidad y movilidad' },
     { id: 2, nombre: 'Mantenerme activ@ y con energía cada día' },
@@ -537,7 +530,6 @@ export class CrearPlanEntrenamientoComponent {
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
         })
-
         .subscribe(
           (response) => {
             this.planIdCreado = response.objeto.planId;
@@ -549,7 +541,7 @@ export class CrearPlanEntrenamientoComponent {
             this.mostrarModal = true;
           },
           (error) => {
-           manejarErrorYRedirigir(this.toastr, this.router, 'Error al crear el plan de entrenamiento.', '/planes');
+           manejarErrorYRedirigir(this.toastr, this.router, "No se pudo crear el plan de entrenamiento", '/planes');
           }
         );
     } else {

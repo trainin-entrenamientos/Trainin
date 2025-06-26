@@ -59,7 +59,7 @@ export class InicioRutinaComponent {
         this.cargando = false;
       },
       error: (err) => {
-        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina. ${err.mensaje}`, '/planes');
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina`, '/planes');
       },
     });
   }

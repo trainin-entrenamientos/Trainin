@@ -43,7 +43,7 @@ export class PerfilComponent implements OnInit {
   private cargarPerfil(): void {
     this.email = this.authService.getEmail();
     if (!this.email) {
-      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario. `, '/planes');
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario`, '/planes');
       return;
     }
 
@@ -57,8 +57,7 @@ export class PerfilComponent implements OnInit {
         this.ultimosPlanesRealizados = objeto.planesCompletados;
       },
       error: (err) => {
-        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario.${err.mensaje}`, '/planes');
-      },
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },
     });
   }
 
@@ -84,7 +83,7 @@ export class PerfilComponent implements OnInit {
               );
             },
             error: (err) => {
-              manejarErrorSimple(this.toastr, `Error al actualizar la foto. ${err.mensaje}`);
+              manejarErrorSimple(this.toastr, `Error al actualizar la foto de perfil`);
             },
           });
       }

@@ -31,16 +31,24 @@
   <div class="card">
     <div class="face back">
       <div class="estadisticas-back-calorias">
-        <div class="dato">
-          <div class="valor-cal">47</div>
-          <div class="etiqueta-cal">Días</div>
+        <div *ngIf="cantidadLogros<1"  class="dato">
+          <div class="valor-cal">{{cantidadLogros}}</div>
+          <div class="etiqueta-cal">Todavia no tienes logros desbloqueados</div>
         </div>
+        <div *ngIf="cantidadLogros==1"  class="dato">
+          <div class="valor-cal">{{cantidadLogros}}</div>
+          <div class="etiqueta-cal">Logro obtenido</div>
+        </div>
+          <div *ngIf="cantidadLogros>1"  class="dato">
+          <div class="valor-cal">{{cantidadLogros}}</div>
+          <div class="etiqueta-cal">Logros obtenidos</div>
+          </div>
       </div>
     </div>
     <div class="face front image-placeholder mb-2">
       <div class="contenido-frontal">
-        <strong class="icono-frontal"><i class="fa-solid fa-fire"></i></strong>
-        <strong class="titulo-texto">Racha actual</strong>
+        <strong class="icono-frontal"><i class="fa-solid fa-trophy"></i></strong>
+        <strong class="titulo-texto">Mis Logros</strong>
       </div>
     </div>
   </div>

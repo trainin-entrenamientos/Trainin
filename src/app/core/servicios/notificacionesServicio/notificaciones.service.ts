@@ -33,7 +33,7 @@ export class NotificacionesService {
   }
 
   private enviarTokenAlBackend(token: string) {
-    this.http.post(`${this.baseUrl}/push/registrarToken`, { token }).subscribe({
+    this.http.post(`${this.baseUrl}/notificacion/registrarToken`, { token }).subscribe({
       error: (e) => console.error('Error guardando token', e),
     });
   }
