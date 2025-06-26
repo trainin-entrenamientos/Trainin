@@ -4,12 +4,11 @@ import {
   ElementRef,
   ViewChildren,
   QueryList,
-  NgModule,
 } from '@angular/core';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { MercadoPagoService } from '../../core/servicios/mercadoPagoServicio/mercado-pago.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
- 
+
 @Component({
   selector: 'app-premium',
   standalone: false,
@@ -23,20 +22,20 @@ export class PlanPremiumComponent implements AfterViewInit {
   rutaSuscripcion: string = '';
   email: string | null = '';
   usuario: any = {};
- 
+
   constructor(
     public authService: AuthService,
     private mercadoPagoServicio: MercadoPagoService,
     private usuarioServicio: UsuarioService
   ) {}
- 
+
   ngOnInit() {
     this.email = this.authService.getEmail();
     if (this.email) {
       this.obtenerUsuarioPorEmail();
     }
   }
- 
+
   ngAfterViewInit() {
     const options = {
       root: null,
@@ -52,28 +51,27 @@ export class PlanPremiumComponent implements AfterViewInit {
         }
       });
     }, options);
- 
+
     this.cardFeatures.forEach((cardEl) => {
       observer.observe(cardEl.nativeElement);
     });
   }
- 
+
   estaLogueado(): boolean {
     return this.authService.estaAutenticado();
   }
- 
+
   redirigir(url: string) {
-  window.location.assign(url);
-}
+    window.location.assign(url);
+  }
 
   pagarPremium() {
     this.mercadoPagoServicio
       .pagarSuscripcionPremium(this.usuario.idUsuario, 1)
       .subscribe({
         next: (response: any) => {
-          console.log(response)
           if (response && response.objeto) {
-        this.redirigir(response.objeto); 
+            this.redirigir(response.objeto);
           } else {
             console.error(
               'Error al obtener el punto de inicio de pago:',
@@ -86,7 +84,7 @@ export class PlanPremiumComponent implements AfterViewInit {
         },
       });
   }
- 
+
   obtenerUsuarioPorEmail() {
     this.usuarioServicio.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {

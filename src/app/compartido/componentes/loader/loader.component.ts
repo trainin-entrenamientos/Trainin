@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   standalone: false,
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.css']
+  styleUrls: ['./loader.component.css'],
 })
 export class LoaderComponent {
   @Input() message = 'Cargando…';

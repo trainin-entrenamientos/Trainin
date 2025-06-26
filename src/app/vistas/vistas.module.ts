@@ -32,7 +32,6 @@ import { FormAdminComponent } from './form-admin/form-admin.component';
 import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
 
 @NgModule({
-
   declarations: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
@@ -79,7 +78,7 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     FinalizacionRutinaComponent,
     InicioComponent,
     PerfilComponent,
-    PlanPremiumComponent
-  ]
+    PlanPremiumComponent,
+  ],
 })
-export class VistasModule { }
+export class VistasModule {}

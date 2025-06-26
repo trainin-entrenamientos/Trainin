@@ -361,3 +361,99 @@ margin: 2rem;
   }
 }
 }
+
+.grid-historial {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 1200px) {
+  .grid-historial {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-historial {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+
+.historial-card {
+  background-color: #0B1A1E;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width:75%;
+
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.historial-card:hover {
+  transform: scale(1.03);
+}
+
+.card-contenido {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.card-img {
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background-color: #06131c;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.card-titulo {
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+}
+
+.card-datos {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 1rem;
+  margin: 0.3rem 0;
+}
+
+.card-fecha {
+  font-size: 0.8rem;
+  color: #bbb;
+  margin: 0;
+}
+
+::ng-deep app-boton-trainin .btn-trainin {
+  width: 100% !important;
+  text-align: center;
+  border-radius: 0.75rem !important;
+  background-color: #13ff3a !important;
+  color: #000 !important;
+  font-weight: bold;
+  padding: 0.5rem !important;
+  transition: background-color 0.3s ease;
+}
+
+::ng-deep app-boton-trainin .btn-trainin:hover {
+  background-color: #18c42f !important;
+}

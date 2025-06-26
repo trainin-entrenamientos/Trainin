@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject, Subscription } from 'rxjs';
 import { LogroService } from '../../../core/servicios/logroServicio/logro.service';
 import { LogroObtenidoComponent } from './logro-obtenido.component';
@@ -13,13 +13,13 @@ describe('LogroObtenidoComponent', () => {
   beforeEach(() => {
     logroSubject = new Subject();
     mockService = {
-      logroNotificaciones$: logroSubject.asObservable()
+      logroNotificaciones$: logroSubject.asObservable(),
     };
 
     TestBed.configureTestingModule({
       declarations: [LogroObtenidoComponent],
       providers: [{ provide: LogroService, useValue: mockService }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LogroObtenidoComponent);
@@ -36,10 +36,18 @@ describe('LogroObtenidoComponent', () => {
   });
 
   it('Debería determinar el nivel correcto del logro según su imagen', () => {
-    expect(component.obtenerNivelDesdeImagen('foo-medalla-bronce.jpg')).toBe('bronce');
-    expect(component.obtenerNivelDesdeImagen('img-medalla-plata.png')).toBe('plata');
-    expect(component.obtenerNivelDesdeImagen('icon-medalla-oro.svg')).toBe('oro');
-    expect(component.obtenerNivelDesdeImagen('medalla-platino.gif')).toBe('platino');
+    expect(component.obtenerNivelDesdeImagen('foo-medalla-bronce.jpg')).toBe(
+      'bronce'
+    );
+    expect(component.obtenerNivelDesdeImagen('img-medalla-plata.png')).toBe(
+      'plata'
+    );
+    expect(component.obtenerNivelDesdeImagen('icon-medalla-oro.svg')).toBe(
+      'oro'
+    );
+    expect(component.obtenerNivelDesdeImagen('medalla-platino.gif')).toBe(
+      'platino'
+    );
     expect(component.obtenerNivelDesdeImagen('otra-cosa.png')).toBe('default');
   });
 

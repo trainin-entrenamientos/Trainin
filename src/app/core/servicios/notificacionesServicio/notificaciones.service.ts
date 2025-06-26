@@ -14,31 +14,27 @@ export class NotificacionesService {
     private afMessaging: AngularFireMessaging,
     private http: HttpClient
   ) {
-    this.afMessaging.messages
-      .subscribe(msg => this.messageSub.next(msg));
+    this.afMessaging.messages.subscribe((msg) => this.messageSub.next(msg));
   }
 
   pedirPermisoYRegistrar(): void {
-    Notification.requestPermission().then(permission => {
+    Notification.requestPermission().then((permission) => {
       if (permission !== 'granted') {
         console.warn('Notificaciones DENEGADAS');
         return;
       }
-      this.afMessaging.requestToken
-        .subscribe({
-          next: token => {
-            if (token) this.enviarTokenAlBackend(token);
-          },
-          error: err => console.error('Error token FCM', err)
-        });
+      this.afMessaging.requestToken.subscribe({
+        next: (token) => {
+          if (token) this.enviarTokenAlBackend(token);
+        },
+        error: (err) => console.error('Error token FCM', err),
+      });
     });
   }
 
   private enviarTokenAlBackend(token: string) {
-    this.http
-      .post(`${this.baseUrl}/push/registrarToken`, { token })
-      .subscribe({
-        error: e  => console.error('Error guardando token', e)
-      });
+    this.http.post(`${this.baseUrl}/push/registrarToken`, { token }).subscribe({
+      error: (e) => console.error('Error guardando token', e),
+    });
   }
 }

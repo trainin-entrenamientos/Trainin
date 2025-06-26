@@ -6,16 +6,15 @@ import { VerificacionCorreoService } from '../../core/servicios/verificacionCorr
   selector: 'app-verificar-email',
   standalone: false,
   templateUrl: './verificar-email.component.html',
-  styleUrls: ['./verificar-email.component.css']
+  styleUrls: ['./verificar-email.component.css'],
 })
-
 export class VerificarEmailComponent implements OnInit {
   token: string = '';
   usuarioActivo: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private verificacionService: VerificacionCorreoService,
+    private verificacionService: VerificacionCorreoService
   ) {}
 
   ngOnInit(): void {
@@ -28,11 +27,11 @@ export class VerificarEmailComponent implements OnInit {
       (respuestaActivarUsuario) => {
         if (respuestaActivarUsuario.activo) {
           this.usuarioActivo = respuestaActivarUsuario.activo;
-        }      
+        }
       },
       (error) => {
         console.error(error);
       }
-    )
+    );
   }
 }

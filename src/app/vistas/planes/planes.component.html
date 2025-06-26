@@ -5,13 +5,12 @@
       <div class="m-auto contenedor-titulo pt-5">
         <h1 class="pt-4">Planes de Entrenamiento</h1>
       </div>
-      <!--SIN PLANES, NO PREMIUM-->
       <article
         *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
       >
         <div id="contenedor-planes" class="w-100">
-            <a
+          <a
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
@@ -19,14 +18,15 @@
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
               </div>
-                <div class="plan-texto texto-premium">
+              <div class="plan-texto texto-premium">
                 <p style="color: #ffffff; font-style: italic">
-                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
+                  Creá <span class="brillo-premium">tu plan</span> para empezar
+                  a entrenar
                 </p>
               </div>
             </div>
           </a>
-           <a
+          <a
             routerLink="/premium"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
@@ -34,26 +34,21 @@
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
               </div>
-                <div class="plan-texto texto-premium">
+              <div class="plan-texto texto-premium">
                 <p style="color: #ffffff; font-style: italic">
                   Únete a <span class="brillo-premium">premium</span> para crear
                   múltiples planes
                 </p>
               </div>
-            </div>
-          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
-
+            </div> </a
+          ><app-tarjetas-planes
+            [mostrarComoVertical]="false"
+            [hastaUnPlan]="true"
+            [variosPlanes]="false"
+          ></app-tarjetas-planes>
         </div>
-        <!--<div class="contenedor-imagen-circulo">
-          <div class="circulo-fondo"></div>
-          <img
-            src="/imagenes/image-hero-planes.png"
-            alt="Imagen de planes de entrenamiento"
-            class="img-fluid imagen-con-circulo"
-          />
-        </div>-->
+      
       </article>
-      <!--CON PLANES, NO PREMIUM-->
       <article
         *ngIf="planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
@@ -130,26 +125,23 @@
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
               </div>
-                <div class="plan-texto texto-premium">
+              <div class="plan-texto texto-premium">
                 <p style="color: #ffffff; font-style: italic">
                   Únete a <span class="brillo-premium">premium</span> para crear
                   múltiples planes
                 </p>
               </div>
             </div>
-          </a>  
-           @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
-                <app-tarjetas-planes
+          </a>
+          @if (planEntrenamiento.length ===1 && usuario?.esPremium===false) {
+          <app-tarjetas-planes
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
-
           ></app-tarjetas-planes>
-        }
+          }
         </div>
-        
       </article>
-        
 
       <!--SIN PLANES, PREMIUM-->
       <article
@@ -157,7 +149,7 @@
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes premium-sin-planes"
       >
         <div id="contenedor-planes" class="w-100">
-           <a
+          <a
             routerLink="/formulario-crear-plan"
             class="w-100 d-flex justify-content-center contenedor-plan"
           >
@@ -165,27 +157,22 @@
               <div class="custom-icon-absolute">
                 <div class="icon custom-icon">+</div>
               </div>
-                <div class="plan-texto texto-premium">
+              <div class="plan-texto texto-premium">
                 <p style="color: #ffffff; font-style: italic">
-                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
+                  Creá <span class="brillo-premium">tu plan</span> para empezar
+                  a entrenar
                 </p>
               </div>
             </div>
           </a>
-            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
+          <app-tarjetas-planes
+            [mostrarComoVertical]="false"
+            [hastaUnPlan]="true"
+            [variosPlanes]="false"
+          ></app-tarjetas-planes>
         </div>
-
-         <!--<div class="contenedor-imagen-circulo-con-premium">
-          <div class="circulo-fondo"></div>
-          <img
-            src="/imagenes/image-hero-planes.png"
-            alt="Imagen de planes de entrenamiento"
-            class="img-fluid imagen-con-circulo"
-          />
-        </div>-->
       </article>
 
-      <!--CON PLANES, PREMIUM-->
       <article
         *ngIf="planEntrenamiento.length && usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes"
@@ -255,58 +242,57 @@
           </div>
 
           <div id="contenedor-planes" class="w-100">
-             <a
-           *ngIf="planEntrenamiento.length < 4"
+            <a
+              *ngIf="planEntrenamiento.length < 4"
               routerLink="/formulario-crear-plan"
               class="w-100 d-flex justify-content-center contenedor-plan"
-          >
-            <div class="plan-card">
-              <div class="custom-icon-absolute">
-                <div class="icon custom-icon">+</div>
-              </div>
+            >
+              <div class="plan-card">
+                <div class="custom-icon-absolute">
+                  <div class="icon custom-icon">+</div>
+                </div>
                 <div class="plan-texto texto-premium">
-                <p style="color: #ffffff; font-style: italic">
-                  Creá <span class="brillo-premium">tu plan</span> para empezar a entrenar
-                </p>
+                  <p style="color: #ffffff; font-style: italic">
+                    Creá <span class="brillo-premium">tu plan</span> para
+                    empezar a entrenar
+                  </p>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
             <p
               *ngIf="planEntrenamiento.length >= 4"
               class="text-center text-light mt-3"
             >
               Ya has creado el máximo de
-              <strong style="color: #13ff3a">4 planes</strong> permitidos. <br><br>
+              <strong style="color: #13ff3a">4 planes</strong> permitidos.
+              <br /><br />
             </p>
           </div>
-           @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
-                <app-tarjetas-planes
+          @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
+          <app-tarjetas-planes
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
           ></app-tarjetas-planes>
-        }
-         @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
-                <app-tarjetas-planes
+          } @if (pantallaChica && planEntrenamiento.length >=2 &&
+          planEntrenamiento.length <=4) {
+          <app-tarjetas-planes
             [mostrarComoVertical]="true"
             [hastaUnPlan]="false"
             [variosPlanes]="true"
           ></app-tarjetas-planes>
-        }
+          }
         </div>
-          @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
-                <app-tarjetas-planes
-            [mostrarComoVertical]="false"
-            [hastaUnPlan]="false"
-            [variosPlanes]="true"
-          ></app-tarjetas-planes>
+        @if (!pantallaChica && planEntrenamiento.length >=2 &&
+        planEntrenamiento.length <=4) {
+        <app-tarjetas-planes
+          [mostrarComoVertical]="false"
+          [hastaUnPlan]="false"
+          [variosPlanes]="true"
+        ></app-tarjetas-planes>
         }
       </article>
-     
-          
     </section>
-
-
 
     <app-modal-confirmacion-borrar-plan
       [visible]="mostrarModal"

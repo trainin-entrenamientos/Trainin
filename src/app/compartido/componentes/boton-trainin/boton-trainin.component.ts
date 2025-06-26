@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-boton-trainin',
   standalone: false,
   templateUrl: './boton-trainin.component.html',
-  styleUrl: './boton-trainin.component.css'
+  styleUrl: './boton-trainin.component.css',
 })
 export class BotonTraininComponent {
   @Input() tipo: string = 'button';

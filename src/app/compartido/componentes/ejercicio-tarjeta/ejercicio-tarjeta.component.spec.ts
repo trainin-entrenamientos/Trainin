@@ -8,7 +8,7 @@ describe('EjercicioTarjetaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EjercicioTarjetaComponent]
+      declarations: [EjercicioTarjetaComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EjercicioTarjetaComponent);
@@ -25,7 +25,8 @@ describe('EjercicioTarjetaComponent', () => {
   it('Debería usar la ruta de imagen recibida', () => {
     component.imagen = 'ruta/a/la/imagen.jpg';
     fixture.detectChanges();
-    const img = fixture.debugElement.query(By.css('img')).nativeElement as HTMLImageElement;
+    const img = fixture.debugElement.query(By.css('img'))
+      .nativeElement as HTMLImageElement;
     expect(img.src).toContain('ruta/a/la/imagen.jpg');
   });
 });

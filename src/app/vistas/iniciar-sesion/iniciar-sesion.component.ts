@@ -9,13 +9,12 @@ import { NotificacionesService } from '../../core/servicios/notificacionesServic
   selector: 'app-iniciar-sesion',
   templateUrl: './iniciar-sesion.component.html',
   styleUrl: './iniciar-sesion.component.css',
-  standalone: false
+  standalone: false,
 })
 export class IniciarSesionComponent {
   loginForm: FormGroup;
   cargando: boolean = false;
-  esAdministrador: boolean = false; 
-
+  esAdministrador: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,44 +25,40 @@ export class IniciarSesionComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      contrasenia: ['', Validators.required]
+      contrasenia: ['', Validators.required],
     });
-
   }
-  
+
   iniciarSesion() {
     if (this.loginForm.invalid) return;
-    this.cargando=true;
+    this.cargando = true;
     const credenciales = this.loginForm.value;
     this.authService.login(credenciales).subscribe({
       next: (data) => {
         if (data.objeto.exito && !data.objeto.requiereActivacion) {
           this.notificacionServicio.pedirPermisoYRegistrar();
           this.obtenerRolUsuario();
-          if(this.esAdministrador){
+          if (this.esAdministrador) {
             this.router.navigate(['/listarEjercicios']);
-          }else{
-          this.router.navigate(['/planes']);
+          } else {
+            this.router.navigate(['/planes']);
           }
         } else {
-          this.cargando=false;
+          this.cargando = false;
           this.toastr.error('Debes activar tu cuenta antes de iniciar sesión.');
         }
       },
       error: () => {
-        this.cargando=false;
+        this.cargando = false;
         this.toastr.error('Credenciales incorrectas o error de servidor.');
-      }
+      },
     });
   }
 
-  obtenerRolUsuario(){
+  obtenerRolUsuario() {
     const rol = this.authService.getRol();
     if (rol === 'Administrador') {
-    this.esAdministrador=true;
+      this.esAdministrador = true;
+    }
   }
 }
-
-
-}
-

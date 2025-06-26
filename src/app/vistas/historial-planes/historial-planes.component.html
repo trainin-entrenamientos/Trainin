@@ -1,15 +1,11 @@
-<main *ngIf="cargando" ><app-loader ></app-loader></main>
+<main *ngIf="cargando"><app-loader></app-loader></main>
 
-<main  *ngIf="!cargando">
+<main *ngIf="!cargando">
   <h1>Historial de Planes</h1>
   <div class="grid-historial">
     <div class="historial-card" *ngFor="let plan of planesHistorial">
       <div class="card-contenido">
-        <img
-          [src]="plan.foto"
-          alt="Tipo de entrenamiento"
-          class="card-img"
-        />
+        <img [src]="plan.foto" alt="Tipo de entrenamiento" class="card-img" />
         <div class="card-info">
           <h3 class="card-titulo">{{ plan.tipoEntrenamiento }}</h3>
           <div class="card-datos">

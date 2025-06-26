@@ -4,10 +4,9 @@ import { DatosEjercicio } from '../../../compartido/interfaces/datos-ejercicio-c
 const STORAGE_KEY = 'datosCorreccionMap';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CorreccionDataService {
-
   private datosMap = new Map<string, DatosEjercicio>();
 
   constructor() {
@@ -15,11 +14,11 @@ export class CorreccionDataService {
     if (json) {
       try {
         const lista: DatosEjercicio[] = JSON.parse(json);
-        lista.forEach(item => {
+        lista.forEach((item) => {
           this.datosMap.set(item.nombre, {
             nombre: item.nombre,
             maxPorcentaje: item.maxPorcentaje,
-            reintentos: item.reintentos
+            reintentos: item.reintentos,
           });
         });
       } catch {
@@ -39,7 +38,7 @@ export class CorreccionDataService {
       this.datosMap.set(nombreEjercicio, {
         nombre: nombreEjercicio,
         maxPorcentaje: porcentajeObtenido,
-        reintentos: reintentosActuales
+        reintentos: reintentosActuales,
       });
     } else {
       existente.reintentos = reintentosActuales;
