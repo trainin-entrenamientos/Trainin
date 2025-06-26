@@ -1,70 +1,114 @@
-<div [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'hastaUnPlan': hastaUnPlan, 'variosPlanes':variosPlanes}">
+<div
+  [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'hastaUnPlan': hastaUnPlan, 'variosPlanes':variosPlanes}">
 
-<div class="card" [ngClass]="{ 'apagada': !ejercicioDiarioDisponible }">
-<div class="face back">
-  <div class="estadisticas-back">
-    <p>{{nombreEjercicioDiario}}</p>
-    <app-boton-trainin type="button" 
-             [clase]="'btn-practicar2'" 
-             [tipo]="'button'"  
-             [ruta]="'/ejercicio-diario'"
-          ><span style="color:white">
+  <div class="card" [ngClass]="{ 'apagada': !ejercicioDiarioDisponible }">
+    <div class="face back">
+      <div class="estadisticas-back">
+        <p>{{nombreEjercicioDiario}}</p>
+        <app-boton-trainin type="button" [clase]="'btn-practicar2'" [tipo]="'button'" [ruta]="'/ejercicio-diario'"><span
+            style="color:white">
             Ir al Ejercicio diario
           </span>
-          </app-boton-trainin>
-  </div>
-</div>
-<div class="face front image-placeholder mb-2">
-  <div class="contenido-frontal">
-    <strong class="icono-frontal"><i class="fa-solid fa-dumbbell"></i></strong>
-    <strong class="titulo-texto">Ya realizaste el ejercicio del dia</strong>
-  </div>
-</div>
-</div>
-  
-<div class="card" >
-<div class="face back">
-  <div class="estadisticas-back-calorias">
-    <div class="dato">
-      <div class="valor-cal">47</div>
-      <div class="etiqueta-cal">Días</div>
-    </div>
-  </div>
-</div>
-<div class="face front image-placeholder mb-2">
-  <div class="contenido-frontal">
-    <strong class="icono-frontal"><i class="fa-solid fa-fire"></i></strong>
-    <strong class="titulo-texto">Racha actual</strong>
-  </div>
-</div>
-</div>
-
-   <div class="card">
-<div class="face back">
-  <div class="estadisticas-back">
-    <div class="plan-label">Cuerpo completo</div>
-    <div class="info-plan">
-
-    <div class="dato dato-superior">
-      <div class="valor">450</div>
-      <div class="etiqueta">Calorías</div>
-    </div>
-
-    <div class="divisor-horizontal"></div>
-
-    <div class="dato dato-inferior">
-      <div class="valor">35 min</div>
-      <div class="etiqueta">Duración</div>
-    </div>
-  </div>
+        </app-boton-trainin>
       </div>
-</div>
-<div class="face front image-placeholder mb-2">
-  <div class="contenido-frontal">
-    <strong class="icono-frontal"><i class="fa-solid fa-stopwatch-20"></i></strong>
-    <strong class="titulo-texto">Último Entrenamiento</strong>
+    </div>
+    <div class="face front image-placeholder mb-2">
+      <div class="contenido-frontal">
+        <strong class="icono-frontal"><i class="fa-solid fa-dumbbell"></i></strong>
+        <strong class="titulo-texto">Ya realizaste el ejercicio del dia</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="face back">
+      <div class="estadisticas-back-calorias">
+        <div class="dato">
+          <div class="valor-cal">47</div>
+          <div class="etiqueta-cal">Días</div>
+        </div>
+      </div>
+    </div>
+    <div class="face front image-placeholder mb-2">
+      <div class="contenido-frontal">
+        <strong class="icono-frontal"><i class="fa-solid fa-fire"></i></strong>
+        <strong class="titulo-texto">Racha actual</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="face back">
+      <div class="estadisticas-back">
+        <div class="plan-label">Cuerpo completo</div>
+        <div class="info-plan">
+
+          <div class="dato dato-superior">
+            <div class="valor">450</div>
+            <div class="etiqueta">Calorías</div>
+          </div>
+
+          <div class="divisor-horizontal"></div>
+
+          <div class="dato dato-inferior">
+            <div class="valor">35 min</div>
+            <div class="etiqueta">Duración</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="face front image-placeholder mb-2">
+      <div class="contenido-frontal">
+        <strong class="icono-frontal"><i class="fa-solid fa-dumbbell"></i></strong>
+        <strong class="titulo-texto">Ejercicio del día</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="face back">
+      <div class="estadisticas-back-calorias">
+        <div class="dato">
+          <div class="valor-cal">47</div>
+          <div class="etiqueta-cal">Días</div>
+        </div>
+      </div>
+    </div>
+    <div class="face front image-placeholder mb-2">
+      <div class="contenido-frontal">
+        <strong class="icono-frontal"><i class="fa-solid fa-fire"></i></strong>
+        <strong class="titulo-texto">Racha actual</strong>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="ultimaRutina != null" class="card">
+    <div class="face back">
+      <div class="estadisticas-back">
+        <div class="plan-label">{{ ultimaRutina.tipoEntrenamiento }}</div>
+        <div class="info-plan">
+          <div class="dato dato-superior">
+            <div class="valor">{{ ultimaRutina.calorias }}</div>
+            <div class="etiqueta">Calorías</div>
+          </div>
+
+          <div class="divisor-horizontal"></div>
+
+          <div class="dato dato-inferior">
+            <div class="valor">{{ formatearTiempo(ultimaRutina.tiempo) }}</div>
+            <div class="etiqueta">Duración</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="face front image-placeholder mb-2">
+      <div class="contenido-frontal">
+        <strong class="icono-frontal"><i class="fa-solid fa-stopwatch-20"></i></strong>
+        <strong class="titulo-texto">Último Entrenamiento</strong>
+        <strong class="titulo-texto">{{
+          ultimaRutina.fechaRealizacion
+          }}</strong>
+      </div>
+    </div>
   </div>
 </div>
-</div>
-</div>
-

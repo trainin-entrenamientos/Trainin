@@ -9,27 +9,31 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalEditarPerfilComponent } from '../../compartido/componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { UsuarioEditado } from '../../core/modelos/UsuarioEditadoDTO';
 import { ModalCambiarContraseniaComponent } from '../../compartido/componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
+import { Router } from '@angular/router';
+import { HistorialPlanDTO } from '../../core/modelos/HistorialPlanDTO';
 
 @Component({
   selector: 'app-perfil',
   standalone: false,
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+  styleUrls: ['./perfil.component.css'],
 })
 export class PerfilComponent implements OnInit {
-
   email: string | null = null;
   perfil: PerfilDTO | null = null;
   logros: Logro[] | undefined = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
   cargando: boolean = true;
+  ultimosPlanesRealizados: HistorialPlanDTO[] = [];
 
-  constructor(private perfilService: PerfilService,
+  constructor(
+    private perfilService: PerfilService,
     private authService: AuthService,
     private toastr: ToastrService,
     private logroService: LogroService,
-    private modalServicio: NgbModal
-  ) { }
+    private modalServicio: NgbModal,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.cargarPerfil();
@@ -37,26 +41,28 @@ export class PerfilComponent implements OnInit {
 
   private cargarPerfil(): void {
     this.email = this.authService.getEmail();
-    if (!this.email) { this.cargando = false; return; }
+    if (!this.email) {
+      this.cargando = false;
+      return;
+    }
 
     this.cargando = true;
-    this.perfilService.getPerfil(this.email)
-      .subscribe({
-        next: ({ objeto }) => {
-          this.perfil = objeto;
-          this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
-          this.logros = objeto.logros ?? [];
-          this.cargando = false;
-        },
-        error: err => {
-          console.error('Error cargando perfil', err);
-          this.cargando = false;
-        }
-      });
+    this.perfilService.getPerfil(this.email).subscribe({
+      next: ({ objeto }) => {
+        this.perfil = objeto;
+        this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
+        this.logros = objeto.logros ?? [];
+        this.cargando = false;
+        this.ultimosPlanesRealizados = objeto.planesCompletados;
+      },
+      error: (err) => {
+        console.error('Error cargando perfil', err);
+        this.cargando = false;
+      },
+    });
   }
 
   onFileSelected(event: Event) {
-
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
 
@@ -68,14 +74,19 @@ export class PerfilComponent implements OnInit {
       this.fotoMostrar = base64data;
 
       if (this.email) {
-        this.perfilService.actualizarFotoPerfil(this.email, base64data).subscribe({
-          next: (response: any) => {
-            this.toastr.success(response.message, 'Foto actualizada correctamente');
-          },
-          error: (err) => {
-            this.toastr.error('Error al actualizar la foto');
-          }
-        });
+        this.perfilService
+          .actualizarFotoPerfil(this.email, base64data)
+          .subscribe({
+            next: (response: any) => {
+              this.toastr.success(
+                response.message,
+                'Foto actualizada correctamente'
+              );
+            },
+            error: (err) => {
+              this.toastr.error('Error al actualizar la foto');
+            },
+          });
       }
     };
     reader.readAsDataURL(file);
@@ -89,31 +100,44 @@ export class PerfilComponent implements OnInit {
       nombre: this.perfil.nombre,
       apellido: this.perfil.apellido,
       fechaNacimiento: this.perfil.fechaNacimiento,
-      altura: this.perfil.altura!
+      altura: this.perfil.altura!,
     };
 
-    const modalRef = this.modalServicio.open(
-      ModalEditarPerfilComponent,
-      {
-        centered: true,
-        backdrop: 'static',
-        size: 'lg'
-      }
-    );
+    const modalRef = this.modalServicio.open(ModalEditarPerfilComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+    });
 
     modalRef.componentInstance.usuario = usuario;
 
     modalRef.closed.subscribe(() => this.cargarPerfil());
   }
 
-   abrirCambioContraseniaModal(): void {
+  abrirCambioContraseniaModal(): void {
     if (!this.perfil) return;
-    const modalRef = this.modalServicio.open(
-      ModalCambiarContraseniaComponent,
-      { centered: true, backdrop: 'static', size: 'lg' }
-    );
+    const modalRef = this.modalServicio.open(ModalCambiarContraseniaComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+    });
 
     modalRef.componentInstance.idUsuario = this.perfil.id!;
   }
 
+  formatearTiempo(segundos: number): string {
+    const horas = Math.floor(segundos / 3600);
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segundosRestantes = segundos % 60;
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    return horas > 0
+      ? `${pad(horas)}:${pad(minutos)}:${pad(segundosRestantes)}`
+      : `${pad(minutos)}:${pad(segundosRestantes)}`;
+  }
+
+  irAlDetalle(idPlan: number) {
+    this.router.navigate(['/detalle-plan', idPlan]);
+  }
 }

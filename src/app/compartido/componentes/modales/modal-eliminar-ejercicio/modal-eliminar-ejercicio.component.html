@@ -1,13 +1,33 @@
-<div class="modal fade" id="bootstrapModal" tabindex="-1" aria-labelledby="modalTitulo">
+<div
+  class="modal fade"
+  id="bootstrapModal"
+  tabindex="-1"
+  aria-labelledby="modalTitulo"
+>
   <div class="modal-dialog">
     <div class="modal-content contenedor-modal">
       <div class="modal-header contenedor-modal-header">
-        <h5 class="modal-title" id="modalTitulo">¿Estás seguro de eliminar este ejercicio?</h5>
-        <button type="button" class="btn-close boton-cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="modalTitulo">
+          ¿Estás seguro de eliminar este ejercicio?
+        </h5>
+        <button
+          type="button"
+          class="btn-close boton-cerrar"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-footer contenedor-modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmarEliminacion()"
+        >
+          Eliminar
+        </button>
       </div>
     </div>
   </div>

@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  Renderer2,
-  ElementRef,
-} from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
 import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
@@ -31,15 +25,14 @@ export class CrearPlanEntrenamientoComponent {
   planIdCreado: number | undefined;
   mostrarModal: boolean = false;
   cargando: boolean = true;
-  seEnvioForm:boolean=false;
-  progresoVisual = 20; 
+  seEnvioForm: boolean = false;
+  progresoVisual = 20;
   usuario?: Usuario;
   email: string | null = null;
   esPremium?: boolean;
-  cantidadPlanes?: number=0;
+  cantidadPlanes?: number = 0;
   planEntrenamiento: any[] = [];
   idUsuario: number = 1;
-
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +44,6 @@ export class CrearPlanEntrenamientoComponent {
     private logroService: LogroService,
     private usuarioService: UsuarioService,
     private planEntrenamientoService: PlanEntrenamientoService
-
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
@@ -76,10 +68,10 @@ export class CrearPlanEntrenamientoComponent {
 
   ngOnInit(): void {
     this.email = this.authService.getEmail();
-     this.obtenerUsuario();
+    this.obtenerUsuario();
   }
 
-    obtenerUsuario(): void {
+  obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
         this.usuario = usuarioObtenido;
@@ -89,7 +81,7 @@ export class CrearPlanEntrenamientoComponent {
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
-      }
+      },
     });
   }
 
@@ -97,21 +89,20 @@ export class CrearPlanEntrenamientoComponent {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
       next: (planObtenido: any) => {
         this.cantidadPlanes = planObtenido.length;
-        if(this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4){
-       this.router.navigate(['/planes']);
+        if (this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4) {
+          this.router.navigate(['/planes']);
         }
-      if(this.esPremium ===false && (this.cantidadPlanes ?? 0) >= 1){
-       this.router.navigate(['/planes']);
-       }
-      this.cargando = false;
+        if (this.esPremium === false && (this.cantidadPlanes ?? 0) >= 1) {
+          this.router.navigate(['/planes']);
+        }
+        this.cargando = false;
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
         this.cargando = false;
-      }
+      },
     });
   }
-
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -124,29 +115,27 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   nextStep(): void {
-  if (!this.esPasoActualValido()) {
-    this.marcarCamposDelPasoComoTocados(this.currentStep);
-    return;
+    if (!this.esPasoActualValido()) {
+      this.marcarCamposDelPasoComoTocados(this.currentStep);
+      return;
+    }
+
+    if (this.currentStep < this.totalSteps) {
+      this.progresoVisual = (this.currentStep + 1) * 20;
+
+      setTimeout(() => {
+        this.currentStep++;
+
+        if (this.currentStep === this.totalSteps) {
+          this.cargarResumen();
+        }
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
+    }
   }
-
-  if (this.currentStep < this.totalSteps) {
-    this.progresoVisual = (this.currentStep + 1) * 20;
-
-    setTimeout(() => {
-      this.currentStep++;
-
-      if (this.currentStep === this.totalSteps) {
-        this.cargarResumen();
-      }
-
-      if (this.currentStep === 4) {
-        setTimeout(() => this.configurarSliders(), 0);
-      }
-    }, 200); 
-  }
-}
-
-
 
   marcarCamposDelPasoComoTocados(paso: number): void {
     const controles: string[] = [];
@@ -177,43 +166,41 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   previousStep(): void {
-  if (this.currentStep > 1) {
-    this.progresoVisual = (this.currentStep - 1) * 20;
+    if (this.currentStep > 1) {
+      this.progresoVisual = (this.currentStep - 1) * 20;
+
+      setTimeout(() => {
+        this.currentStep--;
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
+    }
+  }
+
+  irAPaso(numero: number): void {
+    this.progresoVisual = numero * 20;
 
     setTimeout(() => {
-      this.currentStep--;
+      this.currentStep = numero;
+      this.editandoDesdeResumen = true;
 
       if (this.currentStep === 4) {
         setTimeout(() => this.configurarSliders(), 0);
       }
     }, 200);
   }
-}
 
+  volverAlResumen(): void {
+    this.progresoVisual = this.totalSteps * 20;
 
-  irAPaso(numero: number): void {
-  this.progresoVisual = numero * 20;
-
-  setTimeout(() => {
-    this.currentStep = numero;
-    this.editandoDesdeResumen = true;
-
-    if (this.currentStep === 4) {
-      setTimeout(() => this.configurarSliders(), 0);
-    }
-  }, 200);
-}
-
-volverAlResumen(): void {
-  this.progresoVisual = this.totalSteps * 20;
-
-  setTimeout(() => {
-    this.currentStep = this.totalSteps;
-    this.editandoDesdeResumen = false;
-    this.cargarResumen();
-  }, 200);
-}
-
+    setTimeout(() => {
+      this.currentStep = this.totalSteps;
+      this.editandoDesdeResumen = false;
+      this.cargarResumen();
+    }, 200);
+  }
 
   esPasoActualValido(): boolean {
     switch (this.currentStep) {
@@ -322,21 +309,24 @@ volverAlResumen(): void {
   }
 
   obtenerOpcionesEntrenamiento(): void {
-    this.planDeEntrenamientoService.obtenerOpcionesEntrenamiento()
+    this.planDeEntrenamientoService
+      .obtenerOpcionesEntrenamiento()
       .subscribe((respuesta: any) => {
         this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
 
   obtenerEquipamiento(): void {
-    this.planDeEntrenamientoService.obtenerEquipamiento()
+    this.planDeEntrenamientoService
+      .obtenerEquipamiento()
       .subscribe((respuesta: any) => {
         this.equipamientosOpciones = respuesta.objeto;
       });
   }
- //Esto se usa?
+  //Esto se usa?
   obtenerObjetivos(): void {
-    this.planDeEntrenamientoService.obtenerObjetivos()
+    this.planDeEntrenamientoService
+      .obtenerObjetivos()
       .subscribe((equipamientos: any[]) => {
         this.equipamientosOpciones = equipamientos;
       });
@@ -535,22 +525,23 @@ volverAlResumen(): void {
   }
 
   enviarFormulario() {
-    this.cargando=true;
+    this.cargando = true;
     if (this.formularioForm.valid) {
-      this.planDeEntrenamientoService.crearPlanEntrenamiento({
+      this.planDeEntrenamientoService
+        .crearPlanEntrenamiento({
           ...this.formularioForm.value,
           email: this.authService.getEmail(),
         })
-        
+
         .subscribe(
           (response) => {
             console.log(response)
-            this.planIdCreado = response.objeto.id
+            this.planIdCreado = response.objeto.Id
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }
             this.cargando = false;
-            this.seEnvioForm=true;
+            this.seEnvioForm = true;
             this.mostrarModal = true;
           },
           (error) => {
@@ -563,24 +554,23 @@ volverAlResumen(): void {
   }
 
   manejarAccion(tipo: 'detalle' | 'iniciar') {
-  if (!this.planIdCreado) {
-    console.error('No hay un ID de plan creado.');
-    return;
+    if (!this.planIdCreado) {
+      console.error('No hay un ID de plan creado.');
+      return;
+    }
+
+    if (tipo === 'detalle') {
+      this.router.navigate(['/detalle-plan', this.planIdCreado]);
+    } else if (tipo === 'iniciar') {
+      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+    }
   }
 
-  if (tipo === 'detalle') {
-    this.router.navigate(['/detalle-plan', this.planIdCreado]);
-  } else if (tipo === 'iniciar') {
-    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-  }
-}
-
-pasos = [
-  { nombre: 'Datos', icono: 'fas fa-user' },
-  { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
-  { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
-  { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
-  { nombre: 'Resumen', icono: 'fas fa-list-alt' }
-];
-
+  pasos = [
+    { nombre: 'Datos', icono: 'fas fa-user' },
+    { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
+    { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
+    { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
+    { nombre: 'Resumen', icono: 'fas fa-list-alt' },
+  ];
 }

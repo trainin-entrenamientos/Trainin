@@ -23,19 +23,22 @@
         >
           <div class="paso-informacion" *ngIf="currentStep === 1">
             <div class="form-header">
-                <div class="text-center mb-2">Sección 1 de 4</div>
-                <div class="progress">
-                  <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
-                </div>
+              <div class="text-center mb-2">Sección 1 de 4</div>
+              <div class="progress">
+                <div
+                  class="progress-bar animated-progress"
+                  [style.width.%]="progresoVisual"
+                ></div>
               </div>
+            </div>
 
             <div class="primer-paso-columnas">
-               <div class="esquina top-left"></div>
-                <div class="esquina top-right"></div>
-                <div class="esquina bottom-left"></div>
-                <div class="esquina bottom-right"></div>
-                <div class="columna-datos">
-                  <h4 class="text-center mb-4">Ingresá tus datos</h4>
+              <div class="esquina top-left"></div>
+              <div class="esquina top-right"></div>
+              <div class="esquina bottom-left"></div>
+              <div class="esquina bottom-right"></div>
+              <div class="columna-datos">
+                <h4 class="text-center mb-4">Ingresá tus datos</h4>
 
                 <div class="mensajeErrorForm mb-3">
                   <label class="preguntaPeso">¿Cuál es tu peso actual?</label>
@@ -48,14 +51,16 @@
                     />kg.
                   </span>
                   <div *ngIf="formularioForm.get('pesoUsuario')?.touched">
-                    <span class="campoError"
+                    <span
+                      class="campoError"
                       *ngIf="
                         formularioForm.get('pesoUsuario')?.hasError('required')
                       "
                       >Ingresá tu
                       <strong style="color: #13ff3a">peso</strong></span
                     >
-                    <span class="campoError"
+                    <span
+                      class="campoError"
                       *ngIf="
                         formularioForm.get('pesoUsuario')?.hasError('min') ||
                         formularioForm.get('pesoUsuario')?.hasError('max')
@@ -66,7 +71,9 @@
                   </div>
                 </div>
                 <div class="mensajeErrorForm mb-3">
-                  <label class="preguntaAltura">¿Cuál es tu altura actual?</label>
+                  <label class="preguntaAltura"
+                    >¿Cuál es tu altura actual?</label
+                  >
                   <span>
                     <input
                       type="number"
@@ -76,7 +83,8 @@
                     />cm.
                   </span>
                   <div *ngIf="formularioForm.get('alturaUsuario')?.touched">
-                    <span class="campoError"
+                    <span
+                      class="campoError"
                       *ngIf="
                         formularioForm
                           .get('alturaUsuario')
@@ -85,7 +93,8 @@
                       >Ingresá tu
                       <strong style="color: #13ff3a">altura</strong></span
                     >
-                    <span class="campoError"
+                    <span
+                      class="campoError"
                       *ngIf="
                         formularioForm.get('alturaUsuario')?.hasError('min') ||
                         formularioForm.get('alturaUsuario')?.hasError('max')
@@ -99,9 +108,7 @@
                 </div>
               </div>
               <div class="columna-objetivos">
-                <h4 class="objetivo-titulo">
-                  ¿Cuál es tu objetivo principal?
-                </h4>
+                <h4 class="objetivo-titulo">¿Cuál es tu objetivo principal?</h4>
                 <p class="objetivo-subtitulo">Seleccioná una única opción</p>
 
                 <div
@@ -160,13 +167,15 @@
               >
             </div>
           </div>
-          
 
           <div class="paso-informacion" *ngIf="currentStep === 2">
-           <div class="form-header">
+            <div class="form-header">
               <div class="text-center mb-2">Sección 2 de 4</div>
               <div class="progress">
-                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
+                <div
+                  class="progress-bar animated-progress"
+                  [style.width.%]="progresoVisual"
+                ></div>
               </div>
             </div>
             <h4 class="text-white text-center mb-4">
@@ -238,16 +247,17 @@
             <div class="form-header">
               <div class="text-center mb-2">Sección 3 de 4</div>
               <div class="progress">
-                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
+                <div
+                  class="progress-bar animated-progress"
+                  [style.width.%]="progresoVisual"
+                ></div>
               </div>
             </div>
 
             <h3 class="equipamiento-titulo">
               ¿Tenés algún equipamiento en casa?
             </h3>
-            <p class="equipamiento-subtitulo">
-              Seleccioná una o más opciones
-            </p>
+            <p class="equipamiento-subtitulo">Seleccioná una o más opciones</p>
 
             <div class="equipamiento-grid">
               <div
@@ -290,7 +300,10 @@
             <div class="form-header">
               <div class="text-center mb-2">Sección 4 de 4</div>
               <div class="progress">
-                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
+                <div
+                  class="progress-bar animated-progress"
+                  [style.width.%]="progresoVisual"
+                ></div>
               </div>
             </div>
 

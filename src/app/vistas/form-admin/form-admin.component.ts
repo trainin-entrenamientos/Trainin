@@ -10,7 +10,7 @@ import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporado
   selector: 'app-form-admin',
   standalone: false,
   templateUrl: './form-admin.component.html',
-  styleUrls: ['./form-admin.component.css']
+  styleUrls: ['./form-admin.component.css'],
 })
 export class FormAdminComponent implements OnInit {
   form: FormGroup;
@@ -24,7 +24,6 @@ export class FormAdminComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-
     this.form = this.fb.group({
       id: [0],
       nombre: ['', Validators.required],
@@ -37,9 +36,8 @@ export class FormAdminComponent implements OnInit {
       correccionPremium: [false],
       idTipoEjercicio: [0, Validators.required],
       idsGrupoMuscular: this.fb.array<number>([], Validators.required),
-      idsCategorias: this.fb.array<number>([], Validators.required)
+      idsCategorias: this.fb.array<number>([], Validators.required),
     });
-
   }
 
   ngOnInit(): void {
@@ -49,7 +47,7 @@ export class FormAdminComponent implements OnInit {
 
     forkJoin({
       cats: this.svc.obtenerCategorias(),
-      grps: this.svc.obtenerGruposMusculares()
+      grps: this.svc.obtenerGruposMusculares(),
     }).subscribe(({ cats, grps }) => {
       this.categorias = cats;
       this.grupos = grps;
@@ -69,7 +67,7 @@ export class FormAdminComponent implements OnInit {
   }
 
   private cargarEjercicio(id: number) {
-    this.svc.obtenerEjercicioPorId(id).subscribe(e => {
+    this.svc.obtenerEjercicioPorId(id).subscribe((e) => {
       this.form.patchValue({
         id: e.id,
         nombre: e.nombre,
@@ -80,13 +78,17 @@ export class FormAdminComponent implements OnInit {
         tieneCorreccion: e.tieneCorreccion,
         correccionPremium: e.correccionPremium,
         idTipoEjercicio: e.idTipoEjercicio,
-        imagen: e.imagen
+        imagen: e.imagen,
       });
 
       this.idsGrupoMuscular.clear();
-      e.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+      e.idsGrupoMuscular.forEach((i) =>
+        this.idsGrupoMuscular.push(this.fb.control(i))
+      );
       this.idsCategorias.clear();
-      e.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+      e.idsCategorias.forEach((i) =>
+        this.idsCategorias.push(this.fb.control(i))
+      );
     });
   }
 
@@ -94,7 +96,7 @@ export class FormAdminComponent implements OnInit {
     if (checked) {
       array.push(this.fb.control(value));
     } else {
-      const idx = array.controls.findIndex(ctrl => ctrl.value === value);
+      const idx = array.controls.findIndex((ctrl) => ctrl.value === value);
       if (idx >= 0) {
         array.removeAt(idx);
       }
@@ -114,7 +116,7 @@ export class FormAdminComponent implements OnInit {
 
     request$.subscribe({
       next: () => this.router.navigate(['/listarEjercicios']),
-      error: err => console.error('Error al guardar ejercicio:', err)
+      error: (err) => console.error('Error al guardar ejercicio:', err),
     });
   }
 

@@ -6,12 +6,11 @@ import { PerfilService } from '../../../../core/servicios/perfilServicio/perfil.
 import { UsuarioEditado } from '../../../../core/modelos/UsuarioEditadoDTO';
 import { convertirFechaYYYYMMDD } from '../../../utilidades/fecha.utils';
 
-
 @Component({
   selector: 'app-modal-editar-perfil',
   templateUrl: './modal-editar-perfil.component.html',
   styleUrl: './modal-editar-perfil.component.css',
-  standalone: false
+  standalone: false,
 })
 export class ModalEditarPerfilComponent implements OnInit {
   @Input() usuario!: UsuarioEditado;
@@ -23,14 +22,26 @@ export class ModalEditarPerfilComponent implements OnInit {
     private fb: FormBuilder,
     private perfilService: PerfilService,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nombre: [this.usuario.nombre, [Validators.required, Validators.minLength(2)]],
-      apellido: [this.usuario.apellido, [Validators.required, Validators.minLength(2)]],
-      fechaNacimiento: [convertirFechaYYYYMMDD(this.usuario.fechaNacimiento), Validators.required],
-      altura: [this.usuario.altura, [Validators.required, Validators.min(50), Validators.max(300)]]
+      nombre: [
+        this.usuario.nombre,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      apellido: [
+        this.usuario.apellido,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      fechaNacimiento: [
+        convertirFechaYYYYMMDD(this.usuario.fechaNacimiento),
+        Validators.required,
+      ],
+      altura: [
+        this.usuario.altura,
+        [Validators.required, Validators.min(50), Validators.max(300)],
+      ],
     });
   }
 
@@ -47,7 +58,7 @@ export class ModalEditarPerfilComponent implements OnInit {
     this.cargando = true;
     const usuarioActualizado: UsuarioEditado = {
       ...this.usuario,
-      ...this.form.value
+      ...this.form.value,
     };
 
     this.perfilService.editarPerfil(usuarioActualizado).subscribe({
@@ -58,7 +69,7 @@ export class ModalEditarPerfilComponent implements OnInit {
       error: () => {
         this.toastr.error('Error al actualizar perfil');
         this.cargando = false;
-      }
+      },
     });
   }
 }

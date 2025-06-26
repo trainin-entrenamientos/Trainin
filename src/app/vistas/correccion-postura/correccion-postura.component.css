@@ -20,7 +20,7 @@ body {
   box-sizing: border-box;
 }
 
-.repeticiones-pc{
+.repeticiones-pc {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -49,7 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 2.5rem; 
+  margin-right: 2.5rem;
 }
 
 .right {
@@ -57,7 +57,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #0B1A1E;
+  background-color: #0b1a1e;
   border-radius: 20px;
   padding: 10px;
   overflow: hidden;
@@ -76,7 +76,7 @@ body {
 
 .right-bottom {
   width: 100%;
-  background-color: #0B1A1E;
+  background-color: #0b1a1e;
   border-top: #13ff3a 0.1px solid;
   text-align: center;
   display: flex;
@@ -189,7 +189,7 @@ p {
 
 .gif-ejercicio {
   height: 40vh;
-  background-color: #0B1A1E;
+  background-color: #0b1a1e;
   border-radius: 20px;
 }
 
@@ -198,14 +198,14 @@ p {
   display: none;
 }
 
-.botones-acciones{
+.botones-acciones {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
   gap: 1rem;
 }
-.btn-trainin{
+.btn-trainin {
   font-size: 0.9rem;
 }
 
@@ -217,12 +217,12 @@ p {
     max-width: 85%;
     max-height: 140vh;
   }
-.gif-ejercicio {
-   min-height: 40vh;
-  height: 40vh;
-  width: 85%;
-  align-self:center;
-}
+  .gif-ejercicio {
+    min-height: 40vh;
+    height: 40vh;
+    width: 85%;
+    align-self: center;
+  }
   .info-ejercicio {
     display: none;
   }
@@ -237,18 +237,18 @@ p {
     text-align: center;
   }
 
- .repeticiones-mobile {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #00060c;
-  padding: 10px;
-  border-radius: 20px;
-  z-index: 20;
-}
+  .repeticiones-mobile {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00060c;
+    padding: 10px;
+    border-radius: 20px;
+    z-index: 20;
+  }
 
   .repeticiones-pc {
     display: none;
@@ -276,15 +276,15 @@ p {
     margin: 0;
   }
   .right {
-   min-height: 70vh;
-   height: 70vh;
+    min-height: 70vh;
+    height: 70vh;
   }
-  .right-top{
-   height: 70vh;
+  .right-top {
+    height: 70vh;
   }
   .right-bottom {
     height: 7vh;
-  } 
+  }
 
   .camara {
     height: 60vh;
@@ -304,71 +304,71 @@ p {
     padding: 5px;
   }
 
-  .botones-acciones button{
-  font-size: 0.7rem;
-  padding: 5px 10px;
+  .botones-acciones button {
+    font-size: 0.7rem;
+    padding: 5px 10px;
   }
 }
-  .left p {
-    margin: 0;
-  }
+.left p {
+  margin: 0;
+}
 
-  .right {
-    padding: 10px;
-    margin: 0;
-    border-radius: 20px;
-  }
+.right {
+  padding: 10px;
+  margin: 0;
+  border-radius: 20px;
+}
 
-  hr {
-    display: none;
-  }
+hr {
+  display: none;
+}
 
-  .camara {
-    height: 47vh;
-  }
+.camara {
+  height: 47vh;
+}
 
-  .right-bottom {
-    height: 6vh;
-    border-radius: 0;
-  }
+.right-bottom {
+  height: 6vh;
+  border-radius: 0;
+}
 
-  .texto-postura {
-    margin-top: 10px;
-  }
+.texto-postura {
+  margin-top: 10px;
+}
 
-  .boton-finalizar {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
+.boton-finalizar {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 
-  .circulo,
-  .circulo-completo {
-    width: 15px;
-    height: 15px;
-  }
+.circulo,
+.circulo-completo {
+  width: 15px;
+  height: 15px;
+}
 
-  .gif-ejercicio {
-    height: 30vh;
-  }
+.gif-ejercicio {
+  height: 30vh;
+}
 
-  .left {
-    padding: 10px;
-  }
+.left {
+  padding: 10px;
+}
 
-  .info-ejercicio-mobile h2 {
-    margin: 10px;
-    font-size: 20px;
-  }
+.info-ejercicio-mobile h2 {
+  margin: 10px;
+  font-size: 20px;
+}
 
-  .correccion-postura-container {
-    max-height: none;
-    height: auto;
-    overflow: visible;
-  }
+.correccion-postura-container {
+  max-height: none;
+  height: auto;
+  overflow: visible;
+}
 
-  .left {
-    margin-top: 1rem;
-  }
+.left {
+  margin-top: 1rem;
+}
 
 .right.repeticion-correcta {
   box-shadow: 0 0 20px 5px #13ff3a;
@@ -389,11 +389,11 @@ p {
 }
 
 .right.active.bien {
-  box-shadow: 0 0 8px 2px rgba( 76, 175,  80, 0.7);
+  box-shadow: 0 0 8px 2px rgba(76, 175, 80, 0.7);
 }
 
 .right.active.mal {
-  box-shadow: 0 0 8px 2px rgba(244,  67,  54, 0.7);
+  box-shadow: 0 0 8px 2px rgba(244, 67, 54, 0.7);
 }
 
 .circulo.activo.correcto {
@@ -435,7 +435,6 @@ p {
   word-break: break-word;
   overflow-wrap: anywhere;
 }
-
 
 .play-overlay {
   position: absolute;
@@ -514,27 +513,33 @@ p {
   transition: opacity 0.3s ease;
 }
 
-.color-green  { color: #13ff3a;  }
-.color-orange { color: orange; }
-.color-red    { color: red;    }
+.color-green {
+  color: #13ff3a;
+}
+.color-orange {
+  color: orange;
+}
+.color-red {
+  color: red;
+}
 
 .boton-volver {
-    padding: 8px;
-    color: #13ff3a;
-    background: transparent;
-    border: 2px solid #13ff3a;
-    border-radius: 10px;
-    cursor: pointer;
-    align-self: center;
-  }
+  padding: 8px;
+  color: #13ff3a;
+  background: transparent;
+  border: 2px solid #13ff3a;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: center;
+}
 
-  .contenedor-volver {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;  
-  }
+.contenedor-volver {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
 
-  .gif-ejercicio iframe {
+.gif-ejercicio iframe {
   width: 100%;
   height: 100%;
   display: block;

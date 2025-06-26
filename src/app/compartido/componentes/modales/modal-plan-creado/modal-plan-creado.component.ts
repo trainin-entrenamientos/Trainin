@@ -4,7 +4,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
   selector: 'app-modal-plan-creado',
   templateUrl: './modal-plan-creado.component.html',
   styleUrls: ['./modal-plan-creado.component.css'],
-  standalone:false,
+  standalone: false,
 })
 export class ModalPlanCreadoComponent {
   @Output() accionSeleccionada = new EventEmitter<'detalle' | 'iniciar'>();

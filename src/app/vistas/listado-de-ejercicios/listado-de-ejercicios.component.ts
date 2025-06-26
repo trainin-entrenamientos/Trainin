@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   selector: 'app-ejercicios-list',
   standalone: false,
   templateUrl: './listado-de-ejercicios.component.html',
-  styleUrl: './listado-de-ejercicios.component.css'
+  styleUrl: './listado-de-ejercicios.component.css',
 })
 export class ListadoDeEjerciciosComponent implements OnInit {
   ejercicios: any[] = [];
@@ -16,10 +16,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   cargando: boolean = true;
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(
-    private svc: EjercicioService,
-    private router: Router
-  ) { }
+  constructor(private svc: EjercicioService, private router: Router) {}
 
   ngOnInit() {
     this.listarEjercicios();
@@ -28,33 +25,36 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   listarEjercicios(): void {
     this.cargando = true;
 
-    this.svc.obtenerTodosLosEjercicios()
-      .subscribe({
-        next: res => {
-          this.ejercicios = res;
-          this.cargando = false;
-        },
-        error: err => {
-          console.error(err);
-          this.cargando = false;
-        }
-      });
+    this.svc.obtenerTodosLosEjercicios().subscribe({
+      next: (res) => {
+        this.ejercicios = res;
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.cargando = false;
+      },
+    });
   }
 
-  crear(): void { this.router.navigate(['/crear']); }
+  crear(): void {
+    this.router.navigate(['/crear']);
+  }
 
-  editar(e: any): void { this.router.navigate(['/editar', e.id]); }
+  editar(e: any): void {
+    this.router.navigate(['/editar', e.id]);
+  }
 
   eliminar(e: any): void {
     this.svc.eliminarEjercicio(e.id).subscribe({
       next: (msg: any) => {
-        this.ejercicios = this.ejercicios.filter(x => x.id !== e.id);
+        this.ejercicios = this.ejercicios.filter((x) => x.id !== e.id);
         this.cancelarEliminarEjercicio();
       },
-      error: err => {
+      error: (err) => {
         console.error('Error al eliminar:', err);
         this.cancelarEliminarEjercicio();
-      }
+      },
     });
   }
 
@@ -80,5 +80,4 @@ export class ListadoDeEjerciciosComponent implements OnInit {
       return this.sortDirection === 'asc' ? diff : -diff;
     });
   }
-
 }

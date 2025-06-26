@@ -1,43 +1,81 @@
 <div class="modal-header">
   <h5 class="modal-title">Cambiar contraseña</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="cancelar()"></button>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="cancelar()"
+  ></button>
 </div>
 
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="mb-3">
-      <label for="contraseniaActual" class="form-label">Contraseña actual</label>
-      <input id="contraseniaActual" type="password"
-             class="form-control"
-             formControlName="contraseniaActual" />
-      <div *ngIf="form.get('contraseniaActual')?.touched && form.get('contraseniaActual')?.hasError('required')"
-           class="text-danger small mt-1">
+      <label for="contraseniaActual" class="form-label"
+        >Contraseña actual</label
+      >
+      <input
+        id="contraseniaActual"
+        type="password"
+        class="form-control"
+        formControlName="contraseniaActual"
+      />
+      <div
+        *ngIf="
+          form.get('contraseniaActual')?.touched &&
+          form.get('contraseniaActual')?.hasError('required')
+        "
+        class="text-danger small mt-1"
+      >
         Debes ingresar tu contraseña actual.
       </div>
     </div>
 
     <div class="mb-3">
       <label for="nuevaContrasenia" class="form-label">Nueva contraseña</label>
-      <input id="nuevaContrasenia" type="password"
-             class="form-control"
-             formControlName="nuevaContrasenia" />
-      <div *ngIf="form.get('nuevaContrasenia')?.touched && form.get('nuevaContrasenia')?.hasError('required')"
-           class="text-danger small mt-1">
+      <input
+        id="nuevaContrasenia"
+        type="password"
+        class="form-control"
+        formControlName="nuevaContrasenia"
+      />
+      <div
+        *ngIf="
+          form.get('nuevaContrasenia')?.touched &&
+          form.get('nuevaContrasenia')?.hasError('required')
+        "
+        class="text-danger small mt-1"
+      >
         Debes ingresar la nueva contraseña.
       </div>
-      <div *ngIf="form.get('nuevaContrasenia')?.touched && form.get('nuevaContrasenia')?.hasError('minlength')"
-           class="text-danger small mt-1">
+      <div
+        *ngIf="
+          form.get('nuevaContrasenia')?.touched &&
+          form.get('nuevaContrasenia')?.hasError('minlength')
+        "
+        class="text-danger small mt-1"
+      >
         Debe tener al menos 6 caracteres.
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="confirmarNuevaContrasenia" class="form-label">Repetir nueva contraseña</label>
-      <input id="confirmarNuevaContrasenia" type="password"
-             class="form-control"
-             formControlName="confirmarNuevaContrasenia" />
-      <div *ngIf="form.hasError('noCoincide') && form.get('confirmarNuevaContrasenia')?.touched"
-           class="text-danger small mt-1">
+      <label for="confirmarNuevaContrasenia" class="form-label"
+        >Repetir nueva contraseña</label
+      >
+      <input
+        id="confirmarNuevaContrasenia"
+        type="password"
+        class="form-control"
+        formControlName="confirmarNuevaContrasenia"
+      />
+      <div
+        *ngIf="
+          form.hasError('noCoincide') &&
+          form.get('confirmarNuevaContrasenia')?.touched
+        "
+        class="text-danger small mt-1"
+      >
         Las contraseñas no coinciden.
       </div>
     </div>
@@ -48,17 +86,17 @@
   <app-boton-trainin
     [tipo]="'button'"
     [disabled]="cargando"
-    (clickBoton)="cancelar()">
+    (clickBoton)="cancelar()"
+  >
     Cerrar
   </app-boton-trainin>
 
   <app-boton-trainin
     [tipo]="'button'"
     [disabled]="form.invalid || cargando"
-    (clickBoton)="guardar()">
-    <ng-container *ngIf="!cargando; else guardando">
-      Confirmar
-    </ng-container>
+    (clickBoton)="guardar()"
+  >
+    <ng-container *ngIf="!cargando; else guardando"> Confirmar </ng-container>
   </app-boton-trainin>
 
   <ng-template #guardando>Guardando…</ng-template>

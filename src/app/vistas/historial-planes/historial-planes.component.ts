@@ -8,44 +8,41 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
   selector: 'app-historial-planes',
   standalone: false,
   templateUrl: './historial-planes.component.html',
-  styleUrl: './historial-planes.component.css'
+  styleUrl: './historial-planes.component.css',
 })
 export class HistorialPlanesComponent {
-
-  cargando: boolean=true;
+  cargando: boolean = true;
   email: string | null = null;
 
   planesHistorial: HistorialPlanDTO[] = [];
 
-   constructor(private router: Router,
-    private authService: AuthService, 
+  constructor(
+    private router: Router,
+    private authService: AuthService,
     private planService: PlanEntrenamientoService
   ) {}
 
-   ngOnInit(){
-     this.email = this.authService.getEmail();
-     this.obtenerHistorialPlanes();
+  ngOnInit() {
+    this.email = this.authService.getEmail();
+    this.obtenerHistorialPlanes();
   }
 
- 
-  obtenerHistorialPlanes(){
+  obtenerHistorialPlanes() {
     if (!this.email) {
       return;
     }
     this.planService.obtenerHistorialPlanes(this.email).subscribe({
       next: (data) => {
-        this.planesHistorial=data.objeto;
-        this.cargando=false;
+        this.planesHistorial = data.objeto;
+        this.cargando = false;
       },
       error: (err) => {
         console.error('Error cargando historial', err);
-      }
+      },
     });
-
   }
 
- irAlDetalle(idPlan: number){
+  irAlDetalle(idPlan: number) {
     this.router.navigate(['/detalle-plan', idPlan]);
   }
 }
-

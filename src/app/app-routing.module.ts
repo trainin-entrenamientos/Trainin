@@ -40,80 +40,80 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'inicio',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
 
       {
         path: 'inicio',
-        component: InicioComponent
+        component: InicioComponent,
       },
       {
         path: 'iniciar-sesion',
-        component: IniciarSesionComponent
+        component: IniciarSesionComponent,
       },
       {
         path: 'registro',
-        component: RegistroComponent
+        component: RegistroComponent,
       },
       {
         path: 'terminos-condiciones',
-        component: TerminosCondicionesComponent
+        component: TerminosCondicionesComponent,
       },
       {
         path: 'politicas-privacidad',
-        component: PoliticasPrivacidadComponent
+        component: PoliticasPrivacidadComponent,
       },
       {
         path: 'preguntas-frecuentes',
-        component: PreguntasFrecuentesComponent
+        component: PreguntasFrecuentesComponent,
       },
       {
         path: 'nosotros',
-        component: NosotrosComponent
+        component: NosotrosComponent,
       },
       {
         path: 'premium',
-        component: PlanPremiumComponent
+        component: PlanPremiumComponent,
       },
       {
         path: 'planes',
         component: PlanesComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'formulario-crear-plan',
         component: CrearPlanEntrenamientoComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'inicio-rutina/:PlanId',
         component: InicioRutinaComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'finalizacion-rutina',
         component: FinalizacionRutinaComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'calibracion-camara/:ejercicio',
         component: CalibracionCamaraComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'detalle-plan/:PlanId',
         component: DetallePlanComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'realizar-ejercicio',
         component: RealizarEjercicioComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'verificar-email/:token',
@@ -122,22 +122,22 @@ const routes: Routes = [
       {
         path: 'correccion-postura/:ejercicio',
         component: CorreccionPosturaComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'logros',
         component: LogrosComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'perfil',
         component: PerfilComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'error',
@@ -146,19 +146,19 @@ const routes: Routes = [
       {
         path: 'listarEjercicios',
         component: ListadoDeEjerciciosComponent,
-        canActivate: [adminGuard]
+        canActivate: [adminGuard],
       },
       {
         path: 'crear',
-        component: FormAdminComponent
+        component: FormAdminComponent,
       },
       {
         path: 'editar/:id',
-        component: FormAdminComponent
+        component: FormAdminComponent,
       },
-        {
+      {
         path: 'eliminar/:id',
-        component: FormAdminComponent
+        component: FormAdminComponent,
       },
       {
         path: 'ejercicio-diario',
@@ -166,20 +166,20 @@ const routes: Routes = [
       },
       {
         path: 'historial-planes',
-        component: HistorialPlanesComponent
-      }
-    ]
+        component: HistorialPlanesComponent,
+      },
+    ],
   },
   {
     path: '**',
     redirectTo: '/error',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
