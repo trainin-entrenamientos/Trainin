@@ -28,7 +28,6 @@ export class PlanesComponent {
   pantallaChica: boolean = window.innerWidth <= 1080;
   imagenPlan: string = '';
 
-
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
@@ -56,20 +55,18 @@ export class PlanesComponent {
       },
       error: (err: any) => {
         this.planEntrenamiento = [];
-         this.cargando = false;
+        this.cargando = false;
         console.error('No existen planes de entrenamiento', err);
-      }
+      },
     });
   }
 
   tipoPlanAImagen: { [key: string]: string } = {
-  'Cuerpo completo': '/imagenes/cuerpo-completo.png',
-  'Cardio': '/imagenes/cardio.png',
-  'Tren superior': '/imagenes/tren-superior.png',
-  'Tren inferior': '/imagenes/tren-inferior.png',
-};
-
-
+    'Cuerpo completo': '/imagenes/cuerpo-completo.png',
+    Cardio: '/imagenes/cardio.png',
+    'Tren superior': '/imagenes/tren-superior.png',
+    'Tren inferior': '/imagenes/tren-inferior.png',
+  };
 
   obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
@@ -80,16 +77,16 @@ export class PlanesComponent {
       },
       error: (err: any) => {
         console.error('Error al obtener el usuario:', err);
-      }
+      },
     });
   }
 
- calcularPorcentajeProgreso(plan: any): string {
-  if (!plan) return '0%';
-  const progreso = plan.cantidadRutinasHechas ?? 0;
-  const total = plan.cantidadRutinas ?? 1;
-  return `${((progreso / total) * 100).toFixed(2)}%`;
-}
+  calcularPorcentajeProgreso(plan: any): string {
+    if (!plan) return '0%';
+    const progreso = plan.cantidadRutinasHechas ?? 0;
+    const total = plan.cantidadRutinas ?? 1;
+    return `${((progreso / total) * 100).toFixed(2)}%`;
+  }
 
   irAlPlan(idPlan: number, estado: string): void {
     if (estado === 'Realizada hoy') {
@@ -99,44 +96,43 @@ export class PlanesComponent {
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 
-
   confirmarEliminacion(id: number): void {
-  this.planAEliminarId = id;
-  this.mostrarModal = true;
-}
+    this.planAEliminarId = id;
+    this.mostrarModal = true;
+  }
 
-cancelarEliminacion(): void {
-  this.planAEliminarId = null;
-  this.mostrarModal = false;
-}
-
-eliminarPlanConfirmado(): void {
-  if (this.planAEliminarId !== null) {
-    this.desactivarPlan(this.planAEliminarId);
+  cancelarEliminacion(): void {
     this.planAEliminarId = null;
+    this.mostrarModal = false;
   }
-  this.mostrarModal = false;
-}
 
-desactivarPlan(idPlan: number): void {
-    this.planEntrenamientoService.desactivarPlanPorId(idPlan, this.idUsuario).subscribe({
-      next: (response) => {
-        this.obtenerPlanEntrenamiento(this.idUsuario);
-      },
-      error: (err) => {
-        console.error('Error al desactivar el plan:', err);
-      }
-    });
-  };
-
-  irAlDetalleDelPlan(idPlan: number):void{
-       this.router.navigate(['/detalle-plan', idPlan]);
+  eliminarPlanConfirmado(): void {
+    if (this.planAEliminarId !== null) {
+      this.desactivarPlan(this.planAEliminarId);
+      this.planAEliminarId = null;
+    }
+    this.mostrarModal = false;
   }
- 
 
-@HostListener('window:resize', ['$event'])
-onResize(event: any) {
-  this.pantallaChica = event.target.innerWidth <= 1080;
-}
+  desactivarPlan(idPlan: number): void {
+    this.planEntrenamientoService
+      .desactivarPlanPorId(idPlan, this.idUsuario)
+      .subscribe({
+        next: (response) => {
+          this.obtenerPlanEntrenamiento(this.idUsuario);
+        },
+        error: (err) => {
+          console.error('Error al desactivar el plan:', err);
+        },
+      });
+  }
 
+  irAlDetalleDelPlan(idPlan: number): void {
+    this.router.navigate(['/detalle-plan', idPlan]);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.pantallaChica = event.target.innerWidth <= 1080;
+  }
 }

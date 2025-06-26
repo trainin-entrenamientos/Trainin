@@ -11,17 +11,20 @@ describe('authGuard', () => {
   let toastr: jasmine.SpyObj<ToastrService>;
 
   beforeEach(() => {
-    authService = jasmine.createSpyObj('AuthService', ['estaAutenticado', 'cerrarSesion']);
-    router      = jasmine.createSpyObj('Router', ['navigate']);
-    toastr      = jasmine.createSpyObj('ToastrService', ['error']);
+    authService = jasmine.createSpyObj('AuthService', [
+      'estaAutenticado',
+      'cerrarSesion',
+    ]);
+    router = jasmine.createSpyObj('Router', ['navigate']);
+    toastr = jasmine.createSpyObj('ToastrService', ['error']);
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: AuthService,   useValue: authService },
-        { provide: Router,        useValue: router },
+        { provide: AuthService, useValue: authService },
+        { provide: Router, useValue: router },
         { provide: ToastrService, useValue: toastr },
-        { provide: TOAST_CONFIG,  useValue: {} }
-      ]
+        { provide: TOAST_CONFIG, useValue: {} },
+      ],
     });
   });
 
@@ -30,9 +33,7 @@ describe('authGuard', () => {
     const route = {} as ActivatedRouteSnapshot;
     const state = { url: '/protegido' } as RouterStateSnapshot;
 
-    const result = TestBed.runInInjectionContext(() =>
-      authGuard(route, state)
-    );
+    const result = TestBed.runInInjectionContext(() => authGuard(route, state));
 
     expect(result).toBeTrue();
     expect(router.navigate).not.toHaveBeenCalled();
@@ -43,9 +44,7 @@ describe('authGuard', () => {
     const route = {} as ActivatedRouteSnapshot;
     const state = { url: '/private' } as RouterStateSnapshot;
 
-    const result = TestBed.runInInjectionContext(() =>
-      authGuard(route, state)
-    );
+    const result = TestBed.runInInjectionContext(() => authGuard(route, state));
 
     expect(result).toBeFalse();
     expect(authService.cerrarSesion).toHaveBeenCalled();
@@ -56,12 +55,11 @@ describe('authGuard', () => {
         timeOut: 5000,
         extendedTimeOut: 0,
         closeButton: true,
-        tapToDismiss: false
+        tapToDismiss: false,
       }
     );
-    expect(router.navigate).toHaveBeenCalledWith(
-      ['/iniciar-sesion'],
-      { queryParams: { returnUrl: state.url } }
-    );
+    expect(router.navigate).toHaveBeenCalledWith(['/iniciar-sesion'], {
+      queryParams: { returnUrl: state.url },
+    });
   });
 });

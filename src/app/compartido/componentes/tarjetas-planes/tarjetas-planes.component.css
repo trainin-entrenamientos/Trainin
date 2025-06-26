@@ -13,7 +13,7 @@
 
 .cards-informativas.variosPlanes .card{
  width: 18rem;
- height: 13rem;
+ height: 16rem;
 }
 
 .cards-informativas.variosPlanes .face.back .estadisticas-back {
@@ -62,7 +62,7 @@
 /**************************************************/
 
 .cards-informativas.horizontal.hastaUnPlan .card{
-height: 13rem;
+height: 16rem;
 }
 
 .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back {
@@ -259,7 +259,7 @@ height: 13rem;
 
 .face.front {
   align-items: center;
-  background-color: #0B1A1E;
+  background-color: #031C18;
   border-radius: 15px;    
   color: white;
   display: flex;

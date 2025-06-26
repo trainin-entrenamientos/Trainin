@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
- selector: 'app-modal-confirmacion-borrar-plan',
+  selector: 'app-modal-confirmacion-borrar-plan',
   standalone: false,
   templateUrl: './modal-confirmacion-borrar-plan.component.html',
-  styleUrl: './modal-confirmacion-borrar-plan.component.css'
+  styleUrl: './modal-confirmacion-borrar-plan.component.css',
 })
 export class ModalConfirmacionBorrarPlanComponent {
   @Input() mensaje: string = '¿Estás segur@ que querés desactivar este plan?';

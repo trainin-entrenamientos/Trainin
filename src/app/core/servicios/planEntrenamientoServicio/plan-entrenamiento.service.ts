@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ActualizarNivelExigenciaDTO } from '../../modelos/ActualizarNivelExigenciaDTO';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlanEntrenamientoService {
-
   private baseUrl = environment.URL_BASE;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getPlanesDeEntrenamiento(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/plan/obtener/${id}`);
@@ -20,7 +19,7 @@ export class PlanEntrenamientoService {
   obtenerOpcionesEntrenamiento(): Observable<any> {
     return this.http.get(`${this.baseUrl}/categoriaEjercicio/obtener`);
   }
- //ESTO SE USA? 
+  //ESTO SE USA?
   obtenerObjetivos(): Observable<any> {
     return this.http.get(`${this.baseUrl}/categoriaEjercicio/obtenerObjetivos`);
   }
@@ -34,19 +33,28 @@ export class PlanEntrenamientoService {
   }
 
   desactivarPlanPorId(idPlan: number, idUsuario: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/plan/desactivar/${idPlan}`, { IdUsuario: idUsuario });
+    return this.http.patch(`${this.baseUrl}/plan/desactivar/${idPlan}`, {
+      IdUsuario: idUsuario,
+    });
   }
 
-  actualizarNivelExigencia(idPlan: number, formulario: ActualizarNivelExigenciaDTO): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/plan/actualizarNivelExigencia/${idPlan}`, formulario);
+  actualizarNivelExigencia(
+    idPlan: number,
+    formulario: ActualizarNivelExigenciaDTO
+  ): Observable<any> {
+    return this.http.patch(
+      `${this.baseUrl}/plan/actualizarNivelExigencia/${idPlan}`,
+      formulario
+    );
   }
 
-  obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any>{
-    return this.http.get(`${this.baseUrl}/plan/detalle/${idPlan}?IdUsuario=${idUsuario}`);
+  obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/plan/detalle/${idPlan}?IdUsuario=${idUsuario}`
+    );
   }
 
-  obtenerHistorialPlanes(email: string): Observable<any>{
+  obtenerHistorialPlanes(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/plan/historial/${email}`);
   }
- 
 }

@@ -3,7 +3,7 @@
     class="toast"
     *ngFor="let logro of logrosVisibles"
     [class.show]="logro.visible"
-    [ngClass]="logro.nivel" 
+    [ngClass]="logro.nivel"
   >
     <img [src]="logro.imagen" alt="Logro" />
     <span>{{ logro.nombre }}</span>

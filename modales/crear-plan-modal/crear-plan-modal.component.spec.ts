@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CrearPlanModalComponent } from './crear-plan-modal.component';
-import { By } from '@angular/platform-browser';
 
 describe('CrearPlanModalComponent', () => {
   let component: CrearPlanModalComponent;

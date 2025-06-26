@@ -41,7 +41,7 @@ export class FinalizacionRutinaComponent {
     private temporizadorService: TemporizadorService,
     private correccionData: CorreccionDataService,
     private logroService: LogroService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.rutina = this.rutinaService.cargarDesdeSession();
@@ -56,8 +56,10 @@ export class FinalizacionRutinaComponent {
       console.error('No existe la rutina.');
     }
     this.temporizadorService.pausar();
-    const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
-    this.tiempoTotal = this.temporizadorService.formatearTiempo(segundosTotales);
+    const segundosTotales =
+      this.temporizadorService.obtenerSegundosTranscurridos();
+    this.tiempoTotal =
+      this.temporizadorService.formatearTiempo(segundosTotales);
 
     this.datosCorreccion = this.correccionData.obtenerTodos();
   }
@@ -68,20 +70,19 @@ export class FinalizacionRutinaComponent {
   }
 
   anteriorEjercicio() {
-  if (this.ejercicios.length === 0) return;
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) %
-    this.ejercicios.length;
-  this.indiceGrupoVisible = 0;
-}
+    if (this.ejercicios.length === 0) return;
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex - 1 + this.ejercicios.length) %
+      this.ejercicios.length;
+    this.indiceGrupoVisible = 0;
+  }
 
-siguienteEjercicio() {
-  if (this.ejercicios.length === 0) return;
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
-  this.indiceGrupoVisible = 0;
-}
-
+  siguienteEjercicio() {
+    if (this.ejercicios.length === 0) return;
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+    this.indiceGrupoVisible = 0;
+  }
 
   opcionSeleccionadaSidebar(index: number) {
     if (this.selectedSidebarIndex === index) {
@@ -108,9 +109,11 @@ siguienteEjercicio() {
   }
 
   moverCarruselMuscular(direccion: number): void {
-    const grupoActual = this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
+    const grupoActual =
+      this.ejercicios[this.selectedEjercicioIndex].grupoMuscular;
     const totalGrupos = grupoActual.length;
-    this.indiceGrupoVisible = (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
+    this.indiceGrupoVisible =
+      (this.indiceGrupoVisible + direccion + totalGrupos) % totalGrupos;
   }
 
   abrirModalFeedback() {
@@ -124,12 +127,11 @@ siguienteEjercicio() {
 
     this.modalInstance = new bootstrap.Modal(modalElement, {
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
 
     this.modalInstance.show();
   }
-
 
   enviarFeedback() {
     if (!this.opcionSeleccionada) {
@@ -150,41 +152,48 @@ siguienteEjercicio() {
 
     const dto: ActualizarNivelExigenciaDTO = {
       nivelExigencia: this.nivel,
-      email: this.email!
+      email: this.email!,
     };
-     const segundosTotales = this.temporizadorService.obtenerSegundosTranscurridos();
-     
-    this.planService.actualizarNivelExigencia(this.rutina.idPlan, dto).subscribe({
-      next: (mensaje) => {
-        const modalElement = document.getElementById('feedbackModal');
-        if (modalElement) {
-          const instancia = bootstrap.Modal.getInstance(modalElement);
-          if (instancia) {
-            instancia.hide();
-          }
-        }
-        this.temporizadorService.reiniciarTiempo();
-        this.reiniciarRutina();
-        this.router.navigate(['/planes']);
-      },
-      error: (err) => {
-        console.error('Error al actualizar nivel de exigencia:', err);
-        alert('Ocurrió un error al guardar tu feedback. Intentá de nuevo.');
-      }
-    })
-    if (this.rutina && this.email) {
-      this.rutinaService.fueRealizada(this.rutina.id, this.email, segundosTotales).subscribe({
-        next: (respuesta) => {
-            if (respuesta.logro) {
-              this.logroService.mostrarLogro(respuesta.logro);
+    const segundosTotales =
+      this.temporizadorService.obtenerSegundosTranscurridos();
+
+    this.planService
+      .actualizarNivelExigencia(this.rutina.idPlan, dto)
+      .subscribe({
+        next: (mensaje) => {
+          const modalElement = document.getElementById('feedbackModal');
+          if (modalElement) {
+            const instancia = bootstrap.Modal.getInstance(modalElement);
+            if (instancia) {
+              instancia.hide();
             }
-         },
+          }
+          if (this.rutina && this.email) {
+            this.rutinaService
+              .fueRealizada(this.rutina.id, this.email, segundosTotales)
+              .subscribe({
+                next: (respuesta) => {
+                  if (respuesta.logro) {
+                    this.logroService.mostrarLogro(respuesta.logro);
+                  }
+                },
+                error: (err) => {
+                  console.error(
+                    'Error al marcar la rutina como realizada en ngOnInit:',
+                    err
+                  );
+                },
+              });
+          }
+          this.temporizadorService.reiniciarTiempo();
+          this.reiniciarRutina();
+          this.router.navigate(['/planes']);
+        },
         error: (err) => {
-          console.error('Error al marcar la rutina como realizada en ngOnInit:', err);
-        }
+          console.error('Error al actualizar nivel de exigencia:', err);
+          alert('Ocurrió un error al guardar tu feedback. Intentá de nuevo.');
+        },
       });
-    }
-    ;
   }
 
   reiniciarRutina(): void {
@@ -195,13 +204,9 @@ siguienteEjercicio() {
   }
 
   getDatoEjercicio(nombreEjercicio: string): DatosEjercicio | undefined {
-    const ejercicioEnum = this.rutinaService.buscarNombreEjercicio(nombreEjercicio);
+    const ejercicioEnum =
+      this.rutinaService.buscarNombreEjercicio(nombreEjercicio);
 
-    return this.datosCorreccion.find(d =>
-      d.nombre === ejercicioEnum
-    );
+    return this.datosCorreccion.find((d) => d.nombre === ejercicioEnum);
   }
-
-
-
 }

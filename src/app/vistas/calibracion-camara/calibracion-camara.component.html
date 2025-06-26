@@ -9,10 +9,21 @@
         <p>Todo tu cuerpo debe verse en la pantalla</p>
         <p><strong>Realiza las repeticiones de manera controlada</strong></p>
 
-      <div class="botones-acciones">
-       <app-boton-trainin type="button" class="btn-trainin" (click)="volverARutina()">Volver a la Rutina</app-boton-trainin>
-       <app-boton-trainin type="button" class="btn-trainin" [routerLink]="['/correccion-postura',this.clave]" routerLinkActive="router-link-active">Practicar Ejercicio</app-boton-trainin>
-       </div>
+        <div class="botones-acciones">
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            (click)="volverARutina()"
+            >Volver a la Rutina</app-boton-trainin
+          >
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            [routerLink]="['/correccion-postura', this.clave]"
+            routerLinkActive="router-link-active"
+            >Practicar Ejercicio</app-boton-trainin
+          >
+        </div>
       </div>
 
       <div class="right">
@@ -20,15 +31,13 @@
           <video #webcam autoplay playsinline></video>
           <canvas #outputCanvas></canvas>
           @if(cargandoCamara){
-            <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
+          <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
           }
-
         </div>
         <div class="right-bottom">
           <p class="texto-postura">Aquí verás las correcciones de postura</p>
         </div>
       </div>
     </div>
-
   </main>
 </body>

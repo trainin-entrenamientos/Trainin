@@ -1,22 +1,29 @@
 <body>
   <main>
     <div class="correccion-postura-container">
-
       <div class="left">
-
         <div class="info-ejercicio">
           <h2>Práctica: {{ nombreEjercicio }}</h2>
           <hr />
         </div>
 
         <div class="gif-ejercicio">
-          <iframe #exerciseVideo class="trainin-video" [src]="videoUrl" frameborder="0"
-            allow="autoplay; encrypted-media" allowfullscreen>
+          <iframe
+            #exerciseVideo
+            class="trainin-video"
+            [src]="videoUrl"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          >
           </iframe>
         </div>
 
         <div class="repeticiones-pc">
-          <p>Repeticiones Actuales: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
+          <p>
+            Repeticiones Actuales: {{ repeticionesActuales }} /
+            {{ repeticionesEvaluacion }}
+          </p>
           <div class="contenedor-circulos">
             <div class="circulo"></div>
             <div class="circulo"></div>
@@ -26,79 +33,96 @@
           </div>
         </div>
 
-         <div class="botones-acciones">
-          <app-boton-trainin type="button" class="btn-trainin" (click)="volver()">Volver a la Rutina</app-boton-trainin>
-          <app-boton-trainin type="button" class="btn-trainin" (click)="finalizarPractica()"
-              [disabled]="ultimoPorcentaje < 60 && reintentos < maxReintentos"
-              data-tooltip="Debés aprobar antes de continuar">Continuar Rutina</app-boton-trainin>
-         </div>
-
-        <div style="margin-top: 10px;">
-          @if(ultimoPorcentaje < 60 && reintentos> 0){
-            <p>Tu porcentaje fue <strong>{{ ultimoPorcentaje }}%</strong>. Necesitas al menos un <strong>60%</strong> para
-              continuar.</p>
-            <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
-            }
+        <div class="botones-acciones">
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            (click)="volver()"
+            >Volver a la Rutina</app-boton-trainin
+          >
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            (click)="finalizarPractica()"
+            [disabled]="ultimoPorcentaje < 60 && reintentos < maxReintentos"
+            data-tooltip="Debés aprobar antes de continuar"
+            >Continuar Rutina</app-boton-trainin
+          >
         </div>
 
+        <div style="margin-top: 10px">
+          @if(ultimoPorcentaje < 60 && reintentos> 0){
+          <p>
+            Tu porcentaje fue <strong>{{ ultimoPorcentaje }}%</strong>.
+            Necesitas al menos un <strong>60%</strong> para continuar.
+          </p>
+          <p>Intento {{ reintentos }} de {{ maxReintentos }}</p>
+          }
+        </div>
       </div>
 
       <div class="right" [class.active]="corrigiendo">
-
         <div class="right-top">
           <video #webcam autoplay playsinline></video>
           <canvas #outputCanvas></canvas>
 
           @if(cargandoCamara){
           <app-loader [message]="'Encendiendo la cámara…'"></app-loader>
-          }
-
-          @if(!cargandoCamara && mostrarBotonIniciar){
-          <button class="play-overlay" (click)="iniciar()" data-tooltip="Iniciar corrección">
+          } @if(!cargandoCamara && mostrarBotonIniciar){
+          <button
+            class="play-overlay"
+            (click)="iniciar()"
+            data-tooltip="Iniciar corrección"
+          >
             @if(contador > 0){
             <span class="countdown">{{ contador }}</span>
             } @else{
-            <i class="fa-solid fa-play" style="color: #fff;"></i>
+            <i class="fa-solid fa-play" style="color: #fff"></i>
             }
           </button>
-          }
+          } @if(mostrarBotonReintentar){
 
-          @if(mostrarBotonReintentar){
-            
-          <button class="play-overlay" (click)="reintentar()" data-tooltip="Reintentar práctica">
-            <i class="fa-solid fa-rotate-right" style="color: #fff;"></i>
+          <button
+            class="play-overlay"
+            (click)="reintentar()"
+            data-tooltip="Reintentar práctica"
+          >
+            <i class="fa-solid fa-rotate-right" style="color: #fff"></i>
           </button>
           }
 
           <div class="repeticiones-mobile">
-          <p>Repeticiones Actuales: {{ repeticionesActuales }} / {{ repeticionesEvaluacion }}</p>
-          <div class="contenedor-circulos">
-            <div class="circulo"></div>
-            <div class="circulo"></div>
-            <div class="circulo"></div>
-            <div class="circulo"></div>
-            <div class="circulo"></div>
+            <p>
+              Repeticiones Actuales: {{ repeticionesActuales }} /
+              {{ repeticionesEvaluacion }}
+            </p>
+            <div class="contenedor-circulos">
+              <div class="circulo"></div>
+              <div class="circulo"></div>
+              <div class="circulo"></div>
+              <div class="circulo"></div>
+              <div class="circulo"></div>
+            </div>
           </div>
         </div>
-        </div>
-
 
         <div class="right-bottom">
-          <div id="feedback" [innerHTML]="retroalimentacion" [style.color]="colorRetroalimentacion">
-          </div>
+          <div
+            id="feedback"
+            [innerHTML]="retroalimentacion"
+            [style.color]="colorRetroalimentacion"
+          ></div>
 
           @if(resumenHtml){
           <div class="resumen-evaluacion" [innerHTML]="resumenHtml"></div>
           }
         </div>
-
       </div>
 
       <div class="info-ejercicio-mobile">
         <h2>Práctica: {{ nombreEjercicio }}</h2>
         <hr />
       </div>
-
     </div>
   </main>
 </body>

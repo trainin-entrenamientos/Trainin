@@ -3,13 +3,13 @@ import { inject } from '@angular/core';
 import { AuthService } from '../../servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = (state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   if (!authService.estaAutenticado()) {
     router.navigate(['/iniciar-sesion'], {
-      queryParams: { returnUrl: state.url }
+      queryParams: { returnUrl: state.url },
     });
     return false;
   }
@@ -20,7 +20,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   }
 
   router.navigate(['/error'], {
-    queryParams: { motivo: 'rol' }
+    queryParams: { motivo: 'rol' },
   });
   return false;
 };
