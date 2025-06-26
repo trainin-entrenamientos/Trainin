@@ -544,7 +544,8 @@ volverAlResumen(): void {
         
         .subscribe(
           (response) => {
-            this.planIdCreado = response.objeto.planId
+            console.log(response)
+            this.planIdCreado = response.objeto.id
             if (response.logro) {
               this.logroService.mostrarLogro(response.logro);
             }
