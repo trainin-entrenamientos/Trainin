@@ -5,6 +5,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
+import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 
 @Component({
   selector: 'app-planes',
@@ -31,21 +32,29 @@ export class PlanesComponent {
   pantallaChica: boolean = window.innerWidth <= 1080;
   imagenPlan: string = '';
 
+  EjercicioDiarioDisponible: boolean = false;
+  nombreEjercicioDiario: string = '';
+  ejercicioService: EjercicioService;
+
+
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
     authService: AuthService,
-    router: Router
+    router: Router,
+    ejercicioService: EjercicioService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
     this.authService = authService;
     this.router = router;
+    this.ejercicioService = ejercicioService;
   }
 
   ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
+    this.verificarDisponibilidadDeEjercicioDiario();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
@@ -116,6 +125,32 @@ export class PlanesComponent {
     }
     this.mostrarModal = false;
   }
+
+  verificarDisponibilidadDeEjercicioDiario(): void {
+
+    if (!this.email) {
+      this.EjercicioDiarioDisponible = false;
+      this.nombreEjercicioDiario = '';
+      return;
+    }
+
+    this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
+      next: (response: any) => {
+        if (response) {
+          this.EjercicioDiarioDisponible = true;
+          this.nombreEjercicioDiario = response.nombre;
+        } else {
+          this.EjercicioDiarioDisponible = false;
+          this.nombreEjercicioDiario = '';
+        }
+      },
+      error: (err: any) => {
+        console.warn('Error al verificar el ejercicio diario:', err);
+        this.EjercicioDiarioDisponible = false;
+      }
+    });
+  }
+
 
   desactivarPlan(idPlan: number): void {
     this.planEntrenamientoService

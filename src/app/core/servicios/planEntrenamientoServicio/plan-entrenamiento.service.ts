@@ -17,7 +17,7 @@ export class PlanEntrenamientoService {
   }
 
   obtenerOpcionesEntrenamiento(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/categoriaEjercicio/obtener`);
+    return this.http.get(`${this.baseUrl}/ejercicio/obtenerCategorias`);
   }
   //ESTO SE USA?
   obtenerObjetivos(): Observable<any> {
@@ -25,7 +25,7 @@ export class PlanEntrenamientoService {
   }
 
   obtenerEquipamiento(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/equipamiento/obtener`);
+    return this.http.get(`${this.baseUrl}/ejercicio/obtenerEquipamientos`);
   }
 
   crearPlanEntrenamiento(planEntrenamiento: any): Observable<any> {
@@ -38,14 +38,8 @@ export class PlanEntrenamientoService {
     });
   }
 
-  actualizarNivelExigencia(
-    idPlan: number,
-    formulario: ActualizarNivelExigenciaDTO
-  ): Observable<any> {
-    return this.http.patch(
-      `${this.baseUrl}/plan/actualizarNivelExigencia/${idPlan}`,
-      formulario
-    );
+  actualizarNivelExigencia(idPlan: number, formulario: ActualizarNivelExigenciaDTO): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/plan/actualizar/${idPlan}`, formulario);
   }
 
   obtenerDetallePlan(idPlan: number, idUsuario: number): Observable<any> {

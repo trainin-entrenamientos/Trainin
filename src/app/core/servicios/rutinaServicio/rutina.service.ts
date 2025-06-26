@@ -32,7 +32,7 @@ export class RutinaService {
     segundosTotales: number
   ): Observable<any> {
     return this.http.patch<any>(
-      `${this.baseUrl}/rutina/fueRealizada/${idRutina}`,
+      `${this.baseUrl}/rutina/realizada/${idRutina}`,
       { email, segundosTotales }
     );
   }
