@@ -37,24 +37,17 @@
         </div>
         }
 
-        <div class="preview-timer text-center mb-4">
-          <h3>{{ mensajeCuentaRegresiva }}</h3>
-          <div
-            id="countdown"
-            class="display-4 mb-3 contenedorTimer mb-2 text-center"
-            style="font-weight: bold"
-            [ngClass]="{ 'countdown-warning': esAdvertencia }"
-          >
-            {{ cuentaRegresiva }}
+        <div class="preview-timer mb-4">
+          <div class="preview-header d-flex align-items-center justify-content-center">
+            <h3 class="m-0">{{ mensajeCuentaRegresiva }}</h3>
+            <div id="countdown" class="display-4 mx-2" [ngClass]="{ 'countdown-warning': esAdvertencia }">
+              {{ cuentaRegresiva }}
+            </div>
           </div>
-          <br />
-          <div class="progress">
-            <div
-              id="progressBar"
-              class="progress-bar bg-success"
-              role="progressbar"
-              [style.width]="porcentajeDelProgreso + '%'"
-            ></div>
+
+          <div class="progress w-75 mx-auto mt-2">
+            <div id="progressBar" class="progress-bar bg-success" role="progressbar"
+              [style.width]="porcentajeDelProgreso + '%'"></div>
           </div>
         </div>
 

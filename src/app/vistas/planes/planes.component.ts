@@ -13,6 +13,9 @@ import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
   styleUrl: './planes.component.css',
 })
 export class PlanesComponent {
+    eliminar(arg0: number) {
+        throw new Error('Method not implemented.');
+    }
   idUsuario: number = 1;
   planEntrenamiento: any[] = [];
   usuario?: Usuario;
