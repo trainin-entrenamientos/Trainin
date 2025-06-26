@@ -41,7 +41,13 @@
                 </p>
               </div>
             </div>
-          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false" [nombreEjercicioDiario]="this.nombreEjercicioDiario"></app-tarjetas-planes>
+          </a><app-tarjetas-planes 
+          [mostrarComoVertical]="false" 
+          [hastaUnPlan]="true" 
+          [variosPlanes]="false" 
+          [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+          [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible">
+        </app-tarjetas-planes>
 
         </div>
         <!--<div class="contenedor-imagen-circulo">
@@ -144,7 +150,7 @@
             [hastaUnPlan]="true"
             [variosPlanes]="false"
             [nombreEjercicioDiario]="this.nombreEjercicioDiario"
-
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
           ></app-tarjetas-planes>
         }
         </div>
@@ -173,7 +179,12 @@
               </div>
             </div>
           </a>
-            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false" [nombreEjercicioDiario]="this.nombreEjercicioDiario"></app-tarjetas-planes>
+            <app-tarjetas-planes 
+            [mostrarComoVertical]="false" 
+            [hastaUnPlan]="true" 
+            [variosPlanes]="false" 
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario" 
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible" ></app-tarjetas-planes>
         </div>
 
          <!--<div class="contenedor-imagen-circulo-con-premium">
@@ -282,7 +293,8 @@
           </div>
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
                 <app-tarjetas-planes
-            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+                [nombreEjercicioDiario]="this.nombreEjercicioDiario"
+                [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
@@ -290,6 +302,7 @@
         }
          @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
                 <app-tarjetas-planes
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
             [nombreEjercicioDiario]="this.nombreEjercicioDiario"
             [mostrarComoVertical]="true"
             [hastaUnPlan]="false"
@@ -299,6 +312,7 @@
         </div>
           @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
                 <app-tarjetas-planes
+            [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"
             [nombreEjercicioDiario]="this.nombreEjercicioDiario"
             [mostrarComoVertical]="false"
             [hastaUnPlan]="false"

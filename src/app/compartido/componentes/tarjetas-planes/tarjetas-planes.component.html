@@ -1,6 +1,6 @@
 <div [ngClass]="{ 'cards-informativas': true, 'horizontal': !mostrarComoVertical, 'hastaUnPlan': hastaUnPlan, 'variosPlanes':variosPlanes}">
 
-<div class="card">
+<div class="card" [ngClass]="{ 'apagada': !ejercicioDiarioDisponible }">
 <div class="face back">
   <div class="estadisticas-back">
     <p>{{nombreEjercicioDiario}}</p>

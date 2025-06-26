@@ -18,6 +18,7 @@ export class TarjetasPlanesComponent implements AfterViewInit {
 @Input() hastaUnPlan = true;
 @Input() variosPlanes =true;
 @Input() nombreEjercicioDiario: string = '';
+@Input() ejercicioDiarioDisponible: boolean = false;
 }
 
 

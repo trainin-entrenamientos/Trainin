@@ -84,7 +84,6 @@ export class EjercicioDiarioComponent implements OnInit {
     let match;
     
     while ((match = regex.exec(texto)) !== null) {
-      // Limpia espacios extra y agrega el paso
       const paso = match[1].trim();
       if (paso) {
         pasos.push(paso);
