@@ -9,7 +9,6 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class UsuarioService {
-
   private baseUrl = environment.URL_BASE;
 
   constructor(private http: HttpClient) { }
@@ -19,5 +18,9 @@ export class UsuarioService {
 
   iniciarSesion(usuario:LoginData){
     return this.http.post(`${this.baseUrl}/usuario/login`, usuario);
+  }
+
+  marcarEjercicioDiarioRealizado(emailUsuario: string) {
+    return this.http.get(`${this.baseUrl}/usuario/ejercicioDiarioCompletado/${emailUsuario}`);
   }
 }

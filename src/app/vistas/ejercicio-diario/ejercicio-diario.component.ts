@@ -79,7 +79,6 @@ export class EjercicioDiarioComponent implements OnInit {
     });
   }
   separarPasos(texto: string): string[] {
-    // Regex que busca números seguidos de paréntesis y captura todo hasta el próximo número
     const regex = /\d+\)\s*([^0-9]*?)(?=\s*\d+\)|$)/g;
     const pasos: string[] = [];
     let match;
@@ -94,12 +93,17 @@ export class EjercicioDiarioComponent implements OnInit {
     
     return pasos;
   }
-  volver() {
-  this.router.navigate(['/planes']);
-}
-
-terminar() {
-  this.router.navigate(['/planes']);
-}
   
+
+terminarEjercicioDiario() {
+  if (!this.email) {
+    console.warn('No se puede marcar el ejercicio como realizado: email es null');
+    return;
+  }
+  this.usuarioService.marcarEjercicioDiarioRealizado(this.email).subscribe({
+    next: (response: any) => {
+      this.router.navigate(['/planes']);
+    }
+  });
+}
 }

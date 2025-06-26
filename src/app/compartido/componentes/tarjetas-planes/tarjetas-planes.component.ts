@@ -17,7 +17,7 @@ export class TarjetasPlanesComponent implements AfterViewInit {
 @Input() mostrarComoVertical = true;
 @Input() hastaUnPlan = true;
 @Input() variosPlanes =true;
-
+@Input() nombreEjercicioDiario: string = '';
 }
 
 

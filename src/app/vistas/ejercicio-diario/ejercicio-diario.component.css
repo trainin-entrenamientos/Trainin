@@ -139,7 +139,7 @@ body {
   padding: 1.5rem;
   margin-top: 1.5rem;
   margin-bottom: 0;
-  color: #00ff88;
+  color: #fff;
   font-weight: bold;
   animation: fadeInDown 0.7s ease-in-out;
 }
@@ -182,4 +182,7 @@ body {
     width: 100%;
     text-align: center;
   }
+}
+.info-ejercicio{
+  text-align: center;
 }

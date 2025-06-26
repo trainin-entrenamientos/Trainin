@@ -41,7 +41,7 @@
                 </p>
               </div>
             </div>
-          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
+          </a><app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false" [nombreEjercicioDiario]="this.nombreEjercicioDiario"></app-tarjetas-planes>
 
         </div>
         <!--<div class="contenedor-imagen-circulo">
@@ -143,6 +143,7 @@
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
 
           ></app-tarjetas-planes>
         }
@@ -172,7 +173,7 @@
               </div>
             </div>
           </a>
-            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false"></app-tarjetas-planes>
+            <app-tarjetas-planes [mostrarComoVertical]="false" [hastaUnPlan]="true" [variosPlanes]="false" [nombreEjercicioDiario]="this.nombreEjercicioDiario"></app-tarjetas-planes>
         </div>
 
          <!--<div class="contenedor-imagen-circulo-con-premium">
@@ -281,6 +282,7 @@
           </div>
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {
                 <app-tarjetas-planes
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
             [mostrarComoVertical]="false"
             [hastaUnPlan]="true"
             [variosPlanes]="false"
@@ -288,6 +290,7 @@
         }
          @if (pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
                 <app-tarjetas-planes
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
             [mostrarComoVertical]="true"
             [hastaUnPlan]="false"
             [variosPlanes]="true"
@@ -296,6 +299,7 @@
         </div>
           @if (!pantallaChica && planEntrenamiento.length >=2 &&  planEntrenamiento.length <=4) {
                 <app-tarjetas-planes
+            [nombreEjercicioDiario]="this.nombreEjercicioDiario"
             [mostrarComoVertical]="false"
             [hastaUnPlan]="false"
             [variosPlanes]="true"

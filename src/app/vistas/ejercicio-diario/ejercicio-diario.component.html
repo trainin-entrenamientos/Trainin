@@ -9,6 +9,7 @@
   <div class="columna-datos">
     <div class="contenedorTimer">
       <h2 class="titulo-ejercicio">{{ ejercicioDiario?.nombre || 'Cargando ejercicio diario' }}</h2>
+      <h3 class="info-ejercicio">Repeticiones: 30</h3>
 
       <ol *ngIf="descripcionLista?.length" class="lista-descripcion">
         <li *ngFor="let paso of descripcionLista">{{ paso }}</li>
@@ -19,8 +20,7 @@
       </p>
     </div>
     <div class="botones-ejercicio">
-      <app-boton-trainin (clickBoton)="volver()" clase="btn btn-trainin btn-anterior-trainin">Volver al inicio </app-boton-trainin>
-      <app-boton-trainin (clickBoton)="terminar()">Terminar ejercicio</app-boton-trainin>
+      <app-boton-trainin (clickBoton)="terminarEjercicioDiario()">Terminar ejercicio</app-boton-trainin>
     
   </div>
   </div>
