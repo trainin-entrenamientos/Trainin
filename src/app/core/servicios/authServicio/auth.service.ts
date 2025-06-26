@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { responseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginData, responseDTO } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
 import { tokenExpirado } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -37,12 +38,9 @@ export class AuthService {
     return this.usuarioSubject.asObservable();
   }
 
-  login(credenciales: {
-    email: string;
-    contrasenia: string;
-  }): Observable<responseDTO> {
+  login(credenciales: {email: string; contrasenia: string;}): Observable<RespuestaApi<LoginData>> {
     return this.http
-      .post<responseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales)
+      .post<RespuestaApi<LoginData>>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales)
       .pipe(
         tap((response) => {
           if (response.objeto.exito && !response.objeto.requiereActivacion) {
@@ -92,8 +90,8 @@ export class AuthService {
     return this.rolSubject.asObservable();
   }
 
-  registrarUsuario(dto: RegistroDTO): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/usuario/registro`, dto);
+  registrarUsuario(dto: RegistroDTO): Observable<RespuestaApi<string>> {
+    return this.http.post<RespuestaApi<string>>(`${this.baseUrl}/usuario/registro`, dto);
   }
 
   getRol(): string | null {

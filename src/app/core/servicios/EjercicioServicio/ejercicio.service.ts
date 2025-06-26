@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { EjercicioIncorporadoDTO } from '../../modelos/EjercicioIncorporadoDTO';
 import { environment } from '../../../../environments/environment.prod';
 import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
+import { CategoriaEjercicioDTO } from '../../modelos/CategoriaEjercicioDTO';
 
 @Injectable({ providedIn: 'root' })
 export class EjercicioService {
@@ -51,9 +52,10 @@ export class EjercicioService {
       .pipe(map(res => res.mensaje));
   }
 
-  obtenerCategorias(): Observable<any[]> {
+  obtenerCategorias(): Observable<RespuestaApi<CategoriaEjercicioDTO[]>>
+ {
     return this.http
-      .get<RespuestaApi<any[]>>(
+      .get<RespuestaApi<CategoriaEjercicioDTO[]>>(
         `${environment.URL_BASE}/obtenerCategorias`
       )
       .pipe(map(res => res.objeto));
