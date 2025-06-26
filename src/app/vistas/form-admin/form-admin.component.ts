@@ -5,6 +5,8 @@ import { forkJoin } from 'rxjs';
 
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporadoDTO';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-admin',
@@ -22,7 +24,8 @@ export class FormAdminComponent implements OnInit {
     private fb: FormBuilder,
     private svc: EjercicioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       id: [0],
@@ -116,7 +119,9 @@ export class FormAdminComponent implements OnInit {
 
     request$.subscribe({
       next: () => this.router.navigate(['/listarEjercicios']),
-      error: (err) => console.error('Error al guardar ejercicio:', err),
+      error: (err) =>
+          manejarErrorSimple(this.toastr, `Error al guardar ejercicio. ${err.mensaje}`),
+          /*manejarErrorYRedirigir(this.toastr, this.router, `Error al guardar ejercicio. ${err.mensaje}`, '/listarEjercicios')*/ //TENGO DUDA
     });
   }
 

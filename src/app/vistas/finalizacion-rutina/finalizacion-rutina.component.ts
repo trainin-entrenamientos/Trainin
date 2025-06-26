@@ -9,6 +9,8 @@ import { CorreccionDataService } from '../../core/servicios/correccionPosturaSer
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { ActualizarNivelExigenciaDTO } from '../../core/modelos/ActualizarNivelExigenciaDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
 
 @Component({
@@ -40,7 +42,8 @@ export class FinalizacionRutinaComponent {
     private auth: AuthService,
     private temporizadorService: TemporizadorService,
     private correccionData: CorreccionDataService,
-    private logroService: LogroService
+    private logroService: LogroService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +56,7 @@ export class FinalizacionRutinaComponent {
       this.ejercicios = this.rutina.ejercicios;
       this.email = this.auth.getEmail();
     } else {
-      console.error('No existe la rutina.');
+      manejarErrorSimple(this.toastr, 'No existe la rutina.');
     }
     this.temporizadorService.pausar();
     const segundosTotales =
@@ -135,7 +138,7 @@ export class FinalizacionRutinaComponent {
 
   enviarFeedback() {
     if (!this.opcionSeleccionada) {
-      alert('Por favor, selecciona una opción.');
+      manejarErrorSimple(this.toastr, 'Por favor, selecciona una opción.');
       return;
     }
 
@@ -178,10 +181,8 @@ export class FinalizacionRutinaComponent {
                   }
                 },
                 error: (err) => {
-                  console.error(
-                    'Error al marcar la rutina como realizada en ngOnInit:',
-                    err
-                  );
+                  manejarErrorSimple(this.toastr, err.mensaje);
+                  /*manejarErrorYRedirigir(this.toastr, this.router, 'Error al marcar la rutina como realizada.', '/planes');*/ //TENGO DUDA
                 },
               });
           }
@@ -190,8 +191,8 @@ export class FinalizacionRutinaComponent {
           this.router.navigate(['/planes']);
         },
         error: (err) => {
-          console.error('Error al actualizar nivel de exigencia:', err);
-          alert('Ocurrió un error al guardar tu feedback. Intentá de nuevo.');
+          manejarErrorSimple(this.toastr, err.mensaje);
+          /*manejarErrorYRedirigir(this.toastr, this.router, 'Ocurrió un error al actualizar el nivel de exigencia.', '/planes')*/ //TENGO DUDA
         },
       });
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-ejercicios-list',
@@ -16,7 +18,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
   cargando: boolean = true;
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private svc: EjercicioService, private router: Router) {}
+  constructor(private svc: EjercicioService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.listarEjercicios();
@@ -31,7 +33,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
         this.cargando = false;
       },
       error: (err) => {
-        console.error(err);
+        manejarErrorSimple(this.toastr, `No se pudo obtener la lista de ejercicios. ${err.mensaje}`);
         this.cargando = false;
       },
     });
@@ -52,7 +54,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
         this.cancelarEliminarEjercicio();
       },
       error: (err) => {
-        console.error('Error al eliminar:', err);
+        manejarErrorSimple(this.toastr, `No se pudo eliminar el ejercicio. ${err.mensaje}`);
         this.cancelarEliminarEjercicio();
       },
     });

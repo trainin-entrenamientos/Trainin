@@ -4,6 +4,8 @@ import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.servic
 import { Router } from '@angular/router';
 import { Ejercicio, Rutina } from '../../core/modelos/RutinaDTO';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-realizar-ejercicio',
@@ -26,16 +28,16 @@ export class RealizarEjercicioComponent {
     private rutinaService: RutinaService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.rutinaService.cargarDesdeSession();
     const datos = this.rutinaService.getDatosIniciales();
     if (!datos.rutina) {
-      console.error('No se encontró la rutina. Redirigiendo...');
-      this.router.navigate(['/planes']);
-      return;
+       manejarErrorYRedirigir(this.toastr, this.router, `No se encontró la rutina.`, '/planes');
+       return;
     }
     this.rutina = datos.rutina;
     this.indiceActual = datos.indiceActual;
@@ -69,11 +71,7 @@ export class RealizarEjercicioComponent {
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
         this.rutinaService.avanzarAlSiguienteEjercicio();
-        if (this.rutinaService.haySiguienteEjercicio()) {
-          this.router.navigate(['/informacion-ejercicio']);
-        } else {
-          this.router.navigate(['/finalizacion-rutina']);
-        }
+        this.siguienteEjercicioRutina();
       }
     }, 1000);
   }

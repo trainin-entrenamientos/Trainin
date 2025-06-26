@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { HistorialPlanDTO } from '../../core/modelos/HistorialPlanDTO';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-historial-planes',
@@ -19,7 +21,8 @@ export class HistorialPlanesComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private planService: PlanEntrenamientoService
+    private planService: PlanEntrenamientoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -29,6 +32,7 @@ export class HistorialPlanesComponent {
 
   obtenerHistorialPlanes() {
     if (!this.email) {
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el mail del usuario. `, '/planes');
       return;
     }
     this.planService.obtenerHistorialPlanes(this.email).subscribe({
@@ -37,7 +41,7 @@ export class HistorialPlanesComponent {
         this.cargando = false;
       },
       error: (err) => {
-        console.error('Error cargando historial', err);
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el historial de planes. ${err.mensaje}`, '/planes');
       },
     });
   }

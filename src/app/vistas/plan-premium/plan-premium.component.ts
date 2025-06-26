@@ -8,6 +8,8 @@ import {
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { MercadoPagoService } from '../../core/servicios/mercadoPagoServicio/mercado-pago.service';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-premium',
@@ -26,7 +28,8 @@ export class PlanPremiumComponent implements AfterViewInit {
   constructor(
     public authService: AuthService,
     private mercadoPagoServicio: MercadoPagoService,
-    private usuarioServicio: UsuarioService
+    private usuarioServicio: UsuarioService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -73,14 +76,14 @@ export class PlanPremiumComponent implements AfterViewInit {
           if (response && response.objeto) {
             this.redirigir(response.objeto);
           } else {
-            console.error(
-              'Error al obtener el punto de inicio de pago:',
-              response
-            );
+            manejarErrorSimple(this.toastr, `Error al obtener el punto de inicio de pago: ${response.mensaje}`);
           }
         },
         error: (error: any) => {
-          console.error('Error al procesar el pago:', error);
+          manejarErrorSimple(
+            this.toastr,
+            `Error al procesar el pago: ${error.mensaje}`
+          );
         },
       });
   }
@@ -92,11 +95,11 @@ export class PlanPremiumComponent implements AfterViewInit {
           this.usuario.idUsuario = response.objeto.id;
           this.usuario.esPremium = response.objeto.esPremium || false;
         } else {
-          console.error('Error al obtener el ID del usuario:', response);
+          manejarErrorSimple(this.toastr, `No se pudo obtener el ID del usuario. ${response.mensaje}`);
         }
       },
       error: (error: any) => {
-        console.error('Error al obtener el usuario:', error);
+        manejarErrorSimple(this.toastr, `Error al obtener el usuario. ${error.mensaje}`);
       },
     });
   }

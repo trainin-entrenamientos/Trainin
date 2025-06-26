@@ -5,6 +5,8 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-inicio-rutina',
@@ -23,7 +25,8 @@ export class InicioRutinaComponent {
     private route: ActivatedRoute,
     private router: Router,
     private rutinaService: RutinaService,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +54,12 @@ export class InicioRutinaComponent {
         this.rutinaService.setRutina(rutina);
         this.ejercicios = rutina.ejercicios;
         this.minutosTraducidos = this.traducirMinutos(
-          this.rutina.duracionEstimada
+        this.rutina.duracionEstimada
         );
         this.cargando = false;
       },
       error: (err) => {
-        this.cargando = false;
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina. ${err.mensaje}`, '/planes');
       },
     });
   }

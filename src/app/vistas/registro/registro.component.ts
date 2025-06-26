@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { RegistroDTO } from '../../core/modelos/RegistroDTO';
 import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-registro',
@@ -77,10 +78,7 @@ export class RegistroComponent {
   onSubmit() {
     if (this.registroForm.invalid) {
       this.marcarCamposComoTocados();
-      this.toastr.error(
-        'Por favor, completá todos los campos correctamente.',
-        'Formulario inválido'
-      );
+      manejarErrorSimple(this.toastr,  `Por favor, completá todos los campos correctamente. `);
       return;
     }
 
@@ -109,7 +107,7 @@ export class RegistroComponent {
             : 'Ocurrió un error inesperado al registrar el usuario.');
         this.cargando = false;
 
-        this.toastr.error(errorMsg, 'Error de registro');
+        manejarErrorSimple(this.toastr, errorMsg);
       },
     });
   }

@@ -5,6 +5,8 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-planes',
@@ -32,7 +34,8 @@ export class PlanesComponent {
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
     authService: AuthService,
-    router: Router
+    router: Router,
+    private toastr: ToastrService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
@@ -76,7 +79,7 @@ export class PlanesComponent {
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario.${err.mensaje}`, '/inicio');
       },
     });
   }
@@ -122,7 +125,7 @@ export class PlanesComponent {
           this.obtenerPlanEntrenamiento(this.idUsuario);
         },
         error: (err) => {
-          console.error('Error al desactivar el plan:', err);
+          manejarErrorSimple(this.toastr, `Error al desactivar el plan. ${err.mensaje}`);
         },
       });
   }

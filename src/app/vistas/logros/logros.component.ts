@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logro } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logros',
@@ -22,7 +25,9 @@ export class LogrosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private logroService: LogroService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService 
   ) {
     this.filtroForm = this.fb.group({
       filtroSeleccionado: ['todos'],
@@ -34,8 +39,7 @@ export class LogrosComponent implements OnInit {
     this.email = this.authService.getEmail();
 
     if (!this.email) {
-      console.error('No se encontró el email del usuario');
-      this.cargando = false;
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el email del usuario. `, '/planes');
       return;
     }
 
@@ -68,13 +72,12 @@ export class LogrosComponent implements OnInit {
             this.aplicarFiltro();
           },
           error: (err) => {
-            console.error('Error al obtener todos los logros:', err);
-            this.cargando = false;
+            manejarErrorYRedirigir(this.toastr, this.router, `Error al obtener todos los logros: ${err.mensaje}`, '/planes');
           },
         });
       },
       error: (err) => {
-        console.error('Error al obtener los logros del usuario:', err);
+        manejarErrorSimple(this.toastr, `Error al obtener logros obtenidos: ${err.mensaje}`);
         this.cargando = false;
       },
     });
