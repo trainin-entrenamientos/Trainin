@@ -7,23 +7,29 @@ import { tokenExpirado } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly TOKEN_KEY = 'token';
+  private readonly ROL = 'rol';
   private CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
   private CLAIM_ROLE = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
+  private rolSubject = new BehaviorSubject<string | null>(null);
+
 
 constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token && !tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
+      this.rolSubject.next(payload[this.CLAIM_ROLE]);
     } else {
       localStorage.removeItem(this.TOKEN_KEY);
       this.usuarioSubject.next(null);
+      this.rolSubject.next(null);
     }
   }
 
@@ -35,16 +41,19 @@ constructor(private http: HttpClient, private router: Router) {
     return this.http.post<responseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
       tap((response) => {
         if (response.objeto.exito && !response.objeto.requiereActivacion) {
-          this.almacenarSesion(response.objeto.token);
+          this.almacenarSesion(response.objeto);
         }
       })
     );
   }
 
-  private almacenarSesion(token: string) {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    const payload = JSON.parse(atob(token.split('.')[1]));
+  private almacenarSesion(objeto: any) {
+    localStorage.setItem(this.ROL, objeto.rol);
+    localStorage.setItem(this.TOKEN_KEY, objeto.token);
+    const payload = JSON.parse(atob(objeto.token.split('.')[1]));
     this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
+    this.rolSubject.next(payload[this.CLAIM_ROLE]); 
+
   }
 
   getToken(): string | null {
@@ -58,7 +67,9 @@ constructor(private http: HttpClient, private router: Router) {
 
   cerrarSesion(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.ROL);
     this.usuarioSubject.next(null);
+    this.rolSubject.next(null);
   }
 
   getEmail(): string | null {
@@ -72,6 +83,10 @@ constructor(private http: HttpClient, private router: Router) {
       return null;
     }
   }
+
+    get rol$() {
+      return this.rolSubject.asObservable();
+    }
 
   registrarUsuario(dto: RegistroDTO): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/usuario/registro`, dto);

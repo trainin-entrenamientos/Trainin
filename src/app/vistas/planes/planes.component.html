@@ -72,8 +72,8 @@
                 <div class="imagen-y-texto">
                   <img
                     id="imagen-plan"
-                    [src]="'imagenes/cuerpo-completo.png'"
-                    alt="Entrenamiento de cuerpo completo"
+                    [src]="tipoPlanAImagen[plan.tipoEntrenamiento]"
+                    alt="Entrenamiento imagen"
                     class="img-fluid"
                   />
                   <div class="text">
@@ -204,8 +204,8 @@
                 <div class="imagen-y-texto">
                   <img
                     id="imagen-plan"
-                    [src]="'imagenes/cuerpo-completo.png'"
-                    alt="Entrenamiento de cuerpo completo"
+                    [src]="tipoPlanAImagen[plan.tipoEntrenamiento]"
+                    alt="Entrenamiento imagen"
                     class="img-fluid"
                   />
                   <div class="text">
@@ -276,7 +276,7 @@
               class="text-center text-light mt-3"
             >
               Ya has creado el máximo de
-              <strong style="color: #13ff3a">4 planes</strong> permitidos.
+              <strong style="color: #13ff3a">4 planes</strong> permitidos. <br><br>
             </p>
           </div>
            @if (planEntrenamiento.length ===1 && usuario?.esPremium===true) {

@@ -14,6 +14,9 @@ import { NotificacionesService } from '../../core/servicios/notificacionesServic
 export class IniciarSesionComponent {
   loginForm: FormGroup;
   cargando: boolean = false;
+  esAdministrador: boolean = false; 
+
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -36,7 +39,12 @@ export class IniciarSesionComponent {
       next: (data) => {
         if (data.objeto.exito && !data.objeto.requiereActivacion) {
           this.notificacionServicio.pedirPermisoYRegistrar();
+          this.obtenerRolUsuario();
+          if(this.esAdministrador){
+            this.router.navigate(['/listarEjercicios']);
+          }else{
           this.router.navigate(['/planes']);
+          }
         } else {
           this.cargando=false;
           this.toastr.error('Debes activar tu cuenta antes de iniciar sesión.');
@@ -49,4 +57,13 @@ export class IniciarSesionComponent {
     });
   }
 
+  obtenerRolUsuario(){
+    const rol = this.authService.getRol();
+    if (rol === 'Administrador') {
+    this.esAdministrador=true;
+  }
 }
+
+
+}
+

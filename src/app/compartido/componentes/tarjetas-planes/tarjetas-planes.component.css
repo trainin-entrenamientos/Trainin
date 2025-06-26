@@ -13,7 +13,7 @@
 
 .cards-informativas.variosPlanes .card{
  width: 18rem;
- height: 12rem;
+ height: 13rem;
 }
 
 .cards-informativas.variosPlanes .face.back .estadisticas-back {
@@ -62,7 +62,7 @@
 /**************************************************/
 
 .cards-informativas.horizontal.hastaUnPlan .card{
-height: 12rem;
+height: 13rem;
 }
 
 .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back {
@@ -107,7 +107,6 @@ height: 12rem;
   margin: 0 1rem;
 }
 
-
 .cards-informativas{
   display: flex;
   flex-direction: row;
@@ -116,12 +115,12 @@ height: 12rem;
 }
 .card {
   background: #06131c;
-  border-radius: 15px;
   height: 350px;
   margin: 0 auto;
   position: relative;
   width: 33%;
   box-sizing: border-box;
+  border-radius: 15px;  
 }
 
 .card-ejercicio {
@@ -177,6 +176,7 @@ height: 12rem;
 }
 
 .face {
+  border-radius: 15px;   
   align-items: center;
   display: flex;
   height: 100%;
@@ -188,6 +188,7 @@ height: 12rem;
 }
 
 .face.back {
+ border-radius: 15px;    
   background-color: #06131c;
   color: white;
   padding: 1rem;
@@ -259,7 +260,7 @@ height: 12rem;
 .face.front {
   align-items: center;
   background-color: #0B1A1E;
-  border-radius: 15px;
+  border-radius: 15px;    
   color: white;
   display: flex;
   justify-content: center;
@@ -290,7 +291,6 @@ height: 12rem;
 
 .image-placeholder {
   align-items: center;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -304,7 +304,6 @@ height: 12rem;
 }
 
 .nombre-ejercicio {
-  border-radius: 10px;
   font-size: 20px;
   margin: 0;
   position: absolute;
@@ -366,7 +365,7 @@ height: 12rem;
 }
 
 .cards-informativas.variosPlanes .card {
-  height: 12rem;
+  height: 13rem;
 }
 
 .cards-informativas.variosPlanes .face.back .estadisticas-back {
@@ -501,7 +500,6 @@ height: 12rem;
 
 .cards-informativas.variosPlanes .card {
   background: #06131c;
-  border-radius: 15px;
   height: 150px;
   margin: 0 auto;
   position: relative;
@@ -535,7 +533,6 @@ height: 12rem;
 
 .cards-informativas.horizontal.hastaUnPlan .card {
   background: #06131c;
-  border-radius: 15px;
   height: 150px;
   margin: 0 auto;
   position: relative;

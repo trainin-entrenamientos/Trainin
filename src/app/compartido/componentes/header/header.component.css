@@ -48,7 +48,7 @@ nav a {
 }
 
 .boton-finalizar-rutina{
-   color: #000;
+  color: #000;
   background-color: #13FF3A;
   font-weight: 700;
   border-radius: 50px;
@@ -96,6 +96,8 @@ nav img:hover{
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
   min-width: 8rem;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .dropdown-item {
