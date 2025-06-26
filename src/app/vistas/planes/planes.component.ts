@@ -142,11 +142,18 @@ desactivarPlan(idPlan: number): void {
   }
   
   verificarDisponibilidadDeEjercicioDiario(): void {
-    this.ejercicioService.obtenerEjercicioDiario().subscribe({
+    
+    if (!this.email) {
+      this.EjercicioDiarioDisponible = false;
+      this.nombreEjercicioDiario = '';
+      return;
+    }
+
+    this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
       next: (response: any) => {
-        if (response && response.objeto) {
+        if (response) {
           this.EjercicioDiarioDisponible = true;
-          this.nombreEjercicioDiario = response.objeto.nombre;
+          this.nombreEjercicioDiario = response.nombre;
         } else {
           this.EjercicioDiarioDisponible = false;
           this.nombreEjercicioDiario = '';

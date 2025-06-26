@@ -71,8 +71,11 @@ export class EjercicioService {
       )
       .pipe(map(res => res.objeto));
   }
-  obtenerEjercicioDiario() {
-    return this.http.get(`${this.apiUrl}/obtenerEjercicioDiario`);
+  obtenerEjercicioDiario(email: string): Observable<any> {
+    return this.http.get<RespuestaApi<any[]>>(`${this.apiUrl}/diario/${email}`).pipe(map(res => res.objeto));
+  }
+   marcarEjercicioDiarioRealizado(emailUsuario: string) {
+    return this.http.get(`${this.apiUrl}/DiarioCompletado/${emailUsuario}`);
   }
 
 }

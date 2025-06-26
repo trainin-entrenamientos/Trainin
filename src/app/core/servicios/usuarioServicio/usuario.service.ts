@@ -13,14 +13,12 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
   obtenerUsuarioPorEmail(email: string | null): Observable<any> {
-    return this.http.get(`${this.baseUrl}/usuario/obtenerPorEmail/${email}`);
+    return this.http.get(`${this.baseUrl}/usuario/obtener/${email}`);
   }
 
   iniciarSesion(usuario:LoginData){
     return this.http.post(`${this.baseUrl}/usuario/login`, usuario);
   }
 
-  marcarEjercicioDiarioRealizado(emailUsuario: string) {
-    return this.http.get(`${this.baseUrl}/usuario/ejercicioDiarioCompletado/${emailUsuario}`);
-  }
+ 
 }

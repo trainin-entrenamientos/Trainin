@@ -9,7 +9,32 @@
   <div class="columna-datos">
     <div class="contenedorTimer">
       <h2 class="titulo-ejercicio">{{ ejercicioDiario?.nombre || 'Cargando ejercicio diario' }}</h2>
-      <h3 class="info-ejercicio">Repeticiones: 30</h3>
+
+      <ng-container *ngIf="ejercicioDiario?.idTipoEjercicio === 1">
+        <div class="container-btn" *ngIf="!estaIniciado && !mostrarCuentaAtras">
+          <app-boton-trainin (clickBoton)="iniciarEjercicioTemporizado()">Iniciar ejercicio diario</app-boton-trainin>
+        </div>
+
+        <div *ngIf="mostrarCuentaAtras" class="cuenta-atras">
+          <h2>{{ cuentaRegresiva }}</h2>
+        </div>
+
+        <div *ngIf="estaIniciado && !tiempoFinalizado">
+          <p class="info-ejercicio">Tiempo restante: {{ cuentaRegresiva }}</p>
+          <div class="progress">
+            <div class="progress-bar" [style.width]="porcentajeDelProgreso + '%'"></div>
+          </div>
+        </div>
+        <div *ngIf="tiempoFinalizado" class="mensaje-final">
+          <h3 class="texto-fin-ejercicio text-center">¡Bien hecho!</h3>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="ejercicioDiario?.idTipoEjercicio === 2">
+        <h3 class="info-ejercicio">
+          Repeticiones: {{ ejercicioDiario?.repeticiones }}
+        </h3>
+      </ng-container>
 
       <ol *ngIf="descripcionLista?.length" class="lista-descripcion">
         <li *ngFor="let paso of descripcionLista">{{ paso }}</li>
@@ -20,9 +45,15 @@
       </p>
     </div>
     <div class="botones-ejercicio">
-      <app-boton-trainin (clickBoton)="terminarEjercicioDiario()">Terminar ejercicio</app-boton-trainin>
-    
-  </div>
+  <app-boton-trainin 
+    [disabled]="ejercicioDiario?.idTipoEjercicio === 1 && !tiempoFinalizado"
+    [ngClass]="{
+    'boton-deshabilitado': ejercicioDiario?.idTipoEjercicio === 1 && !tiempoFinalizado
+  }"
+    (clickBoton)="terminarEjercicioDiario()">
+    Terminar ejercicio
+  </app-boton-trainin>
+</div>
   </div>
 
 

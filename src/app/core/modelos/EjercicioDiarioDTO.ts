@@ -4,4 +4,7 @@ export interface EjercicioDiarioDTO {
     descripcion: string;
     video: string;
     imagen: string;
+    tiempo: number;
+    repeticiones: number;
+    idTipoEjercicio: number;
 }

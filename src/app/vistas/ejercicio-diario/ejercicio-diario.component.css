@@ -186,3 +186,47 @@ body {
 .info-ejercicio{
   text-align: center;
 }
+
+.cuenta-atras {
+  text-align: center;
+  font-size: 3rem;
+  margin: 1rem 0;
+  animation: zoomIn 0.5s ease-in-out;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.progress {
+  height: 20px;
+  background-color: #00060c;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #13ff3a;
+  transition: width 0.5s;
+}
+.container-btn{
+  text-align: center;
+  margin: 1rem 0;
+}
+.texto-fin-ejercicio{
+  color:#13ff3a;
+}
+.boton-deshabilitado {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}

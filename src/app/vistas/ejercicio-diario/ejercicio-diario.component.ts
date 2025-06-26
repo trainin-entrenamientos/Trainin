@@ -6,6 +6,7 @@ import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.ser
 import { Router } from '@angular/router';
 import { EjercicioDiarioDTO } from '../../core/modelos/EjercicioDiarioDTO';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 
 @Component({
   selector: 'app-ejercicio-diario',
@@ -22,12 +23,22 @@ export class EjercicioDiarioComponent implements OnInit {
   videoUrl!: SafeResourceUrl;
   descripcionLista: string[] = [];
   nombreEjercicio = '';
+
+  estaIniciado: boolean = false;
+  mostrarCuentaAtras: boolean = false;
+  cuentaRegresiva: string = '';
+  tiempoRestante: number = 0;
+  porcentajeDelProgreso: number = 0;
+  intervaloCuentaAtras: any;
+  intervaloTemporizador: any;
+  tiempoFinalizado: boolean = false;
   
   constructor(
     private authService: AuthService,
     private usuarioService: UsuarioService,
     private sanitizer: DomSanitizer,
-    private ejercicioService: EjercicioService,    
+    private ejercicioService: EjercicioService,
+    private temporizadorService: TemporizadorService,
     private router: Router,
   ) {}
 
@@ -52,14 +63,19 @@ export class EjercicioDiarioComponent implements OnInit {
   }
   
   obtenerEjercicioDiario(): void {
-    this.ejercicioService.obtenerEjercicioDiario().subscribe({
+    if (!this.email) {
+      console.warn('No se puede obtener el ejercicio diario: email es null');
+      return;
+    }
+
+    this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
       next: (response: any) => {
-        if (!response || !response.objeto) {
+        if (!response) {
           console.warn("No se encontró ejercicio diario para el usuario.");
           return;
         }
         
-        this.ejercicioDiario = response.objeto;
+        this.ejercicioDiario = response;
         this.descripcionLista = this.separarPasos(this.ejercicioDiario?.descripcion || '');
 
         if (this.ejercicioDiario && this.ejercicioDiario.video) {
@@ -92,6 +108,42 @@ export class EjercicioDiarioComponent implements OnInit {
     
     return pasos;
   }
+
+  iniciarEjercicioTemporizado(): void {
+    this.mostrarCuentaAtras = true;
+    let segundos = 3;
+    this.cuentaRegresiva = segundos.toString();
+
+    this.intervaloCuentaAtras = setInterval(() => {
+      segundos--;
+      this.cuentaRegresiva = segundos > 0 ? segundos.toString() : '¡Vamos!';
+      if (segundos < 0) {
+        clearInterval(this.intervaloCuentaAtras);
+        this.mostrarCuentaAtras = false;
+        this.comenzarTemporizador();
+      }
+    }, 1000);
+  }
+
+  comenzarTemporizador(): void {
+    if (!this.ejercicioDiario?.tiempo) return;
+
+    this.estaIniciado = true;
+    this.tiempoRestante = this.ejercicioDiario.tiempo;
+    const tiempoTotal = this.tiempoRestante;
+
+    this.intervaloTemporizador = setInterval(() => {
+      this.tiempoRestante--;
+      this.porcentajeDelProgreso = ((tiempoTotal - this.tiempoRestante) / tiempoTotal) * 100;
+      this.cuentaRegresiva = this.temporizadorService.formatearTiempo(this.tiempoRestante);
+
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.intervaloTemporizador);
+        this.porcentajeDelProgreso = 100;
+        this.tiempoFinalizado = true;
+      }
+    }, 1000);
+  }
   
 
 terminarEjercicioDiario() {
@@ -99,7 +151,7 @@ terminarEjercicioDiario() {
     console.warn('No se puede marcar el ejercicio como realizado: email es null');
     return;
   }
-  this.usuarioService.marcarEjercicioDiarioRealizado(this.email).subscribe({
+  this.ejercicioService.marcarEjercicioDiarioRealizado(this.email).subscribe({
     next: (response: any) => {
       this.router.navigate(['/planes']);
     }
