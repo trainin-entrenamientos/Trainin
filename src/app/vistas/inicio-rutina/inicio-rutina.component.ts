@@ -47,7 +47,7 @@ export class InicioRutinaComponent {
   private cargarRutina(idPlan: number): void {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
       next: (rutina) => {
-        if (rutina == null) {
+        if (rutina.objeto == null) {
           this.cargando = false;
         }
         this.rutina = rutina.objeto;
