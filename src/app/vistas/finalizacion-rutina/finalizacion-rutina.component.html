@@ -1,16 +1,27 @@
 <body>
-  <main class="rutina-card " [class.expandido]="expandido">
+  <main class="rutina-card" [class.expandido]="expandido">
     <div class="informacion-rutina" [class.expandido]="expandido">
       <div class="iconos-laterales" [class.expandido]="expandido">
-        <i *ngFor="let opcion of opciones; let i = index" [class.seleccionada]="selectedSidebarIndex === i"
-          (click)="opcionSeleccionadaSidebar(i)" [class]="opcion.icono + ' opcion-icono'"></i>
+        <i
+          *ngFor="let opcion of opciones; let i = index"
+          [class.seleccionada]="selectedSidebarIndex === i"
+          (click)="opcionSeleccionadaSidebar(i)"
+          [class]="opcion.icono + ' opcion-icono'"
+        ></i>
       </div>
 
       <div class="contenido-derecho" *ngIf="expandido">
-        <button *ngIf="expandido" class="cerrar-btn" (click)="opcionSeleccionadaSidebar(selectedSidebarIndex!)">
+        <button
+          *ngIf="expandido"
+          class="cerrar-btn"
+          (click)="opcionSeleccionadaSidebar(selectedSidebarIndex!)"
+        >
           ×
         </button>
-        <ng-container *ngIf="selectedSidebarIndex !== null" [ngSwitch]="opciones[selectedSidebarIndex].id">
+        <ng-container
+          *ngIf="selectedSidebarIndex !== null"
+          [ngSwitch]="opciones[selectedSidebarIndex].id"
+        >
           <div *ngSwitchCase="'estadisticas'">
             <p class="estadisticas-texto">Estadísticas</p>
             <ul class="lista-estadisticas">
@@ -20,22 +31,37 @@
               </li>
               <li>
                 <i class="fa-solid fa-fire-flame-curved"></i>
-                <span>{{caloriasQuemadas}} cal.</span>
+                <span>{{ caloriasQuemadas }} cal.</span>
               </li>
-              <li>
+              <li *ngIf="rutina.cantidadDeRutinasPorSemana>1">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>{{this.rutina.rutinasRealizadas+1}} de 3 Rutinas Semanales</span>
+                <span
+                  >{{ rutina.numeroDeRutinaSemanal}} de {{rutina.cantidadDeRutinasPorSemana}} Rutinas
+                  Semanales</span
+                >
+              </li>
+              <li *ngIf="rutina.cantidadDeRutinasPorSemana==1">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span
+                  >{{ rutina.numeroDeRutinaSemanal}} de {{rutina.cantidadDeRutinasPorSemana}} Rutina
+                  Semanal</span
+                >
               </li>
               <li>
                 <i class="fa-solid fa-calendar-days"></i>
-                <span>{{this.rutina.numeroRutina}} de 30 Rutinas del Plan</span>
+                <span
+                  >{{ this.rutina.numeroRutina}} de {{rutina.cantidadDeRutinasTotales}} Rutinas del
+                  Plan</span
+                >
               </li>
             </ul>
           </div>
           <div *ngSwitchCase="'errores'">
             <p class="correccion-errores-texto">Resultado de Corrección</p>
             <ng-container *ngIf="ejercicios[selectedEjercicioIndex] as actual">
-              <ng-container *ngIf="getDatoEjercicio(actual.nombre) as dato; else noCorr">
+              <ng-container
+                *ngIf="getDatoEjercicio(actual.nombre) as dato; else noCorr"
+              >
                 <div class="datos-correccion">
                   <p>Porcentaje: {{ dato.maxPorcentaje }}%</p>
                   <p>Reintentos: {{ dato.reintentos }}</p>
@@ -49,77 +75,119 @@
 
           <div *ngSwitchCase="'musculos'">
             <p class="musculos-trabajados-texto">Músculos Trabajados</p>
-            <div *ngIf="
+            <div
+              *ngIf="
                 ejercicios[selectedEjercicioIndex] as ejercicioSeleccionado
-              ">
+              "
+            >
               <div class="carrusel-muscular">
-                <i class="fa-solid fa-chevron-left flecha-izquierda-muscular" (click)="moverCarruselMuscular(-1)"></i>
+                <i
+                  class="fa-solid fa-chevron-left flecha-izquierda-muscular"
+                  (click)="moverCarruselMuscular(-1)"
+                ></i>
 
                 <div class="contenedor-grupos-musculares">
-                  <div class="grupo-muscular" *ngFor="
+                  <div
+                    class="grupo-muscular"
+                    *ngFor="
                       let grupo of ejercicioSeleccionado.grupoMuscular;
                       let i = index
-                    " [class.visible]="i === indiceGrupoVisible">
-                    <p class="nombre-ejercicio-muscular">{{ejercicioSeleccionado.nombre}}</p><br>
+                    "
+                    [class.visible]="i === indiceGrupoVisible"
+                  >
+                    <p class="nombre-ejercicio-muscular">
+                      {{ ejercicioSeleccionado.nombre }}
+                    </p>
+                    <br />
                     <img [src]="grupo.imagen" [alt]="grupo.nombre" />
                     <p class="nombre-musculo">{{ grupo.nombre }}</p>
                   </div>
                 </div>
 
-                <i class="fa-solid fa-chevron-right flecha-derecha-muscular" (click)="moverCarruselMuscular(1)"></i>
+                <i
+                  class="fa-solid fa-chevron-right flecha-derecha-muscular"
+                  (click)="moverCarruselMuscular(1)"
+                ></i>
               </div>
             </div>
           </div>
         </ng-container>
       </div>
       <div class="boton-finalizar-mobile">
-        <app-boton-trainin type="button" class="btn-trainin boton-finalizar-mobile" data-bs-toggle="modal"
-          data-bs-target="#feedbackModal">
+        <app-boton-trainin
+          type="button"
+          class="btn-trainin boton-finalizar-mobile"
+          data-bs-toggle="modal"
+          data-bs-target="#feedbackModal"
+        >
           Finalizar Rutina
         </app-boton-trainin>
       </div>
     </div>
     <div class="contenedor-carrusel-ejercicios" [class.shifted]="expandido">
-    <div class="contenedor-ejercicios-realizados-y-finalizar-rutina">
-      <h2 class="mensaje-finalizacion">
-        ¡Buen trabajo!<br class="d-none d-md-block" />
-        ¡Finalizaste tu entrenamiento!
-      </h2>
-      <div class="contenedor-carrusel">
-        <i class="fa-solid fa-chevron-left flecha-izquierda" (click)="anteriorEjercicio()"></i>
-        <div class="cards">
-          <div class="card" *ngFor="let ejercicio of ejercicios; let i = index"
-            [class.centro]="i === selectedEjercicioIndex" [class.izquierda]="
-              i ===
-              (selectedEjercicioIndex - 1 + ejercicios.length) %
-                ejercicios.length
-            " [class.derecha]="
-              i === (selectedEjercicioIndex + 1) % ejercicios.length
-            " (click)="selectEjercicio(i)">
-            <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
+      <div class="contenedor-ejercicios-realizados-y-finalizar-rutina">
+        <h2 class="mensaje-finalizacion">
+          ¡Buen trabajo!<br class="d-none d-md-block" />
+          ¡Finalizaste tu entrenamiento!
+        </h2>
+        <div class="contenedor-carrusel">
+          <i
+            class="fa-solid fa-chevron-left flecha-izquierda"
+            (click)="anteriorEjercicio()"
+          ></i>
+          <div class="cards">
+            <div
+              class="card"
+              *ngFor="let ejercicio of ejercicios; let i = index"
+              [class.centro]="i === selectedEjercicioIndex"
+              [class.izquierda]="
+                i ===
+                (selectedEjercicioIndex - 1 + ejercicios.length) %
+                  ejercicios.length
+              "
+              [class.derecha]="
+                i === (selectedEjercicioIndex + 1) % ejercicios.length
+              "
+              (click)="selectEjercicio(i)"
+            >
+              <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
+            </div>
           </div>
 
-        </div>
-
-        <div>
-          <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
-            <div class="nombre-ejercicio">{{selectedEjercicioIndex + 1}}- {{ actual.nombre }}</div>
+          <div>
+            <div *ngIf="ejercicios[selectedEjercicioIndex] as actual">
+              <div class="nombre-ejercicio">
+                {{ selectedEjercicioIndex + 1 }}- {{ actual.nombre }}
+              </div>
+            </div>
           </div>
+          <i
+            class="fa-solid fa-chevron-right flecha-derecha"
+            (click)="siguienteEjercicio()"
+          ></i>
         </div>
-        <i class="fa-solid fa-chevron-right flecha-derecha" (click)="siguienteEjercicio()"></i>
       </div>
-    </div>
-    <div class="boton-finalizar-pc">
-        <app-boton-trainin type="button" class="btn-trainin " data-bs-toggle="modal" data-bs-target="#feedbackModal">
+      <div class="boton-finalizar-pc">
+        <app-boton-trainin
+          type="button"
+          class="btn-trainin"
+          data-bs-toggle="modal"
+          data-bs-target="#feedbackModal"
+        >
           Finalizar Rutina
         </app-boton-trainin>
       </div>
     </div>
-    
 
-    
-
-    <div class="modal fade" id="feedbackModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="feedbackModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="feedbackModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content body-modal-color feedback-modal">
           <div class="modal-body text-center px-4 py-5">
@@ -131,40 +199,70 @@
               <em>Seleccioná la opción más acorde</em>
             </p>
 
-            <div class="d-flex justify-content-center gap-3 mb-4 feedback-options">
+            <div
+              class="d-flex justify-content-center gap-3 mb-4 feedback-options"
+            >
               <label class="option-btn" for="facil">
-                <input type="radio" id="facil" name="feedback" [(ngModel)]="opcionSeleccionada" value="facil" />
+                <input
+                  type="radio"
+                  id="facil"
+                  name="feedback"
+                  [(ngModel)]="opcionSeleccionada"
+                  value="facil"
+                />
                 <span class="button text-hover verde" data-text="Fácil">
                   <span class="actual-text">&nbsp;Fácil&nbsp;</span>
-                  <span aria-hidden="true" class="hover-text">&nbsp;Fácil&nbsp;</span>
+                  <span aria-hidden="true" class="hover-text"
+                    >&nbsp;Fácil&nbsp;</span
+                  >
                 </span>
               </label>
 
               <label class="option-btn" for="equilibrado">
-                <input type="radio" id="equilibrado" name="feedback" [(ngModel)]="opcionSeleccionada"
-                  value="equilibrado" />
-                <span class="button text-hover amarillo" data-text="Equilibrado">
+                <input
+                  type="radio"
+                  id="equilibrado"
+                  name="feedback"
+                  [(ngModel)]="opcionSeleccionada"
+                  value="equilibrado"
+                />
+                <span
+                  class="button text-hover amarillo"
+                  data-text="Equilibrado"
+                >
                   <span class="actual-text">&nbsp;Equilibrado&nbsp;</span>
-                  <span aria-hidden="true" class="hover-text">&nbsp;Equilibrado&nbsp;</span>
+                  <span aria-hidden="true" class="hover-text"
+                    >&nbsp;Equilibrado&nbsp;</span
+                  >
                 </span>
               </label>
 
               <label class="option-btn" for="dificil">
-                <input type="radio" id="dificil" name="feedback" [(ngModel)]="opcionSeleccionada" value="dificil" />
+                <input
+                  type="radio"
+                  id="dificil"
+                  name="feedback"
+                  [(ngModel)]="opcionSeleccionada"
+                  value="dificil"
+                />
                 <span class="button text-hover rojo" data-text="Difícil">
                   <span class="actual-text">&nbsp;Difícil&nbsp;</span>
-                  <span aria-hidden="true" class="hover-text">&nbsp;Difícil&nbsp;</span>
+                  <span aria-hidden="true" class="hover-text"
+                    >&nbsp;Difícil&nbsp;</span
+                  >
                 </span>
               </label>
             </div>
 
-            <app-boton-trainin (clickBoton)="enviarFeedback()" [disabled]="!opcionSeleccionada">
+            <app-boton-trainin
+              (clickBoton)="enviarFeedback()"
+              [disabled]="!opcionSeleccionada"
+            >
               Enviar y continuar
             </app-boton-trainin>
           </div>
         </div>
       </div>
     </div>
-
   </main>
 </body>

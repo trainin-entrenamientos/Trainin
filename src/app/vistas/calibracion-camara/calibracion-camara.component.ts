@@ -1,39 +1,43 @@
-import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+} from '@angular/core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
 
 @Component({
   standalone: false,
   selector: 'app-calibracion-camara',
   templateUrl: './calibracion-camara.component.html',
-  styleUrls: ['./calibracion-camara.component.css']
+  styleUrls: ['./calibracion-camara.component.css'],
 })
 export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
-
-  @ViewChild('webcam', { static: false }) videoRef!: ElementRef<HTMLVideoElement>;
-  @ViewChild('outputCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('webcam', { static: false })
+  videoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild('outputCanvas', { static: false })
+  canvasRef!: ElementRef<HTMLCanvasElement>;
 
   detector: poseDetection.PoseDetector | null = null;
   webcamRunning = false;
   correcting = false;
   cargandoCamara = true;
- 
 
   private ctx!: CanvasRenderingContext2D;
   private animationFrameId: number | null = null;
   public clave: NombreEjercicio | null = null;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ){
-    this.clave = this.route.snapshot.paramMap.get('ejercicio') as NombreEjercicio | null;
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.clave = this.route.snapshot.paramMap.get(
+      'ejercicio'
+    ) as NombreEjercicio | null;
   }
 
   async ngAfterViewInit() {
-  
     await this.createDetector();
     await this.startCam();
 
@@ -53,10 +57,13 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
     try {
       this.detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.BlazePose,
-        { runtime: 'mediapipe', solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose' }
+        {
+          runtime: 'mediapipe',
+          solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose',
+        }
       );
     } catch (e) {
-      console.warn("MediaPipe falló, usando TFJS:", e);
+      console.warn('MediaPipe falló, usando TFJS:', e);
       this.detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.BlazePose,
         { runtime: 'tfjs', modelType: 'full' }
@@ -66,7 +73,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
 
   async startCam(retryCount = 0) {
     if (!navigator.mediaDevices?.getUserMedia) {
-      alert("Tu navegador no soporta cámara.");
+      alert('Tu navegador no soporta cámara.');
       return;
     }
 
@@ -87,15 +94,16 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
 
       this.webcamRunning = true;
       this.detectPoseLoop();
-
     } catch (err: any) {
-      console.error("Error al iniciar cámara:", err);
+      console.error('Error al iniciar cámara:', err);
 
-      if (err.name === "AbortError" && retryCount < 3) {
-        console.warn("Timeout iniciando cámara, reintentando en 1 segundo...");
+      if (err.name === 'AbortError' && retryCount < 3) {
+        console.warn('Timeout iniciando cámara, reintentando en 1 segundo...');
         setTimeout(() => this.startCam(retryCount + 1), 1000);
       } else {
-        alert("No se pudo acceder a la cámara. Verifica permisos, cierra otras aplicaciones que puedan usarla o reinicia el navegador.");
+        alert(
+          'No se pudo acceder a la cámara. Verifica permisos, cierra otras aplicaciones que puedan usarla o reinicia el navegador.'
+        );
       }
     }
   }
@@ -108,7 +116,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
     const video = this.videoRef.nativeElement;
     if (video.srcObject) {
       const tracks = (video.srcObject as MediaStream).getTracks();
-      tracks.forEach(track => track.stop());
+      tracks.forEach((track) => track.stop());
       video.srcObject = null;
     }
     this.webcamRunning = false;
@@ -130,7 +138,6 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
     canvas.style.height = video.clientHeight + 'px';
   }
 
-
   private lastFrameTime = 0;
   private readonly maxFPS = 30;
 
@@ -143,7 +150,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
       const poses = await this.detector.estimatePoses(video);
       this.drawPose(poses);
     } catch (e) {
-      console.warn("Error estimando pose:", e);
+      console.warn('Error estimando pose:', e);
     }
 
     this.animationFrameId = requestAnimationFrame(() => this.detectPoseLoop());
@@ -159,7 +166,7 @@ export class CalibracionCamaraComponent implements AfterViewInit, OnDestroy {
 
     const keypoints = poses[0].keypoints;
 
-    keypoints.forEach(point => {
+    keypoints.forEach((point) => {
       const x = point.x;
       const y = point.y;
 

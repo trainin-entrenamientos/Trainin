@@ -5,12 +5,14 @@ import { forkJoin } from 'rxjs';
 
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 import { EjercicioIncorporadoDTO } from '../../core/modelos/EjercicioIncorporadoDTO';
+import { manejarErrorSimple } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-admin',
   standalone: false,
   templateUrl: './form-admin.component.html',
-  styleUrls: ['./form-admin.component.css']
+  styleUrls: ['./form-admin.component.css'],
 })
 export class FormAdminComponent implements OnInit {
   form: FormGroup;
@@ -22,9 +24,9 @@ export class FormAdminComponent implements OnInit {
     private fb: FormBuilder,
     private svc: EjercicioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
-
     this.form = this.fb.group({
       id: [0],
       nombre: ['', Validators.required],
@@ -37,9 +39,8 @@ export class FormAdminComponent implements OnInit {
       correccionPremium: [false],
       idTipoEjercicio: [0, Validators.required],
       idsGrupoMuscular: this.fb.array<number>([], Validators.required),
-      idsCategorias: this.fb.array<number>([], Validators.required)
+      idsCategorias: this.fb.array<number>([], Validators.required),
     });
-
   }
 
   ngOnInit(): void {
@@ -49,10 +50,10 @@ export class FormAdminComponent implements OnInit {
 
     forkJoin({
       cats: this.svc.obtenerCategorias(),
-      grps: this.svc.obtenerGruposMusculares()
+      grps: this.svc.obtenerGruposMusculares(),
     }).subscribe(({ cats, grps }) => {
-      this.categorias = cats;
-      this.grupos = grps;
+      this.categorias = cats.objeto;
+      this.grupos = grps.objeto;
 
       if (this.isEdit) {
         this.cargarEjercicio(id);
@@ -69,24 +70,28 @@ export class FormAdminComponent implements OnInit {
   }
 
   private cargarEjercicio(id: number) {
-    this.svc.obtenerEjercicioPorId(id).subscribe(e => {
-      this.form.patchValue({
-        id: e.id,
-        nombre: e.nombre,
-        descripcion: e.descripcion,
-        video: e.video,
-        valorMet: e.valorMet,
-        landmark: e.landmark,
-        tieneCorreccion: e.tieneCorreccion,
-        correccionPremium: e.correccionPremium,
-        idTipoEjercicio: e.idTipoEjercicio,
-        imagen: e.imagen
-      });
+    this.svc.obtenerEjercicioPorId(id).subscribe({
+      next: e => {
+        this.form.patchValue({
+          id: e.objeto.id,
+          nombre: e.objeto.nombre,
+          descripcion: e.objeto.descripcion,
+          video: e.objeto.video,
+          valorMet: e.objeto.valorMet,
+          tieneCorreccion: e.objeto.tieneCorreccion,
+          correccionPremium: e.objeto.correccionPremium,
+          idTipoEjercicio: e.objeto.idTipoEjercicio,
+          imagen: e.objeto.imagen
+        });
 
-      this.idsGrupoMuscular.clear();
-      e.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
-      this.idsCategorias.clear();
-      e.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+        this.idsGrupoMuscular.clear();
+        e.objeto.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+        this.idsCategorias.clear();
+        e.objeto.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+      },
+      error: err => {
+        console.error('Error al cargar el ejercicio:', err);
+      }
     });
   }
 
@@ -94,7 +99,7 @@ export class FormAdminComponent implements OnInit {
     if (checked) {
       array.push(this.fb.control(value));
     } else {
-      const idx = array.controls.findIndex(ctrl => ctrl.value === value);
+      const idx = array.controls.findIndex((ctrl) => ctrl.value === value);
       if (idx >= 0) {
         array.removeAt(idx);
       }
@@ -114,7 +119,8 @@ export class FormAdminComponent implements OnInit {
 
     request$.subscribe({
       next: () => this.router.navigate(['/listarEjercicios']),
-      error: err => console.error('Error al guardar ejercicio:', err)
+      error: (err) =>
+          manejarErrorSimple(this.toastr, `Error al guardar ejercicio.`),
     });
   }
 

@@ -8,7 +8,7 @@ describe('BotonTraininComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BotonTraininComponent ]
+      declarations: [BotonTraininComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BotonTraininComponent);
@@ -28,7 +28,8 @@ describe('BotonTraininComponent', () => {
   });
 
   it('Debería mostrar un botón con tipo y estilo por defecto', () => {
-    const btn = fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+    const btn = fixture.debugElement.query(By.css('button'))
+      .nativeElement as HTMLButtonElement;
     expect(btn.getAttribute('type')).toBe('button');
     expect(btn.classList).toContain('btn-trainin');
     expect(btn.disabled).toBeFalse();
@@ -40,7 +41,8 @@ describe('BotonTraininComponent', () => {
     component.disabled = true;
     fixture.detectChanges();
 
-    const btn = fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+    const btn = fixture.debugElement.query(By.css('button'))
+      .nativeElement as HTMLButtonElement;
     expect(btn.getAttribute('type')).toBe('submit');
     expect(btn.classList).toContain('mi-clase');
     expect(component.disabled).toBeTrue();
@@ -48,7 +50,9 @@ describe('BotonTraininComponent', () => {
 
   it('Debería notificar cuando el usuario presiona el botón', () => {
     spyOn(component.clickBoton, 'emit');
-    const btn: HTMLButtonElement = fixture.debugElement.query(By.css('button')).nativeElement;
+    const btn: HTMLButtonElement = fixture.debugElement.query(
+      By.css('button')
+    ).nativeElement;
     btn.click();
     expect(component.clickBoton.emit).toHaveBeenCalledTimes(1);
   });

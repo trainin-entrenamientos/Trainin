@@ -9,7 +9,7 @@ describe('LayoutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LayoutComponent],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ] 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutComponent);

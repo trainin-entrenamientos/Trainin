@@ -29,10 +29,12 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
 import { ErrorComponent } from './error/error.component';
 import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
 import { FormAdminComponent } from './form-admin/form-admin.component';
+import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.component';
 import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
+import { RecuperarContraseniaComponent } from './recuperar-contrasenia/recuperar-contrasenia.component';
+import { OlvidasteContraseniaComponent } from './olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
 
 @NgModule({
-
   declarations: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
@@ -58,8 +60,11 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     ErrorComponent,
     ListadoDeEjerciciosComponent,
     FormAdminComponent,
+    EjercicioDiarioComponent,
     HistorialPlanesComponent,
-  ],
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
+    ],
 
   imports: [
     CommonModule,
@@ -68,7 +73,7 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     ReactiveFormsModule,
     CompartidoModule,
     NgbTooltipModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   exports: [
     PlanesComponent,
@@ -79,7 +84,9 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     FinalizacionRutinaComponent,
     InicioComponent,
     PerfilComponent,
-    PlanPremiumComponent
-  ]
+    PlanPremiumComponent,
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
+  ],
 })
-export class VistasModule { }
+export class VistasModule {}

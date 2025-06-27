@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  Renderer2,
-  ElementRef,
-} from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
 import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
@@ -14,6 +8,10 @@ import { Router } from '@angular/router';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { PlanCreadoDTO } from '../../core/modelos/PlanCreadoDTO';
+
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -31,15 +29,14 @@ export class CrearPlanEntrenamientoComponent {
   planIdCreado: number | undefined;
   mostrarModal: boolean = false;
   cargando: boolean = true;
-  seEnvioForm:boolean=false;
-  progresoVisual = 20; 
+  seEnvioForm: boolean = false;
+  progresoVisual = 20;
   usuario?: Usuario;
   email: string | null = null;
   esPremium?: boolean;
-  cantidadPlanes?: number=0;
+  cantidadPlanes?: number = 0;
   planEntrenamiento: any[] = [];
   idUsuario: number = 1;
-
 
   constructor(
     private fb: FormBuilder,
@@ -50,8 +47,8 @@ export class CrearPlanEntrenamientoComponent {
     private router: Router,
     private logroService: LogroService,
     private usuarioService: UsuarioService,
-    private planEntrenamientoService: PlanEntrenamientoService
-
+    private planEntrenamientoService: PlanEntrenamientoService,
+    private toastr: ToastrService
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
@@ -76,43 +73,43 @@ export class CrearPlanEntrenamientoComponent {
 
   ngOnInit(): void {
     this.email = this.authService.getEmail();
-     this.obtenerUsuario();
+    this.obtenerUsuario();
   }
 
-    obtenerUsuario(): void {
+  obtenerUsuario(): void {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (usuarioObtenido: any) => {
-        this.usuario = usuarioObtenido;
-        this.idUsuario = usuarioObtenido.id;
+        this.usuario = usuarioObtenido.objeto;
+        this.idUsuario = usuarioObtenido.objeto.id;
         this.esPremium = this.usuario?.esPremium;
-        console.log(this.esPremium);
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
-      }
+        console.log(err)
+          manejarErrorYRedirigir(this.toastr, this.router, `${err.error.mensaje}`, '/planes');
+      },
     });
   }
 
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: any) => {
-        this.cantidadPlanes = planObtenido.length;
-        if(this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4){
-       this.router.navigate(['/planes']);
+      next: (planObtenido) => {
+        this.cantidadPlanes = planObtenido.objeto.length;
+        if (this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4) {
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste 4 planes de entrenamiento.', '/planes');
         }
-      if(this.esPremium ===false && (this.cantidadPlanes ?? 0) >= 1){
-       this.router.navigate(['/planes']);
-       }
-      this.cargando = false;
+        if (this.esPremium === false && (this.cantidadPlanes ?? 0) >= 1) {
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste un plan de entrenamiento.', '/planes');
+        }
+        this.cargando = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.planEntrenamiento = [];
         this.cargando = false;
-      }
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el plan de entrenamiento`, '/planes');
+      },
     });
   }
-
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -125,29 +122,27 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   nextStep(): void {
-  if (!this.esPasoActualValido()) {
-    this.marcarCamposDelPasoComoTocados(this.currentStep);
-    return;
+    if (!this.esPasoActualValido()) {
+      this.marcarCamposDelPasoComoTocados(this.currentStep);
+      return;
+    }
+
+    if (this.currentStep < this.totalSteps) {
+      this.progresoVisual = (this.currentStep + 1) * 20;
+
+      setTimeout(() => {
+        this.currentStep++;
+
+        if (this.currentStep === this.totalSteps) {
+          this.cargarResumen();
+        }
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
+    }
   }
-
-  if (this.currentStep < this.totalSteps) {
-    this.progresoVisual = (this.currentStep + 1) * 20;
-
-    setTimeout(() => {
-      this.currentStep++;
-
-      if (this.currentStep === this.totalSteps) {
-        this.cargarResumen();
-      }
-
-      if (this.currentStep === 4) {
-        setTimeout(() => this.configurarSliders(), 0);
-      }
-    }, 200); 
-  }
-}
-
-
 
   marcarCamposDelPasoComoTocados(paso: number): void {
     const controles: string[] = [];
@@ -178,43 +173,41 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   previousStep(): void {
-  if (this.currentStep > 1) {
-    this.progresoVisual = (this.currentStep - 1) * 20;
+    if (this.currentStep > 1) {
+      this.progresoVisual = (this.currentStep - 1) * 20;
+
+      setTimeout(() => {
+        this.currentStep--;
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
+    }
+  }
+
+  irAPaso(numero: number): void {
+    this.progresoVisual = numero * 20;
 
     setTimeout(() => {
-      this.currentStep--;
+      this.currentStep = numero;
+      this.editandoDesdeResumen = true;
 
       if (this.currentStep === 4) {
         setTimeout(() => this.configurarSliders(), 0);
       }
     }, 200);
   }
-}
 
+  volverAlResumen(): void {
+    this.progresoVisual = this.totalSteps * 20;
 
-  irAPaso(numero: number): void {
-  this.progresoVisual = numero * 20;
-
-  setTimeout(() => {
-    this.currentStep = numero;
-    this.editandoDesdeResumen = true;
-
-    if (this.currentStep === 4) {
-      setTimeout(() => this.configurarSliders(), 0);
-    }
-  }, 200);
-}
-
-volverAlResumen(): void {
-  this.progresoVisual = this.totalSteps * 20;
-
-  setTimeout(() => {
-    this.currentStep = this.totalSteps;
-    this.editandoDesdeResumen = false;
-    this.cargarResumen();
-  }, 200);
-}
-
+    setTimeout(() => {
+      this.currentStep = this.totalSteps;
+      this.editandoDesdeResumen = false;
+      this.cargarResumen();
+    }, 200);
+  }
 
   esPasoActualValido(): boolean {
     switch (this.currentStep) {
@@ -323,23 +316,18 @@ volverAlResumen(): void {
   }
 
   obtenerOpcionesEntrenamiento(): void {
-    this.planDeEntrenamientoService.obtenerOpcionesEntrenamiento()
-      .subscribe((respuesta: any) => {
+    this.planDeEntrenamientoService
+      .obtenerOpcionesEntrenamiento()
+      .subscribe((respuesta) => {
         this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
 
   obtenerEquipamiento(): void {
-    this.planDeEntrenamientoService.obtenerEquipamiento()
+    this.planDeEntrenamientoService
+      .obtenerEquipamiento()
       .subscribe((respuesta: any) => {
         this.equipamientosOpciones = respuesta.objeto;
-      });
-  }
- //Esto se usa?
-  obtenerObjetivos(): void {
-    this.planDeEntrenamientoService.obtenerObjetivos()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
       });
   }
 
@@ -536,51 +524,51 @@ volverAlResumen(): void {
   }
 
   enviarFormulario() {
-    this.cargando=true;
+    this.cargando = true;
     if (this.formularioForm.valid) {
-      this.planDeEntrenamientoService.crearPlanEntrenamiento({
-          ...this.formularioForm.value,
-          email: this.authService.getEmail(),
+      this.planDeEntrenamientoService
+        .crearPlanEntrenamiento({...this.formularioForm.value, email: this.authService.getEmail(),
         })
-        
         .subscribe(
           (response) => {
-            this.planIdCreado = response.objeto.planId
-            if (response.logro) {
-              this.logroService.mostrarLogro(response.logro);
+            if (response.objeto.planId) {
+              console.log(response);
+              this.planIdCreado = response.objeto.planId;
+              if (response.objeto.logro) {
+                this.logroService.mostrarLogro(response.objeto.logro);
+              }
             }
             this.cargando = false;
-            this.seEnvioForm=true;
+            this.seEnvioForm = true;
             this.mostrarModal = true;
           },
           (error) => {
-            console.error('Error al crear el plan de entrenamiento:', error);
+           manejarErrorYRedirigir(this.toastr, this.router, "No se pudo crear el plan de entrenamiento", '/planes');
           }
         );
     } else {
-      console.log('El formulario no es válido');
+      manejarErrorSimple(this.toastr, 'El formulario no es válido');
     }
   }
 
   manejarAccion(tipo: 'detalle' | 'iniciar') {
-  if (!this.planIdCreado) {
-    console.error('No hay un ID de plan creado.');
-    return;
+    if (!this.planIdCreado) {
+      manejarErrorSimple(this.toastr, 'No hay un ID de plan creado.');
+      return;
+    }
+
+    if (tipo === 'detalle') {
+      this.router.navigate(['/detalle-plan', this.planIdCreado]);
+    } else if (tipo === 'iniciar') {
+      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+    }
   }
 
-  if (tipo === 'detalle') {
-    this.router.navigate(['/detalle-plan', this.planIdCreado]);
-  } else if (tipo === 'iniciar') {
-    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-  }
-}
-
-pasos = [
-  { nombre: 'Datos', icono: 'fas fa-user' },
-  { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
-  { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
-  { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
-  { nombre: 'Resumen', icono: 'fas fa-list-alt' }
-];
-
+  pasos = [
+    { nombre: 'Datos', icono: 'fas fa-user' },
+    { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
+    { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
+    { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
+    { nombre: 'Resumen', icono: 'fas fa-list-alt' },
+  ];
 }

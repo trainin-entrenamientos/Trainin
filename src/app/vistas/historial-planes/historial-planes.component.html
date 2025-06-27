@@ -1,20 +1,37 @@
-<main *ngIf="cargando" class="container"><app-loader ></app-loader></main>
-
-<main class="container" *ngIf="!cargando">
+<main *ngIf="cargando"><app-loader></app-loader></main>
+ <main *ngIf="!tienePlanes && !cargando">
+    <section>
+      <article class="realizada">
+        <h2 class="p-4 m-4">¡Todavía no tenes planes completados!</h2>
+        <h3>Continuá entrenando con TRAININ para poder visualizarlos</h3>
+        <br /><br />
+        <div class="logo">
+          <img
+            src="imagenes/logo-trainin.svg"
+            alt="TRAININ Logo"
+            class="img-fluid d-none d-md-block"
+          />
+        </div>
+        <app-boton-trainin
+          type="button"
+          class="btn-trainin"
+          routerLink="/planes"
+          >Volver al Inicio</app-boton-trainin
+        >
+      </article>
+    </section>
+  </main>
+<main *ngIf="!cargando && tienePlanes">
   <h1>Historial de Planes</h1>
   <div class="grid-historial">
     <div class="historial-card" *ngFor="let plan of planesHistorial">
       <div class="card-contenido">
-        <img
-          [src]="plan.foto"
-          alt="Tipo de entrenamiento"
-          class="card-img"
-        />
+        <img [src]="plan.foto" alt="Tipo de entrenamiento" class="card-img" />
         <div class="card-info">
           <h3 class="card-titulo">{{ plan.tipoEntrenamiento }}</h3>
           <div class="card-datos">
             <span>{{ plan.calorias }} cal</span>
-            <span>{{ plan.tiempo }} min</span>
+            <span>{{ formatearTiempo(plan.tiempo) }} min</span>
           </div>
           <p class="card-fecha">{{ plan.fechaRealizacion }}</p>
         </div>

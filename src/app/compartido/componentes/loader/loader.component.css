@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Tondu';
-  src: url('/fuentes/Tondu-Beta.ttf') format('truetype');
+  font-family: "Tondu";
+  src: url("/fuentes/Tondu-Beta.ttf") format("truetype");
 }
 
 .loader-overlay {
@@ -29,7 +29,13 @@
   pointer-events: none;
 }
 
-.T, .R, .A, .I, .N, .I2, .N2 {
+.T,
+.R,
+.A,
+.I,
+.N,
+.I2,
+.N2 {
   font-family: "Tondu";
   color: white;
   opacity: 1; /* Ya son visibles desde el principio */
@@ -39,30 +45,45 @@
 }
 
 /* Colores especiales para las dos últimas letras */
-.I2, .N2 {
+.I2,
+.N2 {
   color: #13ff3a;
   text-shadow: 2px 2px 3px hsl(130, 86%, 28%);
 }
 
 /* Animación con delay para el efecto secuencial */
-.T  { animation-delay: 0.2s; }
-.R  { animation-delay: 0.4s; }
-.A  { animation-delay: 0.6s; }
-.I  { animation-delay: 0.8s; }
-.N  { animation-delay: 1.0s; }
-.I2 { animation-delay: 1.2s; }
-.N2 { animation-delay: 1.4s; }
+.T {
+  animation-delay: 0.2s;
+}
+.R {
+  animation-delay: 0.4s;
+}
+.A {
+  animation-delay: 0.6s;
+}
+.I {
+  animation-delay: 0.8s;
+}
+.N {
+  animation-delay: 1s;
+}
+.I2 {
+  animation-delay: 1.2s;
+}
+.N2 {
+  animation-delay: 1.4s;
+}
 
 /* La animación en sí */
 @keyframes pass {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
     opacity: 0;
   }
 }
-
 
 .loader {
   height: 30px;
@@ -100,7 +121,6 @@
   animation-delay: 0.8s;
 }
 
-
 @keyframes anm-BL-53-move1 {
   50% {
     background: #13ff3a;
@@ -135,4 +155,3 @@
     transform: scale(1);
   }
 }
-  

@@ -5,6 +5,8 @@ import { Ejercicio } from '../../core/modelos/RutinaDTO';
 import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { Router } from '@angular/router';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-inicio-rutina',
@@ -14,17 +16,17 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 })
 export class InicioRutinaComponent {
   rutina: Rutina | null = null;
-  selectedEjercicioIndex: number=0;
+  selectedEjercicioIndex: number = 0;
   ejercicios: Ejercicio[] = [];
   cargando: boolean = true;
-  minutosTraducidos: string ='';
-
+  minutosTraducidos: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private rutinaService: RutinaService,
-    private temporizadorService: TemporizadorService
+    private temporizadorService: TemporizadorService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class InicioRutinaComponent {
     const idPlan = +this.route.snapshot.paramMap.get('PlanId')!;
     this.cargarRutina(idPlan);
   }
-  
+
   iniciarRutina(): void {
     if (!this.rutina) return;
 
@@ -41,27 +43,28 @@ export class InicioRutinaComponent {
     this.temporizadorService.iniciarTiempo();
     this.router.navigate(['/informacion-ejercicio']);
   }
-  
+
   private cargarRutina(idPlan: number): void {
-    console.log(idPlan);
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
-      next: rutina => {       
-         if(rutina==null){
-          this.cargando=false;  
-        }    
-        this.rutina = rutina;
-        this.rutinaService.setRutina(rutina);  
-        this.ejercicios = rutina.ejercicios; 
-        this.minutosTraducidos=this.traducirMinutos(this.rutina.duracionEstimada);
-        this.cargando=false;  
-      }, 
-      error: err => {
-        this.cargando=false;  
-      }
+      next: (rutina) => {
+        if (rutina.objeto == null) {
+          this.cargando = false;
+        }
+        this.rutina = rutina.objeto;
+        this.rutinaService.setRutina(rutina.objeto);
+        this.ejercicios = rutina.objeto.ejercicios;
+        this.minutosTraducidos = this.traducirMinutos(
+        this.rutina.duracionEstimada
+        );
+        this.cargando = false;
+      },
+      error: (err) => {
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina`, '/planes');
+      },
     });
   }
 
- public traducirMinutos(valor: number): string {
+  public traducirMinutos(valor: number): string {
     const mapa: Record<string, string> = {
       1: '≈15 min.',
       2: '≈30 min.',
@@ -70,18 +73,18 @@ export class InicioRutinaComponent {
     return mapa[valor] || 'No especificado';
   }
 
-   selectEjercicio(index: number) {
+  selectEjercicio(index: number) {
     this.selectedEjercicioIndex = index;
   }
 
   anteriorEjercicio() {
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex - 1 + this.ejercicios.length) % this.ejercicios.length;
-}
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex - 1 + this.ejercicios.length) %
+      this.ejercicios.length;
+  }
 
-siguienteEjercicio() {
-  this.selectedEjercicioIndex =
-    (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
-}
-
+  siguienteEjercicio() {
+    this.selectedEjercicioIndex =
+      (this.selectedEjercicioIndex + 1) % this.ejercicios.length;
+  }
 }

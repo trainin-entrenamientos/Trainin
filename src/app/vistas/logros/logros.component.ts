@@ -1,28 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Logro } from '../../core/modelos/LogroDTO'; // Asegurate que el path esté correcto
+import { LogroDTO } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-logros',
-  standalone:false,
+  standalone: false,
   templateUrl: './logros.component.html',
   styleUrls: ['./logros.component.css'],
 })
 export class LogrosComponent implements OnInit {
-  todosLosLogros: Logro[] = [];
-  logrosObtenidos:Logro[] = [];
-  logrosFiltrados: Logro[] = [];
+  todosLosLogros: LogroDTO[] = [];
+  logrosObtenidos: LogroDTO[] = [];
+  logrosFiltrados: LogroDTO[] = [];
   filtroActivo: 'todos' | 'obtenidos' | 'faltantes' = 'todos';
   filtroForm: FormGroup;
   email: string | null = null;
-  cargando: boolean= false;
+  cargando: boolean = false;
 
-  constructor(private fb: FormBuilder,
-        private logroService: LogroService,
-        private authService: AuthService,
-    
+  constructor(
+    private fb: FormBuilder,
+    private logroService: LogroService,
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService 
   ) {
     this.filtroForm = this.fb.group({
       filtroSeleccionado: ['todos'],
@@ -30,72 +36,78 @@ export class LogrosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  this.cargando = true;
-  this.email = this.authService.getEmail();
+    this.cargando = true;
+    this.email = this.authService.getEmail();
 
-  if (!this.email) {
-    console.error("No se encontró el email del usuario");
-    this.cargando = false;
-    return;
-  }
+    if (!this.email) {
+      manejarErrorYRedirigir(this.toastr, this.router,
+        'No se pudo obtener el email del usuario', '/planes'
+      );
+      return;
+    }
 
-  const logrosObtenidos$ = this.logroService.obtenerLogrosPorUsuario(this.email);
-  const todosLosLogros$ = this.logroService.obtenerTodosLosLogros();
+    this.logroService.obtenerLogrosPorUsuario(this.email)
+      .subscribe({
+        next: respUser => {
+          this.logrosObtenidos = respUser.objeto || [];
 
-  logrosObtenidos$.subscribe({
-    next: logrosObtenidos => {
-      const logrosUsuario = logrosObtenidos?.objeto ?? [];
-      this.logrosObtenidos = logrosUsuario;
+          // 2) Traigo todos los logros y mapeo directamente
+          this.logroService.obtenerTodosLosLogros()
+            .subscribe({
+              next: respAll => {
+                const todos: LogroDTO[] = respAll.objeto || [];
 
-      todosLosLogros$.subscribe({
-        next: todosLosLogros => {
-          const todos = todosLosLogros?.objeto ?? [];
-          const idsObtenidos = logrosUsuario.map((l: { id: any; }) => l.id);
+                this.todosLosLogros = todos.map(l => ({
+                  ...l,                                       // id, nombre, descripcion, imagen, tipo
+                  obtenido: this.logrosObtenidos.some(u => u.id === l.id),
+                  // si no lo encontró, pongo new Date() para cumplir con Date no-nullable
+                  fechaObtencion: this.logrosObtenidos
+                    .find(u => u.id === l.id)
+                    ?.fechaObtencion
+                    || new Date()
+                }));
 
-          this.todosLosLogros = todos.map((logro: { id: number }) => ({
-            ...logro,
-            obtenido: idsObtenidos.includes(logro.id)
-          }));
-
-          this.cargando = false;
-          this.aplicarFiltro();
+                this.cargando = false;
+                this.aplicarFiltro();
+              },
+              error: () => manejarErrorYRedirigir(
+                this.toastr, this.router,
+                'Error al obtener todos los logros', '/planes'
+              )
+            });
         },
-        error: err => {
-          console.error('Error al obtener todos los logros:', err);
+        error: () => {
+          manejarErrorSimple(this.toastr, 'Error al obtener tus logros');
           this.cargando = false;
         }
       });
-    },
-    error: err => {
-      console.error('Error al obtener los logros del usuario:', err);
-      this.cargando = false;
-    }
-  });
 
-  this.filtroForm.get('filtroSeleccionado')?.valueChanges.subscribe(valor => {
-    this.cambiarFiltro(valor);
-  });
-}
-
-
-
-aplicarFiltro(): void {
-  switch (this.filtroActivo) {
-    case 'obtenidos':
-      this.logrosFiltrados = this.todosLosLogros.filter(logro => logro.obtenido);
-      break;
-    case 'faltantes':
-      this.logrosFiltrados = this.todosLosLogros.filter(logro => !logro.obtenido);
-      break;
-    default: 
-      this.logrosFiltrados = [...this.todosLosLogros].sort((a, b) =>
-        Number(b.obtenido) - Number(a.obtenido)
-      );
-      break;
+    this.filtroForm.get('filtroSeleccionado')?.valueChanges
+      .subscribe(v => {
+        this.filtroActivo = v;
+        this.aplicarFiltro();
+      });
   }
-}
 
-
+  aplicarFiltro(): void {
+    switch (this.filtroActivo) {
+      case 'obtenidos':
+        this.logrosFiltrados = this.todosLosLogros.filter(
+          (logro) => logro.obtenido
+        );
+        break;
+      case 'faltantes':
+        this.logrosFiltrados = this.todosLosLogros.filter(
+          (logro) => !logro.obtenido
+        );
+        break;
+      default:
+        this.logrosFiltrados = [...this.todosLosLogros].sort(
+          (a, b) => Number(b.obtenido) - Number(a.obtenido)
+        );
+        break;
+    }
+  }
 
   cambiarFiltro(valor: string): void {
     this.filtroActivo = valor as 'todos' | 'obtenidos' | 'faltantes';

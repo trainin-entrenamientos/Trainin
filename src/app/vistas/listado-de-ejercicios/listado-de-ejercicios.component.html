@@ -5,27 +5,37 @@
       <h1 class="admin-title">Bienvenido Administrador</h1>
     </div>
     <div class="text-center mb-3">
-      <app-boton-trainin routerLink="/crear" clase="btn btn-trainin" tipo="button">
-        Crear ejercicio</app-boton-trainin>
+      <app-boton-trainin
+        routerLink="/crear"
+        clase="btn btn-trainin"
+        tipo="button"
+      >
+        Crear ejercicio</app-boton-trainin
+      >
     </div>
 
     <div class="text-center mb-3 w-100">
-      <table class="table table-striped listado-ejercicios" *ngIf="ejercicios.length">
+      <table
+        class="table table-striped listado-ejercicios"
+        *ngIf="ejercicios.length"
+      >
         <thead>
           <tr>
             <th class="sortable" (click)="toggleSort()">
               ID
-              <i class="bi bi-arrow-down-up" [ngClass]="{
-                   'bi-sort-numeric-down': sortDirection === 'asc',
-                   'bi-sort-numeric-down-alt': sortDirection === 'desc'
-                 }"></i>
+              <i
+                class="bi bi-arrow-down-up"
+                [ngClass]="{
+                  'bi-sort-numeric-down': sortDirection === 'asc',
+                  'bi-sort-numeric-down-alt': sortDirection === 'desc'
+                }"
+              ></i>
             </th>
             <th>Nombre</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-
           <tr *ngFor="let e of ejercicios">
             <td>{{ e.id }}</td>
             <td>{{ e.nombre }}</td>
@@ -35,7 +45,11 @@
                   <i class="bi bi-pencil-fill"></i>
                 </button>
 
-                <button (click)="abrirModal(e)" class="btn" aria-label="Eliminar">
+                <button
+                  (click)="abrirModal(e)"
+                  class="btn"
+                  aria-label="Eliminar"
+                >
                   <i class="bi bi-trash-fill"></i>
                 </button>
               </div>
@@ -45,7 +59,10 @@
       </table>
     </div>
   </section>
-  <app-modal-confirmacion-borrar-plan [visible]="mostrarModalDeConfirmacion" [mensaje]="mensajeModal"
+  <app-modal-confirmacion-borrar-plan
+    [visible]="mostrarModalDeConfirmacion"
+    [mensaje]="mensajeModal"
     (onConfirm)="eliminar(ejercicioSeleccionado)"
-    (onCancel)="cancelarEliminarEjercicio()"></app-modal-confirmacion-borrar-plan>
+    (onCancel)="cancelarEliminarEjercicio()"
+  ></app-modal-confirmacion-borrar-plan>
 </main>

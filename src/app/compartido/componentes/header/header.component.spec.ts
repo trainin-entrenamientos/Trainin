@@ -17,22 +17,27 @@ describe('HeaderComponent', () => {
   const eventsSubject = new Subject<any>();
 
   beforeEach(async () => {
-    authSpy = jasmine.createSpyObj('AuthService', ['estaAutenticado', 'cerrarSesion']);
+    authSpy = jasmine.createSpyObj('AuthService', [
+      'estaAutenticado',
+      'cerrarSesion',
+    ]);
     toastrSpy = jasmine.createSpyObj('ToastrService', ['info']);
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [HeaderComponent],
       providers: [
-        { provide: AuthService,    useValue: authSpy },
-        { provide: ToastrService,  useValue: toastrSpy },
-        { provide: TOAST_CONFIG,   useValue: {} }
+        { provide: AuthService, useValue: authSpy },
+        { provide: ToastrService, useValue: toastrSpy },
+        { provide: TOAST_CONFIG, useValue: {} },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     router = TestBed.inject(Router);
-    spyOnProperty(router, 'events', 'get').and.returnValue(eventsSubject.asObservable());
+    spyOnProperty(router, 'events', 'get').and.returnValue(
+      eventsSubject.asObservable()
+    );
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
@@ -40,7 +45,9 @@ describe('HeaderComponent', () => {
   });
 
   it('Debería identificar cuando está en la página de la rutina', () => {
-    eventsSubject.next(new NavigationEnd(1, '/informacion-ejercicio', '/informacion-ejercicio'));
+    eventsSubject.next(
+      new NavigationEnd(1, '/informacion-ejercicio', '/informacion-ejercicio')
+    );
     expect(component.enRutina).toBeTrue();
     eventsSubject.next(new NavigationEnd(2, '/home', '/home'));
     expect(component.enRutina).toBeFalse();
@@ -115,7 +122,9 @@ describe('HeaderComponent', () => {
     spyOn(document, 'getElementById').and.returnValue(dropdownEl);
 
     const hideSpy = jasmine.createSpy();
-    (window as any).bootstrap = { Dropdown: { getOrCreateInstance: () => ({ hide: hideSpy }) } };
+    (window as any).bootstrap = {
+      Dropdown: { getOrCreateInstance: () => ({ hide: hideSpy }) },
+    };
 
     component.onClickCerrarSesion(mockEvt as any);
 
@@ -135,7 +144,7 @@ describe('HeaderComponent', () => {
       'calibracion-camara',
       'correccion-postura',
       'realizar-ejercicio',
-      'finalizacion-rutina'
+      'finalizacion-rutina',
     ].forEach((ruta, i) => {
       eventsSubject.next(new NavigationEnd(i, `/${ruta}`, `/${ruta}`));
       expect(component.enRutina).toBeTrue();

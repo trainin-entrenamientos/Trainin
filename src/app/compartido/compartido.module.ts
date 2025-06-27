@@ -9,7 +9,6 @@ import { ModalEliminarEjercicioComponent } from './componentes/modales/modal-eli
 import { EjercicioTarjetaComponent } from './componentes/ejercicio-tarjeta/ejercicio-tarjeta.component';
 import { CrearPlanModalComponent } from './componentes/modales/crear-plan-modal/crear-plan-modal.component';
 import { ModalPlanCreadoComponent } from './componentes/modales/modal-plan-creado/modal-plan-creado.component';
-import { ModalReintentoCorreccionComponent } from './componentes/modales/modal-reintento-correccion/modal-reintento-correccion.component';
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { TemporizadorComponent } from './componentes/temporizador/temporizador.component';
 import { BotonTraininComponent } from './componentes/boton-trainin/boton-trainin.component';
@@ -20,6 +19,7 @@ import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-d
 import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SpotifyComponent } from "./componentes/spotify/spotify.component";
+import { ModalCambiarContraseniaComponent } from './componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
 
 
 @NgModule({
@@ -39,14 +39,17 @@ import { SpotifyComponent } from "./componentes/spotify/spotify.component";
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
     ModalEditarPerfilComponent,
-    SpotifyComponent
+    SpotifyComponent,
+    ModalCambiarContraseniaComponent,
   ],
+  
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     ToastrModule.forRoot()
-],
+  ],
+  
   exports: [
     HeaderComponent,
     FooterComponent,

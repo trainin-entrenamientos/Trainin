@@ -1,209 +1,227 @@
-  <app-loader *ngIf="cargando"></app-loader>
-
+<app-loader *ngIf="cargando"></app-loader>
 
 <body>
-<main >
-  <div *ngIf="!cargando" class="container-fluid my-0 profile-page">
-    <div
-      class="row justify-content-center align-items-center mb-4"
-      id="datosUsuario"
-    >
-      <div style="width: 150px; height: 150px; position: relative">
-        <img
-          [src]="fotoMostrar"
-          alt="Foto de perfil"
-          style="width: 125px; height: 125px; border-radius: 30%"
-        />
-        <label
-          for="fileInput"
-          style="
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            padding: 4px;
-          "
-        >
-          <i
-            class="bi bi-pencil-square"
-            style="color: white; font-size: 24px"
-          ></i>
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          (change)="onFileSelected($event)"
-          hidden
-          accept="image/*"
-        />
-      </div>
+  <main>
+    <div *ngIf="!cargando" class="container-fluid my-0 profile-page">
+      <div
+        class="row justify-content-center align-items-center mb-4"
+        id="datosUsuario"
+      >
+        <div style="width: 150px; height: 150px; position: relative">
+          <img
+            [src]="fotoMostrar"
+            alt="Foto de perfil"
+            style="width: 125px; height: 125px; border-radius: 30%"
+          />
+          <label
+            for="fileInput"
+            style="
+              position: absolute;
+              bottom: 10px;
+              right: 10px;
+              cursor: pointer;
+              background: rgba(0, 0, 0, 0.6);
+              border-radius: 50%;
+              padding: 4px;
+            "
+          >
+            <i
+              class="bi bi-pencil-square"
+              style="color: white; font-size: 24px"
+            ></i>
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            (change)="onFileSelected($event)"
+            hidden
+            accept="image/*"
+          />
+        </div>
 
-      <div class="col-12 col-md-6" *ngIf="perfil">
-        <h1 class="mb-1">{{ perfil.nombre }} {{ perfil.apellido }}
-          <button type="button" class="btn btn-icon text-white" aria-label="Editar perfil" (click)="openEditModal()">
-            <i class="fas fa-user-edit icono-user"></i>
-          </button>
-        </h1>
-        <p class="text-muted-white">
-          Fecha de ingreso: {{ perfil.fechaCreacion }}
-        </p>
-      </div>
+        <div class="col-12 col-md-6" *ngIf="perfil">
+          <h1 class="mb-1">
+            {{ perfil.nombre }} {{ perfil.apellido }}
+            <button
+              type="button"
+              class="btn p-0 text-white d-inline-flex align-items-center icono-user"
+              style="line-height: 1"
+              aria-label="Editar perfil"
+              (click)="abrirEditarPerfilModal()"
+            >
+              <i class="fas fa-user-edit"></i>
+            </button>
+          </h1>
+          <p class="text-muted-white">
+            Fecha de ingreso: {{ perfil.fechaCreacion }}
+          </p>
+          <p class="text-muted-white">
+            <a
+              role="button"
+              class="text-white d-inline-flex align-items-center gap-2"
+              style="text-decoration: none; cursor: pointer"
+              (click)="abrirCambioContraseniaModal()"
+            >
+              Cambiar contraseña
+              <i class="fas fa-key ml-1"></i>
+            </a>
+          </p>
+        </div>
 
-      <div class="col-12 col-md-3 text-center text-md-right">
-        <app-boton-trainin
-          [ruta]="'/premium'"
-          [clase]="'btn btn-trainin btn btn-outline-success btn-lg mb-2'"
-        >
-          TRAININ PREMIUM
-        </app-boton-trainin>
-        <br />
-        <a href="#" class="text-decoration-none text-white">
-          Administrar Suscripción
-          <i class="fas fa-external-link-alt text-white"></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="row text-center stats-row mb-4" *ngIf="perfil">
-      <div class="col-4">
-        <h2>{{ perfil.peso }}<small class="text-muted-white"> kg</small></h2>
-        <p>Peso</p>
-      </div>
-      <div class="col-4">
-        <h2>{{ perfil.altura }}<small class="text-muted-white"> cm</small></h2>
-        <p>Altura</p>
-      </div>
-      <div class="col-4">
-        <h2>{{ perfil.edad }}<small class="text-muted-white"> años</small></h2>
-        <p>Edad</p>
-      </div>
-    </div>
-
-    <div class="row mb-5" id="informacionUsuario">
-      <div class="col-12 col-md-4 mb-3">
-        <div class="card metric text-center h-100">
-          <div class="card-body">
-            <i class="fas fa-fire fa-2x text-warning mb-2"></i>
-            <p class="display-4 mb-0">{{perfil?.caloriasTotales}}<span class="small"> </span></p>
-            <p class="card-text">Calorías Quemadas</p>
-          </div>
+        <div class="col-12 col-md-3 text-center text-md-right">
+          <app-boton-trainin
+            [ruta]="'/premium'"
+            [clase]="'btn btn-trainin btn btn-outline-success btn-lg mb-2'"
+          >
+            TRAININ PREMIUM
+          </app-boton-trainin>
+          <br />
         </div>
       </div>
-      <div class="col-12 col-md-4 mb-3">
-        <div class="card metric text-center h-100">
-          <div class="card-body">
-            <i class="fas fa-dumbbell fa-2x text-success mb-2"></i>
-            <p class="display-4 mb-0">{{perfil?.entrenamientosHechos}}</p>
-            <p class="card-text">Entrenamientos hechos</p>
-          </div>
+
+      <div class="row text-center stats-row mb-4" *ngIf="perfil">
+        <div class="col-4">
+          <h2>{{ perfil.peso }}<small class="text-muted-white"> kg</small></h2>
+          <p>Peso</p>
+        </div>
+        <div class="col-4">
+          <h2>
+            {{ perfil.altura }}<small class="text-muted-white"> cm</small>
+          </h2>
+          <p>Altura</p>
+        </div>
+        <div class="col-4">
+          <h2>
+            {{ perfil.edad }}<small class="text-muted-white"> años</small>
+          </h2>
+          <p>Edad</p>
         </div>
       </div>
-      <div class="col-12 col-md-4 mb-3">
-        <div class="card metric text-center h-100">
-          <div class="card-body">
-            <i class="fas fa-clock fa-2x text-primary mb-2"></i>
-            <p class="display-4 mb-0">{{perfil?.tiempoTotalEntrenado}}<span class="small"> min</span></p>
-            <p class="card-text">Tiempo entrenando</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <a routerLink="/logros">
+
       <div class="row mb-5" id="informacionUsuario">
-        <div class="col-12 col-md-6 mb-3">
-          <div class="card achievements h-100">
-            <div class="card-header">Mis logros</div>
-            <ul class="list-group list-group-flush">
-              <li
-                *ngIf="logros?.length === 0"
-                class="list-group-item text-white"
-              >
-                <i class="fas fa-info-circle mr-2"></i>
-                No tienes ningún logro desbloqueado
-              </li>
-
-              <li
-                *ngFor="let logro of logros"
-                class="list-group-item d-flex justify-content-between align-items-start"
-              >
-                <div id="logros" class="d-flex align-items-start">
-                  <img
-                    [src]="logro.imagen"
-                    alt="Imagen logro"
-                    width="40"
-                    height="40"
-                    class="mr-2 rounded"
-                  />
-                  <div>
-                    <strong>{{ logro.nombre }}</strong
-                    ><br />
-                    <small class="text-muted-white">{{
-                      logro.descripcion
-                    }}</small>
-                  </div>
-                </div>
-                <small class="text-white">{{
-                  logro.fechaObtencion | date : "dd/MM/yyyy"
-                }}</small>
-              </li>
-            </ul>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="card metric text-center h-100">
+            <div class="card-body">
+              <i class="fas fa-fire fa-2x text-warning mb-2"></i>
+              <p class="display-4 mb-0">
+                {{ perfil?.caloriasTotales }}<span class="small"> </span>
+              </p>
+              <p class="card-text">Calorías Quemadas</p>
+            </div>
           </div>
         </div>
-        <div class="col-12 col-md-6 mb-3">
-          <div class="card streak h-100 text-center">
+        <div class="col-12 col-md-4 mb-3">
+          <div class="card metric text-center h-100">
             <div class="card-body">
-              <i class="fas fa-fire mb-2"></i>
-              <h2 class="mb-1">{{ 1 }}</h2>
-              <p class="card-text text-uppercase mb-0">
-                Entrenamientos consecutivos
+              <i class="fas fa-dumbbell fa-2x text-success mb-2"></i>
+              <p class="display-4 mb-0">{{ perfil?.entrenamientosHechos }}</p>
+              <p class="card-text">Entrenamientos hechos</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="card metric text-center h-100">
+            <div class="card-body">
+              <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+              <p class="display-4 mb-0">
+                {{ perfil?.tiempoTotalEntrenado
+                }}<span class="small"> min</span>
               </p>
-              <small class="text-muted-white"
-                >Lo estás haciendo muy bien, seguí así</small
-              >
+              <p class="card-text">Tiempo entrenando</p>
             </div>
           </div>
         </div>
       </div>
-      
-    </a>
-    <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
-    <div class="row completed-plans" id="informacionUsuario">
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center" id="historialTarjetas">
-            <h5 class="card-title">Tren Superior</h5>
-            <p class="card-subtitle mb-2">05 de mayo de 2025</p>
-            <p class="small mb-1">10 de 10 días completados</p>
-            <p class="small mb-1">865 calorías quemadas</p>
-            <p class="small">140 minutos ejercitados</p>
+      <a class="sin-subrayado" routerLink="/logros">
+        <div class="row mb-5" id="informacionUsuario">
+          <div class="col-12 col-md-6 mb-3">
+            <div class="card achievements h-100">
+              <div class="card-header">Mis logros</div>
+              <ul class="list-group list-group-flush">
+                <li
+                  *ngIf="logros?.length === 0"
+                  class="list-group-item text-white"
+                >
+                  <i class="fas fa-info-circle mr-2"></i>
+                  No tienes ningún logro desbloqueado
+                </li>
+
+                <li
+                  *ngFor="let logro of logros"
+                  class="list-group-item d-flex justify-content-between align-items-start"
+                >
+                  <div id="logros" class="d-flex align-items-start">
+                    <img
+                      [src]="logro.imagen"
+                      alt="Imagen logro"
+                      width="40"
+                      height="40"
+                      class="mr-2 rounded"
+                    />
+                    <div>
+                      <strong>{{ logro.nombre }}</strong
+                      ><br />
+                      <small class="text-muted-white">{{
+                        logro.descripcion
+                      }}</small>
+                    </div>
+                  </div>
+                  <small class="text-white">{{
+                    logro.fechaObtencion
+                  }}</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-3">
+            <div class="card streak h-100 text-center">
+              <div class="card-body">
+                <i class="fas fa-fire mb-2"></i>
+                <h2 class="mb-1">{{this.perfil?.entrenamientosHechos}}</h2>
+                <p class="card-text text-uppercase mb-0">
+                  Ejercicios diarios completados
+                </p>
+                <small class="text-muted-white"
+                  >Lo estás haciendo muy bien, seguí así</small
+                >
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center" id="historialTarjetas">
+      </a>
+
+      <div *ngIf="ultimosPlanesRealizados.length > 0">
+      <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
+      <div class="grid-historial">
+        <div
+          class="historial-card"
+          *ngFor="let plan of ultimosPlanesRealizados"
+        >
+          <div class="card-contenido">
             <img
-              src="imagenes/logo-trainin.svg"
-              alt="Logo Trainin"
-              class="logo"
+              [src]="plan.foto"
+              alt="Tipo de entrenamiento"
+              class="card-img"
             />
+            <div class="card-info">
+              <h3 class="card-titulo">{{ plan.tipoEntrenamiento }}</h3>
+              <div class="card-datos">
+                <span>{{ plan.calorias }} cal</span>
+                <span>{{ formatearTiempo(plan.tiempo) }} min</span>
+              </div>
+              <p class="card-fecha">{{ plan.fechaRealizacion }}</p>
+            </div>
           </div>
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            (clickBoton)="irAlDetalle(plan.id)"
+          >
+            Ver Detalle
+          </app-boton-trainin>
         </div>
       </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body text-center" id="historialTarjetas">
-            <h5 class="card-title">Cuerpo completo</h5>
-            <p class="card-subtitle mb-2">10 de mayo de 2025</p>
-            <p class="small mb-1">20 de 20 días completados</p>
-            <p class="small mb-1">1800 calorías quemadas</p>
-            <p class="small">607 minutos ejercitados</p>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 </body>

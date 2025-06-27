@@ -3,7 +3,7 @@ import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../../servicios/authServicio/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const toastr = inject(ToastrService);
@@ -21,13 +21,13 @@ export const authGuard: CanActivateFn = (route, state) => {
       timeOut: 5000,
       extendedTimeOut: 0,
       closeButton: true,
-      tapToDismiss: false
+      tapToDismiss: false,
     }
   );
 
-  router.navigate(['/iniciar-sesion'], { 
-    queryParams: { returnUrl: state.url }
+  router.navigate(['/iniciar-sesion'], {
+    queryParams: { returnUrl: state.url },
   });
-  
+
   return false;
 };

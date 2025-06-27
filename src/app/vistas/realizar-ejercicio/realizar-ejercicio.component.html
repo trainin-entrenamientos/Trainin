@@ -1,75 +1,80 @@
-    <main class="contenedor-general">  
-      <div class="session-card">
-
-        <div class="fila-contenido">
-
-          <div class="columna-video">
-            <div class="video-cuadrado">
-              <iframe
-                #exerciseVideo
-                id="exerciseVideo"
-                class="trainin-video"
-                [src]="urlVideo"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </div>
-
-          <div class="columna-datos">
-
-            <div class="timerYPausa">
-              <div class="text-center">
-                <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
-              </div>
-              <i
-                id="pauseBtn"
-                class="icono-pausa"
-                [ngClass]="{
-                  'bi bi-pause-circle-fill': !estaPausado,
-                  'bi bi-play-circle-fill': estaPausado
-                }"
-                (click)="botonPausa()">
-              </i>
-            </div>
-
-            <div class="contenedorTimer">
-              <h3 class="titulo-ejercicio">
-                {{ ejercicioActual?.nombre }}
-              </h3>
-            </div>
-            @if (esEjercicioDeTiempo){
-
-           
-            <div class="contenedorTimer">
-              <h5 class="text-muted-white">Tiempo Restante</h5>
-              <div id="countdown" [ngClass]="{ 'countdown-warning': esAdvertencia }">
-                {{ cuentaRegresiva }}
-              </div>
-            </div>
-
-            <div class="progress">
-              <div
-                id="progressBar"
-                class="progress-bar"
-                role="progressbar"
-                [style.width]="porcentajeDelProgreso + '%'">
-              </div>
-            </div>
-            }
-            @else{
-         <div class="text-center mb-4">
-          <small class="duracion-ejercicio">
-           {{ ejercicioActual?.series }} Series de {{ ejercicioActual?.repeticiones }} Repeticiones
-          </small>
-         </div>
-          <div class="boton-iniciar">
-          <app-boton-trainin type="button" class="btn-trainin" (clickBoton)="siguienteEjercicioRutina()">Avanzar al Siguiente</app-boton-trainin>
+<main class="contenedor-general">
+  <div class="session-card">
+    <div class="fila-contenido">
+      <div class="columna-video">
+        <div class="video-cuadrado">
+          <iframe
+            #exerciseVideo
+            id="exerciseVideo"
+            class="trainin-video"
+            [src]="urlVideo"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          >
+          </iframe>
         </div>
-            }
-          </div>
-        </div>
-
       </div>
-    </main>
+
+      <div class="columna-datos">
+        <div class="timerYPausa">
+          <div class="text-center">
+            <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
+          </div>
+          <i
+            id="pauseBtn"
+            class="icono-pausa"
+            [ngClass]="{
+              'bi bi-pause-circle-fill': !estaPausado,
+              'bi bi-play-circle-fill': estaPausado
+            }"
+            (click)="botonPausa()"
+          >
+          </i>
+        </div>
+
+        <div class="contenedorTimer">
+          <h3 class="titulo-ejercicio">
+            {{ ejercicioActual?.nombre }}
+          </h3>
+        </div>
+        @if (esEjercicioDeTiempo){
+
+        <div class="contenedorTimer">
+          <h5 class="text-muted-white">Tiempo Restante</h5>
+          <div
+            id="countdown"
+            [ngClass]="{ 'countdown-warning': esAdvertencia }"
+          >
+            {{ cuentaRegresiva }}
+          </div>
+        </div>
+
+        <div class="progress">
+          <div
+            id="progressBar"
+            class="progress-bar"
+            role="progressbar"
+            [style.width]="porcentajeDelProgreso + '%'"
+          ></div>
+        </div>
+        } @else{
+        <div class="text-center mb-4">
+          <small class="duracion-ejercicio">
+            {{ ejercicioActual?.series }} Series de
+            {{ ejercicioActual?.repeticiones }} Repeticiones
+          </small>
+        </div>
+        <div class="boton-iniciar">
+          <app-boton-trainin
+            type="button"
+            class="btn-trainin"
+            (clickBoton)="siguienteEjercicioRutina()"
+            >Avanzar al Siguiente</app-boton-trainin
+          >
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>

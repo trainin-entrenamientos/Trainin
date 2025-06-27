@@ -1,31 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { responseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginData, responseDTO } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
 import { tokenExpirado } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly TOKEN_KEY = 'token';
-  private CLAIM_EMAIL = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
-  private CLAIM_ROLE = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+  private readonly ROL = 'rol';
+  private CLAIM_EMAIL =
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
+  private CLAIM_ROLE =
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
   private clientId = 'dbaa742e9e6f4f3aa345f3e0d609aaf2';
   private redirectUri = 'http://127.0.0.1:4200/callback';
+  private rolSubject = new BehaviorSubject<string | null>(null);
 
-constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token && !tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
+      this.rolSubject.next(payload[this.CLAIM_ROLE]);
     } else {
       localStorage.removeItem(this.TOKEN_KEY);
       this.usuarioSubject.next(null);
+      this.rolSubject.next(null);
     }
   }
 
@@ -33,20 +40,24 @@ constructor(private http: HttpClient, private router: Router) {
     return this.usuarioSubject.asObservable();
   }
 
-  login(credenciales: { email: string; contrasenia: string }): Observable<responseDTO> {
-    return this.http.post<responseDTO>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales).pipe(
-      tap((response) => {
-        if (response.objeto.exito && !response.objeto.requiereActivacion) {
-          this.almacenarSesion(response.objeto.token);
-        }
-      })
-    );
+  login(credenciales: {email: string; contrasenia: string;}): Observable<RespuestaApi<LoginData>> {
+    return this.http
+      .post<RespuestaApi<LoginData>>(`${this.baseUrl}/usuario/iniciarSesion`, credenciales)
+      .pipe(
+        tap((response) => {
+          if (response.objeto.exito && !response.objeto.requiereActivacion) {
+            this.almacenarSesion(response.objeto);
+          }
+        })
+      );
   }
 
-  private almacenarSesion(token: string) {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    const payload = JSON.parse(atob(token.split('.')[1]));
+  private almacenarSesion(objeto: any) {
+    localStorage.setItem(this.ROL, objeto.rol);
+    localStorage.setItem(this.TOKEN_KEY, objeto.token);
+    const payload = JSON.parse(atob(objeto.token.split('.')[1]));
     this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
+    this.rolSubject.next(payload[this.CLAIM_ROLE]);
   }
 
   getToken(): string | null {
@@ -63,7 +74,9 @@ constructor(private http: HttpClient, private router: Router) {
     localStorage.removeItem('spotify_token');
     localStorage.removeItem('spotify_refresh_token');
     localStorage.removeItem('spotify_expires_at');
+    localStorage.removeItem(this.ROL);
     this.usuarioSubject.next(null);
+    this.rolSubject.next(null);
   }
 
   getEmail(): string | null {
@@ -78,10 +91,14 @@ constructor(private http: HttpClient, private router: Router) {
     }
   }
 
-  registrarUsuario(dto: RegistroDTO): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/usuario/registro`, dto);
+  get rol$() {
+    return this.rolSubject.asObservable();
   }
-  
+
+  registrarUsuario(dto: RegistroDTO): Observable<RespuestaApi<string>> {
+    return this.http.post<RespuestaApi<string>>(`${this.baseUrl}/usuario/registro`, dto);
+  }
+
   getRol(): string | null {
     const token = this.getToken();
     if (!token) return null;
@@ -110,4 +127,3 @@ constructor(private http: HttpClient, private router: Router) {
     return this.http.post(`${this.baseUrl}/spotify/exchange`, { code });
   }
 }
-

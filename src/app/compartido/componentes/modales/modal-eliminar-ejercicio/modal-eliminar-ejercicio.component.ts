@@ -5,14 +5,16 @@ declare var bootstrap: any;
   selector: 'app-modal-eliminar-ejercicio',
   standalone: false,
   templateUrl: './modal-eliminar-ejercicio.component.html',
-  styleUrl: './modal-eliminar-ejercicio.component.css'
+  styleUrl: './modal-eliminar-ejercicio.component.css',
 })
 export class ModalEliminarEjercicioComponent {
   @Output() confirmarEliminar = new EventEmitter<void>();
 
   confirmarEliminacion() {
     this.confirmarEliminar.emit();
-    const modal = bootstrap.Modal.getInstance(document.getElementById('bootstrapModal'));
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById('bootstrapModal')
+    );
     modal.hide();
   }
 }

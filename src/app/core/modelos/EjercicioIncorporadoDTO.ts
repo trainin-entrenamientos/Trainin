@@ -4,7 +4,6 @@ export interface Ejercicio {
   descripcion: string;
   video: string;
   valorMet: number;
-  landmark: string;
   tieneCorreccion: boolean;
   imagen: string;
   correccionPremium: boolean;

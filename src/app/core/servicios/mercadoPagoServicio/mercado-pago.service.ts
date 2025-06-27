@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class MercadoPagoService {
 
   constructor(private http: HttpClient) { }
 
-  pagarSuscripcionPremium(idUsuario: number, idPremium: number): Observable<any> {
-    return this.http.post<any>(`${this.url}/mercadoPago/pagar`, {
+  pagarSuscripcionPremium(idUsuario: number, idPremium: number): Observable<RespuestaApi<string>> {
+    return this.http.post<RespuestaApi<string>>(`${this.url}/mercadoPago/pagar`, {
         IdUsuario: idUsuario,
         IdPremium: idPremium
     });

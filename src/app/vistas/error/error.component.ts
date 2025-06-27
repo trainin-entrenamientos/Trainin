@@ -4,10 +4,9 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-error',
   standalone: false,
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
-
   ngOnInit(): void {
     const contPrincipal = document.querySelector('.cont_principal');
     if (contPrincipal) {

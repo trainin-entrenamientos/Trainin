@@ -145,6 +145,7 @@ html {
   object-fit: contain;
   transition: opacity 0.5s ease;
   z-index: 1;
+  background-color: white;
 }
 
 .nombre-ejercicio {
@@ -160,7 +161,6 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #13ff3a;
 }
 
 
