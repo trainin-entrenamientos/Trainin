@@ -29,7 +29,7 @@ export class ListadoDeEjerciciosComponent implements OnInit {
 
     this.svc.obtenerTodosLosEjercicios().subscribe({
       next: (res) => {
-        this.ejercicios = res;
+        this.ejercicios = res.objeto;
         this.cargando = false;
       },
       error: (err) => {

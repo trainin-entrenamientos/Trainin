@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Ejercicio } from '../../modelos/RutinaDTO';
 import { environment } from '../../../../environments/environment';
 import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
+import { HistorialPlanDTO } from '../../modelos/HistorialPlanDTO';
+import { LogroDTO } from '../../modelos/LogroDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -16,22 +19,20 @@ export class RutinaService {
 
   constructor(private http: HttpClient) {}
 
-  getDetalleEjercicios(planId: number): Observable<Rutina> {
-    return this.http
-      .get<any>(`${this.baseUrl}/rutina/obtener/${planId}`)
-      .pipe(map((response: { objeto: Rutina }) => response.objeto as Rutina));
+  getDetalleEjercicios(planId: number): Observable<RespuestaApi<Rutina>> {
+    return this.http.get <RespuestaApi<Rutina>>(`${this.baseUrl}/rutina/obtener/${planId}`);
   }
 
-  obtenerUltimaRutina(email: string | null): Observable<any> {
-    return this.http.get(`${this.baseUrl}/rutina/ultimaRealizada/${email}`);
+  obtenerUltimaRutina(email: string | null): Observable<RespuestaApi<HistorialPlanDTO>> {
+    return this.http.get<RespuestaApi<HistorialPlanDTO>>(`${this.baseUrl}/rutina/ultimaRealizada/${email}`);
   }
 
   fueRealizada(
     idRutina: number,
     email: string,
     segundosTotales: number
-  ): Observable<any> {
-    return this.http.patch<any>(
+  ): Observable<RespuestaApi<LogroDTO>> {
+    return this.http.patch<RespuestaApi<LogroDTO>>(
       `${this.baseUrl}/rutina/realizada/${idRutina}`,
       { email, segundosTotales }
     );

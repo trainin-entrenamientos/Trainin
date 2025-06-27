@@ -56,6 +56,7 @@ export class EjercicioDiarioComponent implements OnInit {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {
         this.idUsuario = response.objeto.id;
+        console.log(this.idUsuario);
         this.obtenerEjercicioDiario();
       },
       error: (err: any) => console.error('Error al obtener el usuario:', err)
@@ -75,7 +76,7 @@ export class EjercicioDiarioComponent implements OnInit {
           return;
         }
         
-        this.ejercicioDiario = response;
+        this.ejercicioDiario = response.objeto;
         this.descripcionLista = this.separarPasos(this.ejercicioDiario?.descripcion || '');
 
         if (this.ejercicioDiario && this.ejercicioDiario.video) {

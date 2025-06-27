@@ -3,7 +3,7 @@ import { PerfilService } from '../../core/servicios/perfilServicio/perfil.servic
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { PerfilDTO } from '../../core/modelos/PerfilDTO';
 import { ToastrService } from 'ngx-toastr';
-import { Logro } from '../../core/modelos/LogroDTO';
+import { LogroDTO } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalEditarPerfilComponent } from '../../compartido/componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
@@ -22,7 +22,7 @@ import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/uti
 export class PerfilComponent implements OnInit {
   email: string | null = null;
   perfil: PerfilDTO | null = null;
-  logros: Logro[] | undefined = [];
+  logros: LogroDTO[] | undefined = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
   cargando: boolean = true;
   ultimosPlanesRealizados: HistorialPlanDTO[] = [];
@@ -49,12 +49,12 @@ export class PerfilComponent implements OnInit {
 
     this.cargando = true;
     this.perfilService.getPerfil(this.email).subscribe({
-      next: ({ objeto }) => {
+      next: ({objeto}) => {
         this.perfil = objeto;
         this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
         this.logros = objeto.logros ?? [];
         this.cargando = false;
-        this.ultimosPlanesRealizados = objeto.planesCompletados;
+        this.ultimosPlanesRealizados = objeto.planesCompletados ?? [];;
       },
       error: (err) => {
         manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },
@@ -76,9 +76,9 @@ export class PerfilComponent implements OnInit {
         this.perfilService
           .actualizarFotoPerfil(this.email, base64data)
           .subscribe({
-            next: (response: any) => {
+            next: (response) => {
               this.toastr.success(
-                response.message,
+                response.mensaje,
                 'Foto actualizada correctamente'
               );
             },

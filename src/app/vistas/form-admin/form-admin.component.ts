@@ -52,8 +52,8 @@ export class FormAdminComponent implements OnInit {
       cats: this.svc.obtenerCategorias(),
       grps: this.svc.obtenerGruposMusculares(),
     }).subscribe(({ cats, grps }) => {
-      this.categorias = cats;
-      this.grupos = grps;
+      this.categorias = cats.objeto;
+      this.grupos = grps.objeto;
 
       if (this.isEdit) {
         this.cargarEjercicio(id);
@@ -73,22 +73,21 @@ export class FormAdminComponent implements OnInit {
     this.svc.obtenerEjercicioPorId(id).subscribe({
       next: e => {
         this.form.patchValue({
-          id: e.id,
-          nombre: e.nombre,
-          descripcion: e.descripcion,
-          video: e.video,
-          valorMet: e.valorMet,
-          landmark: e.landmark,
-          tieneCorreccion: e.tieneCorreccion,
-          correccionPremium: e.correccionPremium,
-          idTipoEjercicio: e.idTipoEjercicio,
-          imagen: e.imagen
+          id: e.objeto.id,
+          nombre: e.objeto.nombre,
+          descripcion: e.objeto.descripcion,
+          video: e.objeto.video,
+          valorMet: e.objeto.valorMet,
+          tieneCorreccion: e.objeto.tieneCorreccion,
+          correccionPremium: e.objeto.correccionPremium,
+          idTipoEjercicio: e.objeto.idTipoEjercicio,
+          imagen: e.objeto.imagen
         });
 
         this.idsGrupoMuscular.clear();
-        e.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
+        e.objeto.idsGrupoMuscular.forEach(i => this.idsGrupoMuscular.push(this.fb.control(i)));
         this.idsCategorias.clear();
-        e.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
+        e.objeto.idsCategorias.forEach(i => this.idsCategorias.push(this.fb.control(i)));
       },
       error: err => {
         console.error('Error al cargar el ejercicio:', err);
