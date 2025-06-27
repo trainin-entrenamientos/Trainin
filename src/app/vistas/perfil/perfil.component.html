@@ -189,8 +189,9 @@
           </div>
         </div>
       </a>
-      <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
 
+      <div *ngIf="ultimosPlanesRealizados.length > 0">
+      <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
       <div class="grid-historial">
         <div
           class="historial-card"
@@ -219,6 +220,7 @@
             Ver Detalle
           </app-boton-trainin>
         </div>
+      </div>
       </div>
     </div>
   </main>

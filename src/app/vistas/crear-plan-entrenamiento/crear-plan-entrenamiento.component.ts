@@ -532,10 +532,10 @@ export class CrearPlanEntrenamientoComponent {
         })
         .subscribe(
           (response) => {
-            console.log(response)
-            this.planIdCreado = response.objeto.Id
-            if (response.logro) {
-              this.logroService.mostrarLogro(response.logro);
+            this.planIdCreado = response.objeto.planId
+            console.log(this.planIdCreado);
+            if (response.objeto.logro) {
+              this.logroService.mostrarLogro(response.objeto.logro);
             }
             this.cargando = false;
             this.seEnvioForm = true;
