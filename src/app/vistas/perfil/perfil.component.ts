@@ -49,12 +49,12 @@ export class PerfilComponent implements OnInit {
 
     this.cargando = true;
     this.perfilService.getPerfil(this.email).subscribe({
-      next: ({ objeto }) => {
+      next: ({objeto}) => {
         this.perfil = objeto;
         this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
         this.logros = objeto.logros ?? [];
         this.cargando = false;
-        this.ultimosPlanesRealizados = objeto.planesCompletados;
+        this.ultimosPlanesRealizados = objeto.planesCompletados ?? [];;
       },
       error: (err) => {
         manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },
@@ -76,9 +76,9 @@ export class PerfilComponent implements OnInit {
         this.perfilService
           .actualizarFotoPerfil(this.email, base64data)
           .subscribe({
-            next: (response: any) => {
+            next: (response) => {
               this.toastr.success(
-                response.message,
+                response.mensaje,
                 'Foto actualizada correctamente'
               );
             },

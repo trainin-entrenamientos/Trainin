@@ -1,4 +1,5 @@
 import { LogroDTO } from "./LogroDTO";
+import { HistorialPlanDTO } from "./HistorialPlanDTO";
 
 export class PerfilDTO {
   id: number;
@@ -15,6 +16,7 @@ export class PerfilDTO {
   entrenamientosHechos?: number;
   tiempoTotalEntrenado?: number;
   logros?: LogroDTO[];
+  planesCompletados?: HistorialPlanDTO[];
 
   constructor(id: number, nombre: string, apellido: string, email: string, peso: number, altura: number, edad: number,
     fechaCreacion: Date, fechaNacimiento: string, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: LogroDTO[]){
