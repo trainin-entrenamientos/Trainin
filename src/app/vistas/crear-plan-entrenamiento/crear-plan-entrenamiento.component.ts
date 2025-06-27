@@ -92,7 +92,7 @@ export class CrearPlanEntrenamientoComponent {
 
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: any) => {
+      next: (planObtenido) => {
         this.cantidadPlanes = planObtenido.objeto.length;
         if (this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4) {
           manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste 4 planes de entrenamiento.', '/planes');
@@ -317,7 +317,7 @@ export class CrearPlanEntrenamientoComponent {
   obtenerOpcionesEntrenamiento(): void {
     this.planDeEntrenamientoService
       .obtenerOpcionesEntrenamiento()
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
@@ -532,10 +532,9 @@ export class CrearPlanEntrenamientoComponent {
         })
         .subscribe(
           (response) => {
-            console.log(response)
-            this.planIdCreado = response.objeto.Id
-            if (response.logro) {
-              this.logroService.mostrarLogro(response.logro);
+            this.planIdCreado = response.objeto.idPlan
+            if (response.objeto.logro) {
+              this.logroService.mostrarLogro(response.objeto.logro);
             }
             this.cargando = false;
             this.seEnvioForm = true;

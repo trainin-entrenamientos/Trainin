@@ -63,7 +63,7 @@ export class PlanesComponent {
 
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: any) => {
+      next: (planObtenido) => {
         this.planEntrenamiento = planObtenido.objeto;
         setTimeout(() => {
           this.cargando = false;
