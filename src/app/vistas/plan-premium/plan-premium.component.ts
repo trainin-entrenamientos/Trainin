@@ -72,7 +72,7 @@ export class PlanPremiumComponent implements AfterViewInit {
     this.mercadoPagoServicio
       .pagarSuscripcionPremium(this.usuario.idUsuario, 1)
       .subscribe({
-        next: (response: any) => {
+        next: (response) => {
           if (response && response.objeto) {
             this.redirigir(response.objeto);
           } else {

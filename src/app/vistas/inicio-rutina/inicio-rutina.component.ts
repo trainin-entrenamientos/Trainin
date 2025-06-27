@@ -47,12 +47,12 @@ export class InicioRutinaComponent {
   private cargarRutina(idPlan: number): void {
     this.rutinaService.getDetalleEjercicios(idPlan).subscribe({
       next: (rutina) => {
-        if (rutina == null) {
+        if (rutina.objeto == null) {
           this.cargando = false;
         }
-        this.rutina = rutina;
-        this.rutinaService.setRutina(rutina);
-        this.ejercicios = rutina.ejercicios;
+        this.rutina = rutina.objeto;
+        this.rutinaService.setRutina(rutina.objeto);
+        this.ejercicios = rutina.objeto.ejercicios;
         this.minutosTraducidos = this.traducirMinutos(
         this.rutina.duracionEstimada
         );

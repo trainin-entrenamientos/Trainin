@@ -28,8 +28,8 @@ export class VerificarEmailComponent implements OnInit {
   validarToken(token: string) {
     this.verificacionService.confirmarEmail(token).subscribe(
       (respuestaActivarUsuario) => {
-        if (respuestaActivarUsuario.activo) {
-          this.usuarioActivo = respuestaActivarUsuario.activo;
+        if (respuestaActivarUsuario.exito) {
+          this.usuarioActivo = respuestaActivarUsuario.exito;
         }
       },
       (error) => {

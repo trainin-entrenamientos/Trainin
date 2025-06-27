@@ -41,7 +41,7 @@ export class TarjetasPlanesComponent implements OnInit {
   obtenerLogros(emailUsuario: string) {
     this.logrosService.obtenerLogrosPorUsuario(emailUsuario).subscribe({
       next: (response: any) => {
-        this.cantidadLogros = response.objeto.length;
+        this.cantidadLogros = response.objeto?.length;
       },
       error: (err) => {
         manejarErrorSimple(
