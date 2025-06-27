@@ -3,7 +3,7 @@ import { PerfilService } from '../../core/servicios/perfilServicio/perfil.servic
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { PerfilDTO } from '../../core/modelos/PerfilDTO';
 import { ToastrService } from 'ngx-toastr';
-import { Logro } from '../../core/modelos/LogroDTO';
+import { LogroDTO } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalEditarPerfilComponent } from '../../compartido/componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
@@ -22,7 +22,7 @@ import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/uti
 export class PerfilComponent implements OnInit {
   email: string | null = null;
   perfil: PerfilDTO | null = null;
-  logros: Logro[] | undefined = [];
+  logros: LogroDTO[] | undefined = [];
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
   cargando: boolean = true;
   ultimosPlanesRealizados: HistorialPlanDTO[] = [];

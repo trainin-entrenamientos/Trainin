@@ -1,4 +1,4 @@
-import { Logro } from "./LogroDTO";
+import { LogroDTO } from "./LogroDTO";
 
 export class PerfilDTO {
   id: number;
@@ -14,10 +14,10 @@ export class PerfilDTO {
   caloriasTotales?: number;
   entrenamientosHechos?: number;
   tiempoTotalEntrenado?: number;
-  logros?: Logro[];
+  logros?: LogroDTO[];
 
   constructor(id: number, nombre: string, apellido: string, email: string, peso: number, altura: number, edad: number,
-    fechaCreacion: Date, fechaNacimiento: string, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: Logro[]){
+    fechaCreacion: Date, fechaNacimiento: string, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: LogroDTO[]){
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
