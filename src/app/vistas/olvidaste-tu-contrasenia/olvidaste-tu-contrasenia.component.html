@@ -1,0 +1,62 @@
+<main>
+<ng-container *ngIf="cargando">
+  <app-loader></app-loader>
+</ng-container>
+
+<section *ngIf="!cargando" class="forgot-password-section py-5">
+  <div class="container">
+    <div class="forgot-password-card mx-auto">
+      <h2 class="section-title text-center mb-4">¿Olvidaste tu contraseña?</h2>
+      <p class="text-center mb-3">
+        Ingresá tu correo electrónico y te enviaremos un enlace para recuperarla.
+      </p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <div class="input-container">
+            <i class="fa-solid fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control trainin-input"
+              placeholder=" "
+              required
+            />
+            <label for="email" class="form-label">Correo electrónico</label>
+          </div>
+
+          <div
+            *ngIf="
+              form.get('email')?.hasError('required') &&
+              form.get('email')?.touched
+            "
+            class="text-error mt-1"
+          >
+            Ingresá tu <strong>correo electrónico</strong> para continuar.
+          </div>
+          <div
+            *ngIf="
+              form.get('email')?.hasError('email') &&
+              form.get('email')?.touched
+            "
+            class="text-error mt-1"
+          >
+            El <strong>correo electrónico</strong> debe tener un formato válido.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <app-boton-trainin
+            clase="btn btn-trainin"
+            tipo="submit"
+            [disabled]="form.invalid"
+          >
+            Enviar correo
+          </app-boton-trainin>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>

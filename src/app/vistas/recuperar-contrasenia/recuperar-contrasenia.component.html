@@ -1,0 +1,67 @@
+<main>
+<ng-container *ngIf="cargando">
+  <app-loader></app-loader>
+</ng-container>
+
+<section *ngIf="!cargando" class="forgot-password-section py-5">
+  <div class="container">
+    <div class="forgot-password-card mx-auto">
+      <h2 class="section-title text-center mb-4">Reestablecer contraseña</h2>
+      <p class="text-center mb-3">
+        Ingresá tu nueva contraseña y confirmala para poder recuperar el acceso.
+      </p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <div class="input-container">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="nuevaContrasenia" formControlName="nuevaContrasenia"
+              class="form-control trainin-input" placeholder=" " required />
+            <label for="nuevaContrasenia" class="form-label">
+              Nueva contraseña
+            </label>
+          </div>
+          <div *ngIf="
+              form.get('nuevaContrasenia')?.hasError('required') &&
+              form.get('nuevaContrasenia')?.touched
+            " class="text-error mt-1">
+            Debés ingresar una <strong>nueva contraseña</strong>.
+          </div>
+          <div *ngIf="
+              form.get('nuevaContrasenia')?.hasError('pattern') &&
+              form.get('nuevaContrasenia')?.touched
+            " class="text-error mt-1">
+            La contraseña debe tener al menos 6 caracteres, un número y un símbolo.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="input-container">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="repetirContrasenia" formControlName="repetirContrasenia"
+              class="form-control trainin-input" placeholder=" " required />
+            <label for="repetirContrasenia" class="form-label">
+              Confirmar contraseña
+            </label>
+          </div>
+          <div *ngIf="
+              form.get('repetirContrasenia')?.hasError('required') &&
+              form.get('repetirContrasenia')?.touched
+            " class="text-error mt-1">
+            Debés <strong>confirmar la contraseña</strong>.
+          </div>
+          <div *ngIf="form.hasError('contrasenasNoCoinciden') && form.touched" class="text-error mt-1">
+            Las <strong>contraseñas no coinciden</strong>.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <app-boton-trainin clase="btn btn-trainin" tipo="submit" [disabled]="form.invalid">
+            Actualizar contraseña
+          </app-boton-trainin>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
