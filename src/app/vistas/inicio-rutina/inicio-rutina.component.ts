@@ -50,9 +50,9 @@ export class InicioRutinaComponent {
         if (rutina == null) {
           this.cargando = false;
         }
-        this.rutina = rutina;
-        this.rutinaService.setRutina(rutina);
-        this.ejercicios = rutina.ejercicios;
+        this.rutina = rutina.objeto;
+        this.rutinaService.setRutina(rutina.objeto);
+        this.ejercicios = rutina.objeto.ejercicios;
         this.minutosTraducidos = this.traducirMinutos(
         this.rutina.duracionEstimada
         );
