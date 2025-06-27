@@ -1,17 +1,22 @@
 <div class="spotify-player">
-  <div class="track" *ngIf="currentTrack">
-    <img class="album-art" [src]="currentTrack.album.images[0]?.url" alt="Album Cover" />
-
-    <div class="track-details">
-      <div class="track-name">{{ currentTrack.name }}</div>
-      <div class="track-artist">{{ currentTrack.artists[0].name }}</div>
-    </div>
+  <!-- Título y artista centrados arriba -->
+  <div class="track-info" *ngIf="currentTrack">
+    <div class="track-name">{{ currentTrack.name }}</div>
+    <div class="track-artist">{{ currentTrack.artists[0].name }}</div>
   </div>
 
-  <div class="widget-spotify">
-    <i class="fas fa-step-backward control-btn" (click)="previousTrack()"></i>
-    <i class="fas fa-play-circle play-btn" [ngClass]="{ 'fa-pause-circle': isPlaying, 'fa-play-circle': !isPlaying }"
-      (click)="togglePlay()"></i>
-    <i class="fas fa-step-forward control-btn" (click)="nextTrack()"></i>
+  <div class="player-controls">
+    <!-- Imagen a la izquierda -->
+    <img class="album-art" *ngIf="currentTrack" [src]="currentTrack.album.images[0]?.url" alt="Album Cover" />
+
+    <!-- Botones a la derecha -->
+    <div class="widget-spotify">
+      <i class="fas fa-step-backward control-btn" (click)="previousTrack()"></i>
+      <i class="fas play-btn"
+        [ngClass]="{ 'fa-pause-circle': isPlaying, 'fa-play-circle': !isPlaying }"
+        (click)="togglePlay()">
+      </i>
+      <i class="fas fa-step-forward control-btn" (click)="nextTrack()"></i>
+    </div>
   </div>
 </div>

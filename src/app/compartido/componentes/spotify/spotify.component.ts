@@ -59,9 +59,7 @@ export class SpotifyComponent implements OnInit {
       });
 
       this.player.addListener('ready', ({ device_id }: any) => {
-        console.log('Reproductor listo con ID:', device_id);
         this.isReady = true;
-        // Transferir reproducción al dispositivo:
         this.transferPlaybackHere(token!, device_id);
         this.cdr.detectChanges();
       });
@@ -86,7 +84,6 @@ export class SpotifyComponent implements OnInit {
   }
 
   togglePlay(): void {
-    console.log('togglePlay iniciado');
     if (!this.player) return;
   
     this.player.getCurrentState().then((state: { paused: any; }) => {
@@ -120,7 +117,6 @@ export class SpotifyComponent implements OnInit {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Canción actual:', data);
       }
     } catch (error) {
       console.error('Error obteniendo canción actual:', error);

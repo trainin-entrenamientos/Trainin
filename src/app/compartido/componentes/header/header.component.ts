@@ -51,7 +51,7 @@ navegarSiCorresponde(event: MouseEvent): void {
 }
 
   estaLogueado(): boolean {
-    this.mostrarSpotify = localStorage.getItem('spotify_token') !== null;
+    this.mostrarSpotify = localStorage.getItem('spotify_token') !== null && this.authService.estaAutenticado();
     return this.authService.estaAutenticado();
   }
 
