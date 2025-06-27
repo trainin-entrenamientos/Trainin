@@ -141,10 +141,10 @@ export class PlanesComponent {
     }
 
     this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
-      next: (response: any) => {
-        if (response) {
+      next: (response) => {
+        if (response.objeto) {
           this.EjercicioDiarioDisponible = true;
-          this.nombreEjercicioDiario = response.nombre;
+          this.nombreEjercicioDiario = response.objeto?.nombre;
         } else {
           this.EjercicioDiarioDisponible = false;
           this.nombreEjercicioDiario = '';
