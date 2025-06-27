@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
 import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 import { HistorialPlanDTO } from '../../modelos/HistorialPlanDTO';
-import { Logro } from '../../modelos/LogroDTO';
+import { LogroDTO } from '../../modelos/LogroDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +31,8 @@ export class RutinaService {
     idRutina: number,
     email: string,
     segundosTotales: number
-  ): Observable<RespuestaApi<Logro>> {
-    return this.http.patch<RespuestaApi<Logro>>(
+  ): Observable<RespuestaApi<LogroDTO>> {
+    return this.http.patch<RespuestaApi<LogroDTO>>(
       `${this.baseUrl}/rutina/realizada/${idRutina}`,
       { email, segundosTotales }
     );

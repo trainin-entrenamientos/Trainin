@@ -1,9 +1,9 @@
-interface UsuarioDTO {
+interface Usuario {
     id: number;
     nombre: string;
     apellido: string;
     email: string;
-    fechaNaciemiento: string;
+    fechaNacimiento: string;
     esPremium: boolean;
-    Altura: number;
+    altura: number;
 }
