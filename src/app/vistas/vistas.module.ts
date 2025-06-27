@@ -31,6 +31,8 @@ import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de
 import { FormAdminComponent } from './form-admin/form-admin.component';
 import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.component';
 import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
+import { RecuperarContraseniaComponent } from './recuperar-contrasenia/recuperar-contrasenia.component';
+import { OlvidasteContraseniaComponent } from './olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     FormAdminComponent,
     EjercicioDiarioComponent,
     HistorialPlanesComponent,
-  ],
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
+    ],
 
   imports: [
     CommonModule,
@@ -69,7 +73,7 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     ReactiveFormsModule,
     CompartidoModule,
     NgbTooltipModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   exports: [
     PlanesComponent,
@@ -81,6 +85,8 @@ import { HistorialPlanesComponent } from './historial-planes/historial-planes.co
     InicioComponent,
     PerfilComponent,
     PlanPremiumComponent,
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
   ],
 })
 export class VistasModule {}

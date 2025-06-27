@@ -31,6 +31,8 @@ import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/lis
 import { adminGuard } from './core/guardias/admin/admin.guard';
 import { EjercicioDiarioComponent } from './vistas/ejercicio-diario/ejercicio-diario.component';
 import { HistorialPlanesComponent } from './vistas/historial-planes/historial-planes.component';
+import { OlvidasteContraseniaComponent } from './vistas/olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
+import { RecuperarContraseniaComponent } from './vistas/recuperar-contrasenia/recuperar-contrasenia.component';
 
 const routes: Routes = [
   {
@@ -168,6 +170,14 @@ const routes: Routes = [
         path: 'historial-planes',
         component: HistorialPlanesComponent,
       },
+      {
+        path: 'olvidaste-tu-contrasenia',
+        component: OlvidasteContraseniaComponent,
+      },
+      { 
+        path: 'recuperar-contrasenia/:token/:email',
+        component: RecuperarContraseniaComponent 
+      }
     ],
   },
   {
@@ -182,4 +192,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
