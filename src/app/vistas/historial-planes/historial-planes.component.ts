@@ -53,4 +53,16 @@ export class HistorialPlanesComponent {
   irAlDetalle(idPlan: number) {
     this.router.navigate(['/detalle-plan', idPlan]);
   }
+
+  formatearTiempo(segundos: number): string {
+    const horas = Math.floor(segundos / 3600);
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segundosRestantes = segundos % 60;
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    return horas > 0
+      ? `${pad(horas)}:${pad(minutos)}:${pad(segundosRestantes)}`
+      : `${pad(minutos)}:${pad(segundosRestantes)}`;
+  }
 }

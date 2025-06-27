@@ -136,15 +136,23 @@
             container="body"
           ></i>
         </div>
-
-        <h6
+         <div   *ngIf="ejercicio?.tieneCorrecion && ejercicio?.correccionPremium && !esUsuarioPremium">
+          <h6
           class="mt-2 text-center"
           style="color: #13ff1a"
-          *ngIf="!ejercicio?.tieneCorrecion"
         >
           Este ejercicio no cuenta con corrección gratuita.
         </h6>
-
+        </div>
+        <div   *ngIf="!ejercicio?.tieneCorrecion ">
+          <h6
+          class="mt-2 text-center"
+          style="color: #13ff1a"
+        >
+          Este ejercicio no cuenta con corrección.
+        </h6>
+        </div>
+        
         <div class="text-center mt-4">
           <app-temporizador [estaPausado]="estaPausado"></app-temporizador>
         </div>

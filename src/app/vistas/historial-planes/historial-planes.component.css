@@ -15,8 +15,7 @@ html {
   display: flex;
   height: 100%;
   flex-direction: column;
-    overflow-x: hidden;
-
+  overflow-x: hidden;
 }
 
 main {
@@ -34,6 +33,7 @@ main h1{
  margin-bottom: 0;
  text-align: center;
 }
+
 .grid-historial {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -42,11 +42,46 @@ main h1{
   margin-top: 2rem;
   margin-bottom: 4rem;
 }
+ .realizada{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
 
+  .logo img{
+  width: 30vw;
+  max-width: 300px;
+  min-width: 150px;
+  align-self: center;
+  margin-bottom: 50px;
+}
+
+ .boton-iniciar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+ 
 @media (max-width: 1200px) {
   .grid-historial {
     grid-template-columns: repeat(3, 1fr);
   }
+   .realizada h2{
+    font-size: 1.2rem;
+  }
+  .realizada h3{
+    font-size: 1rem;
+  }
+
+  .logo img{
+  width: 200px;
+  align-self: center;
+  margin-bottom: 50px;
+}
 }
 
 @media (max-width: 900px) {

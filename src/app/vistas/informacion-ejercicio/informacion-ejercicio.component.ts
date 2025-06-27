@@ -61,7 +61,7 @@ export class InformacionEjercicioComponent {
     this.duracionDelEjercicio = datos.duracionDelEjercicio;
     this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
     this.tiempoRestante = this.traducirDuracionEstimada(
-      this.rutina.duracionEstimada
+    this.rutina.duracionEstimada
     );
     this.iniciarCuentaRegresiva();
     this.temporizadorService.estaCorriendoTiempo() &&
