@@ -10,6 +10,7 @@ import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 import { ToastrService } from 'ngx-toastr';
+import { PlanCreadoDTO } from '../../core/modelos/PlanCreadoDTO';
 
 
 @Component({
@@ -526,15 +527,15 @@ export class CrearPlanEntrenamientoComponent {
     this.cargando = true;
     if (this.formularioForm.valid) {
       this.planDeEntrenamientoService
-        .crearPlanEntrenamiento({
-          ...this.formularioForm.value,
-          email: this.authService.getEmail(),
+        .crearPlanEntrenamiento({...this.formularioForm.value, email: this.authService.getEmail(),
         })
         .subscribe(
           (response) => {
-            this.planIdCreado = response.objeto.idPlan
-            if (response.objeto.logro) {
-              this.logroService.mostrarLogro(response.objeto.logro);
+            if (response.objeto.planId) {
+              this.planIdCreado = response.objeto.planId;
+              if (response.objeto.logro) {
+                this.logroService.mostrarLogro(response.objeto.logro);
+              }
             }
             this.cargando = false;
             this.seEnvioForm = true;
