@@ -33,17 +33,24 @@
                 <i class="fa-solid fa-fire-flame-curved"></i>
                 <span>{{ caloriasQuemadas }} cal.</span>
               </li>
-              <li>
+              <li *ngIf="rutina.cantidadDeRutinasPorSemana>1">
                 <i class="fa-solid fa-calendar-check"></i>
                 <span
-                  >{{ this.rutina.rutinasRealizadas + 1 }} de 3 Rutinas
+                  >{{ rutina.numeroDeRutinaSemanal}} de {{rutina.cantidadDeRutinasPorSemana}} Rutinas
                   Semanales</span
+                >
+              </li>
+              <li *ngIf="rutina.cantidadDeRutinasPorSemana==1">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span
+                  >{{ rutina.numeroDeRutinaSemanal}} de {{rutina.cantidadDeRutinasPorSemana}} Rutina
+                  Semanal</span
                 >
               </li>
               <li>
                 <i class="fa-solid fa-calendar-days"></i>
                 <span
-                  >{{ this.rutina.numeroRutina - 1 }} de 30 Rutinas del
+                  >{{ this.rutina.numeroRutina}} de {{rutina.cantidadDeRutinasTotales}} Rutinas del
                   Plan</span
                 >
               </li>
