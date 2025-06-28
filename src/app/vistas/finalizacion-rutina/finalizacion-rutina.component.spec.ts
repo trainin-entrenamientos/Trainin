@@ -166,12 +166,12 @@ describe('FinalizacionRutinaComponent', () => {
   it('debería redirigir y mostrar error si falla actualizarNivelExigencia', fakeAsync(() => {
     component.opcionSeleccionada = 'facil';
     component.rutina = { idPlan: 7 };
-    component.email = 'x@x';
+    component.email = 'trainin@trainin.com';
     toastrSpy.error.calls.reset();
     routerMock.navigate.calls.reset();
 
     planServiceMock.actualizarNivelExigencia
-      .and.returnValue(throwError(() => new Error('fail')));
+      .and.returnValue(throwError(() => new Error('Error al actualizar el nivel de exigencia')));
 
     component.enviarFeedback();
     tick();
@@ -208,7 +208,7 @@ describe('FinalizacionRutinaComponent', () => {
     };
 
     authServiceMock = {
-      getEmail: jasmine.createSpy('getEmail').and.returnValue('test@email.com'),
+      getEmail: jasmine.createSpy('getEmail').and.returnValue('trainin@trainin.com'),
     };
 
     temporizadorServiceMock = {
@@ -257,7 +257,7 @@ describe('FinalizacionRutinaComponent', () => {
   function dadoQueSePreparaParaEnviarFeedback(opcion: string) {
     component.opcionSeleccionada = opcion;
     component.rutina = { id: 1, idPlan: 123 };
-    component.email = 'test@email.com';
+    component.email = 'trainin@trainin.com';
     dadoQueSeConfiguraModalInstance();
   }
 
@@ -304,7 +304,7 @@ describe('FinalizacionRutinaComponent', () => {
   function entoncesSeDebeCargarRutinaYDatos() {
     expect(rutinaServiceMock.cargarDesdeSession).toHaveBeenCalled();
     expect(component.ejercicios.length).toBeGreaterThan(0);
-    expect(component.email).toBe('test@email.com');
+    expect(component.email).toBe('trainin@trainin.com');
     expect(temporizadorServiceMock.pausar).toHaveBeenCalled();
     expect(component.tiempoTotal).toBe('02:00');
   }

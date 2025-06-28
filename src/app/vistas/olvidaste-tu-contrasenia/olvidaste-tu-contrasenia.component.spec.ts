@@ -42,7 +42,7 @@ describe('OlvidasteContraseniaComponent', () => {
 
   it('Debería mostrar mensaje de éxito cuando la petición es exitosa', fakeAsync(() => {
     usuarioSpy.olvidarContrasenia.and.returnValue(of({ exito: true } as any));
-    component.form.setValue({ email: 'test@example.com' });
+    component.form.setValue({ email: 'trainin@trainin.com' });
 
     component.onSubmit();
     tick();
@@ -55,7 +55,7 @@ describe('OlvidasteContraseniaComponent', () => {
 
   it('Debería no mostrar nada cuando la respuesta es negativa', fakeAsync(() => {
     usuarioSpy.olvidarContrasenia.and.returnValue(of({ exito: false } as any));
-    component.form.setValue({ email: 'user@domain.com' });
+    component.form.setValue({ email: 'trainin@trainin.com' });
 
     component.onSubmit();
     tick();
@@ -65,7 +65,7 @@ describe('OlvidasteContraseniaComponent', () => {
 
   it('Debería mostrar error cuando falla la petición', fakeAsync(() => {
     usuarioSpy.olvidarContrasenia.and.returnValue(throwError(() => new Error()));
-    component.form.setValue({ email: 'fail@domain.com' });
+    component.form.setValue({ email: 'trainin@trainin.com' });
 
     component.onSubmit();
     tick();
