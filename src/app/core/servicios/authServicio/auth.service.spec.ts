@@ -1,163 +1,175 @@
-/* <reference types="jasmine" />
-
 import { TestBed } from '@angular/core/testing';
+import { AuthService } from './auth.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from './auth.service';
 import { environment } from '../../../../environments/environment';
-import { RegistroDTO } from '../../modelos/RegistroDTO';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
+import { TokenUtils } from '../../utilidades/token-utils';
+import { LoginData } from '../../modelos/LoginResponseDTO';
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
-  let router: Router;
-  const KEY = 'token';
+  let routerSpy: jasmine.SpyObj<Router>;
 
-  const fakeToken = 'header.' + btoa(JSON.stringify({
-    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress': 'trainin@trainin.com'
-  })) + '.signature';
+  const mockToken = 'header.payload.signature';  // Simulación de un JWT válido
+  const mockEmail = 'test@example.com';
+  const mockRole = 'admin';
+  const mockLoginResponse: RespuestaApi<LoginData> = {
+    exito: true,
+    mensaje: 'Ok',
+    objeto: {
+      token: mockToken,
+      email: mockEmail,
+      exito: true,
+      requiereActivacion: false,
+    },
+  };
 
   beforeEach(() => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
+    spyOn(window, 'atob').and.callFake(() => {
+      return JSON.stringify({
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress': mockEmail,
+        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': mockRole,
+      });
+    });
+
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
+      imports: [HttpClientTestingModule],
+      providers: [
+        AuthService,
+        { provide: Router, useValue: routerSpy },
       ],
-      providers: [AuthService]
     });
 
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
-    router = TestBed.inject(Router);
 
-    localStorage.clear();
+    spyOn(TokenUtils, 'tokenExpirado').and.returnValue(false);
   });
 
   afterEach(() => {
     httpMock.verify();
+    localStorage.clear();
   });
 
-  function makeToken(payload: any) {
-    const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' }));
-    const body = btoa(JSON.stringify(payload));
-    return `${header}.${body}.`;
-  }
+  it('debe ser creado', () => {
+    expect(service).toBeTruthy();
+  });
 
-  //Login
-  it('Debería hacer POST a /usuario/login y guardar, luego de que el usuario inicia su sesión el token del usuario logueado exitosamente', () => {
-    const cred = { email: 'trainin@trainin.com', contrasenia: '1234' };
-    const mockResp = { exito: true, requiereActivacion: false, token: fakeToken, email: 'trainin@trainin.com' };
+  describe('login', () => {
+    it('debe llamar a http post y almacenar sesión si el login es exitoso', () => {
+      const credenciales = { email: 'test@example.com', contrasenia: '1234' };
 
-    service.login(cred).subscribe(resp => {
-      expect(resp).toEqual(mockResp);
-      expect(localStorage.getItem(service['TOKEN_KEY']!)).toBe(fakeToken);
+      service.login(credenciales).subscribe((res) => {
+        expect(res).toEqual(mockLoginResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.URL_BASE}/usuario/iniciarSesion`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockLoginResponse);
+
+      expect(localStorage.getItem('token')).toBe(mockToken);
     });
 
-    const req = httpMock.expectOne(
-      `${environment.URL_BASE}/usuario/login`
-    );
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(cred);
+    it('no debe almacenar sesión si requiereActivacion es verdadero', () => {
+      const response: RespuestaApi<LoginData> = {
+        exito: true,
+        mensaje: 'Ok',
+        objeto: {
+          token: mockToken,
+          email: mockEmail,
+          exito: true,
+          requiereActivacion: true,
+        },
+      };
 
-    req.flush(mockResp);
-  });
+      const credenciales = { email: 'test@example.com', contrasenia: '1234' };
 
-  //Login
-  it('Debería no guardarse el token si el usuario requiere activación', () => {
-    const cred = { email: 'trainin@trainin.com', contrasenia: '1234' };
-    const mockResp = { exito: true, requiereActivacion: true, token: fakeToken };
+      service.login(credenciales).subscribe((res) => {
+        expect(res).toEqual(response);
+      });
 
-    service.login(cred).subscribe(resp => {
-      expect(localStorage.getItem(service['TOKEN_KEY']!)).toBe(null);
+      const req = httpMock.expectOne(`${environment.URL_BASE}/usuario/iniciarSesion`);
+      expect(req.request.method).toBe('POST');
+      req.flush(response);
+
+      expect(localStorage.getItem('token')).toBeNull();
+      expect(localStorage.getItem('rol')).toBeNull();
     });
-    httpMock.expectOne(`${environment.URL_BASE}/usuario/login`)
-      .flush(mockResp);
   });
 
-  //GetEmail
-  it('Debería retornar el email almacenado en localStorage', () => {
-    localStorage.setItem(service['TOKEN_KEY'], fakeToken);
-    const email = service.getEmail();
-    expect(email).toBe('trainin@trainin.com');
+  describe('estaAutenticado', () => {
+    it('debe devolver true cuando el token existe y no está expirado', () => {
+      spyOn(service, 'getToken').and.returnValue(mockToken);
+      expect(service.estaAutenticado()).toBeTrue();
+    });
+
+    it('debe devolver false cuando el token falta o está expirado', () => {
+      spyOn(service, 'getToken').and.returnValue(null);
+      expect(service.estaAutenticado()).toBeFalse();
+    });
   });
 
-  //El usuario está autenticado
-  it('Debería devolver false si no hay un token existente recibido con el usuario logueado', () => {
-    expect(service.estaAutenticado()).toBeFalse();
+  describe('cerrarSesion', () => {
+    it('debe eliminar el token y rol de localStorage', () => {
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('rol', mockRole);
+
+      service.cerrarSesion();
+
+      expect(localStorage.getItem('token')).toBeNull();
+      expect(localStorage.getItem('rol')).toBeNull();
+    });
   });
 
-  it('Debería devolver false si el token expiró por tiempo', () => {
-    const past = Math.floor(Date.now() / 1000) - 60;
-    localStorage.setItem(KEY, makeToken({ exp: past }));
-    expect(service.estaAutenticado()).toBeFalse();
+  describe('getEmail', () => {
+    it('debe devolver el email del token', () => {
+      spyOn(service, 'getToken').and.returnValue(mockToken);
+      const payload = { 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress': mockEmail };
+      expect(service.getEmail()).toBe(mockEmail);
+    });
+
+    it('debe devolver null cuando falta el token', () => {
+      spyOn(service, 'getToken').and.returnValue(null);
+      expect(service.getEmail()).toBeNull();
+    });
   });
 
-  it('Debería devolver true si el token sigue siendo válido (no ha expirado)', () => {
-    const future = Math.floor(Date.now() / 1000) + 60;
-    localStorage.setItem(KEY, makeToken({ exp: future }));
-    expect(service.estaAutenticado()).toBeTrue();
+  describe('getRol', () => {
+    it('debe devolver el rol del token', () => {
+      spyOn(service, 'getToken').and.returnValue(mockToken);
+      const payload = { 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': mockRole };
+      expect(service.getRol()).toBe(mockRole);
+    });
+
+    it('debe devolver null cuando falta el token', () => {
+      spyOn(service, 'getToken').and.returnValue(null);
+      expect(service.getRol()).toBeNull();
+    });
   });
 
-  //Cerrar Sesión 
-  it('Debería cerrar la sesión, eliminar el token y enviar al usuario al inicio.', () => {
-    const navSpy = spyOn(router, 'navigate');
-    localStorage.setItem(service['TOKEN_KEY'], fakeToken);
+  describe('registrarUsuario', () => {
+    it('debe llamar a http post para registrar al usuario', () => {
+      const dto = {
+        nombre: 'John',
+        apellido: 'Doe',
+        email: 'john@example.com',
+        contrasenia: '1234',
+        repetirContrasenia: '1234',
+        fechaNacimiento: new Date(),
+      };
+      const apiResponse: RespuestaApi<string> = { exito: true, mensaje: 'Ok', objeto: 'UserId' };
 
-    service.cerrarSesion();
+      service.registrarUsuario(dto).subscribe((res) => {
+        expect(res).toEqual(apiResponse);
+      });
 
-    expect(localStorage.getItem(service['TOKEN_KEY']!)).toBe(null);
-    expect(navSpy).toHaveBeenCalledWith(['/iniciar-sesion']);
+      const req = httpMock.expectOne(`${environment.URL_BASE}/usuario/registro`);
+      expect(req.request.method).toBe('POST');
+      req.flush(apiResponse);
+    });
   });
-
-  //Registro
-  it('Debería devolver un usuario ya registrado.', () => {
-    const dto: RegistroDTO = {
-      email: 'trainin@trainin.com',
-      contrasenia: 'pw',
-      nombre: 'X',
-      apellido: 'Apellido',
-      repetirContrasenia: 'pw',
-      fechaNacimiento: new Date('1990-01-01')
-    };
-    service.registrarUsuario(dto).subscribe();
-
-    const base = (service as any).baseUrl as string;
-    const req = httpMock.expectOne(`${base}/usuario/registro`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(dto);
-    req.flush({});
-  });
-
-  // Constructor
-  it('Debería inicializar usuario con email si hay un token válido al crear el servicio', () => {
-    const future = Math.floor(Date.now() / 1000) + 60;
-    const CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
-    const payload = { exp: future, [CLAIM]: 'trainin@trainin.com' };
-    localStorage.setItem(KEY, `${btoa(JSON.stringify({ alg: 'none' }))}.${btoa(JSON.stringify(payload))}.`);
-
-    // creamos **manualmente** la instancia para forzar ejecución del constructor
-    const auth = new AuthService({} as HttpClient, {} as Router);
-    auth.usuario.subscribe(email => expect(email).toBe('trainin@trainin.com'));
-  });
-
-  it('Debería eliminar el token y devolver null en usuario si el token está expirado al crear el servicio', () => {
-    const past = Math.floor(Date.now() / 1000) - 60;
-    const CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress';
-    const payload = { exp: past, [CLAIM]: 'trainin@trainin.com' };
-    localStorage.setItem(KEY, `${btoa('{}')}.${btoa(JSON.stringify(payload))}.`);
-
-    const auth = new AuthService({} as HttpClient, {} as Router);
-    auth.usuario.subscribe(email => expect(email).toBeNull());
-    expect(localStorage.getItem(KEY)).toBeNull();
-  });
-
-  //Token
-  it('Debería devolver el token almacenado con getToken()', () => {
-    localStorage.setItem(KEY, 'mi.jwt.token');
-    service = TestBed.inject(AuthService);
-    expect(service.getToken()).toBe('mi.jwt.token');
-  });
-
-});*/
+});
