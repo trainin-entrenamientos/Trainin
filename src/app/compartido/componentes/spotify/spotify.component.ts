@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { SpotifyService } from '../../../core/servicios/spotifyServicio/spotify.service';
 
 declare global {
   interface Window {
@@ -11,10 +13,9 @@ declare global {
   selector: 'app-spotify',
   standalone: false,
   templateUrl: './spotify.component.html',
-  styleUrl: './spotify.component.css'
+  styleUrl: './spotify.component.css',
 })
-export class SpotifyComponent implements OnInit {
-
+export class SpotifyComponent implements OnInit, OnDestroy {
   private player: any;
   isReady = false;
   token: string | null = null;
@@ -23,102 +24,168 @@ export class SpotifyComponent implements OnInit {
   position = 0;
   duration = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private spotifyService: SpotifyService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    const expiresAt = localStorage.getItem('spotify_expires_at');
-    if (!expiresAt || Date.now() > +expiresAt) {
+    if (this.spotifyService.isTokenExpired()) {
+      console.warn('El token de Spotify expiró');
       return;
     }
-  
-    this.token = localStorage.getItem('spotify_token');
-  
+
+    this.token = this.spotifyService.getAccessToken();
     if (!this.token) {
       console.error('No se encontró token de Spotify');
       return;
     }
-  
+
     this.loadSDK();
   }
 
+  ngOnDestroy(): void {
+    if (this.player) {
+      this.player.disconnect();
+    }
+  }
+
   loadSDK(): void {
-    const script = document.createElement('script');
-    script.src = 'https://sdk.scdn.co/spotify-player.js';
-    script.onload = () => this.initPlayer();
-    document.body.appendChild(script);
+    window.onSpotifyWebPlaybackSDKReady = () => this.initPlayer();
+
+    if (!document.getElementById('spotify-sdk')) {
+      const script = document.createElement('script');
+      script.id = 'spotify-sdk';
+      script.src = 'https://sdk.scdn.co/spotify-player.js';
+      document.body.appendChild(script);
+    } else {
+      this.initPlayer();
+    }
   }
 
   initPlayer(): void {
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = localStorage.getItem('spotify_token');
-      this.player = new window.Spotify.Player({
-        name: 'Mi Reproductor de Entrenamiento',
-        getOAuthToken: (cb: any) => { cb(token); },
-        volume: 0.5
-      });
+    if (!this.token) return;
 
-      this.player.addListener('ready', ({ device_id }: any) => {
+    this.player = new window.Spotify.Player({
+      name: 'Mi Reproductor de Entrenamiento',
+      getOAuthToken: (cb: any) => cb(this.token),
+      volume: 0.5
+    });
+
+    this.player.addListener('ready', ({ device_id }: any) => {
+      console.log('Reproductor listo con ID:', device_id);
+      
+      this.ngZone.run(() => {
         this.isReady = true;
-        this.transferPlaybackHere(token!, device_id);
-        this.cdr.detectChanges();
+        
+        this.spotifyService.transferPlaybackHere(device_id).subscribe({
+          next: () => console.log('Reproducción transferida correctamente'),
+          error: (error) => console.error('Error transfiriendo reproducción:', error)
+        });
       });
-      this.player.addListener('player_state_changed', (state: { track_window: { current_track: any; }; paused: any; }) => {
-        this.currentTrack = state.track_window.current_track;
-        this.isPlaying = !state.paused;
+    });
+
+    this.player.addListener('not_ready', ({ device_id }: any) => {
+      console.log('Device ID has gone offline', device_id);
+      this.ngZone.run(() => {
+        this.isReady = false;
       });
+    });
 
-      this.player.connect();
-    };
-  }
+    this.player.addListener(
+      'player_state_changed',
+      (state: any) => {
+        if (!state) return;
 
-  transferPlaybackHere(token: string, deviceId: string): void {
-    fetch('https://api.spotify.com/v1/me/player', {
-      method: 'PUT',
-      body: JSON.stringify({ device_ids: [deviceId], play: false }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        this.ngZone.run(() => {
+          this.currentTrack = state.track_window.current_track;
+          this.isPlaying = !state.paused;
+          this.position = state.position;
+          this.duration = state.duration;
+        });
+      }
+    );
+
+    this.player.addListener('initialization_error', ({ message }: any) => {
+      console.error('Error de inicialización:', message);
+    });
+
+    this.player.addListener('authentication_error', ({ message }: any) => {
+      console.error('Error de autenticación:', message);
+    });
+
+    this.player.addListener('account_error', ({ message }: any) => {
+      console.error('Error de cuenta:', message);
+    });
+
+    this.player.addListener('playback_error', ({ message }: any) => {
+      console.error('Error de reproducción:', message);
+    });
+
+    this.player.connect().then((success: boolean) => {
+      if (success) {
+        console.log('Conectado al reproductor de Spotify');
+      } else {
+        console.error('No se pudo conectar al reproductor');
       }
     });
   }
 
   togglePlay(): void {
-    if (!this.player) return;
-  
-    this.player.getCurrentState().then((state: { paused: any; }) => {
-      if (!state) return;
-  
-      if (state.paused) {
-        this.player.resume().then(() => this.isPlaying = true);
-      } else {
-        this.player.pause().then(() => this.isPlaying = false);
+    if (!this.player || !this.isReady) {
+      console.warn('Reproductor no está listo');
+      return;
+    }
+
+    this.player.getCurrentState().then((state: any) => {
+      if (!state) {
+        console.warn('No hay estado de reproducción disponible');
+        return;
       }
+
+      if (state.paused) {
+        this.player.resume().then(() => {
+          console.log('Reproducción reanudada');
+        }).catch((error: any) => {
+          console.error('Error reanudando reproducción:', error);
+        });
+      } else {
+        this.player.pause().then(() => {
+          console.log('Reproducción pausada');
+        }).catch((error: any) => {
+          console.error('Error pausando reproducción:', error);
+        });
+      }
+    }).catch((error: any) => {
+      console.error('Error obteniendo estado del reproductor:', error);
     });
   }
-  
+
   previousTrack(): void {
-    this.player.previousTrack();
+    if (!this.player || !this.isReady) return;
+    
+    this.player.previousTrack().catch((error: any) => {
+      console.error('Error yendo a la canción anterior:', error);
+    });
   }
-  
+
   nextTrack(): void {
-    this.player.nextTrack();
+    if (!this.player || !this.isReady) return;
+    
+    this.player.nextTrack().catch((error: any) => {
+      console.error('Error yendo a la siguiente canción:', error);
+    });
   }
-  
+
   async getCurrentlyPlaying(): Promise<void> {
     if (!this.token) return;
-    
+
     try {
-      const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-        headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-      }
-    } catch (error) {
-      console.error('Error obteniendo canción actual:', error);
+      const data = await this.spotifyService.getCurrentPlayback(this.token);
+      console.log('Canción actual:', data);
+    } catch (err) {
+      console.error('Error obteniendo canción actual:', err);
     }
   }
 }
