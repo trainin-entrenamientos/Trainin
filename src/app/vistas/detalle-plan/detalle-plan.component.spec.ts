@@ -1,224 +1,336 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { DetallePlanComponent } from './detalle-plan.component';
-// import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
-// import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
-// import { AuthService } from '../../core/servicios/authServicio/auth.service';
-// import { ActivatedRoute } from '@angular/router';
-// import { of, throwError } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DetallePlanComponent } from './detalle-plan.component';
+import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
+import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SemanaRutina, Rutina } from '../../core/modelos/DetallePlanDTO';
 
-// describe('DetallePlanComponent', () => {
-//   let component: DetallePlanComponent;
-//   let fixture: ComponentFixture<DetallePlanComponent>;
-//   let mockPlanService: jasmine.SpyObj<PlanEntrenamientoService>;
-//   let mockUsuarioService: jasmine.SpyObj<UsuarioService>;
-//   let mockAuthService: jasmine.SpyObj<AuthService>;
-//   let mockActivatedRoute: any;
+const mockPlan = {
+  exito: true,
+  mensaje: 'OK',
+  objeto: {
+    id: 99,
+    nombrePlan: 'Plan Prueba',
+    tiempoEstimadoPlanMinutos: 100,
+    semanasPlan: 1,
+    diasPorSemanaPlan: 1,
+    semanaRutinas: [
+      {
+        numeroSemana: 1,
+        rutinas: [
+          {
+            id: 1,
+            numeroRutina: 1,
+            duracionEstimada: 30,
+            idPlan: 99,
+            ejercicios: [],
+            estadoRutina: 1,
+          },
+        ],
+      },
+    ],
+  },
+};
 
-//   beforeEach(async () => {
-//     mockPlanService = jasmine.createSpyObj('PlanEntrenamientoService', [
-//       'obtenerDetallePlan',
-//     ]);
-//     mockUsuarioService = jasmine.createSpyObj('UsuarioService', [
-//       'obtenerUsuarioPorId',
-//     ]);
-//     mockAuthService = jasmine.createSpyObj('AuthService', ['getEmail']);
-//     mockActivatedRoute = {
-//       snapshot: {
-//         paramMap: {
-//           get: () => '123',
-//         },
-//       },
-//     };
+describe('DetallePlanComponent', () => {
+  let component: DetallePlanComponent;
+  let fixture: ComponentFixture<DetallePlanComponent>;
+  let mockPlanService: jasmine.SpyObj<PlanEntrenamientoService>;
+  let mockUsuarioService: jasmine.SpyObj<UsuarioService>;
+  let mockAuthService: jasmine.SpyObj<AuthService>;
+  let mockActivatedRoute: any;
+  let router: jasmine.SpyObj<Router>;
+  let toastr: jasmine.SpyObj<ToastrService>;
 
-//     await TestBed.configureTestingModule({
-//       declarations: [DetallePlanComponent],
-//       providers: [
-//         { provide: PlanEntrenamientoService, useValue: mockPlanService },
-//         { provide: UsuarioService, useValue: mockUsuarioService },
-//         { provide: AuthService, useValue: mockAuthService },
-//         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-//       ],
-//     }).compileComponents();
+  beforeEach(async () => {
+    mockPlanService = jasmine.createSpyObj('PlanEntrenamientoService', [
+      'obtenerDetallePlan',
+    ]);
+    mockUsuarioService = jasmine.createSpyObj('UsuarioService', [
+      'obtenerUsuarioPorEmail',
+    ]);
+    mockAuthService = jasmine.createSpyObj('AuthService', ['getEmail']);
+    router = jasmine.createSpyObj('Router', ['navigate']);
+    toastr = jasmine.createSpyObj('ToastrService', ['error']);
+    mockActivatedRoute = {
+      snapshot: {
+        paramMap: {
+          get: () => '123',
+        },
+      },
+    };
 
-//     fixture = TestBed.createComponent(DetallePlanComponent);
-//     component = fixture.componentInstance;
-//   });
+    await TestBed.configureTestingModule({
+      declarations: [DetallePlanComponent],
+      providers: [
+        { provide: PlanEntrenamientoService, useValue: mockPlanService },
+        { provide: UsuarioService, useValue: mockUsuarioService },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Router, useValue: router },
+        { provide: ToastrService, useValue: toastr },
+      ],
+      imports: [RouterTestingModule],
+    }).compileComponents();
 
-//   it('debería obtener el email, usuario y detalle del plan al inicializarse', () => {
-//     dadoQueElUsuarioTieneEmail();
-//     dadoQueElUsuarioEsDevueltoConID(99);
-//     dadoQueElPlanEsDevueltoConSemanas();
+    fixture = TestBed.createComponent(DetallePlanComponent);
+    component = fixture.componentInstance;
+  });
 
-//     cuandoSeEjecutaOnInit();
+  it('debe obtener el email y llamar a obtenerUsuario() correctamente', () => {
+    const email = 'test@correo.com';
+    const planId = 5;
 
-//     entoncesElIDDelUsuarioDebeSer(99);
-//     entoncesDebeHaberseCargadoElPlan();
-//   });
+    mockAuthService.getEmail.and.returnValue(email);
+    spyOn(mockActivatedRoute.snapshot.paramMap, 'get').and.returnValue(
+      String(planId)
+    );
+    const spyObtenerUsuario = spyOn(component, 'obtenerUsuario');
 
-//   it('debería cambiar de semana y resetear día activo', () => {
-//     dadoQueElUsuarioTieneEmail();
-//     dadoQueElUsuarioEsDevueltoConID(1);
-//     dadoQueElPlanEsDevueltoConSemanas();
+    component.ngOnInit();
 
-//     cuandoSeEjecutaOnInit();
+    expect(component.email).toBe(email);
+    expect(spyObtenerUsuario).toHaveBeenCalledOnceWith(planId);
+  });
 
-//     component.cambiarSemana(1);
+  it('no debe llamar a usuarioService si el email es null', () => {
+    component.email = null;
 
-//     expect(component.semanaActual).toBe(1);
-//     expect(component.diaActivo).toBe(0);
-//   });
+    component.obtenerUsuario(1);
 
-//   it('debería traducir estado correctamente', () => {
-//     expect(component.traducirEstadoRutina(1)).toBe('Activo');
-//     expect(component.traducirEstadoRutina(2)).toBe('Completado');
-//     expect(component.traducirEstadoRutina(3)).toBe('Pendiente');
-//     expect(component.traducirEstadoRutina(4)).toBe('Inactivo');
-//     expect(component.traducirEstadoRutina(99)).toBe('Desconocido');
-//   });
+    expect(mockUsuarioService.obtenerUsuarioPorEmail).not.toHaveBeenCalled();
+  });
 
-//   it('debería devolver la primera rutina activa', () => {
-//     component.semanas = [
-//       {
-//         rutinas: [
-//           { id: 10, estado: 2 },
-//           { id: 11, estado: 1 },
-//         ],
-//       },
-//       {
-//         rutinas: [{ id: 12, estado: 1 }],
-//       },
-//     ];
+  it('debe manejar error si obtenerUsuarioPorEmail falla', () => {
+    component.email = 'test@correo.com';
+    mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(
+      throwError(() => new Error('Error de red'))
+    );
 
-//     const rutina = component.getPrimerRutinaActiva();
-//     expect(rutina?.id).toBe(11);
-//   });
+    component.obtenerUsuario(1);
 
-//   it('debería verificar si la rutina actual es la primera activa', () => {
-//     component.semanas = [
-//       {
-//         rutinas: [
-//           { id: 1, estado: 1, ejercicios: [] },
-//           { id: 2, estado: 2, ejercicios: [] },
-//         ],
-//       },
-//     ];
-//     component.semanaActual = 0;
-//     component.diaActivo = 0;
+    expect(toastr.error).toHaveBeenCalledWith('No se pudo obtener al usuario');
+    expect(router.navigate).toHaveBeenCalledWith(['/inicio']);
+    expect(component.cargando).toBeFalse();
+  });
 
-//     expect(component.esPrimeraRutinaActivaActual()).toBeTrue();
-//   });
+  it('debe cargar el detalle del plan correctamente y setear estados', () => {
+    mockPlanService.obtenerDetallePlan.and.returnValue(of(mockPlan));
 
-//   it('no debe intentar obtener usuario si el email es null', () => {
-//     mockAuthService.getEmail.and.returnValue(null);
+    const spySeleccionar = spyOn(component, 'seleccionarPrimerRutinaActiva');
 
-//     component.ngOnInit();
+    component.idUsuario = 10;
+    component.obtenerDetalleDelPlan(99);
 
-//     expect(mockUsuarioService.obtenerUsuarioPorEmail).not.toHaveBeenCalled();
-//     expect(component.cargando).toBeTrue();
-//   });
+    expect(component.detallePlan?.id).toBe(99);
+    expect(component.semanas.length).toBe(1);
+    expect(component.semanas[0].rutinas[0].estadoRutina).toBe(1);
+    expect(spySeleccionar).toHaveBeenCalled();
+    expect(component.cargando).toBeFalse();
+  });
 
-//   it('debe manejar el error si falla obtenerUsuarioPorId', () => {
-//     dadoQueElUsuarioTieneEmail();
-//     mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(
-//       throwError(() => new Error('Fallo al obtener usuario'))
-//     );
+  it('debe manejar el error si falla obtenerDetalleDelPlan', () => {
+    mockPlanService.obtenerDetallePlan.and.returnValue(
+      throwError(() => new Error('fallo'))
+    );
+    component.obtenerDetalleDelPlan(123);
 
-//     component.ngOnInit();
+    expect(toastr.error).toHaveBeenCalledWith(
+      'No se pudo obtener el detalle del plan'
+    );
+    expect(router.navigate).toHaveBeenCalledWith(['/planes']);
+  });
 
-//     expect(component.cargando).toBeFalse();
-//   });
+  it('debe seleccionar la primera rutina activa', () => {
+    component.semanas = [
+      {
+        rutinas: [
+          { estadoRutina: 3, estado: 3 },
+          { estadoRutina: 1, estado: 1 },
+        ],
+      },
+    ];
 
-//   it('debe manejar el error si falla obtenerDetalleDelPlan', () => {
-//     dadoQueElUsuarioTieneEmail();
-//     dadoQueElUsuarioEsDevueltoConID(1);
-//     mockPlanService.obtenerDetallePlan.and.returnValue(
-//       throwError(() => new Error('Error al obtener plan'))
-//     );
+    component.seleccionarPrimerRutinaActiva();
 
-//     component.ngOnInit();
+    expect(component.semanaActual).toBe(0);
+    expect(component.diaActivo).toBe(1);
+  });
 
-//     expect(component.cargando).toBeTrue();
-//   });
+  it('debe setear semanaActual y diaActivo a 0 si no hay rutina activa', () => {
+    component.semanas = [
+      {
+        rutinas: [{ estadoRutina: 3 }, { estadoRutina: 2 }],
+      },
+    ];
 
-//   it('no debe cambiar semana si el índice es inválido', () => {
-//     dadoQueElUsuarioTieneEmail();
-//     dadoQueElUsuarioEsDevueltoConID(1);
-//     dadoQueElPlanEsDevueltoConSemanas();
-//     component.ngOnInit();
+    component.seleccionarPrimerRutinaActiva();
 
-//     const semanaOriginal = component.semanaActual;
+    expect(component.semanaActual).toBe(0);
+    expect(component.diaActivo).toBe(0);
+  });
 
-//     component.cambiarSemana(-1);
-//     expect(component.semanaActual).toBe(semanaOriginal);
+  it('debe cambiar de semana correctamente', () => {
+    component.semanas = [1, 2, 3];
+    component.semanaActual = 1;
 
-//     component.cambiarSemana(99);
-//     expect(component.semanaActual).toBe(semanaOriginal);
-//   });
+    component.cambiarSemana(1);
 
-//   it('getPrimerRutinaActiva debe devolver null si no hay rutinas activas', () => {
-//     component.semanas = [
-//       {
-//         rutinas: [
-//           { id: 1, estado: 2 },
-//           { id: 2, estado: 3 },
-//         ],
-//       },
-//     ];
+    expect(component.semanaActual).toBe(2);
+    expect(component.diaActivo).toBe(0);
+  });
 
-//     expect(component.getPrimerRutinaActiva()).toBeNull();
-//   });
+  it('no debe cambiar de semana si el índice es inválido', () => {
+    component.semanas = [1, 2, 3];
+    component.semanaActual = 2;
 
-//   it('esPrimeraRutinaActivaActual debe devolver false si no es la rutina activa', () => {
-//     component.semanas = [
-//       {
-//         rutinas: [
-//           { id: 1, estado: 2, ejercicios: [] },
-//           { id: 2, estado: 1, ejercicios: [] },
-//         ],
-//       },
-//     ];
-//     component.semanaActual = 0;
-//     component.diaActivo = 0;
+    component.cambiarSemana(1);
 
-//     expect(component.esPrimeraRutinaActivaActual()).toBeFalse();
-//   });
+    expect(component.semanaActual).toBe(2);
+  });
 
-//   function dadoQueElUsuarioTieneEmail() {
-//     mockAuthService.getEmail.and.returnValue('test@correo.com');
-//   }
+  it('debe cambiar el día activo al índice recibido', () => {
+    component.diaActivo = 0;
 
-//   function dadoQueElUsuarioEsDevueltoConID(id: number) {
-//     mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(of({ id }));
-//   }
+    component.seleccionarDia(2);
 
-//   function dadoQueElPlanEsDevueltoConSemanas() {
-//     const planMock = {
-//       semanaRutinas: [
-//         {
-//           rutinas: [
-//             { id: 1, estado: 1, ejercicios: ['ej1', 'ej2'] },
-//             { id: 2, estado: 2, ejercicios: ['ej3'] },
-//           ],
-//         },
-//         {
-//           rutinas: [{ id: 3, estado: 3, ejercicios: ['ej4'] }],
-//         },
-//       ],
-//     };
-//     mockPlanService.obtenerDetallePlan.and.returnValue(of(planMock));
-//   }
+    expect(component.diaActivo).toBe(2);
+  });
 
-//   function cuandoSeEjecutaOnInit() {
-//     component.ngOnInit();
-//   }
+  it('debe redirigir si detallePlan existe', () => {
+    component.detallePlan = { id: 42 } as any;
 
-//   function entoncesElIDDelUsuarioDebeSer(id: number) {
-//     expect(component.idUsuario).toBe(id);
-//   }
+    component.redirigir();
+    expect(router.navigate).toHaveBeenCalledWith(['/inicio-rutina', 42]);
+  });
 
-//   function entoncesDebeHaberseCargadoElPlan() {
-//     expect(component.detallePlan).toBeDefined();
-//     expect(component.semanas.length).toBe(2);
-//     expect(component.cargando).toBeFalse();
-//   }
-// });
+  it('debe mostrar error si detallePlan no está definido', () => {
+    component.detallePlan = undefined;
+
+    component.redirigir();
+
+    expect(toastr.error).toHaveBeenCalledWith(
+      'El detalle del plan no está definido'
+    );
+  });
+
+  it('debe retornar la semana actual', () => {
+    component.semanas = [{ rutinas: [] }];
+    component.semanaActual = 0;
+
+    expect(component.semanaSeleccionada).toEqual({ rutinas: [] });
+  });
+
+  it('debe retornar undefined si semanaActual está fuera de rango', () => {
+    component.semanas = [];
+    component.semanaActual = 1;
+
+    expect(component.semanaSeleccionada).toBeUndefined();
+  });
+
+  it('debe retornar los días de la semana seleccionada', () => {
+    component.semanas = [{ rutinas: [{ id: 1 }, { id: 2 }] }];
+    component.semanaActual = 0;
+
+    expect(component.diasSemanaActual.length).toBe(2);
+  });
+
+  it('debe retornar array vacío si no hay semana seleccionada', () => {
+    component.semanas = [];
+    component.semanaActual = 0;
+
+    expect(component.diasSemanaActual).toEqual([]);
+  });
+
+  it('debe retornar la rutina actual correctamente', () => {
+    component.semanas = [{ rutinas: [{ id: 1 }, { id: 2 }] }];
+    component.semanaActual = 0;
+    component.diaActivo = 1;
+
+    expect(component.rutinaActual?.id).toBe(2);
+  });
+
+  it('debe retornar undefined si no hay rutina en el día activo', () => {
+    component.semanas = [{ rutinas: [] }];
+    component.semanaActual = 0;
+    component.diaActivo = 0;
+
+    expect(component.rutinaActual).toBeUndefined();
+  });
+
+  it('debe retornar los ejercicios del día actual', () => {
+    component.semanas = [
+      { rutinas: [{ ejercicios: [{ nombre: 'Sentadillas' }] }] },
+    ];
+    component.semanaActual = 0;
+    component.diaActivo = 0;
+
+    expect(component.ejerciciosDelDia.length).toBe(1);
+  });
+
+  it('debe retornar array vacío si no hay rutina o ejercicios', () => {
+    component.semanas = [{ rutinas: [{}] }];
+    component.semanaActual = 0;
+    component.diaActivo = 0;
+
+    expect(component.ejerciciosDelDia).toEqual([]);
+  });
+
+  it('debe retornar la primera rutina activa (estado 1)', () => {
+    component.semanas = [
+      {
+        rutinas: [
+          { estadoRutina: 3, estado: 3 } as any,
+          { estadoRutina: 1, estado: 1, id: 7 } as any,
+        ],
+      },
+    ];
+
+    const rutina = component.getPrimerRutinaActiva();
+
+    expect(rutina?.estadoRutina).toBe(1);
+    expect(rutina?.id).toBe(7);
+  });
+
+  it('debe retornar null si no hay rutina activa', () => {
+    component.semanas = [{ rutinas: [{ estadoRutina: 2 }] }];
+
+    expect(component.getPrimerRutinaActiva()).toBeNull();
+  });
+
+  it('debe retornar true si la rutina actual es la primera activa', () => {
+    component.semanas = [{ rutinas: [{ id: 5, estadoRutina: 1, estado: 1 }] }];
+    component.semanaActual = 0;
+    component.diaActivo = 0;
+
+    expect(component.esPrimeraRutinaActivaActual()).toBeTrue();
+  });
+
+  it('debe retornar false si la rutina actual no es la primera activa', () => {
+    component.semanas = [
+      {
+        rutinas: [
+          { id: 5, estadoRutina: 2 },
+          { id: 6, estadoRutina: 1 },
+        ],
+      },
+    ];
+    component.semanaActual = 0;
+    component.diaActivo = 0;
+
+    expect(component.esPrimeraRutinaActivaActual()).toBeFalse();
+  });
+
+  it('debe traducir correctamente los estados de rutina', () => {
+    expect(component.traducirEstadoRutina(1)).toBe('Activo');
+    expect(component.traducirEstadoRutina(2)).toBe('Completado');
+    expect(component.traducirEstadoRutina(3)).toBe('Pendiente');
+    expect(component.traducirEstadoRutina(4)).toBe('Inactivo');
+    expect(component.traducirEstadoRutina(999)).toBe('Desconocido');
+  });
+});

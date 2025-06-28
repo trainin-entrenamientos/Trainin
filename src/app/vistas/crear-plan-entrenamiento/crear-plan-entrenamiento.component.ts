@@ -85,7 +85,6 @@ export class CrearPlanEntrenamientoComponent {
         this.obtenerPlanEntrenamiento(this.idUsuario);
       },
       error: (err: any) => {
-        console.log(err)
           manejarErrorYRedirigir(this.toastr, this.router, `${err.error.mensaje}`, '/planes');
       },
     });
@@ -532,7 +531,6 @@ export class CrearPlanEntrenamientoComponent {
         .subscribe(
           (response) => {
             if (response.objeto.planId) {
-              console.log(response);
               this.planIdCreado = response.objeto.planId;
               if (response.objeto.logro) {
                 this.logroService.mostrarLogro(response.objeto.logro);

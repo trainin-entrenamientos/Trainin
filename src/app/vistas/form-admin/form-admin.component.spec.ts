@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, FormArray } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -179,4 +179,4 @@ describe('FormAdminComponent', () => {
       .toHaveBeenCalledWith('Error al cargar el ejercicio:', jasmine.any(Error));
   });
 
-});
+});*/

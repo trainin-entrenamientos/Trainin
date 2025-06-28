@@ -1,158 +1,211 @@
-/*import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RegistroComponent } from './registro.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let toastrSpy: jasmine.SpyObj<ToastrService>;
-  let router: Router;
+  let mockAuthService: any;
+  let mockRouter: any;
+  let mockToastr: any;
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['registrarUsuario']);
-    toastrSpy = jasmine.createSpyObj('ToastrService', ['success', 'error']);
-    
+    mockAuthService = jasmine.createSpyObj(['registrarUsuario']);
+    mockRouter = jasmine.createSpyObj(['navigate']);
+    mockToastr = jasmine.createSpyObj(['success', 'error']);
+
     await TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule
-      ],
+      imports: [ReactiveFormsModule],
       declarations: [RegistroComponent],
       providers: [
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: ToastrService, useValue: toastrSpy},
-        
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: Router, useValue: mockRouter },
+        { provide: ToastrService, useValue: mockToastr },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
-
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
-
     fixture.detectChanges();
   });
 
-  it('debería crear el componente', () => {
+  it('debería crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 
-  it('debería invalidar el formulario si los campos están vacíos', () => {
-    component.registroForm.setValue({
-      nombre: '',
-      apellido: '',
-      email: '',
-      contrasenia: '',
-      repetirContrasenia: '',
-      fechaNacimiento: '',
-      aceptarTerminos: false
-    });
-
-    expect(component.registroForm.invalid).toBeTrue();
-  });
-
-  it('debería mostrar error si el formulario es inválido al enviar', () => {
-    component.registroForm.setValue({
-      nombre: '',
-      apellido: '',
-      email: '',
-      contrasenia: '',
-      repetirContrasenia: '',
-      fechaNacimiento: '',
-      aceptarTerminos: false
-    });
+  it('debería marcar los campos como tocados si el formulario es inválido', () => {
+    const marcarSpy = spyOn(component, 'marcarCamposComoTocados').and.callThrough();
 
     component.onSubmit();
 
-    expect(toastrSpy.error).toHaveBeenCalledWith(
-      'Por favor, completá todos los campos correctamente.',
-      'Formulario inválido'
-    );
-  });
-  
-  it('debería manejar error del servicio de registro', () => {
-    const datosValidos = {
-      nombre: 'Ana',
-      apellido: 'López',
-      email: 'ana@example.com',
-      contrasenia: 'Ana@123',
-      repetirContrasenia: 'Ana@123',
-      fechaNacimiento: '1990-01-01',
-      aceptarTerminos: true
-    };
-
-    component.registroForm.setValue(datosValidos);
-
-    authServiceSpy.registrarUsuario.and.returnValue(
-      throwError(() => ({ error: { mensaje: 'Email ya registrado' } }))
-    );
-
-    component.onSubmit();
-
-    expect(toastrSpy.error).toHaveBeenCalledWith(
-      'Por favor, completá todos los campos correctamente.',
-      'Formulario inválido'
+    expect(marcarSpy).toHaveBeenCalled();
+    expect(mockToastr.error).toHaveBeenCalledWith(
+      'Por favor, completá todos los campos correctamente.'
     );
   });
 
   it('debería marcar error si las contraseñas no coinciden', () => {
     component.registroForm.patchValue({
-      contrasenia: 'Password1!',
-      repetirContrasenia: 'Password2!'
-    });
-
-    const errores = component.registroForm.errors;
-    expect(errores?.['contrasenasNoCoinciden']).toBeTrue();
-  });
-
-  it('debería validar que la edad mínima sea 16 años', () => {
-    const fechaMenor = new Date();
-    fechaMenor.setFullYear(fechaMenor.getFullYear() - 15);
-
-    component.registroForm.patchValue({
-      fechaNacimiento: fechaMenor.toISOString().split('T')[0]
-    });
-
-    const errores = component.registroForm.get('fechaNacimiento')?.errors;
-    expect(errores?.['edadMinima']).toBeTrue();
-  });
-  
-  it('debería registrar usuario exitosamente', fakeAsync(() => {
-      
-      const datosValidos = {
       nombre: 'Juan',
-      apellido: 'Perez',
-      email: 'juan@example.com',
-      contrasenia: 'Test@123',
-      repetirContrasenia: 'Test@123',
+      apellido: 'Pérez',
+      email: 'juan@test.com',
+      contrasenia: 'Abc123!',
+      repetirContrasenia: 'Diferente123!',
       fechaNacimiento: '2000-01-01',
       aceptarTerminos: true
-      };
-        
-       const mockResponse = { mensaje: 'Usuario registrado exitosamente' };
-  authServiceSpy.registrarUsuario.and.returnValue(of(mockResponse));
-  component.registroForm.setValue(datosValidos);
-  console.log(component.registroForm.valid); // Debería mostrar true
-  console.log(component.registroForm.value);
+    });
+
+    expect(component.registroForm.valid).toBeFalse();
+  expect(component.registroForm.errors?.['contrasenasNoCoinciden']).toBeTrue();
+  });
+
+  it('debería invalidar edad si es menor de 16 años', () => {
+    const fechaInvalida = new Date();
+    fechaInvalida.setFullYear(fechaInvalida.getFullYear() - 10); // 10 años
+
+    component.registroForm.get('fechaNacimiento')?.setValue(fechaInvalida.toISOString());
+
+    const control = component.registroForm.get('fechaNacimiento');
+  expect(control?.errors?.['edadMinima']).toBeTrue();
+  });
+
+  it('debería registrar correctamente cuando el formulario es válido', fakeAsync(() => {
+    const mockResponse = {
+      mensaje: '¡Bienvenido!',
+      objeto: {},
+      exito: true
+    };
+
+    mockAuthService.registrarUsuario.and.returnValue(of(mockResponse));
+
+    component.registroForm.setValue({
+      nombre: 'Juan',
+      apellido: 'Pérez',
+      email: 'juan@test.com',
+      contrasenia: 'Abc123!',
+      repetirContrasenia: 'Abc123!',
+      fechaNacimiento: '2000-01-01',
+      aceptarTerminos: true
+    });
+
+    component.onSubmit();
+    tick();
+
+    expect(component.cargando).toBeFalse();
+    expect(mockToastr.success).toHaveBeenCalledWith(
+      '¡Bienvenido!',
+      'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.'
+    );
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/iniciar-sesion']);
+  }));
+
+  it('debería manejar error si el registro falla', fakeAsync(() => {
+    const mockError = {
+      error: { mensaje: 'El correo ya está registrado.' }
+    };
+
+    mockAuthService.registrarUsuario.and.returnValue(throwError(() => mockError));
+
+    component.registroForm.setValue({
+      nombre: 'Juan',
+      apellido: 'Pérez',
+      email: 'juan@test.com',
+      contrasenia: 'Abc123!',
+      repetirContrasenia: 'Abc123!',
+      fechaNacimiento: '2000-01-01',
+      aceptarTerminos: true
+    });
+
+    component.onSubmit();
+    tick();
+
+    expect(component.cargando).toBeFalse();
+    expect(mockToastr.error).toHaveBeenCalledWith('El correo ya está registrado.');
+  }));
+
+  it('debería formatear la fecha correctamente', () => {
+    const fecha = '2000-01-01';
+    const resultado = component['formatearFecha'](fecha);
+    expect(resultado).toContain('2000-01-01T');
+  });
+
+  it('debería marcar todos los campos como tocados', () => {
+    const controls = component.registroForm.controls;
+    Object.values(controls).forEach(control => {
+      spyOn(control, 'markAsTouched');
+    });
+
+    component.marcarCamposComoTocados();
+
+    Object.values(controls).forEach(control => {
+      expect(control.markAsTouched).toHaveBeenCalled();
+    });
+  });
+
+  it('debería devolver true si el formulario es válido', () => {
+    component.registroForm.setValue({
+      nombre: 'Juan',
+      apellido: 'Pérez',
+      email: 'juan@test.com',
+      contrasenia: 'Abc123!',
+      repetirContrasenia: 'Abc123!',
+      fechaNacimiento: '2000-01-01',
+      aceptarTerminos: true
+    });
+
+    expect(component.esFormularioValido()).toBeTrue();
+  });
+
+  it('debería invalidar el formulario si no se aceptan los términos', () => {
+  component.registroForm.setValue({
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    email: 'juan@test.com',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc123!',
+    fechaNacimiento: '2000-01-01',
+    aceptarTerminos: false
+  });
+
+  expect(component.registroForm.valid).toBeFalse();
+  expect(component.registroForm.get('aceptarTerminos')?.errors).toBeTruthy();
+});
+
+it('validarEdadMinima debería devolver null si la fecha no es válida', () => {
+  const validator = component.validarEdadMinima(16);
+  const result = validator({ value: 'no-es-fecha' });
+  expect(result).toBeNull();
+});
+
+it('debería mostrar mensaje por defecto si el error no tiene mensaje', fakeAsync(() => {
+  const mockError = {
+    error: {}
+  };
+
+  mockAuthService.registrarUsuario.and.returnValue(throwError(() => mockError));
+
+  component.registroForm.setValue({
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    email: 'juan@test.com',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc123!',
+    fechaNacimiento: '2000-01-01',
+    aceptarTerminos: true
+  });
 
   component.onSubmit();
-
   tick();
-  expect(authServiceSpy.registrarUsuario).toHaveBeenCalled();
-  expect(toastrSpy.success).toHaveBeenCalledWith(
-    mockResponse.mensaje,
-    'Se ha registrado con éxito. Activá tu cuenta en tu Correo Electrónico para Ingresar al sitio.'
-  );
-  expect(router.navigate).toHaveBeenCalledWith(['/iniciar-sesion']);
-      }));
-  
-});*/
+
+  expect(component.cargando).toBeFalse();
+  expect(mockToastr.error).toHaveBeenCalledWith('Ocurrió un error inesperado al registrar el usuario.');
+}));
+
+});
