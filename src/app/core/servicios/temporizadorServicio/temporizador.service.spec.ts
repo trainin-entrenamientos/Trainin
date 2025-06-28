@@ -1,4 +1,4 @@
-/*import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TemporizadorService } from './temporizador.service';
 
 describe('TemporizadorService', () => {
@@ -86,4 +86,4 @@ describe('TemporizadorService', () => {
     service.accionesDePausa(false);
     expect(service.estaCorriendoTiempo()).toBeTrue();
   });
-});*/
+});

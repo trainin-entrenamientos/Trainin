@@ -1,4 +1,4 @@
-/*import { ComponentFixture, TestBed, fakeAsync, tick, flush, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, flush, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { CorreccionPosturaComponent } from './correccion-postura.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -420,4 +420,3 @@ describe('CorreccionPosturaComponent', () => {
   });
 
 });
-*/
