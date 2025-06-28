@@ -12,7 +12,6 @@ import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
 import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
-
 import { PlanesComponent } from './vistas/planes/planes.component';
 import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { InicioRutinaComponent } from './vistas/inicio-rutina/inicio-rutina.component';
@@ -31,6 +30,7 @@ import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/lis
 import { adminGuard } from './core/guardias/admin/admin.guard';
 import { EjercicioDiarioComponent } from './vistas/ejercicio-diario/ejercicio-diario.component';
 import { HistorialPlanesComponent } from './vistas/historial-planes/historial-planes.component';
+import { CallbackComponent } from './compartido/componentes/callback/callback.component';
 import { OlvidasteContraseniaComponent } from './vistas/olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
 import { RecuperarContraseniaComponent } from './vistas/recuperar-contrasenia/recuperar-contrasenia.component';
 
@@ -168,7 +168,11 @@ const routes: Routes = [
       },
       {
         path: 'historial-planes',
-        component: HistorialPlanesComponent,
+        component: HistorialPlanesComponent
+      },
+      {
+       path: 'callback',
+       component: CallbackComponent 
       },
       {
         path: 'olvidaste-tu-contrasenia',

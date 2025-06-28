@@ -504,8 +504,39 @@ h4{
   height: 100%;
   transition: width 0.3s ease;
 }
-/* ESTO ES LO NUEVO*/
 
+.contenedor-spotify{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.spotify-prompt {   
+  width: 90%;
+  margin: 1rem auto;
+  text-align: left;
+}
+
+.spotify-btn {
+  background: transparent;  
+  border: none;            
+  color: #13FF3A;       
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.spotify-btn i {
+  font-size: 1.4rem;
+}
+
+.spotify-btn:hover {
+  text-decoration: underline;
+  color: #1ED760;          
+}
 
 @media screen and (max-width: 1195px) {
   .plan-card p {
@@ -548,6 +579,7 @@ h4{
   width: 550px; 
 
 }
+
 }
 
 @media screen and (max-width: 768px) {

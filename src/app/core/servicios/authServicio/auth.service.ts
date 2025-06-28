@@ -69,6 +69,9 @@ export class AuthService {
 
   cerrarSesion(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('spotify_token');
+    localStorage.removeItem('spotify_refresh_token');
+    localStorage.removeItem('spotify_expires_at');
     localStorage.removeItem(this.ROL);
     this.usuarioSubject.next(null);
     this.rolSubject.next(null);

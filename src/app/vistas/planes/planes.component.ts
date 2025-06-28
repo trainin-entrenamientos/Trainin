@@ -8,6 +8,7 @@ import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
 import { ToastrService } from 'ngx-toastr';
 import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+import { SpotifyService } from '../../core/servicios/spotifyServicio/spotify.service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class PlanesComponent {
     authService: AuthService,
     router: Router,
     private toastr: ToastrService,
-    ejercicioService: EjercicioService
+    ejercicioService: EjercicioService,
+    private spotifyService: SpotifyService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
@@ -169,6 +171,10 @@ export class PlanesComponent {
           manejarErrorSimple(this.toastr, `Error al desactivar el plan`);
         },
       });
+  }
+
+  iniciarSesionConSpotify() {
+    this.spotifyService.loginWithSpotify();
   }
 
   irAlDetalleDelPlan(idPlan: number): void {
