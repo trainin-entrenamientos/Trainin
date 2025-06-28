@@ -54,7 +54,7 @@ describe('PlanesComponent', () => {
 
   it('debería llamar a obtenerUsuario en ngOnInit', () => {
     const spy = spyOn(component, 'obtenerUsuario');
-    mockAuthService.getEmail.and.returnValue('test@mail.com');
+    mockAuthService.getEmail.and.returnValue('facu@gmail.com');
 
     mockEjercicioService.obtenerEjercicioDiario.and.returnValue(
       of({ objeto: null })
@@ -62,7 +62,7 @@ describe('PlanesComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.email).toBe('test@mail.com');
+    expect(component.email).toBe('facu@gmail.com');
     expect(spy).toHaveBeenCalled();
   });
 
@@ -72,7 +72,7 @@ describe('PlanesComponent', () => {
     );
     const obtenerPlanSpy = spyOn(component, 'obtenerPlanEntrenamiento');
 
-    component.email = 'test@mail.com';
+    component.email = 'facu@gmail.com';
     component.obtenerUsuario();
 
     expect(component.usuario?.id).toBe(1);
@@ -85,7 +85,7 @@ describe('PlanesComponent', () => {
       throwError(() => new Error('error'))
     );
 
-    component.email = 'test@mail.com';
+    component.email = 'facu@gmail.com';
     component.obtenerUsuario();
 
     expect(mockToastr.error).toHaveBeenCalledWith(
@@ -124,7 +124,7 @@ describe('PlanesComponent', () => {
       of(mockResponse)
     );
 
-    component.email = 'test@mail.com';
+    component.email = 'facu@gmail.com';
     component.verificarDisponibilidadDeEjercicioDiario();
 
     expect(component.EjercicioDiarioDisponible).toBeTrue();
@@ -136,7 +136,7 @@ describe('PlanesComponent', () => {
       of({ objeto: null })
     );
 
-    component.email = 'test@mail.com';
+    component.email = 'facu@gmail.com';
     component.verificarDisponibilidadDeEjercicioDiario();
 
     expect(component.EjercicioDiarioDisponible).toBeFalse();
@@ -148,7 +148,7 @@ describe('PlanesComponent', () => {
       throwError(() => new Error('error'))
     );
 
-    component.email = 'test@mail.com';
+    component.email = 'facu@gmail.com';
     component.verificarDisponibilidadDeEjercicioDiario();
 
     expect(component.EjercicioDiarioDisponible).toBeFalse();

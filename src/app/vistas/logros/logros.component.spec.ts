@@ -49,8 +49,8 @@ describe('LogrosComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('debería cargar logros correctamente (camino feliz)', fakeAsync(() => {
-    const emailMock = 'usuario@test.com';
+  it('debería cargar logros correctamente', fakeAsync(() => {
+    const emailMock = 'facu@gmail.com';
     const obtenidos = [
       {
         id: 1,
@@ -64,7 +64,7 @@ describe('LogrosComponent', () => {
     ];
     const todos = [
       {
-        id: 1,
+        id: 2,
         nombre: 'A',
         descripcion: '',
         imagen: '',
@@ -73,7 +73,7 @@ describe('LogrosComponent', () => {
         fechaObtencion: new Date(),
       },
       {
-        id: 2,
+        id: 3,
         nombre: 'B',
         descripcion: '',
         imagen: '',
@@ -107,10 +107,10 @@ describe('LogrosComponent', () => {
     expect(component.todosLosLogros.length).toBe(2);
     expect(component.logrosObtenidos.length).toBe(1);
     expect(component.cargando).toBeFalse();
-    expect(component.logrosFiltrados.length).toBe(2); // porque filtro es 'todos'
+    expect(component.logrosFiltrados.length).toBe(2);
   }));
 
-  it('debería manejar falta de email (camino triste)', () => {
+  it('debería manejar falta de email', () => {
     authServiceSpy.getEmail.and.returnValue(null);
     component.ngOnInit();
 
@@ -121,7 +121,7 @@ describe('LogrosComponent', () => {
   });
 
   it('debería manejar error al obtener logros del usuario', fakeAsync(() => {
-    authServiceSpy.getEmail.and.returnValue('usuario@test.com');
+    authServiceSpy.getEmail.and.returnValue('facu@gmail.com');
     logroServiceSpy.obtenerLogrosPorUsuario.and.returnValue(
       throwError(() => new Error('Error'))
     );
@@ -134,7 +134,7 @@ describe('LogrosComponent', () => {
   }));
 
   it('debería manejar error al obtener todos los logros', fakeAsync(() => {
-    authServiceSpy.getEmail.and.returnValue('usuario@test.com');
+    authServiceSpy.getEmail.and.returnValue('facu@gmail.com');
     logroServiceSpy.obtenerLogrosPorUsuario.and.returnValue(
       of({
         exito: true,
@@ -235,7 +235,7 @@ describe('LogrosComponent', () => {
     component.aplicarFiltro();
 
     expect(component.logrosFiltrados.length).toBe(2);
-    expect(component.logrosFiltrados[0].obtenido).toBeTrue(); // debería ir primero el obtenido
+    expect(component.logrosFiltrados[0].obtenido).toBeTrue(); 
   });
 
   it('debería cambiar el filtro y aplicarlo', () => {
@@ -250,7 +250,7 @@ describe('LogrosComponent', () => {
     const result = (component as any).parsearFecha('27/06/2025');
     expect(result instanceof Date).toBeTrue();
     expect(result.getFullYear()).toBe(2025);
-    expect(result.getMonth()).toBe(5); // junio = mes 5
+    expect(result.getMonth()).toBe(5);
     expect(result.getDate()).toBe(27);
   });
 

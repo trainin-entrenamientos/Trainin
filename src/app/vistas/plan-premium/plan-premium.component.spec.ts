@@ -1,8 +1,6 @@
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
 } from '@angular/core/testing';
 import { PlanPremiumComponent } from './plan-premium.component';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
@@ -23,12 +21,11 @@ describe('PlanPremiumComponent', () => {
   let mockUsuarioService: jasmine.SpyObj<UsuarioService>;
   let mockToastr: jasmine.SpyObj<ToastrService>;
 
-  // Mock IntersectionObserver global para evitar errores en tests
   const observeSpy = jasmine.createSpy('observe');
   const unobserveSpy = jasmine.createSpy('unobserve');
   const disconnectSpy = jasmine.createSpy('disconnect');
   class MockIntersectionObserver {
-    constructor(private callback: any, private options: any) {}
+    constructor() {}
     observe = observeSpy;
     unobserve = unobserveSpy;
     disconnect = disconnectSpy;
@@ -47,7 +44,6 @@ describe('PlanPremiumComponent', () => {
     ]);
     mockToastr = jasmine.createSpyObj('ToastrService', ['error']);
 
-    // Reemplazamos IntersectionObserver global
     (window as any).IntersectionObserver = MockIntersectionObserver;
 
     await TestBed.configureTestingModule({
@@ -70,7 +66,7 @@ describe('PlanPremiumComponent', () => {
 
   describe('ngOnInit', () => {
     it('debe obtener email y llamar a obtenerUsuarioPorEmail si hay email', () => {
-      const email = 'user@test.com';
+      const email = 'facu@gmail.com';
       mockAuthService.getEmail.and.returnValue(email);
       spyOn(component, 'obtenerUsuarioPorEmail');
 
@@ -93,7 +89,6 @@ describe('PlanPremiumComponent', () => {
 
   describe('ngAfterViewInit', () => {
     it('debe crear observer y observar todos los elementos cardFeatures', () => {
-      // Creamos mocks para cardFeatures
       const div1 = document.createElement('div');
       const div2 = document.createElement('div');
 
@@ -105,7 +100,6 @@ describe('PlanPremiumComponent', () => {
 
       component.ngAfterViewInit();
 
-      // Debe llamar observe para cada div
       expect(observeSpy).toHaveBeenCalledWith(div1);
       expect(observeSpy).toHaveBeenCalledWith(div2);
       expect(observeSpy).toHaveBeenCalledTimes(2);
@@ -124,7 +118,7 @@ describe('PlanPremiumComponent', () => {
 
   describe('redirigir', () => {
     it('debe llamar asignarLocation con la url pasada', () => {
-      const url = 'https://ejemplo.com/pago';
+      const url = 'https://mercadopago.com/pago';
       spyOn(component, 'asignarLocation');
 
       component.redirigir(url);
@@ -188,15 +182,15 @@ describe('PlanPremiumComponent', () => {
 
   describe('obtenerUsuarioPorEmail', () => {
     beforeEach(() => {
-      component.email = 'user@test.com';
+      component.email = 'facu@gmail.com';
     });
 
     it('debe setear usuario correctamente si response tiene objeto', () => {
       const usuarioMock = new Usuario(
         55,
         'Facundo',
-        'Gonzalez',
-        'facu@test.com',
+        'Varela',
+        'facu@gmail.com',
         '1234',
         true,
         2000,
@@ -224,16 +218,15 @@ describe('PlanPremiumComponent', () => {
         objeto: new Usuario(
           55,
           'Facu',
-          'Tester',
-          'facu@test.com',
-          'password123',
-          true, // este valor va a ser ignorado por el método, se sobreescribe
+          'Varela',
+          'facu@gmail.com',
+          '1234',
+          true, 
           1000,
           180
         ),
       };
 
-      // Simulamos que el campo esPremium viene undefined
       delete (response.objeto as any).esPremium;
 
       mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(of(response));

@@ -53,13 +53,13 @@ describe('RegistroComponent', () => {
 
   it('debería marcar error si las contraseñas no coinciden', () => {
     component.registroForm.patchValue({
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'juan@test.com',
-      contrasenia: 'Abc123!',
-      repetirContrasenia: 'Diferente123!',
-      fechaNacimiento: '2000-01-01',
-      aceptarTerminos: true
+     nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc124!',
+    fechaNacimiento: '2000-01-10',
+    aceptarTerminos: true
     });
 
     expect(component.registroForm.valid).toBeFalse();
@@ -68,7 +68,7 @@ describe('RegistroComponent', () => {
 
   it('debería invalidar edad si es menor de 16 años', () => {
     const fechaInvalida = new Date();
-    fechaInvalida.setFullYear(fechaInvalida.getFullYear() - 10); // 10 años
+    fechaInvalida.setFullYear(fechaInvalida.getFullYear() - 10);
 
     component.registroForm.get('fechaNacimiento')?.setValue(fechaInvalida.toISOString());
 
@@ -86,13 +86,13 @@ describe('RegistroComponent', () => {
     mockAuthService.registrarUsuario.and.returnValue(of(mockResponse));
 
     component.registroForm.setValue({
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'juan@test.com',
-      contrasenia: 'Abc123!',
-      repetirContrasenia: 'Abc123!',
-      fechaNacimiento: '2000-01-01',
-      aceptarTerminos: true
+    nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc123!',
+    fechaNacimiento: '2000-01-10',
+    aceptarTerminos: true
     });
 
     component.onSubmit();
@@ -114,13 +114,13 @@ describe('RegistroComponent', () => {
     mockAuthService.registrarUsuario.and.returnValue(throwError(() => mockError));
 
     component.registroForm.setValue({
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'juan@test.com',
-      contrasenia: 'Abc123!',
-      repetirContrasenia: 'Abc123!',
-      fechaNacimiento: '2000-01-01',
-      aceptarTerminos: true
+     nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc123!',
+    fechaNacimiento: '2000-01-10',
+    aceptarTerminos: true
     });
 
     component.onSubmit();
@@ -151,13 +151,13 @@ describe('RegistroComponent', () => {
 
   it('debería devolver true si el formulario es válido', () => {
     component.registroForm.setValue({
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'juan@test.com',
-      contrasenia: 'Abc123!',
-      repetirContrasenia: 'Abc123!',
-      fechaNacimiento: '2000-01-01',
-      aceptarTerminos: true
+     nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
+    contrasenia: 'Abc123!',
+    repetirContrasenia: 'Abc123!',
+    fechaNacimiento: '2000-01-10',
+    aceptarTerminos: true
     });
 
     expect(component.esFormularioValido()).toBeTrue();
@@ -165,12 +165,12 @@ describe('RegistroComponent', () => {
 
   it('debería invalidar el formulario si no se aceptan los términos', () => {
   component.registroForm.setValue({
-    nombre: 'Juan',
-    apellido: 'Pérez',
-    email: 'juan@test.com',
+    nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
     contrasenia: 'Abc123!',
     repetirContrasenia: 'Abc123!',
-    fechaNacimiento: '2000-01-01',
+    fechaNacimiento: '2000-01-10',
     aceptarTerminos: false
   });
 
@@ -192,12 +192,12 @@ it('debería mostrar mensaje por defecto si el error no tiene mensaje', fakeAsyn
   mockAuthService.registrarUsuario.and.returnValue(throwError(() => mockError));
 
   component.registroForm.setValue({
-    nombre: 'Juan',
-    apellido: 'Pérez',
-    email: 'juan@test.com',
+    nombre: 'Facundo',
+    apellido: 'Varela',
+    email: 'facu@gmail.comm',
     contrasenia: 'Abc123!',
     repetirContrasenia: 'Abc123!',
-    fechaNacimiento: '2000-01-01',
+    fechaNacimiento: '2000-01-10',
     aceptarTerminos: true
   });
 

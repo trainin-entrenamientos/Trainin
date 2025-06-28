@@ -5,7 +5,6 @@ import { of, throwError } from 'rxjs';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { ToastrService } from 'ngx-toastr';
-import * as erroresToastr from '../../compartido/utilidades/errores-toastr';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -19,7 +18,6 @@ describe('HistorialPlanesComponent', () => {
   let toastrSpy: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
-    // Crear los spies para los servicios
     authServiceSpy = jasmine.createSpyObj('AuthService', ['getEmail']);
     planServiceSpy = jasmine.createSpyObj('PlanEntrenamientoService', ['obtenerHistorialPlanes']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -44,8 +42,8 @@ describe('HistorialPlanesComponent', () => {
 
  
 
-  it('debería obtener el email y llamar a obtenerHistorialPlanes en ngOnInit (camino feliz)', fakeAsync(() => {
-    const emailMock = 'usuario@test.com';
+  it('debería obtener el email y llamar a obtenerHistorialPlanes en ngOnInit', fakeAsync(() => {
+    const emailMock = 'facu@gmail.com';
     authServiceSpy.getEmail.and.returnValue(emailMock);
 
     const planesMock = [
@@ -57,10 +55,9 @@ describe('HistorialPlanesComponent', () => {
         objeto: planesMock
         }));
 
-    fixture.detectChanges(); // dispara ngOnInit
+    fixture.detectChanges();
 
-    tick(); // para resolver suscripciones
-
+    tick();
     expect(authServiceSpy.getEmail).toHaveBeenCalled();
     expect(planServiceSpy.obtenerHistorialPlanes).toHaveBeenCalledWith(emailMock);
 
@@ -69,8 +66,8 @@ describe('HistorialPlanesComponent', () => {
     expect(component.tienePlanes).toBeTrue();
   }));
 
-  it('debería setear tienePlanes en false si no hay planes (camino feliz)', fakeAsync(() => {
-    authServiceSpy.getEmail.and.returnValue('usuario@test.com');
+  it('debería setear tienePlanes en false si no hay planes', fakeAsync(() => {
+    authServiceSpy.getEmail.and.returnValue('facu@gmail.com');
         planServiceSpy.obtenerHistorialPlanes.and.returnValue(of({
         exito: true,
         mensaje: 'OK',
@@ -83,7 +80,7 @@ describe('HistorialPlanesComponent', () => {
     expect(component.tienePlanes).toBeFalse();
   }));
 
-  it('debería llamar manejarErrorYRedirigir si no hay email (camino triste)', () => {
+  it('debería llamar manejarErrorYRedirigir si no hay email', () => {
     authServiceSpy.getEmail.and.returnValue(null);
 
     component.ngOnInit();
@@ -92,8 +89,8 @@ describe('HistorialPlanesComponent', () => {
         expect(routerSpy.navigate).toHaveBeenCalledWith(['/planes']);
   });
 
-  it('debería llamar manejarErrorYRedirigir si el servicio devuelve error (camino triste)', fakeAsync(() => {
-    const emailMock = 'usuario@test.com';
+  it('debería llamar manejarErrorYRedirigir si el servicio devuelve error', fakeAsync(() => {
+    const emailMock = 'facu@gmail.com';
     authServiceSpy.getEmail.and.returnValue(emailMock);
     planServiceSpy.obtenerHistorialPlanes.and.returnValue(throwError(() => new Error('Error de red')));
 
@@ -112,14 +109,14 @@ describe('HistorialPlanesComponent', () => {
   });
 
   it('formatearTiempo debería formatear correctamente segundos en hh:mm:ss y mm:ss', () => {
-    expect(component.formatearTiempo(3661)).toBe('01:01:01'); // 1h 1m 1s
-    expect(component.formatearTiempo(59)).toBe('00:59');      // 59s
-    expect(component.formatearTiempo(125)).toBe('02:05');     // 2m 5s
-    expect(component.formatearTiempo(3600)).toBe('01:00:00'); // 1h exacta
+    expect(component.formatearTiempo(3661)).toBe('01:01:01'); 
+    expect(component.formatearTiempo(59)).toBe('00:59');    
+    expect(component.formatearTiempo(125)).toBe('02:05');    
+    expect(component.formatearTiempo(3600)).toBe('01:00:00'); 
   });
 
   it('debería setear cargando en false al finalizar la carga', fakeAsync(() => {
-  authServiceSpy.getEmail.and.returnValue('usuario@test.com');
+  authServiceSpy.getEmail.and.returnValue('facu@gmail.com');
   planServiceSpy.obtenerHistorialPlanes.and.returnValue(of({
     exito: true,
     mensaje: 'OK',
@@ -133,7 +130,7 @@ describe('HistorialPlanesComponent', () => {
 }));
 
 it('debería mantener cargando en true hasta recibir la respuesta', fakeAsync(() => {
-  authServiceSpy.getEmail.and.returnValue('usuario@test.com');
+  authServiceSpy.getEmail.and.returnValue('facu@gmail.com');
   
   const subject = new Subject<any>();
   planServiceSpy.obtenerHistorialPlanes.and.returnValue(subject.asObservable());

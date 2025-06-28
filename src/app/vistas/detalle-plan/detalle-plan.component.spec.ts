@@ -8,7 +8,6 @@ import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SemanaRutina, Rutina } from '../../core/modelos/DetallePlanDTO';
 
 const mockPlan = {
   exito: true,
@@ -82,8 +81,8 @@ describe('DetallePlanComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('debe obtener el email y llamar a obtenerUsuario() correctamente', () => {
-    const email = 'test@correo.com';
+  it('debe obtener el email y llamar a obtenerUsuario correctamente', () => {
+    const email = 'facu@gmail.com';
     const planId = 5;
 
     mockAuthService.getEmail.and.returnValue(email);
@@ -107,7 +106,7 @@ describe('DetallePlanComponent', () => {
   });
 
   it('debe manejar error si obtenerUsuarioPorEmail falla', () => {
-    component.email = 'test@correo.com';
+    component.email = 'facu@gmail.com';
     mockUsuarioService.obtenerUsuarioPorEmail.and.returnValue(
       throwError(() => new Error('Error de red'))
     );
