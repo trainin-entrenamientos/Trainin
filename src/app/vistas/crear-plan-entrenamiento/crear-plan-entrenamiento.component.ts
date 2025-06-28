@@ -465,7 +465,7 @@ export class CrearPlanEntrenamientoComponent {
     this.setTexto('resumenDuracionPlan', this.traducirDuracion(duracion));
   }
 
-  private getInputValueById(id: string): string {
+  public getInputValueById(id: string): string {
     const input = this.el.nativeElement.querySelector(
       `#${id}`
     ) as HTMLInputElement;
