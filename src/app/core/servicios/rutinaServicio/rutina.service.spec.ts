@@ -1,52 +1,83 @@
-/*import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RutinaService } from './rutina.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Rutina, Ejercicio } from '../../modelos/RutinaDTO';
 import { environment } from '../../../../environments/environment';
+import { Rutina, Ejercicio } from '../../modelos/RutinaDTO';
+import { HistorialPlanDTO } from '../../modelos/HistorialPlanDTO';
+import { LogroDTO } from '../../modelos/LogroDTO';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
 
 describe('RutinaService', () => {
   let service: RutinaService;
   let httpMock: HttpTestingController;
+  const baseUrl = environment.URL_BASE;
+
+  const mockEjercicio: Ejercicio = {
+    id: 1,
+    nombre: 'Press militar',
+    descripcion: 'Hombros',
+    duracion: 60,
+    repeticiones: 10,
+    correccionPremium: true,
+    series: null,
+    imagen: '',
+    video: '',
+    tieneCorrecion: false,
+    categoria: [],
+    grupoMuscular: [],
+    tipoEjercicio: ''
+  };
 
   const mockRutina: Rutina = {
     id: 1,
-    nombre: 'Rutina Test',
-    ejercicios: [
-       {
-        id: 1,
-        nombre: 'Ejercicio 1',
-        duracion: 30,
-        repeticiones: 10,
-        correccionPremium: true,
-        series: 3,
-        imagen: 'imagen1.png',
-        video: 'video1.mp4',
-        descripcion: 'Descripción del ejercicio 1',
-        tieneCorrecion: true,
-        grupoMuscular: [],
-        categoria: [{ nombre: 'Fuerza' }],
-        tipoEjercicio: '1' },
-     {
-        id: 2,
-        nombre: 'Ejercicio 2',
-        duracion: 20,
-        repeticiones: 5,
-        correccionPremium: false,
-        series: 2,
-        imagen: 'imagen2.png',
-        video: 'video2.mp4',
-        descripcion: 'Descripción del ejercicio 2',
-        tieneCorrecion: false,
-        grupoMuscular: [],
-        categoria: [{ nombre: 'Resistencia' }],
-        tipoEjercicio: '1' }
-    ],
-    numeroRutina: 0,
-    duracionEstimada: 0,
-    rutinasRealizadas:0,
-    categoriaEjercicio: 'Muscular',
-  caloriasQuemadas: 250,
+    numeroRutina: 1,
+    duracionEstimada: 600,
+    nombre: 'Rutina 1',
+    ejercicios: [mockEjercicio],
+    categoriaEjercicio: 'Fuerza',
+    rutinasRealizadas: 5,
+    caloriasQuemadas: 300,
+    numeroDeRutinaSemanal: 1,
+    cantidadDeRutinasTotales: 10,
+    cantidadDeRutinasPorSemana: 3
+  };
+
+  const mockHistorial: HistorialPlanDTO = {
+    id: 1,
+    tipoEntrenamiento: 'Cardio',
+    foto: 'foto.png',
+    calorias: 300,
+    tiempo: 45,
+    fechaRealizacion: new Date()
+  };
+
+  const mockLogro: LogroDTO = {
+    id: 1,
+    nombre: 'Primer Logro',
+    descripcion: 'Desc',
+    imagen: 'logro.png',
+    obtenido: true,
+    tipo: 'Meta',
+    fechaObtencion: new Date()
+  };
+
+  const mockRespuestaRutina: RespuestaApi<Rutina> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: mockRutina
+  };
+
+  const mockRespuestaHistorial: RespuestaApi<HistorialPlanDTO> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: mockHistorial
+  };
+
+  const mockRespuestaLogro: RespuestaApi<LogroDTO> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: mockLogro
   };
 
   beforeEach(() => {
@@ -55,125 +86,70 @@ describe('RutinaService', () => {
     });
     service = TestBed.inject(RutinaService);
     httpMock = TestBed.inject(HttpTestingController);
+
+    sessionStorage.clear(); // limpiar antes de cada test
   });
 
   afterEach(() => {
     httpMock.verify();
-    service.limpiarRutina();
+    sessionStorage.clear();
   });
 
-  it('Deberia obtener detalle ejercicios', () => {
-    service.getDetalleEjercicios(123).subscribe(data => {
-      expect(data).toEqual(mockRutina);
+  it('debería crearse', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('getDetalleEjercicios debería hacer GET y devolver rutina', () => {
+    service.getDetalleEjercicios(1).subscribe(res => {
+      expect(res).toEqual(mockRespuestaRutina);
     });
-    const req = httpMock.expectOne(`${environment.URL_BASE}/rutina/obtenerPorPlan/123`);
+
+    const req = httpMock.expectOne(`${baseUrl}/rutina/obtener/1`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockRutina);
+    req.flush(mockRespuestaRutina);
   });
 
-  it('Se maneja el error al obtener detalle ejercicios', () => {
-    const errorMsg = 'No se encontró la rutina';
-    service.getDetalleEjercicios(999).subscribe({
-      next: () => fail('La solicitud debería haber fallado'),
-      error: (error) => {
-        expect(error.status).toBe(404);
-        expect(error.statusText).toBe('Not Found');
-        expect(error.error).toBe(errorMsg);
-      }
+  it('obtenerUltimaRutina debería hacer GET y devolver historial', () => {
+    service.obtenerUltimaRutina('user@example.com').subscribe(res => {
+      expect(res).toEqual(mockRespuestaHistorial);
     });
-    const req = httpMock.expectOne(`${environment.URL_BASE}/rutina/obtenerPorPlan/999`);
+
+    const req = httpMock.expectOne(`${baseUrl}/rutina/ultimaRealizada/user@example.com`);
     expect(req.request.method).toBe('GET');
-    req.flush(errorMsg, {
-      status: 404,
-      statusText: 'Not Found'
-    });
+    req.flush(mockRespuestaHistorial);
   });
 
-
-  it('Deberia llamar fueRealizada', () => {
-    const response = { success: true };
-    service.fueRealizada(1, 'test@email.com').subscribe(res => {
-      expect(res).toEqual(response);
+  it('fueRealizada debería hacer PATCH y devolver logro', () => {
+    service.fueRealizada(1, 'user@example.com', 120).subscribe(res => {
+      expect(res).toEqual(mockRespuestaLogro);
     });
-    const req = httpMock.expectOne(`${environment.URL_BASE}/rutina/fueRealizada/1`);
+
+    const req = httpMock.expectOne(`${baseUrl}/rutina/realizada/1`);
     expect(req.request.method).toBe('PATCH');
-    expect(req.request.body).toEqual({ email: 'test@email.com' });
-    req.flush(response);
+    expect(req.request.body).toEqual({ email: 'user@example.com', segundosTotales: 120 });
+    req.flush(mockRespuestaLogro);
   });
 
-  it('settear y obtener rutina', () => {
+  it('setRutina y getRutina deberían guardar y devolver la rutina', () => {
     service.setRutina(mockRutina);
-    expect(service.getRutina()).toEqual(mockRutina);
+    const rutina = service.getRutina();
+    expect(rutina).toEqual(mockRutina);
+    expect(JSON.parse(sessionStorage.getItem('rutina')!)).toEqual(mockRutina);
   });
 
-  it('deberia limpiarRutina', () => {
-    service.setRutina(mockRutina);
-    service.setIndiceActual(1);
-    service.limpiarRutina();
-    expect(service.getRutina()).toBeNull();
-    expect(service.getIndiceActual()).toBe(0);
-  });
-
-  it('settear y obtener indiceActual', () => {
-    service.setIndiceActual(2);
-    expect(service.getIndiceActual()).toBe(2);
-  });
-
-  it('Deberia avanzar al siguiente ejercicio', () => {
-    service.setRutina(mockRutina);
-    service.setIndiceActual(0);
-    service.avanzarAlSiguienteEjercicio();
-    
-    expect(service.getIndiceActual()).toBe(1);
-    service.avanzarAlSiguienteEjercicio();
-    expect(service.getIndiceActual()).toBe(2); 
-  });
-
-  it('Deberia obtener ejercicio actual', () => {
-    service.setRutina(mockRutina);
-    service.setIndiceActual(0);
-    expect(service.getEjercicioActual()).toEqual(mockRutina.ejercicios[0]);
-    service.setIndiceActual(1);
-    expect(service.getEjercicioActual()).toEqual(mockRutina.ejercicios[1]);
-    service.setIndiceActual(2);
-    expect(service.getEjercicioActual()).toBeNull();
-  });
-
-  it('Verifica si haySiguienteEjercicio', () => {
-    service.setRutina(mockRutina);
-    service.setIndiceActual(0);
-    expect(service.haySiguienteEjercicio()).toBeTrue();
-    
-    service.setIndiceActual(2);
-    expect(service.haySiguienteEjercicio()).toBeFalse();
-  });
-
-  it('Deberia getDatosIniciales', () => {
-    service.setRutina(mockRutina);
-    service.setIndiceActual(0);
-    const datos = service.getDatosIniciales();
-    expect(datos.rutina).toEqual(mockRutina);
-    expect(datos.indiceActual).toBe(0);
-    expect(datos.ejercicios.length).toBe(2);
-    expect(datos.ejercicio).toEqual(mockRutina.ejercicios[0]);
-    expect(datos.duracionDelEjercicio).toBe('30 segundos');
-    expect(datos.repeticionesDelEjercicio).toBe('10 repeticiones');
-    expect(datos.correccionPremium).toBeTrue();
-  });
-
-  it('Debería cargar la rutina al cargar la sesión', () => {
+  it('cargarDesdeSession debería cargar rutina e índice', () => {
     sessionStorage.setItem('rutina', JSON.stringify(mockRutina));
-    sessionStorage.setItem('indiceActual', '1');
+    sessionStorage.setItem('indiceActual', '2');
 
     service.cargarDesdeSession();
 
     expect(service.getRutina()).toEqual(mockRutina);
-    expect(service.getIndiceActual()).toBe(1);
+    expect(service.getIndiceActual()).toBe(2);
   });
 
-  it('Debería limpiar la rutina y eliminar el sessionStorage', () => {
+  it('limpiarRutina debería limpiar todo', () => {
     service.setRutina(mockRutina);
-    service.setIndiceActual(2);
+    service.setIndiceActual(1);
 
     service.limpiarRutina();
 
@@ -183,14 +159,49 @@ describe('RutinaService', () => {
     expect(sessionStorage.getItem('indiceActual')).toBeNull();
   });
 
-  it('Debería buscar el nombre de un ejercicio y devolver su valor correspondiente', () => {
-    expect(service.buscarNombreEjercicio('Press militar'))
-      .toBe(NombreEjercicio.PRESS_MILITAR);
+  it('setIndiceActual y getIndiceActual deberían guardar y devolver el índice', () => {
+    service.setIndiceActual(3);
+    expect(service.getIndiceActual()).toBe(3);
+    expect(sessionStorage.getItem('indiceActual')).toBe('3');
   });
 
-  it('Debería devolver null al buscar el nombre de un ejercicio no mapeado', () => {
-    expect(service.buscarNombreEjercicio('Ejercicio desconocido'))
-      .toBeNull();
+  it('avanzarAlSiguienteEjercicio debería incrementar índice', () => {
+    service.setRutina(mockRutina);
+    service.setIndiceActual(0);
+    service.avanzarAlSiguienteEjercicio();
+    expect(service.getIndiceActual()).toBe(1);
   });
 
-});*/
+  it('getEjercicioActual debería devolver el ejercicio correcto', () => {
+    service.setRutina(mockRutina);
+    service.setIndiceActual(0);
+    const ejercicio = service.getEjercicioActual();
+    expect(ejercicio).toEqual(mockEjercicio);
+  });
+
+  it('haySiguienteEjercicio debería devolver true cuando hay más ejercicios', () => {
+    service.setRutina(mockRutina);
+    service.setIndiceActual(0);
+    expect(service.haySiguienteEjercicio()).toBeTrue();
+  });
+
+  it('getDatosIniciales debería devolver datos correctos', () => {
+    service.setRutina(mockRutina);
+    service.setIndiceActual(0);
+    const datos = service.getDatosIniciales();
+
+    expect(datos.ejercicio).toEqual(mockEjercicio);
+    expect(datos.duracionDelEjercicio).toBe('60 segundos');
+    expect(datos.repeticionesDelEjercicio).toBe('10 repeticiones');
+    expect(datos.correccionPremium).toBeTrue();
+  });
+
+  it('buscarNombreEjercicio debería mapear nombres conocidos', () => {
+    expect(service.buscarNombreEjercicio('Press militar')).toBe(NombreEjercicio.PRESS_MILITAR);
+    expect(service.buscarNombreEjercicio('Sentadillas')).toBe(NombreEjercicio.SENTADILLA);
+  });
+
+  it('buscarNombreEjercicio debería devolver null para nombres desconocidos', () => {
+    expect(service.buscarNombreEjercicio('Inexistente')).toBeNull();
+  });
+});

@@ -1,15 +1,102 @@
-/*import { TestBed } from '@angular/core/testing';
-
-import { PlanEntrenamientoService } from './plan-entrenamiento.service';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { PlanEntrenamientoService } from './plan-entrenamiento.service';
 import { environment } from '../../../../environments/environment';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
+import { PlanEntrenamiento } from '../../modelos/PlanEntrenamiento';
+import { CategoriaEjercicioDTO } from '../../modelos/CategoriaEjercicioDTO';
+import { EquipamientoDTO } from '../../modelos/EquipamentoDTO';
+import { PlanCreadoDTO } from '../../modelos/PlanCreadoDTO';
+import { PlanCompleto } from '../../modelos/DetallePlanDTO';
+import { HistorialPlanDTO } from '../../modelos/HistorialPlanDTO';
 import { ActualizarNivelExigenciaDTO } from '../../modelos/ActualizarNivelExigenciaDTO';
-import { transition } from '@angular/animations';
 
 describe('PlanEntrenamientoService', () => {
   let service: PlanEntrenamientoService;
   let httpMock: HttpTestingController;
   const baseUrl = environment.URL_BASE;
+
+  const mockPlan = new PlanEntrenamiento(
+    1, 'Plan 1', true, 5, 50, 10, 3, 20, 100
+  );
+
+  const mockCategoria: CategoriaEjercicioDTO = {
+    id: 1,
+    descripcion: 'Desc',
+    nombre: 'Fuerza',
+    imagen: 'fuerza.png'
+  };
+
+  const mockEquipamiento: EquipamientoDTO = {
+    id: 1,
+    descripcion: 'Mancuerna',
+    imagen: 'mancuerna.png'
+  };
+
+  const mockPlanCreado: PlanCreadoDTO = {
+    planId: 123
+  };
+
+  const mockPlanCompleto: PlanCompleto = {
+    id: 1,
+    nombre: 'Plan Completo',
+    descripcion: 'Desc',
+    nivelExigencia: 3,
+    duracionSemanas: 4,
+    calorias: 1000,
+    ejercicios: [],
+  } as unknown as PlanCompleto;
+
+  const mockHistorialPlan: HistorialPlanDTO = {
+    id: 1,
+    tipoEntrenamiento: 'Cardio',
+    foto: 'foto.png',
+    calorias: 300,
+    tiempo: 45,
+    fechaRealizacion: new Date()
+  };
+
+  const mockRespuestaPlanes: RespuestaApi<PlanEntrenamiento[]> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: [mockPlan]
+  };
+
+  const mockRespuestaCategorias: RespuestaApi<CategoriaEjercicioDTO[]> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: [mockCategoria]
+  };
+
+  const mockRespuestaEquipamiento: RespuestaApi<EquipamientoDTO[]> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: [mockEquipamiento]
+  };
+
+  const mockRespuestaPlanCreado: RespuestaApi<PlanCreadoDTO> = {
+    exito: true,
+    mensaje: 'Plan creado',
+    objeto: mockPlanCreado
+  };
+
+  const mockRespuestaString: RespuestaApi<string> = {
+    exito: true,
+    mensaje: 'Operación exitosa',
+    objeto: 'OK'
+  };
+
+  const mockRespuestaDetalle: RespuestaApi<PlanCompleto> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: mockPlanCompleto
+  };
+
+  const mockRespuestaHistorial: RespuestaApi<HistorialPlanDTO[]> = {
+    exito: true,
+    mensaje: 'OK',
+    objeto: [mockHistorialPlan]
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,152 +111,96 @@ describe('PlanEntrenamientoService', () => {
     httpMock.verify();
   });
 
-  it('debería obtener planes de entrenamiento', () => {
-    const dummyResponse = [{ id: 1, nombre: 'Plan A' }];
-    const idUsuario = 5;
-
-    service.getPlanesDeEntrenamiento(idUsuario).subscribe(planes => {
-      expect(planes).toEqual(dummyResponse);
-    });
-
-    const req = httpMock.expectOne(`${baseUrl}/plan/obtenerPlanes/${idUsuario}`);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyResponse);
+  it('debería crearse', () => {
+    expect(service).toBeTruthy();
   });
 
-  it('debería manejar error al no obtener planes de entrenamiento', () => {
-    const idUsuario = 5;
-    const errorMsg = 'Error: No se pudieron obtener planes de entrenamieto';
-
-    service.getPlanesDeEntrenamiento(idUsuario).subscribe({
-      next: () => fail('No debería haber obtenido planes'),
-      error: (error) => {
-        expect(error.status).toBe(404);
-        expect(error.statusText).toBe('Not Found');
-        expect(error.error.message).toBe(errorMsg);
-      }
+  it('getPlanesDeEntrenamiento debería hacer GET y devolver planes', () => {
+    service.getPlanesDeEntrenamiento(1).subscribe(res => {
+      expect(res).toEqual(mockRespuestaPlanes);
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/plan/obtenerPlanes/${idUsuario}`);
+    const req = httpMock.expectOne(`${baseUrl}/plan/obtener/1`);
     expect(req.request.method).toBe('GET');
-
-    req.flush({ message: errorMsg }, {
-      status: 404,
-      statusText: 'Not Found',
-    })
-  })
-
-  it('debería obtener opciones de entrenamiento', () => {
-    const dummyOpciones = ['Fuerza', 'Cardio'];
-
-    service.obtenerOpcionesEntrenamiento().subscribe(data => {
-      expect(data).toEqual(dummyOpciones);
-    });
-
-    const req = httpMock.expectOne(`${baseUrl}/categoriaejercicio/obtenerCategorias`);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyOpciones);
+    req.flush(mockRespuestaPlanes);
   });
 
-  it('debería obtener objetivos', () => {
-    const dummyObjetivos = ['Perder peso', 'Ganar masa'];
-    const url = `${environment.URL_BASE}/categoriaejercicio/obtenerObjetivos`;
-
-    service.obtenerObjetivos().subscribe(data => {
-      expect(data).toEqual(dummyObjetivos);
+  it('obtenerOpcionesEntrenamiento debería hacer GET y devolver categorías', () => {
+    service.obtenerOpcionesEntrenamiento().subscribe(res => {
+      expect(res).toEqual(mockRespuestaCategorias);
     });
 
-    const req = httpMock.expectOne(url);
+    const req = httpMock.expectOne(`${baseUrl}/ejercicio/obtenerCategorias`);
     expect(req.request.method).toBe('GET');
-    req.flush(dummyObjetivos);
+    req.flush(mockRespuestaCategorias);
   });
 
-  it('debería obtener equipamiento', () => {
-    const dummyEquipos = ['Mancuernas', 'Banda elástica'];
-
-    service.obtenerEquipamiento().subscribe(data => {
-      expect(data).toEqual(dummyEquipos);
+  it('obtenerEquipamiento debería hacer GET y devolver equipamiento', () => {
+    service.obtenerEquipamiento().subscribe(res => {
+      expect(res).toEqual(mockRespuestaEquipamiento);
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/equipamiento/obtenerEquipamientos`);
+    const req = httpMock.expectOne(`${baseUrl}/ejercicio/obtenerEquipamientos`);
     expect(req.request.method).toBe('GET');
-    req.flush(dummyEquipos);
+    req.flush(mockRespuestaEquipamiento);
   });
 
-  it('debería crear un plan de entrenamiento', () => {
-    const planMock = { ejercicios: [] };
-    const responseMock = { id: 1, ...planMock };
+  it('crearPlanEntrenamiento debería hacer POST y devolver plan creado', () => {
+    const newPlan = { nombre: 'Plan Nuevo' };
 
-    service.crearPlanEntrenamiento(planMock).subscribe(res => {
-      expect(res).toEqual(responseMock);
+    service.crearPlanEntrenamiento(newPlan).subscribe(res => {
+      expect(res).toEqual(mockRespuestaPlanCreado);
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/plan/crearPlan`);
+    const req = httpMock.expectOne(`${baseUrl}/plan/crear`);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(planMock);
-    req.flush(responseMock);
+    expect(req.request.body).toEqual(newPlan);
+    req.flush(mockRespuestaPlanCreado);
   });
 
-  it('debería fallar al crear un plan de entrenamiento con datos inválidos', () => {
-    const planInvalido = { ejercicios: [] };
-
-    service.crearPlanEntrenamiento(planInvalido).subscribe({
-      next: () => fail('Se esperaba un error, pero se recibió una respuesta exitosa'),
-      error: (error) => {
-        expect(error.status).toBe(400);
-        expect(error.statusText).toBe('Bad Request');
-      }
+  it('desactivarPlanPorId debería hacer PATCH con idUsuario', () => {
+    service.desactivarPlanPorId(1, 99).subscribe(res => {
+      expect(res).toEqual(mockRespuestaString);
     });
 
-    const req = httpMock.expectOne(`${baseUrl}/plan/crearPlan`);
-    expect(req.request.method).toBe('POST');
-
-    req.flush('Plan sin relacion con usuario valido', {
-      status: 400,
-      statusText: 'Bad Request'
-    });
-  });
-
-  it('debería desactivar un plan por ID', () => {
-    const idPlan = 1;
-    const idUsuario = 99;
-    const responseMock = { success: true };
-
-    service.desactivarPlanPorId(idPlan, idUsuario).subscribe(res => {
-      expect(res).toEqual(responseMock);
-    });
-
-    const req = httpMock.expectOne(`${baseUrl}/plan/desactivarPlan/${idPlan}`);
+    const req = httpMock.expectOne(`${baseUrl}/plan/desactivar/1`);
     expect(req.request.method).toBe('PATCH');
-    expect(req.request.body).toEqual({ idUsuario });
-    req.flush(responseMock);
+    expect(req.request.body).toEqual({ IdUsuario: 99 });
+    req.flush(mockRespuestaString);
   });
 
-  it('Debería actualizar el nivel de exigencia de un plan por su id', () => {
-    const idPlan = 7;
-    const dto: ActualizarNivelExigenciaDTO = { nivelExigencia: 3, email: 'trainin@trainin.com' };
+  it('actualizarNivelExigencia debería hacer PATCH con formulario', () => {
+    const dto: ActualizarNivelExigenciaDTO = { nivelExigencia: 3, email: 'user@example.com' };
 
-    service.actualizarNivelExigencia(idPlan, dto)
-      .subscribe(res => expect(res).toBe('OK'));
+    service.actualizarNivelExigencia(1, dto).subscribe(res => {
+      expect(res).toEqual(mockRespuestaString);
+    });
 
-    const req = httpMock.expectOne(
-      `${baseUrl}/plan/actualizarNivelExigencia/${idPlan}`
-    );
+    const req = httpMock.expectOne(`${baseUrl}/plan/actualizar/1`);
     expect(req.request.method).toBe('PATCH');
     expect(req.request.body).toEqual(dto);
-    expect(req.request.responseType).toBe('text');
-    req.flush('OK');
+    req.flush(mockRespuestaString);
   });
 
- /* it('Debería obtener el detalle de un plan por id de plan y id de usuario', () => {
-    const idPlan = 9, idUsuario = 42;
-    service.obtenerDetallePlan(idPlan, idUsuario).subscribe();
+  it('obtenerDetallePlan debería hacer GET y devolver detalle', () => {
+    service.obtenerDetallePlan(1, 99).subscribe(res => {
+      expect(res).toEqual(mockRespuestaDetalle);
+    });
 
-    const req = httpMock.expectOne(
-      `${environment.URL_BASE}/plan/obtenerDetallePlan/${idPlan}?idUsuario=${idUsuario}`
-    );
+    const req = httpMock.expectOne(`${baseUrl}/plan/detalle/1?IdUsuario=99`);
     expect(req.request.method).toBe('GET');
-    req.flush({});
-  });*/
+    req.flush(mockRespuestaDetalle);
+  });
 
-/*});*/
+  it('obtenerHistorialPlanes debería hacer GET y devolver historial', () => {
+    const email = 'user@example.com';
+
+    service.obtenerHistorialPlanes(email).subscribe(res => {
+      expect(res).toEqual(mockRespuestaHistorial);
+    });
+
+    const req = httpMock.expectOne(`${baseUrl}/plan/historial/${email}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockRespuestaHistorial);
+  });
+});

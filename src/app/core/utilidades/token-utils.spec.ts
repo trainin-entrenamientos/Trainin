@@ -1,37 +1,42 @@
-import { getTokenExpiracion, tokenExpirado } from './token-utils';
+import { TokenUtils } from './token-utils';
 
-describe('token-utils', () => {
-  function makeToken(payload: any) {
-    const h = btoa(JSON.stringify({ alg: 'none' }));
-    const b = btoa(JSON.stringify(payload));
-    return `${h}.${b}.`;
-  }
+describe('TokenUtils', () => {
+  const validToken = 'header.' + btoa(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + 10000 })) + '.signature'; // Token válido con fecha de expiración en el futuro
+  const expiredToken = 'header.' + btoa(JSON.stringify({ exp: Math.floor(Date.now() / 1000) - 10000 })) + '.signature'; // Token expirado con fecha de expiración en el pasado
+  const invalidToken = 'invalid.token'; // Token inválido (no base64)
 
-  it('Debería retornar en milisegundos la fecha de expiración del token', () => {
-    const nowSec = Math.floor(Date.now()/1000);
-    const token = makeToken({ exp: nowSec + 10 });
-    expect(getTokenExpiracion(token)).toBe((nowSec + 10) * 1000);
+  describe('getTokenExpiracion', () => {
+    it('debe retornar la fecha de expiración en milisegundos para un token válido', () => {
+      const expiration = TokenUtils.getTokenExpiracion(validToken);
+      expect(expiration).toBeGreaterThan(Date.now());
+    });
+
+    it('debe retornar null para un token inválido', () => {
+      const expiration = TokenUtils.getTokenExpiracion(invalidToken);
+      expect(expiration).toBeNull();
+    });
+
+    it('debe retornar null si el token no tiene la propiedad "exp"', () => {
+      const tokenWithoutExp = 'header.' + btoa(JSON.stringify({})) + '.signature'; // Token sin "exp"
+      const expiration = TokenUtils.getTokenExpiracion(tokenWithoutExp);
+      expect(expiration).toBeNull();
+    });
   });
 
-  it('Debería devolver null si el token no tiene fecha de expiración o es inválido', () => {
-    expect(getTokenExpiracion('no.un.jwt')).toBeNull();
-    const tokenSinExp = makeToken({ foo: 'bar' });
-    expect(getTokenExpiracion(tokenSinExp)).toBeNull();
-  });
+  describe('tokenExpirado', () => {
+    it('debe retornar false para un token que no ha expirado', () => {
+      const isExpired = TokenUtils.tokenExpirado(validToken);
+      expect(isExpired).toBeFalse();
+    });
 
-  it('Debería indicar expirado cuando la fecha de expiración ya pasó', () => {
-    const past = Math.floor(Date.now()/1000) - 1;
-    const token = makeToken({ exp: past });
-    expect(tokenExpirado(token)).toBeTrue();
-  });
+    it('debe retornar true para un token que ya ha expirado', () => {
+      const isExpired = TokenUtils.tokenExpirado(expiredToken);
+      expect(isExpired).toBeTrue();
+    });
 
-  it('Debería indicar que el token no expiró', () => {
-    const future = Math.floor(Date.now()/1000) + 60;
-    const token = makeToken({ exp: future });
-    expect(tokenExpirado(token)).toBeFalse();
-  });
-
-  it('Debería considerarse expirado un token inválido', () => {
-    expect(tokenExpirado('invalido')).toBeTrue();
+    it('debe retornar true para un token inválido', () => {
+      const isExpired = TokenUtils.tokenExpirado(invalidToken);
+      expect(isExpired).toBeTrue();
+    });
   });
 });

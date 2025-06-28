@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { LoginData, responseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginData } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
-import { tokenExpirado } from '../../utilidades/token-utils';
+import { TokenUtils } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
@@ -19,13 +19,11 @@ export class AuthService {
   private usuarioSubject = new BehaviorSubject<string | null>(null);
   private baseUrl = environment.URL_BASE;
   email: string | null = null;
-  private clientId = 'dbaa742e9e6f4f3aa345f3e0d609aaf2';
-  private redirectUri = 'http://127.0.0.1:4200/callback';
   private rolSubject = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
-    if (token && !tokenExpirado(token)) {
+    if (token && !TokenUtils.tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
       this.rolSubject.next(payload[this.CLAIM_ROLE]);
@@ -64,9 +62,9 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  estaAutenticado(): boolean {
+ estaAutenticado(): boolean {
     const token = this.getToken();
-    return !!token && !tokenExpirado(token);
+    return !!token && !TokenUtils.tokenExpirado(token);
   }
 
   cerrarSesion(): void {
@@ -108,22 +106,5 @@ export class AuthService {
     } catch {
       return null;
     }
-  }
-
-  loginWithSpotify() {
-    const scope = [
-      'streaming',
-      'user-read-email',
-      'user-read-private',
-      'user-modify-playback-state',
-      'user-read-playback-state'
-    ].join(' ');
-
-    const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.redirectUri)}&scope=${encodeURIComponent(scope)}`;
-    window.location.href = url;
-  }
-
-  exchangeCodeForToken(code: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/spotify/exchange`, { code });
   }
 }
