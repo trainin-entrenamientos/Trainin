@@ -9,11 +9,23 @@ import { ToastrService } from 'ngx-toastr';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-
   const url = req.url.toLowerCase();
 
-  if (url.endsWith('/usuario/iniciarsesion')
-    || url.endsWith('/usuario/registro')) {
+  const publicUrls = [
+    '/usuario/iniciarsesion',
+    '/usuario/registro',
+    '/spotify/'  
+  ];
+
+  const externalApis = [
+    'api.spotify.com',
+    'accounts.spotify.com'
+  ];
+
+  const isPublicUrl = publicUrls.some(publicUrl => url.includes(publicUrl.toLowerCase()));
+  const isExternalApi = externalApis.some(apiUrl => url.includes(apiUrl.toLowerCase()));
+
+  if (isPublicUrl || isExternalApi) {
     return next(req);
   }
 

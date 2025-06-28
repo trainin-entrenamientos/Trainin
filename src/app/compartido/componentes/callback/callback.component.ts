@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SpotifyService } from '../../../core/servicios/spotifyServicio/spotify.service';
 
 @Component({
   selector: 'app-callback',
@@ -9,23 +10,25 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './callback.component.css'
 })
 export class CallbackComponent {
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private spotifyService: SpotifyService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const code = this.route.snapshot.queryParamMap.get('code');
     if (code) {
-      this.authService.exchangeCodeForToken(code).subscribe({
+      this.spotifyService.exchangeCodeForToken(code).subscribe({
         next: (res) => {
-          localStorage.setItem('spotify_token', res.access_token);
-          localStorage.setItem('spotify_refresh_token', res.refresh_token);
-          localStorage.setItem('spotify_expires_at', 
-            (Date.now() + (res.expires_in * 1000)).toString()
+          this.spotifyService.guardarTokens(
+            res.access_token,
+            res.refresh_token,
+            res.expires_in
           );
-          window.location.href = '/planes';
+          this.router.navigate(['planes']);
         },
-        error: (error) => {
-          console.error('Error obteniendo token:', error);
-        }
+        error: (err) => console.error('Error obteniendo token:', err)
       });
     }
   }
