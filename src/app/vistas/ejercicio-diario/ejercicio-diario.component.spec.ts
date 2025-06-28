@@ -13,7 +13,7 @@ import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
 import { Usuario } from '../../core/modelos/Usuario';
 import { ToastrService } from 'ngx-toastr';
 
-fdescribe('EjercicioDiarioComponent', () => {
+describe('EjercicioDiarioComponent', () => {
   let component: EjercicioDiarioComponent;
   let fixture: ComponentFixture<EjercicioDiarioComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
