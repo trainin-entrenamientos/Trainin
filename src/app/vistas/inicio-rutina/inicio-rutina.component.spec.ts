@@ -131,7 +131,7 @@ describe('InicioRutinaComponent', () => {
 
     entoncesSeLlamaACargarDesdeSesion();
   });
-
+*/
   /*it('debería manejar errores al obtener la rutina', () => {
     dadoQueRutinaServiceLanzaError();
 
@@ -139,8 +139,8 @@ describe('InicioRutinaComponent', () => {
 
     entoncesSeLogueaElError();
   });*/
-/*
-  function dadoQueRutinaServiceDevuelveRutina() {
+
+  /*function dadoQueRutinaServiceDevuelveRutina() {
     rutinaServiceMock.getDetalleEjercicios.and.returnValue(of(rutinaMock));
   }
 
@@ -200,5 +200,4 @@ describe('InicioRutinaComponent', () => {
       jasmine.any(Error)
     );
   }
-});
-*/
+});*/

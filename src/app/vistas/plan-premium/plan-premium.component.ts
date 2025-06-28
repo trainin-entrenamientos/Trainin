@@ -65,6 +65,10 @@ export class PlanPremiumComponent implements AfterViewInit {
   }
 
   redirigir(url: string) {
+    this.asignarLocation(url);
+  }
+
+  asignarLocation(url: string) {
     window.location.assign(url);
   }
 
@@ -91,7 +95,7 @@ export class PlanPremiumComponent implements AfterViewInit {
   obtenerUsuarioPorEmail() {
     this.usuarioServicio.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {
-        if (response) {
+        if (response && response.objeto) {
           this.usuario.idUsuario = response.objeto.id;
           this.usuario.esPremium = response.objeto.esPremium || false;
         } else {

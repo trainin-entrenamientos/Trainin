@@ -17,6 +17,7 @@ export class PerfilDTO {
   tiempoTotalEntrenado?: number;
   logros?: LogroDTO[];
   planesCompletados?: HistorialPlanDTO[];
+  ejerciciosDiariosCompletados?: number;
 
   constructor(id: number, nombre: string, apellido: string, email: string, peso: number, altura: number, edad: number,
     fechaCreacion: Date, fechaNacimiento: string, fotoDePerfil: string, caloriasTotales: number, entrenamientosHechos: number, tiempoTotalEntrenado: number, logros: LogroDTO[]){

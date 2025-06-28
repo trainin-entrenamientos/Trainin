@@ -1,18 +1,21 @@
-/*import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { LogroService } from './logro.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { LogroDTO } from '../../modelos/LogroDTO';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 import { environment } from '../../../../environments/environment';
-import { Logro } from '../../modelos/LogroDTO';
 
 describe('LogroService', () => {
   let service: LogroService;
   let httpMock: HttpTestingController;
+  const apiUrl = `${environment.URL_BASE}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [LogroService]
     });
+
     service = TestBed.inject(LogroService);
     httpMock = TestBed.inject(HttpTestingController);
   });
@@ -21,47 +24,76 @@ describe('LogroService', () => {
     httpMock.verify();
   });
 
-  it('Debería crearse correctamente el servicio del logro', () => {
+  it('debería ser creado', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Debería mostrarse el nombre y la imagen cuando existe un objeto logro completo con todos sus campos', (done) => {
-    const fecha = new Date();
-    const logro: Logro = {
-      id: 350,
-      nombre: 'Logro1',
-      descripcion: 'Descripción de prueba',
-      imagen: 'img1.png',
-      obtenido: false,
-      fecha_obtencion: fecha
-    };
+  describe('mostrarLogro', () => {
+    it('debería emitir un logro a los observadores', (done) => {
+      const logro: LogroDTO = {
+        id: 1,
+        nombre: 'Logro 1',
+        descripcion: 'Descripción del logro 1',
+        imagen: 'imagen1.jpg',
+        obtenido: true,
+        tipo: 'Tipo 1',
+        fechaObtencion: new Date('2025-06-27')
+      };
 
-    service.logroNotificaciones$.subscribe(payload => {
-      expect(payload).toEqual({ nombre: 'Logro1', imagen: 'img1.png' });
-      done();
+      service.logroNotificaciones$.subscribe(data => {
+        expect(data.nombre).toBe('Logro 1');
+        expect(data.imagen).toBe('imagen1.jpg');
+        done();
+      });
+
+      service.mostrarLogro(logro);
     });
-
-    service.mostrarLogro(logro);
   });
 
-  it('Debería mostrar los logros obtenidos por un usuario', () => {
-    const email = 'trainin@trainin.com';
-    service.obtenerLogrosPorUsuario(email).subscribe();
+  describe('obtenerLogrosPorUsuario', () => {
+    it('debería devolver los logros de un usuario', () => {
+      const email = 'test@example.com';
+      const respuestaMock: RespuestaApi<LogroDTO[]> = {
+        exito: true,
+        mensaje: 'Éxito',
+        objeto: [
+          { id: 1, nombre: 'Logro 1', descripcion: 'Descripción del logro 1', imagen: 'imagen1.jpg', obtenido: true, tipo: 'Tipo 1', fechaObtencion: new Date('2025-06-27') },
+          { id: 2, nombre: 'Logro 2', descripcion: 'Descripción del logro 2', imagen: 'imagen2.jpg', obtenido: false, tipo: 'Tipo 2', fechaObtencion: new Date('2025-06-28') }
+        ]
+      };
 
-    const req = httpMock.expectOne(
-      `${environment.URL_BASE}/usuario/obtenerLogros/${email}`
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush([]);
+      service.obtenerLogrosPorUsuario(email).subscribe(response => {
+        expect(response.objeto.length).toBe(2);
+        expect(response.objeto[0].nombre).toBe('Logro 1');
+        expect(response.objeto[1].obtenido).toBe(false);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/usuario/obtenerLogros/${email}`);
+      expect(req.request.method).toBe('GET');
+      req.flush(respuestaMock);
+    });
   });
 
-  it('Debería mostrar la lista con todos los logros existentes', () => {
-    service.obtenerTodosLosLogros().subscribe();
+  describe('obtenerTodosLosLogros', () => {
+    it('debería devolver todos los logros', () => {
+      const respuestaMock: RespuestaApi<LogroDTO[]> = {
+        exito: true,
+        mensaje: 'Éxito',
+        objeto: [
+          { id: 1, nombre: 'Logro 1', descripcion: 'Descripción del logro 1', imagen: 'imagen1.jpg', obtenido: true, tipo: 'Tipo 1', fechaObtencion: new Date('2025-06-27') },
+          { id: 2, nombre: 'Logro 2', descripcion: 'Descripción del logro 2', imagen: 'imagen2.jpg', obtenido: false, tipo: 'Tipo 2', fechaObtencion: new Date('2025-06-28') }
+        ]
+      };
 
-    const req = httpMock.expectOne(
-      `${environment.URL_BASE}/logro/obtenerLogros`
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush([]);
+      service.obtenerTodosLosLogros().subscribe(response => {
+        expect(response.objeto.length).toBe(2);
+        expect(response.objeto[0].nombre).toBe('Logro 1');
+        expect(response.objeto[1].obtenido).toBe(false);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/logro/obtener`);
+      expect(req.request.method).toBe('GET');
+      req.flush(respuestaMock);
+    });
   });
-});*/
+});

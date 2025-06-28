@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LogroDTO } from '../../core/modelos/LogroDTO';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
-import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import {
+  manejarErrorSimple,
+  manejarErrorYRedirigir,
+} from '../../compartido/utilidades/errores-toastr';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -28,7 +31,7 @@ export class LogrosComponent implements OnInit {
     private logroService: LogroService,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService 
+    private toastr: ToastrService
   ) {
     this.filtroForm = this.fb.group({
       filtroSeleccionado: ['todos'],
@@ -40,53 +43,68 @@ export class LogrosComponent implements OnInit {
     this.email = this.authService.getEmail();
 
     if (!this.email) {
-      manejarErrorYRedirigir(this.toastr, this.router,
-        'No se pudo obtener el email del usuario', '/planes'
+      manejarErrorYRedirigir(
+        this.toastr,
+        this.router,
+        'No se pudo obtener el email del usuario',
+        '/planes'
       );
       return;
     }
 
-    this.logroService.obtenerLogrosPorUsuario(this.email)
-      .subscribe({
-        next: respUser => {
-          this.logrosObtenidos = respUser.objeto || [];
+    this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
+      next: (respUser) => {
+        this.logrosObtenidos = respUser.objeto || [];
 
-          // 2) Traigo todos los logros y mapeo directamente
-          this.logroService.obtenerTodosLosLogros()
-            .subscribe({
-              next: respAll => {
-                const todos: LogroDTO[] = respAll.objeto || [];
+        this.logroService.obtenerTodosLosLogros().subscribe({
+          next: (respAll) => {
+            const todos: LogroDTO[] = respAll.objeto || [];
 
-                this.todosLosLogros = todos.map(l => ({
-                  ...l,                                       // id, nombre, descripcion, imagen, tipo
-                  obtenido: this.logrosObtenidos.some(u => u.id === l.id),
-                  // si no lo encontró, pongo new Date() para cumplir con Date no-nullable
-                  fechaObtencion: this.logrosObtenidos
-                    .find(u => u.id === l.id)
-                    ?.fechaObtencion
-                    || new Date()
-                }));
+            this.todosLosLogros = todos.map((l) => ({
+              ...l,
+              obtenido: this.logrosObtenidos.some((u) => u.id === l.id),
+              fechaObtencion: this.parsearFecha(
+                this.logrosObtenidos.find((u) => u.id === l.id)?.fechaObtencion
+              ),
+            }));
 
-                this.cargando = false;
-                this.aplicarFiltro();
-              },
-              error: () => manejarErrorYRedirigir(
-                this.toastr, this.router,
-                'Error al obtener todos los logros', '/planes'
-              )
-            });
-        },
-        error: () => {
-          manejarErrorSimple(this.toastr, 'Error al obtener tus logros');
-          this.cargando = false;
-        }
-      });
+            this.cargando = false;
+            this.aplicarFiltro();
+          },
+          error: () =>
+            manejarErrorYRedirigir(
+              this.toastr,
+              this.router,
+              'Error al obtener todos los logros',
+              '/planes'
+            ),
+        });
+      },
+      error: () => {
+        manejarErrorSimple(this.toastr, 'Error al obtener tus logros');
+        this.cargando = false;
+      },
+    });
 
-    this.filtroForm.get('filtroSeleccionado')?.valueChanges
-      .subscribe(v => {
-        this.filtroActivo = v;
-        this.aplicarFiltro();
-      });
+    this.filtroForm.get('filtroSeleccionado')?.valueChanges.subscribe((v) => {
+      this.filtroActivo = v;
+      this.aplicarFiltro();
+    });
+  }
+
+  private parsearFecha(fecha: string | Date | undefined): Date {
+    if (!fecha) return new Date();
+
+    if (fecha instanceof Date) return fecha;
+
+    const partes = fecha.split('/');
+    if (partes.length === 3) {
+      const [dia, mes, anio] = partes.map(Number);
+      return new Date(anio, mes - 1, dia);
+    }
+
+    const parsed = new Date(fecha);
+    return isNaN(parsed.getTime()) ? new Date() : parsed;
   }
 
   aplicarFiltro(): void {

@@ -78,7 +78,7 @@ export class RegistroComponent {
   onSubmit() {
     if (this.registroForm.invalid) {
       this.marcarCamposComoTocados();
-      manejarErrorSimple(this.toastr,  `Por favor, completá todos los campos correctamente. `);
+      manejarErrorSimple(this.toastr,  `Por favor, completá todos los campos correctamente.`);
       return;
     }
 

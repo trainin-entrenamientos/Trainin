@@ -1,4 +1,5 @@
 /*import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VerificarEmailComponent } from './verificar-email.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';

@@ -4,5 +4,6 @@ export interface HistorialPlanDTO {
   foto:string,
   calorias: number,
   tiempo: number,
-  fechaRealizacion: Date
+  fechaRealizacion: Date,
+  estado: string
 }
