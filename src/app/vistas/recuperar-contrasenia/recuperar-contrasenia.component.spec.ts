@@ -21,7 +21,7 @@ describe('RecuperarContraseniaComponent', () => {
     routeStub   = {
       snapshot: {
         paramMap: {
-          get: (key: string) => key === 'token' ? 'abc' : 'me@you'
+          get: (key: string) => key === 'token' ? 'abc' : 'trainin@trainin.com'
         }
       }
     };

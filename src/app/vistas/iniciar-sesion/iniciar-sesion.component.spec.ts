@@ -45,14 +45,14 @@ describe('IniciarSesionComponent', () => {
 
   it('debería navegar a /planes si el login es exitoso y no requiere activación', () => {
     component.loginForm.setValue({
-      email: 'test@example.com',
-      contrasenia: '123456'
+      email: 'trainin@trainin.com',
+      contrasenia: '123456c'
     });
 
     authServiceSpy.login.and.returnValue(of({
       objeto: {
         token: 'fake-token',
-        email: 'test@example.com',
+        email: 'trainin@trainin.com',
         exito: true,
         requiereActivacion: false
       }
@@ -66,14 +66,14 @@ describe('IniciarSesionComponent', () => {
 
   it('debería mostrar error si requiere activación', () => {
     component.loginForm.setValue({
-      email: 'test@example.com',
-      contrasenia: '123456'
+      email: 'trainin@trainin.com',
+      contrasenia: '123456c'
     });
 
     authServiceSpy.login.and.returnValue(of({
       objeto: {
         token: '',
-        email: 'test@example.com',
+        email: 'trainin@trainin.com',
         exito: true,
         requiereActivacion: true
       }
@@ -87,8 +87,8 @@ describe('IniciarSesionComponent', () => {
 
   it('debería mostrar error si ocurre un error en el login', () => {
     component.loginForm.setValue({
-      email: 'test@example.com',
-      contrasenia: '123456'
+      email: 'trainin@trainin.com',
+      contrasenia: '123456c'
     });
 
     authServiceSpy.login.and.returnValue(throwError(() => new Error('Error de servidor')));
@@ -115,14 +115,14 @@ describe('IniciarSesionComponent', () => {
   it('debería llamar a pedirPermisoYRegistrar y navegar a /listarEjercicios si es administrador', () => {
 
     component.loginForm.setValue({
-      email: 'admin@example.com',
-      contrasenia: 'adminpass'
+      email: 'admin@trainin.com',
+      contrasenia: 'admin123'
     });
 
     authServiceSpy.login.and.returnValue(of({
       objeto: {
         token: 'admin-token',
-        email: 'admin@example.com',
+        email: 'admin@trainin.com',
         exito: true,
         requiereActivacion: false
       }
@@ -142,13 +142,13 @@ describe('IniciarSesionComponent', () => {
 
   it('debería llamar a pedirPermisoYRegistrar en login exitoso no admin', () => {
     component.loginForm.setValue({
-      email: 'test@example.com',
-      contrasenia: '123456'
+      email: 'ttrainin@trainin.com',
+      contrasenia: '123456c'
     });
     authServiceSpy.login.and.returnValue(of({
       objeto: {
-        token: 'user-token',
-        email: 'test@example.com',
+        token: 'usuario-token',
+        email: 'trainin@trainin.com',
         exito: true,
         requiereActivacion: false
       }
@@ -162,7 +162,7 @@ describe('IniciarSesionComponent', () => {
   });
 
   it('debería resetear cargando a false si requiere activación', () => {
-    component.loginForm.setValue({ email: 'x', contrasenia: 'y' });
+    component.loginForm.setValue({ email: 'trainin@trainin.com', contrasenia: '1234c' });
     authServiceSpy.login.and.returnValue(of({
       objeto: { exito: true, requiereActivacion: true, token: '', email: '' }
     } as any));
@@ -173,7 +173,7 @@ describe('IniciarSesionComponent', () => {
   });
 
   it('debería resetear cargando a false si hay error en el login', fakeAsync(() => {
-    component.loginForm.setValue({ email: 'x', contrasenia: 'y' });
+    component.loginForm.setValue({ email: 'trainin@trainin.com', contrasenia: '1234c' });
 
     authServiceSpy.login.and.returnValue(throwError(() => new Error()));
 
