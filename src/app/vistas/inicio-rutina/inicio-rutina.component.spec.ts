@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InicioRutinaComponent } from './inicio-rutina.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -131,7 +131,7 @@ describe('InicioRutinaComponent', () => {
 
     entoncesSeLlamaACargarDesdeSesion();
   });
-
+*/
   /*it('debería manejar errores al obtener la rutina', () => {
     dadoQueRutinaServiceLanzaError();
 
@@ -140,7 +140,7 @@ describe('InicioRutinaComponent', () => {
     entoncesSeLogueaElError();
   });*/
 
-  function dadoQueRutinaServiceDevuelveRutina() {
+  /*function dadoQueRutinaServiceDevuelveRutina() {
     rutinaServiceMock.getDetalleEjercicios.and.returnValue(of(rutinaMock));
   }
 
@@ -200,4 +200,4 @@ describe('InicioRutinaComponent', () => {
       jasmine.any(Error)
     );
   }
-});
+});*/

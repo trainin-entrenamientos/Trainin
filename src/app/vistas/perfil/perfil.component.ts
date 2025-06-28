@@ -55,6 +55,7 @@ export class PerfilComponent implements OnInit {
         this.logros = objeto.logros ?? [];
         this.cargando = false;
         this.ultimosPlanesRealizados = objeto.planesCompletados ?? [];;
+        console.log(this.perfil);
       },
       error: (err) => {
         manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },

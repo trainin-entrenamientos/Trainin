@@ -5,11 +5,13 @@
     <div class="face back">
       <div class="estadisticas-back">
         <p>{{nombreEjercicioDiario}}</p>
-        <app-boton-trainin type="button" [clase]="'btn-practicar2'" [tipo]="'button'" [ruta]="'/ejercicio-diario'"><span
-            style="color:white">
-            Ir al Ejercicio diario
-          </span>
-        </app-boton-trainin>
+        <app-boton-trainin
+            type="button"
+            [clase]="'btn-practicar2'"
+            [tipo]="'button'"
+            [routerLink]="'/ejercicio-diario'" 
+            ><span style="color: white"> Ir al Ejercicio diario </span>
+          </app-boton-trainin>
       </div>
     </div>
     <div class="face front image-placeholder mb-2">
@@ -27,7 +29,7 @@
       <div class="estadisticas-back-calorias">
         <div *ngIf="cantidadLogros==null"  class="dato">
           <div class="valor-cal">0</div>
-          <div class="etiqueta-cal">Todavia no tienes logros desbloqueados</div>
+          <div class="etiqueta-cal">No hay logros desbloqueados</div>
         </div>
         <div *ngIf="cantidadLogros==1"  class="dato">
           <div class="valor-cal">{{cantidadLogros}}</div>
@@ -77,21 +79,17 @@
     </div>
   </div>
   <div *ngIf="ultimaRutina == null" class="card">
-    <div class="face back">
+    <div class="face back"><br><br>
       <div class="estadisticas-back">
-        <div class="plan-label"></div>
+        <div class="plan-label">Aún no has entrenado</div>
         <div class="info-plan">
-          <div class="dato dato-superior">
-            <div class="valor"></div>
-            <div class="etiqueta">Calorías</div>
-          </div>
-
-          <div class="divisor-horizontal"></div>
-
-          <div class="dato dato-inferior">
-            <div class="valor"></div>
-            <div class="etiqueta">Duración</div>
-          </div>
+          <div class="logo-tarjeta">
+          <img
+            src="imagenes/logo-trainin.svg"
+            alt="TRAININ Logo"
+            class="logo-error-img"
+          />
+        </div>
         </div>
       </div>
     </div>
