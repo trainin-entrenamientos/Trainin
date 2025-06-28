@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController }
   from '@angular/common/http/testing';
 import { VerificacionCorreoService } from './verificacion-correo.service';
 import { environment } from '../../../../environments/environment';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
 
 describe('VerificacionCorreoService', () => {
   let service: VerificacionCorreoService;
@@ -27,15 +28,19 @@ describe('VerificacionCorreoService', () => {
   });
 
   it('Debería confirmar la cuenta de correo de un usuario con el token proporcionado', () => {
-    const fakeToken = 'abc123';
-    const mockResponse = { success: true };
+  const fakeToken = 'abc123';
+  const mockResponse: RespuestaApi<boolean> = {
+    exito: true,
+    mensaje: 'Correo confirmado con éxito',
+    objeto: true
+  };
 
-    service.confirmarEmail(fakeToken).subscribe(resp => {
-      expect(resp).toEqual(mockResponse);
-    });
-
-    const req = httpMock.expectOne(baseUrl + fakeToken);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
+  service.confirmarEmail(fakeToken).subscribe(resp => {
+    expect(resp).toEqual(mockResponse);
   });
+
+  const req = httpMock.expectOne(baseUrl + fakeToken);
+  expect(req.request.method).toBe('GET');
+  req.flush(mockResponse);
+});
 });
