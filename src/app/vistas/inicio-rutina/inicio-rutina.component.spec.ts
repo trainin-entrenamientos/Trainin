@@ -7,7 +7,7 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 import { Rutina } from '../../core/modelos/RutinaDTO';
 import { ToastrService } from 'ngx-toastr';
 
-fdescribe('InicioRutinaComponent', () => {
+describe('InicioRutinaComponent', () => {
   let component: InicioRutinaComponent;
   let fixture: ComponentFixture<InicioRutinaComponent>;
   let rutinaServiceSpy: jasmine.SpyObj<RutinaService>;
