@@ -5,25 +5,27 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios.component';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+import { ToastrService } from 'ngx-toastr';
+import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
 
 describe('ListadoDeEjerciciosComponent', () => {
     let component: ListadoDeEjerciciosComponent;
     let fixture: ComponentFixture<ListadoDeEjerciciosComponent>;
     let svcSpy: jasmine.SpyObj<EjercicioService>;
     let routerSpy: jasmine.SpyObj<Router>;
+    let toastrSpy: jasmine.SpyObj<ToastrService>;
 
     beforeEach(async () => {
-        svcSpy = jasmine.createSpyObj('EjercicioService', [
-            'obtenerTodosLosEjercicios',
-            'eliminarEjercicio'
-        ]);
+        svcSpy = jasmine.createSpyObj('EjercicioService', ['obtenerTodosLosEjercicios', 'eliminarEjercicio']);
         routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+        toastrSpy = jasmine.createSpyObj('ToastrService', ['error']);
 
         await TestBed.configureTestingModule({
             declarations: [ListadoDeEjerciciosComponent],
             providers: [
                 { provide: EjercicioService, useValue: svcSpy },
-                { provide: Router, useValue: routerSpy }
+                { provide: Router, useValue: routerSpy },
+                { provide: ToastrService, useValue: toastrSpy }
             ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
@@ -50,7 +52,7 @@ describe('ListadoDeEjerciciosComponent', () => {
 
     it('Debería mostrar los ejercicios y ocultar el cargando al cargar exitosamente el listado', fakeAsync(() => {
         const datos = [{ id: 2 }, { id: 1 }];
-        svcSpy.obtenerTodosLosEjercicios.and.returnValue(of(datos as any));
+        svcSpy.obtenerTodosLosEjercicios.and.returnValue(of({ objeto: datos } as any));
 
         component.listarEjercicios();
         tick();
@@ -60,13 +62,11 @@ describe('ListadoDeEjerciciosComponent', () => {
     }));
 
     it('Debería ocultar el cargando y mostrar error si falla la carga del listado de ejercicios', fakeAsync(() => {
-        const errorSpy = spyOn(console, 'error');
         svcSpy.obtenerTodosLosEjercicios.and.returnValue(throwError(() => new Error('fallo')));
-
         component.listarEjercicios();
         tick();
 
-        expect(errorSpy).toHaveBeenCalledWith(jasmine.any(Error));
+        expect(toastrSpy.error).toHaveBeenCalledWith('No se pudo obtener la lista de ejercicios');
         expect(component.cargando).toBeFalse();
     }));
 
@@ -97,10 +97,15 @@ describe('ListadoDeEjerciciosComponent', () => {
     });
 
     it('Debería quitar el ejercicio de la lista y cerrar el modal si la eliminación es exitosa', fakeAsync(() => {
-        component.ejercicios = [{ id: 1 }, { id: 2 }];
-        svcSpy.eliminarEjercicio.and.returnValue(of('ok'));
-        spyOn(component, 'cancelarEliminarEjercicio');
+        const resp: RespuestaApi<string> = {
+            mensaje: 'ok',
+            objeto: '',
+            exito: true
+        };
+        svcSpy.eliminarEjercicio.and.returnValue(of(resp));
 
+        spyOn(component, 'cancelarEliminarEjercicio');
+        component.ejercicios = [{ id: 1 }, { id: 2 }];
         component.eliminar({ id: 1 });
         tick();
 
@@ -110,14 +115,13 @@ describe('ListadoDeEjerciciosComponent', () => {
 
     it('Debería mostrar error y cerrar el modal si falla la eliminación del ejercicio', fakeAsync(() => {
         component.ejercicios = [{ id: 3 }];
-        const errorSpy = spyOn(console, 'error');
         svcSpy.eliminarEjercicio.and.returnValue(throwError(() => new Error('err')));
         spyOn(component, 'cancelarEliminarEjercicio');
 
         component.eliminar({ id: 3 });
         tick();
 
-        expect(errorSpy).toHaveBeenCalledWith('Error al eliminar:', jasmine.any(Error));
+        expect(toastrSpy.error).toHaveBeenCalledWith('No se pudo eliminar el ejercicio');
         expect(component.cancelarEliminarEjercicio).toHaveBeenCalled();
     }));
 

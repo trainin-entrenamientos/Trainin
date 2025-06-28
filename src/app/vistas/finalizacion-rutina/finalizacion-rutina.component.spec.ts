@@ -1,11 +1,11 @@
-/*import {
+import {
   ComponentFixture,
   TestBed,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina.component';
 import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
@@ -13,6 +13,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 import { CorreccionDataService } from '../../core/servicios/correccionPosturaServicio/correccion-data.service';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { CompartidoModule } from '../../compartido/compartido.module';
+import { ToastrService } from 'ngx-toastr';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 
 describe('FinalizacionRutinaComponent', () => {
   let component: FinalizacionRutinaComponent;
@@ -24,6 +26,7 @@ describe('FinalizacionRutinaComponent', () => {
   let correccionDataServiceMock: any;
   let planServiceMock: any;
   let routerMock: any;
+  let toastrSpy: jasmine.SpyObj<ToastrService>;
 
   beforeAll(() => {
     const modalMock = jasmine.createSpyObj('Modal', [
@@ -42,6 +45,8 @@ describe('FinalizacionRutinaComponent', () => {
 
   beforeEach(() => {
     dadoQueSeConfiguranLosMocks();
+    toastrSpy = jasmine.createSpyObj('ToastrService', ['error']);
+    const logroSpy = jasmine.createSpyObj('LogroService', ['mostrarLogro']);
 
     TestBed.configureTestingModule({
       declarations: [FinalizacionRutinaComponent],
@@ -53,6 +58,8 @@ describe('FinalizacionRutinaComponent', () => {
         { provide: CorreccionDataService, useValue: correccionDataServiceMock },
         { provide: PlanEntrenamientoService, useValue: planServiceMock },
         { provide: Router, useValue: routerMock },
+        { provide: LogroService, useValue: logroSpy },
+        { provide: ToastrService, useValue: toastrSpy }
       ],
     }).compileComponents();
 
@@ -97,12 +104,15 @@ describe('FinalizacionRutinaComponent', () => {
     entoncesDebeNavegarAPlanes();
   }));
 
-  it('debería mostrar alerta si no se selecciona opción al enviar feedback', () => {
-    dadoQueNoHayOpcionSeleccionada();
+  it('debería mostrar error si no se selecciona opción al enviar feedback', () => {
+    component.opcionSeleccionada = '';
+    component.selectedSidebarIndex = null;
+    component.opcionSeleccionadaEstadisticas = null;
 
-    cuandoSeEnviaFeedback();
+    component.enviarFeedback();
 
-    entoncesSeDebeMostrarAlertaDeSeleccion();
+    expect(toastrSpy.error)
+      .toHaveBeenCalledWith('Por favor, selecciona una opción.');
   });
 
   it('debería seleccionarse una opcion en el sidebar', () => {
@@ -151,6 +161,25 @@ describe('FinalizacionRutinaComponent', () => {
     tick();
 
     entoncesRutinaReiniciada();
+  }));
+
+  it('debería redirigir y mostrar error si falla actualizarNivelExigencia', fakeAsync(() => {
+    component.opcionSeleccionada = 'facil';
+    component.rutina = { idPlan: 7 };
+    component.email = 'x@x';
+    toastrSpy.error.calls.reset();
+    routerMock.navigate.calls.reset();
+
+    planServiceMock.actualizarNivelExigencia
+      .and.returnValue(throwError(() => new Error('fail')));
+
+    component.enviarFeedback();
+    tick();
+
+    expect(toastrSpy.error)
+      .toHaveBeenCalledWith('No se pudo enviar el feedback correctamente');
+    expect(routerMock.navigate)
+      .toHaveBeenCalledWith(['/finalizacion-rutina']);
   }));
 
   function dadoQueSeConfiguranLosMocks() {
@@ -233,10 +262,13 @@ describe('FinalizacionRutinaComponent', () => {
   }
 
   function dadoQueNoHayOpcionSeleccionada() {
-    spyOn(window, 'alert');
     component.opcionSeleccionada = '';
     component.selectedSidebarIndex = null;
     component.opcionSeleccionadaEstadisticas = null;
+
+    component.enviarFeedback();
+
+    expect(toastrSpy.error).toHaveBeenCalledWith('Por favor, selecciona una opción.');
   }
 
   function dadoQueNoHayOpcionSeleccionadaEstadisticas() {
@@ -299,12 +331,6 @@ describe('FinalizacionRutinaComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['/planes']);
   }
 
-  function entoncesSeDebeMostrarAlertaDeSeleccion() {
-    expect(window.alert).toHaveBeenCalledWith(
-      'Por favor, selecciona una opción.'
-    );
-  }
-
   function entoncesOpcionSidebarSeleccionada(indice: number) {
     expect(component.selectedSidebarIndex).toBe(indice);
     expect(component.expandido).toBeTrue();
@@ -332,4 +358,4 @@ describe('FinalizacionRutinaComponent', () => {
     expect(rutinaServiceMock.limpiarRutina).toHaveBeenCalled();
     expect(correccionDataServiceMock.limpiarDatos).toHaveBeenCalled();
   }
-});*/
+});

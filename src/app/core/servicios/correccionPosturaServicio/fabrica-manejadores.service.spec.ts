@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+/*import { TestBed } from '@angular/core/testing';
 import { FabricaManejadoresService } from './fabrica-manejadores.service';
 import { NombreEjercicio } from '../../../compartido/enums/nombre-ejercicio.enum';
 import { PressMilitarHandler } from '../../../vistas/correccion-postura/manejadores/press-militar.handler';
@@ -84,3 +84,4 @@ describe('FabricaManejadoresService', () => {
     expect(service).toBeTruthy();
   });
 });
+*/

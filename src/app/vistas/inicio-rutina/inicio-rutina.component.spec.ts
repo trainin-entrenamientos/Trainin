@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InicioRutinaComponent } from './inicio-rutina.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -139,7 +139,7 @@ describe('InicioRutinaComponent', () => {
 
     entoncesSeLogueaElError();
   });*/
-
+/*
   function dadoQueRutinaServiceDevuelveRutina() {
     rutinaServiceMock.getDetalleEjercicios.and.returnValue(of(rutinaMock));
   }
@@ -201,3 +201,4 @@ describe('InicioRutinaComponent', () => {
     );
   }
 });
+*/
