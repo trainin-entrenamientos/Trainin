@@ -53,7 +53,8 @@ describe('PlanEntrenamientoService', () => {
     foto: 'foto.png',
     calorias: 300,
     tiempo: 45,
-    fechaRealizacion: new Date()
+    fechaRealizacion: new Date(),
+    estado:"Activo"
   };
 
   const mockRespuestaPlanes: RespuestaApi<PlanEntrenamiento[]> = {

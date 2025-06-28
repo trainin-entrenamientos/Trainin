@@ -47,7 +47,7 @@ describe('HistorialPlanesComponent', () => {
     authServiceSpy.getEmail.and.returnValue(emailMock);
 
     const planesMock = [
-      { id: 1, tipoEntrenamiento: 'Cardio', foto: '', calorias: 100, tiempo: 1200, fechaRealizacion: new Date() }
+      { id: 1, tipoEntrenamiento: 'Cardio', foto: '', calorias: 100, tiempo: 1200, fechaRealizacion: new Date(), estado:"Activo" }
     ];
         planServiceSpy.obtenerHistorialPlanes.and.returnValue(of({
         exito: true,

@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SpotifyService } from '../../core/servicios/spotifyServicio/spotify.service';
 
 describe('PlanesComponent', () => {
   let component: PlanesComponent;
@@ -23,6 +24,8 @@ describe('PlanesComponent', () => {
   let mockEjercicioService: any;
   let mockToastr: any;
   let mockRouter: any;
+  let mockSpotifyService: any;
+
 
   beforeEach(async () => {
     mockPlanService = jasmine.createSpyObj([
@@ -30,10 +33,12 @@ describe('PlanesComponent', () => {
       'desactivarPlanPorId',
     ]);
     mockUsuarioService = jasmine.createSpyObj(['obtenerUsuarioPorEmail']);
-    mockAuthService = jasmine.createSpyObj(['getEmail', 'loginWithSpotify']);
+    mockAuthService = jasmine.createSpyObj(['getEmail']);
     mockEjercicioService = jasmine.createSpyObj(['obtenerEjercicioDiario']);
     mockToastr = jasmine.createSpyObj(['error', 'warning']);
     mockRouter = jasmine.createSpyObj(['navigate']);
+    mockSpotifyService = jasmine.createSpyObj(['loginWithSpotify']);
+
 
     await TestBed.configureTestingModule({
       declarations: [PlanesComponent],
@@ -44,6 +49,8 @@ describe('PlanesComponent', () => {
         { provide: EjercicioService, useValue: mockEjercicioService },
         { provide: ToastrService, useValue: mockToastr },
         { provide: Router, useValue: mockRouter },
+        { provide: SpotifyService, useValue: mockSpotifyService },
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -179,7 +186,7 @@ describe('PlanesComponent', () => {
 
   it('debería llamar a login con Spotify', () => {
     component.iniciarSesionConSpotify();
-    expect(mockAuthService.loginWithSpotify).toHaveBeenCalled();
+    expect(mockSpotifyService.loginWithSpotify).toHaveBeenCalled();
   });
 
   it('debería redirigir correctamente según estado del plan', () => {
