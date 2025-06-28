@@ -171,6 +171,10 @@ export class PlanesComponent {
       });
   }
 
+  iniciarSesionConSpotify() {
+    this.authService.loginWithSpotify();
+  }
+
   irAlDetalleDelPlan(idPlan: number): void {
     this.router.navigate(['/detalle-plan', idPlan]);
   }

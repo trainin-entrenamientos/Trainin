@@ -16,6 +16,7 @@ declare const bootstrap: any;
 export class HeaderComponent {
   enRutina: boolean = false;
   mostrarModalSalirRutina: boolean = false;
+  mostrarSpotify: boolean = false;
   email: string | null = null;
   usuario: Usuario | null = null;
   esAdministrador: boolean = false;
@@ -68,6 +69,7 @@ export class HeaderComponent {
   }
 
   estaLogueado(): boolean {
+    this.mostrarSpotify = localStorage.getItem('spotify_token') !== null && this.authService.estaAutenticado();
     return this.authService.estaAutenticado();
   }
 

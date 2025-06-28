@@ -2,9 +2,20 @@
   <main>
     <app-loader *ngIf="cargando"></app-loader>
     <section class="pb-5" *ngIf="!cargando">
-      <div class="m-auto contenedor-titulo pt-5">
-        <h1 class="pt-4">Planes de Entrenamiento</h1>
+      <div class="contenedor-spotify">
+        <div class="m-auto contenedor-titulo pt-5">
+          <h1 class="pt-4">Planes de Entrenamiento</h1>
+        </div>
+        <!--SIN PLANES, NO PREMIUM-->
+
+        <div class="spotify-prompt">
+          <button class="spotify-btn" (click)="iniciarSesionConSpotify()">
+            <i class="fab fa-spotify"></i>
+            ¿Querés escuchar música mientras entrenás?
+          </button>
+        </div>
       </div>
+
       <article *ngIf="!planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
@@ -41,6 +52,7 @@
         </div>
 
       </article>
+
       <article *ngIf="planEntrenamiento.length && !usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
@@ -106,8 +118,6 @@
           }
         </div>
       </article>
-
-      <!--SIN PLANES, PREMIUM-->
       <article *ngIf="!planEntrenamiento.length && usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes premium-sin-planes">
         <div id="contenedor-planes" class="w-100">
@@ -129,7 +139,7 @@
             [ejercicioDiarioDisponible]="this.EjercicioDiarioDisponible"></app-tarjetas-planes>
         </div>
       </article>
-
+      
       <article *ngIf="planEntrenamiento.length && usuario?.esPremium"
         class="d-flex mt-5 justify-content-space-between contenedor-principal-planes">
         <div id="contenedor-planes" class="w-100">
@@ -214,7 +224,6 @@
           }
       </article>
     </section>
-
     <app-modal-confirmacion-borrar-plan [visible]="mostrarModal"
       [mensaje]="'¿Estás segura/o que querés desactivar este plan?'" (onConfirm)="eliminarPlanConfirmado()"
       (onCancel)="cancelarEliminacion()"></app-modal-confirmacion-borrar-plan>
