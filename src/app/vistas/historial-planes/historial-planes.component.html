@@ -25,6 +25,21 @@
   <h1>Historial de Planes</h1>
   <div class="grid-historial">
     <div class="historial-card" *ngFor="let plan of planesHistorial">
+      <div class="estado-icono-contenedor">
+  <i
+    *ngIf="plan.estado === 'Inactivo' || plan.estado === 'Completado'"
+    class="fa-solid"
+    [ngClass]="{
+      'fa-ban': plan.estado === 'Inactivo',
+      'fa-medal': plan.estado === 'Completado'
+    }"
+  ></i>
+  <div class="tooltip-estado">
+    {{ plan.estado === 'Inactivo' ? 'Plan inactivo' : 'Plan completado' }}
+  </div>
+</div>
+
+
       <div class="card-contenido">
         <img [src]="plan.foto" alt="Tipo de entrenamiento" class="card-img" />
         <div class="card-info">

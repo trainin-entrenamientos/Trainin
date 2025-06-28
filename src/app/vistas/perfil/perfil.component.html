@@ -177,7 +177,7 @@
             <div class="card streak h-100 text-center">
               <div class="card-body">
                 <i class="fas fa-fire mb-2"></i>
-                <h2 class="mb-1">{{this.perfil?.entrenamientosHechos}}</h2>
+                <h2 class="mb-1">{{this.perfil?.ejerciciosDiariosCompletados}}</h2>
                 <p class="card-text text-uppercase mb-0">
                   Ejercicios diarios completados
                 </p>
@@ -191,12 +191,17 @@
       </a>
 
       <div *ngIf="ultimosPlanesRealizados.length > 0">
-      <h5 class="text-center mb-3 pb-2">Planes de Entrenamiento Completados</h5>
-      <div class="grid-historial">
-        <div
-          class="historial-card"
-          *ngFor="let plan of ultimosPlanesRealizados"
-        >
+      <h5 class="text-center mb-3 pb-2">Últimos planes completados</h5>
+     <div class="grid-historial">
+  <div
+    class="historial-card"
+    *ngFor="let plan of ultimosPlanesRealizados; let i = index"
+    [ngClass]="{
+      'una-card-pos-2': ultimosPlanesRealizados.length === 1 && i === 0,
+      'dos-cards-pos-1': ultimosPlanesRealizados.length === 2 && i === 0,
+      'dos-cards-pos-2': ultimosPlanesRealizados.length === 2 && i === 1
+    }"
+  >
           <div class="card-contenido">
             <img
               [src]="plan.foto"

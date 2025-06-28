@@ -88,19 +88,26 @@ main h1{
   .grid-historial {
     grid-template-columns: repeat(2, 1fr);
   }
+    .estado-icono {
+    font-size: 1.4rem;
+  }
 }
 
 @media (max-width: 600px) {
   .grid-historial {
     grid-template-columns: 1fr;
   }
+   .estado-icono {
+    font-size: 1.2rem;
+  }
 }
 
 .historial-card {
+  position: relative;
   background-color: #0B1A1E;
   border-radius: 0.75rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width:90%;
+  width: 90%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -108,6 +115,7 @@ main h1{
   color: #fff;
   transition: transform 0.3s ease;
 }
+
 
 .historial-card:hover {
   transform: scale(1.03);
@@ -153,6 +161,59 @@ main h1{
   color: #bbb;
   margin: 0;
 }
+.estado-icono {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #13ff3a;
+  opacity: 0.6;
+  font-size: 1.8rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.estado-icono:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.estado-icono-contenedor {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #13ff3a;
+  font-size: 1.8rem;
+  opacity: 0.6;
+  cursor: default;
+}
+
+.estado-icono-contenedor:hover {
+  opacity: 1;
+}
+
+.estado-icono-contenedor:hover .tooltip-estado {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(-10px);
+}
+
+.tooltip-estado {
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0, 6, 12, 0.8); /* #00060c con 80% opacidad */
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem;
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
 
 ::ng-deep app-boton-trainin .btn-trainin {
   width: 100% !important;
