@@ -221,6 +221,8 @@
   width: 200px;
   align-self: center;
   margin-bottom: 50px;
+  display: block;
+  
 }
   }
  
@@ -231,6 +233,12 @@
     .boton-iniciar{
     margin-top: 55px;
   }
+  .logo img{
+  width: 200px;
+  align-self: center;
+  margin-bottom: 50px;
+  display: block;
+}
    .nombre-ejercicio{
     font-size: 0.6rem;
     margin-top: 0;

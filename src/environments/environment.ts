@@ -9,5 +9,9 @@ export const environment = {
     messagingSenderId: "907273271268",
     appId:        "1:907273271268:web:9f5203e26f90c7d936b9f1",
     vapidKey: "BBpL3o55xw7Ajh3I2EI5MzPl_n6182eyt74b6JpjGqkHbeLQyWcIK91RcbSv8nMNDJ4mTUmXGcjxeM2_An7EhsI"
+  },
+  spotify: {
+    clientId: 'dbaa742e9e6f4f3aa345f3e0d609aaf2',
+    redirectUri: 'http://127.0.0.1:4200/callback'
   }
 };

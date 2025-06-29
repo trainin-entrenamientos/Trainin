@@ -119,9 +119,12 @@
       </ul>
     </div>
   </nav>
-  <app-modal-salir-de-rutina
-    [visible]="mostrarModalSalirRutina"
-    (onConfirm)="confirmarSalidaRutina()"
-    (onCancel)="cancelarSalidaRutina()"
-  ></app-modal-salir-de-rutina>
+  <app-modal-salir-de-rutina [visible]="mostrarModalSalirRutina" (onConfirm)="confirmarSalidaRutina()"
+    (onCancel)="cancelarSalidaRutina()"></app-modal-salir-de-rutina>
+  <ng-container *ngIf="mostrarSpotify">
+    <div class="position-absolute start-50 top-50 spotify-overlay" (click)="$event.stopPropagation()">
+      <app-spotify></app-spotify>
+    </div>
+  </ng-container>
 </header>
+

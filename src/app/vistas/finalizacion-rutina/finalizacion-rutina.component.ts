@@ -176,7 +176,6 @@ export class FinalizacionRutinaComponent {
               .fueRealizada(this.rutina.id, this.email, segundosTotales)
               .subscribe({
                 next: (respuesta) => {
-                  console.log(respuesta);
                   if (respuesta.objeto) {
                     this.logroService.mostrarLogro(respuesta.objeto);
                   }

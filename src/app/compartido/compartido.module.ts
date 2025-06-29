@@ -18,7 +18,9 @@ import { ModalConfirmacionBorrarPlanComponent } from './componentes/modales/moda
 import { ModalSalirDeRutinaComponent } from './componentes/modales/modal-salir-de-rutina/modal-salir-de-rutina.component';
 import { ModalEditarPerfilComponent } from './componentes/modales/modal-editar-perfil/modal-editar-perfil.component';
 import { ToastrModule } from 'ngx-toastr';
+import { SpotifyComponent } from "./componentes/spotify/spotify.component";
 import { ModalCambiarContraseniaComponent } from './componentes/modales/modal-cambiar-contrasenia/modal-cambiar-contrasenia.component';
+
 
 @NgModule({
   declarations: [
@@ -37,14 +39,17 @@ import { ModalCambiarContraseniaComponent } from './componentes/modales/modal-ca
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
     ModalEditarPerfilComponent,
+    SpotifyComponent,
     ModalCambiarContraseniaComponent,
   ],
+  
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot()
   ],
+  
   exports: [
     HeaderComponent,
     FooterComponent,
@@ -59,6 +64,7 @@ import { ModalCambiarContraseniaComponent } from './componentes/modales/modal-ca
     LogroObtenidoComponent,
     ModalConfirmacionBorrarPlanComponent,
     ModalSalirDeRutinaComponent,
+    SpotifyComponent
   ],
   providers: [],
 })

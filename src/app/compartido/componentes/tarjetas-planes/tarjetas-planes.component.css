@@ -328,6 +328,15 @@ height: 16rem;
   pointer-events: none;
 }
 
+  .logo-tarjeta img{
+  width: 30vw;
+  max-width: 200px;
+  min-width: 75px;
+  align-self: center;
+  margin-bottom: 50px;
+}
+
+
 @media screen and (max-width: 1200px) {
 
   .cards-informativas.horizontal.hastaUnPlan .face.back .estadisticas-back .info-plan {
@@ -357,6 +366,10 @@ height: 16rem;
 
 @media screen and (max-width:1080px){
   
+   .logo-tarjeta img{
+  max-width: 150px;
+  min-width: 50px;
+}
 .cards-informativas.variosPlanes{
   display: flex;
   flex-direction: row;
@@ -482,10 +495,13 @@ height: 16rem;
 
 .etiqueta-cal {
   font-size: 1rem;
-
-}
 }
 
+  .logo-tarjeta img{
+  max-width: 100px;
+  min-width: 35px;
+}
+}
 
 @media screen and (max-width: 660px) {
 

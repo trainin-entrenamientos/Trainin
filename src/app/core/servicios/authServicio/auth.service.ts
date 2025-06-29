@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { LoginData, responseDTO } from '../../modelos/LoginResponseDTO';
+import { LoginData } from '../../modelos/LoginResponseDTO';
 import { RegistroDTO } from '../../modelos/RegistroDTO';
-import { tokenExpirado } from '../../utilidades/token-utils';
+import { TokenUtils } from '../../utilidades/token-utils';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
@@ -23,7 +23,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
-    if (token && !tokenExpirado(token)) {
+    if (token && !TokenUtils.tokenExpirado(token)) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.usuarioSubject.next(payload[this.CLAIM_EMAIL]);
       this.rolSubject.next(payload[this.CLAIM_ROLE]);
@@ -62,13 +62,16 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  estaAutenticado(): boolean {
+ estaAutenticado(): boolean {
     const token = this.getToken();
-    return !!token && !tokenExpirado(token);
+    return !!token && !TokenUtils.tokenExpirado(token);
   }
 
   cerrarSesion(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('spotify_token');
+    localStorage.removeItem('spotify_refresh_token');
+    localStorage.removeItem('spotify_expires_at');
     localStorage.removeItem(this.ROL);
     this.usuarioSubject.next(null);
     this.rolSubject.next(null);

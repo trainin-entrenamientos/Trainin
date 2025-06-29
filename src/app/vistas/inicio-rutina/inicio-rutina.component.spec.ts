@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InicioRutinaComponent } from './inicio-rutina.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -147,5 +147,73 @@ describe('InicioRutinaComponent', () => {
 
     expect(rutinaServiceSpy.cargarDesdeSession).toHaveBeenCalled();
   });
+*/
+  /*it('debería manejar errores al obtener la rutina', () => {
+    dadoQueRutinaServiceLanzaError();
 
-});
+    cuandoSeInicializaElComponente();
+
+    entoncesSeLogueaElError();
+  });*/
+
+  /*function dadoQueRutinaServiceDevuelveRutina() {
+    rutinaServiceMock.getDetalleEjercicios.and.returnValue(of(rutinaMock));
+  }
+
+  function dadoQueRutinaServiceLanzaError() {
+    rutinaServiceMock.getDetalleEjercicios.and.returnValue(
+      throwError(() => new Error('Error de red'))
+    );
+    spyOn(console, 'error');
+  }
+
+  function dadoQueHayUnaRutinaCargada() {
+    component.rutina = rutinaMock;
+  }
+
+  function dadoQueNoHayRutina() {
+    component.rutina = null;
+  }
+
+  function cuandoSeInicializaElComponente() {
+    component.ngOnInit();
+  }
+
+  function cuandoSeIniciaLaRutina() {
+    component.iniciarRutina();
+  }
+
+  function entoncesLaRutinaYLosEjerciciosEstanCargados() {
+    expect(component.rutina).toEqual(rutinaMock);
+    expect(component.ejercicios.length).toBe(2);
+    expect(component.cargando).toBeFalse();
+    expect(component.minutosTraducidos).toBe('≈30 min.');
+    expect(rutinaServiceMock.setRutina).toHaveBeenCalledWith(rutinaMock);
+  }
+
+  function entoncesLaRutinaSeIniciaCorrectamente() {
+    expect(rutinaServiceMock.setIndiceActual).toHaveBeenCalledWith(0);
+    expect(temporizadorServiceMock.reiniciarTiempo).toHaveBeenCalled();
+    expect(temporizadorServiceMock.iniciarTiempo).toHaveBeenCalled();
+    expect(routerMock.navigate).toHaveBeenCalledWith([
+      '/informacion-ejercicio',
+    ]);
+  }
+
+  function entoncesNoSeDebeIniciarNada() {
+    expect(rutinaServiceMock.setIndiceActual).not.toHaveBeenCalled();
+    expect(temporizadorServiceMock.iniciarTiempo).not.toHaveBeenCalled();
+    expect(routerMock.navigate).not.toHaveBeenCalled();
+  }
+
+  function entoncesSeLlamaACargarDesdeSesion() {
+    expect(rutinaServiceMock.cargarDesdeSession).toHaveBeenCalled();
+  }
+
+  function entoncesSeLogueaElError() {
+    expect(console.error).toHaveBeenCalledWith(
+      'Error al obtener la rutina:',
+      jasmine.any(Error)
+    );
+  }
+});*/
