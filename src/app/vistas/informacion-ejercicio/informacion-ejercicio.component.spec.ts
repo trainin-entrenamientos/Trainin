@@ -15,7 +15,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
 import { Usuario } from '../../core/modelos/Usuario';
 
-fdescribe('InformacionEjercicioComponent', () => {
+describe('InformacionEjercicioComponent', () => {
     let component: InformacionEjercicioComponent;
     let fixture: ComponentFixture<InformacionEjercicioComponent>;
 
