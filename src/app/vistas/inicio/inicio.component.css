@@ -655,3 +655,72 @@ body {
   object-fit: cover;
   border-radius: 50% !important;
 }
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  background-color: #00060C;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: -20%;           
+  background: conic-gradient(
+    from 0deg,
+    rgba(19,255,58,0.2),
+    transparent 40%,
+    rgba(19,255,58,0.2) 80%,
+    transparent
+  );
+  filter: blur(120px);
+  animation: rotateRing 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 15%;
+  width: 350px;
+  height: 350px;
+  background: rgba(19,255,58,0.12);
+  filter: blur(100px);
+  border-radius: 50%;
+  animation: blobDrift 22s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-section .blob-two {
+  position: absolute;
+  bottom: 20%;
+  right: 10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(0,29,61,0.2);
+  filter: blur(80px);
+  border-radius: 50%;
+  animation: blobDrift 25s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rotateRing {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blobDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(100px, -50px) scale(1.1); }
+  50%  { transform: translate(-80px, 80px) scale(0.9); }
+  75%  { transform: translate(50px, 60px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}

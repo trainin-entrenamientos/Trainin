@@ -1,173 +1,136 @@
-/*import { TestBed } from '@angular/core/testing';
-import { SpotifyService } from './spotify.service';
+import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { SpotifyService } from './spotify.service';
+import { of } from 'rxjs';
 
 describe('SpotifyService', () => {
-  let servicio: SpotifyService;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
+  let service: SpotifyService;
+  let httpMock: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('HttpClient', ['post', 'put']);
-
+    httpMock = jasmine.createSpyObj('HttpClient', ['post', 'put']);
     TestBed.configureTestingModule({
       providers: [
         SpotifyService,
-        { provide: HttpClient, useValue: spy }
+        { provide: HttpClient, useValue: httpMock }
       ]
     });
-
-    servicio = TestBed.inject(SpotifyService);
-    httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
-
+    service = TestBed.inject(SpotifyService);
     localStorage.clear();
   });
 
-  it('debería crearse correctamente', () => {
-    expect(servicio).toBeTruthy();
+  it('Debería guardar y recuperar tokens correctamente', () => {
+    const access = 'A';
+    const refresh = 'R';
+    const expiresIn = 3600;
+
+    service.guardarTokens(access, refresh, expiresIn);
+
+    expect(localStorage.getItem('spotify_token')).toBe(access);
+    expect(localStorage.getItem('spotify_refresh_token')).toBe(refresh);
+    const expiresAt = +localStorage.getItem('spotify_expires_at')!;
+    expect(expiresAt).toBeGreaterThan(Date.now());
+
+    expect(service.getAccessToken()).toBe(access);
   });
 
-  it('loginWithSpotify debería redirigir a la URL de autenticación de Spotify', () => {
-  (servicio as any).clientId = 'clientePrueba';
-  (servicio as any).redirectUri = 'http://localhost/callback';
-
-  spyOn(window, 'encodeURIComponent').and.callFake((v: string | number | boolean) => String(v));
-
-  let hrefSet = '';
-  spyOnProperty(window.location, 'href', 'set').and.callFake((v: string) => {
-    hrefSet = v;
+  it('Debería detectar token expirado cuando no hay fecha', () => {
+    expect(service.isTokenExpired()).toBeTrue();
   });
 
-  servicio.loginWithSpotify();
-
-  expect(hrefSet).toBeTruthy();
-  expect(hrefSet).toContain('https://accounts.spotify.com/authorize');
-  expect(hrefSet).toContain('client_id=clientePrueba');
-  expect(hrefSet).toContain('redirect_uri=http://localhost/callback');
-});
-*/
-
-
-
-  /*it('loginWithSpotify debería redirigir a la URL de autenticación de Spotify', () => {
-    (servicio as any).clientId = 'clientePrueba';
-    (servicio as any).redirectUri = 'http://localhost/callback';
-
-    spyOn(window, 'encodeURIComponent').and.callFake((v: string | number | boolean) => String(v));
-    spyOnProperty(window, 'location').and.returnValue({ href: '' } as any);
-    const setHrefSpy = spyOnProperty(window.location, 'href', 'set');
-
-    servicio.loginWithSpotify();
-
-    expect(setHrefSpy).toHaveBeenCalled();
-    const url = setHrefSpy.calls.mostRecent().args[0] as string;
-    expect(url).toContain('https://accounts.spotify.com/authorize');
-    expect(url).toContain('client_id=clientePrueba');
-    expect(url).toContain('redirect_uri=http://localhost/callback');
-  });*/
-/*
-  it('exchangeCodeForToken debería llamar a http.post con el código', () => {
-    httpClientSpy.post.and.returnValue(of({ token: '123' }));
-    const codigo = 'codigoDePrueba';
-
-    servicio.exchangeCodeForToken(codigo).subscribe(respuesta => {
-      expect(respuesta).toEqual({ token: '123' });
-    });
-
-    expect(httpClientSpy.post).toHaveBeenCalledWith(
-      jasmine.stringMatching(/\/spotify\/intercambio$/),
-      { code: codigo }
-    );
+  it('Debería detectar token expirado cuando la fecha es pasada', () => {
+    const past = Date.now() - 1000;
+    localStorage.setItem('spotify_expires_at', past.toString());
+    expect(service.isTokenExpired()).toBeTrue();
   });
 
-  it('guardarTokens debería guardar tokens en localStorage', () => {
-    servicio.guardarTokens('accessTokenPrueba', 'refreshTokenPrueba', 3600);
-
-    expect(localStorage.getItem('spotify_token')).toBe('accessTokenPrueba');
-    expect(localStorage.getItem('spotify_refresh_token')).toBe('refreshTokenPrueba');
-
-    const fechaExpiracion = localStorage.getItem('spotify_expires_at');
-    expect(Number(fechaExpiracion)).toBeGreaterThan(Date.now());
+  it('Debería detectar token válido cuando la fecha es futura', () => {
+    const future = Date.now() + 100000;
+    localStorage.setItem('spotify_expires_at', future.toString());
+    expect(service.isTokenExpired()).toBeFalse();
   });
 
-  it('getAccessToken debería devolver el token almacenado', () => {
-    localStorage.setItem('spotify_token', 'accessTokenGuardado');
-    const token = servicio.getAccessToken();
-    expect(token).toBe('accessTokenGuardado');
-  });
+  it('Debería eliminar tokens al cerrar sesión', () => {
+    localStorage.setItem('spotify_token', 'A');
+    localStorage.setItem('spotify_refresh_token', 'R');
+    localStorage.setItem('spotify_expires_at', '123');
 
-  it('isTokenExpired debería devolver true si no hay fecha de expiración', () => {
-    expect(servicio.isTokenExpired()).toBeTrue();
-  });
-
-  it('isTokenExpired debería devolver false si el token aún no expiró', () => {
-    const futuro = (Date.now() + 60000).toString(); 
-    localStorage.setItem('spotify_expires_at', futuro);
-    expect(servicio.isTokenExpired()).toBeFalse();
-  });
-
-  it('isTokenExpired debería devolver true si el token ya expiró', () => {
-    const pasado = (Date.now() - 60000).toString(); // 1 minuto en el pasado
-    localStorage.setItem('spotify_expires_at', pasado);
-    expect(servicio.isTokenExpired()).toBeTrue();
-  });
-
-  it('logoutFromSpotify debería eliminar los tokens del localStorage', () => {
-    localStorage.setItem('spotify_token', 't');
-    localStorage.setItem('spotify_refresh_token', 'r');
-    localStorage.setItem('spotify_expires_at', 'e');
-
-    servicio.logoutFromSpotify();
+    service.logoutFromSpotify();
 
     expect(localStorage.getItem('spotify_token')).toBeNull();
     expect(localStorage.getItem('spotify_refresh_token')).toBeNull();
     expect(localStorage.getItem('spotify_expires_at')).toBeNull();
   });
 
-  it('getCurrentPlayback debería devolver el JSON si la respuesta es correcta', async () => {
-    const respuestaMock = { json: () => Promise.resolve({ cancion: 'prueba' }), ok: true };
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(respuestaMock as any));
+  describe('getCurrentPlayback', () => {
+    it('Debería retornar datos cuando fetch ok', async () => {
+      const mockJson = { song: 'X' };
+      spyOn(window, 'fetch').and.returnValue(
+        Promise.resolve({ ok: true, json: () => Promise.resolve(mockJson) } as any)
+      );
 
-    const resultado = await servicio.getCurrentPlayback('tokenPrueba');
-    expect(resultado).toEqual({ cancion: 'prueba' });
-    expect(window.fetch).toHaveBeenCalledWith(
-      'https://api.spotify.com/v1/me/player/currently-playing',
-      jasmine.any(Object)
-    );
-  });
+      const result = await service.getCurrentPlayback('T');
+      expect(result).toEqual(mockJson);
+    });
 
-  it('getCurrentPlayback debería lanzar un error si la respuesta no es ok', async () => {
-    const respuestaMock = { ok: false };
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(respuestaMock as any));
+    it('Debería lanzar error cuando fetch falla', async () => {
+      spyOn(window, 'fetch').and.returnValue(
+        Promise.resolve({ ok: false } as any)
+      );
 
-    await expectAsync(servicio.getCurrentPlayback('tokenPrueba'))
-      .toBeRejectedWithError('No se pudo obtener la canción actual');
-  });
-
-  it('transferPlaybackHere debería lanzar error si no hay token', () => {
-    spyOn(servicio, 'getAccessToken').and.returnValue(null);
-
-    servicio.transferPlaybackHere('idDispositivo').subscribe({
-      error: (error) => {
-        expect(error.message).toBe('Token no disponible');
-      }
+      await expectAsync(service.getCurrentPlayback('T')).toBeRejectedWithError(
+        'No se pudo obtener la canción actual'
+      );
     });
   });
 
-  it('transferPlaybackHere debería llamar a http.put si hay token', () => {
-    spyOn(servicio, 'getAccessToken').and.returnValue('tokenPrueba');
-    httpClientSpy.put.and.returnValue(of({ ok: true }));
+  describe('transferPlaybackHere', () => {
+    it('Debería fallar si no hay token', () => {
+      service.logoutFromSpotify();
+      service.getAccessToken();
+      service.isTokenExpired();
 
-    servicio.transferPlaybackHere('idDispositivo').subscribe(respuesta => {
-      expect(respuesta).toEqual({ ok: true });
+      service.transferPlaybackHere('DEV').subscribe({
+        next: () => fail('No debería emitir next'),
+        error: err => expect(err.message).toBe('Token no disponible')
+      });
     });
 
-    expect(httpClientSpy.put).toHaveBeenCalledWith(
-      'https://api.spotify.com/v1/me/player',
-      { device_ids: ['idDispositivo'], play: false },
-      jasmine.objectContaining({
-        headers: jasmine.any(Object)
-      })
+    it('Debería hacer PUT con token y body correcto', () => {
+      const token = 'A';
+      localStorage.setItem('spotify_token', token);
+      const mockResponse = {};
+      httpMock.put.and.returnValue(of(mockResponse));
+
+      service.transferPlaybackHere('DEV').subscribe(res => {
+        expect(res).toBe(mockResponse);
+      });
+
+      expect(httpMock.put).toHaveBeenCalledWith(
+        'https://api.spotify.com/v1/me/player',
+        { device_ids: ['DEV'], play: false },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    });
+  });
+
+  it('Debería hacer POST al intercambiar código por token', () => {
+    const fakeResp = { access: 'x', refresh: 'y' };
+    httpMock.post.and.returnValue(of(fakeResp));
+
+    service.exchangeCodeForToken('codigo123').subscribe(res => {
+      expect(res).toBe(fakeResp);
+    });
+
+    expect(httpMock.post).toHaveBeenCalledWith(
+      `${(service as any).baseUrl}/spotify/intercambio`,
+      { code: 'codigo123' }
     );
   });
-});*/
+
+});
