@@ -11,12 +11,8 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
-const icon = "https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/TRAININ-ISO-FC.svg?token=...";
 
 messaging.onBackgroundMessage(payload => {
-  const { title, body } = payload.notification;
-  self.registration.showNotification(title, { 
-    body,
-    icon: icon
-  });
+  const { title, body, icon, tag } = payload.data;
+  self.registration.showNotification(title, { body, icon, tag, renotify: false });
 });
