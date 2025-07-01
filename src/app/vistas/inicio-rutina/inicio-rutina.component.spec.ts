@@ -5,13 +5,15 @@ import { of, throwError } from 'rxjs';
 import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { Rutina } from '../../core/modelos/RutinaDTO';
+import { ToastrService } from 'ngx-toastr';
 
 describe('InicioRutinaComponent', () => {
   let component: InicioRutinaComponent;
   let fixture: ComponentFixture<InicioRutinaComponent>;
-  let rutinaServiceMock: jasmine.SpyObj<RutinaService>;
-  let temporizadorServiceMock: jasmine.SpyObj<TemporizadorService>;
-  let routerMock: jasmine.SpyObj<Router>;
+  let rutinaServiceSpy: jasmine.SpyObj<RutinaService>;
+  let temporizadorServiceSpy: jasmine.SpyObj<TemporizadorService>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let toastrSpy: jasmine.SpyObj<ToastrService>;
 
   const rutinaMock: Rutina = {
     id: 1,
@@ -53,27 +55,32 @@ describe('InicioRutinaComponent', () => {
     categoriaEjercicio: '',
     rutinasRealizadas: 0,
     caloriasQuemadas: 0,
+    numeroDeRutinaSemanal: 0,
+    cantidadDeRutinasTotales: 0,
+    cantidadDeRutinasPorSemana: 0,
   };
 
   beforeEach(async () => {
-    rutinaServiceMock = jasmine.createSpyObj('RutinaService', [
+    rutinaServiceSpy = jasmine.createSpyObj('RutinaService', [
       'getDetalleEjercicios',
       'setRutina',
       'setIndiceActual',
       'cargarDesdeSession',
     ]);
-    temporizadorServiceMock = jasmine.createSpyObj('TemporizadorService', [
+    temporizadorServiceSpy = jasmine.createSpyObj('TemporizadorService', [
       'reiniciarTiempo',
       'iniciarTiempo',
     ]);
-    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    toastrSpy = jasmine.createSpyObj('ToastrService', ['error']);
 
     await TestBed.configureTestingModule({
       declarations: [InicioRutinaComponent],
       providers: [
-        { provide: RutinaService, useValue: rutinaServiceMock },
-        { provide: TemporizadorService, useValue: temporizadorServiceMock },
-        { provide: Router, useValue: routerMock },
+        { provide: RutinaService, useValue: rutinaServiceSpy },
+        { provide: TemporizadorService, useValue: temporizadorServiceSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: ToastrService, useValue: toastrSpy },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -88,48 +95,57 @@ describe('InicioRutinaComponent', () => {
   });
 
   it('debería cargar la rutina y ejercicios al inicializar', () => {
-    dadoQueRutinaServiceDevuelveRutina();
+    rutinaServiceSpy.getDetalleEjercicios.and.returnValue(
+      of({ exito: true, mensaje: 'ok', objeto: rutinaMock })
+    );
 
-    cuandoSeInicializaElComponente();
+    component.ngOnInit();
 
-    entoncesLaRutinaYLosEjerciciosEstanCargados();
+    expect(rutinaServiceSpy.cargarDesdeSession).toHaveBeenCalled();
+    expect(rutinaServiceSpy.getDetalleEjercicios).toHaveBeenCalledWith(1);
+    expect(rutinaServiceSpy.setRutina).toHaveBeenCalledWith(rutinaMock);
+    expect(component.rutina).toEqual(rutinaMock);
+    expect(component.ejercicios.length).toBe(2);
+    expect(component.minutosTraducidos).toBe('≈30 min.');
+    expect(component.cargando).toBeFalse();
   });
 
   it('debería traducir minutos estimados correctamente', () => {
-    const traduccionesEsperadas = {
-      1: '≈15 min.',
-      2: '≈30 min.',
-      3: '≈45 min.',
-      99: 'No especificado',
-    };
-
-    for (const [min, texto] of Object.entries(traduccionesEsperadas)) {
-      expect(component.traducirMinutos(+min)).toBe(texto);
-    }
+    expect(component.traducirMinutos(1)).toBe('≈15 min.');
+    expect(component.traducirMinutos(2)).toBe('≈30 min.');
+    expect(component.traducirMinutos(3)).toBe('≈45 min.');
+    expect(component.traducirMinutos(99)).toBe('No especificado');
   });
 
   it('debería iniciar rutina correctamente', () => {
-    dadoQueHayUnaRutinaCargada();
+    component.rutina = rutinaMock;
 
-    cuandoSeIniciaLaRutina();
+    component.iniciarRutina();
 
-    entoncesLaRutinaSeIniciaCorrectamente();
+    expect(rutinaServiceSpy.setIndiceActual).toHaveBeenCalledWith(0);
+    expect(temporizadorServiceSpy.reiniciarTiempo).toHaveBeenCalled();
+    expect(temporizadorServiceSpy.iniciarTiempo).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/informacion-ejercicio']);
   });
 
   it('no debería iniciar rutina si no hay rutina cargada', () => {
-    dadoQueNoHayRutina();
+    component.rutina = null;
 
-    cuandoSeIniciaLaRutina();
+    component.iniciarRutina();
 
-    entoncesNoSeDebeIniciarNada();
+    expect(rutinaServiceSpy.setIndiceActual).not.toHaveBeenCalled();
+    expect(temporizadorServiceSpy.iniciarTiempo).not.toHaveBeenCalled();
+    expect(routerSpy.navigate).not.toHaveBeenCalled();
   });
 
   it('debería cargar rutina desde sesión al inicializar', () => {
-    dadoQueRutinaServiceDevuelveRutina();
+    rutinaServiceSpy.getDetalleEjercicios.and.returnValue(
+      of({ exito: true, mensaje: 'ok', objeto: rutinaMock })
+    );
 
-    cuandoSeInicializaElComponente();
+    component.ngOnInit();
 
-    entoncesSeLlamaACargarDesdeSesion();
+    expect(rutinaServiceSpy.cargarDesdeSession).toHaveBeenCalled();
   });
 */
   /*it('debería manejar errores al obtener la rutina', () => {

@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { EjercicioDiarioDTO } from '../../core/modelos/EjercicioDiarioDTO';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
-
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-ejercicio-diario',
   templateUrl: './ejercicio-diario.component.html',
@@ -40,6 +41,7 @@ export class EjercicioDiarioComponent implements OnInit {
     private ejercicioService: EjercicioService,
     private temporizadorService: TemporizadorService,
     private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -64,14 +66,14 @@ export class EjercicioDiarioComponent implements OnInit {
   
   obtenerEjercicioDiario(): void {
     if (!this.email) {
-      console.warn('No se puede obtener el ejercicio diario: email es null');
+      manejarErrorYRedirigir(this.toastr, this.router, 'Email es null o invalido', '/planes');
       return;
     }
 
     this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
       next: (response: any) => {
-        if (!response) {
-          console.warn("No se encontró ejercicio diario para el usuario.");
+        if (!response.objeto) {
+          manejarErrorYRedirigir(this.toastr, this.router, 'No se encontró ejercicio diario para el usuario.', "/planes");
           return;
         }
         
@@ -148,12 +150,16 @@ export class EjercicioDiarioComponent implements OnInit {
 
 terminarEjercicioDiario() {
   if (!this.email) {
-    console.warn('No se puede marcar el ejercicio como realizado: email es null');
+    manejarErrorYRedirigir(this.toastr, this.router, 'No se puede marcar el ejercicio como realizado: email es null', '/planes');
     return;
   }
+
   this.ejercicioService.marcarEjercicioDiarioRealizado(this.email).subscribe({
     next: (response: any) => {
       this.router.navigate(['/planes']);
+    },
+    error: (err: any) => {
+      manejarErrorYRedirigir(this.toastr, this.router, 'Error al marcar el ejercicio diario como realizado.', '/planes');
     }
   });
 }

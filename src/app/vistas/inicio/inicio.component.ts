@@ -143,7 +143,7 @@ declare const bootstrap: any;
   ],
 })
 export class InicioComponent implements AfterViewInit {
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) { }
   [x: string]: any;
   @ViewChild('heroCarousel', { static: true }) heroCarousel!: ElementRef;
   @ViewChild('galleryRow', { static: true }) galleryRow!: ElementRef;
@@ -156,10 +156,12 @@ export class InicioComponent implements AfterViewInit {
   correctionSection!: ElementRef;
   @ViewChild('subscriptionSection', { static: true })
   subscriptionSection!: ElementRef;
+  @ViewChild('whyTitle', { static: true }) whyTitle!: ElementRef;
 
   correctionVisible = false;
   subscriptionVisible = false;
   slideWhyItems: ('hidden' | 'visible')[] = ['hidden', 'hidden', 'hidden'];
+  slideWhyTitle: 'hidden' | 'visible' = 'hidden';
   sectionVisible = false;
   private correctionInitialized = false;
   private readonly SCREEN_MAX = 992;
@@ -240,6 +242,15 @@ export class InicioComponent implements AfterViewInit {
       );
       obs.observe(el.nativeElement);
     });
+
+    const titleObserver = new IntersectionObserver(
+      ([entry]) => {
+        this.slideWhyTitle = entry.isIntersecting ? 'visible' : 'hidden';
+        this.cd.detectChanges();
+      },
+      { threshold: 0.3 }
+    );
+    titleObserver.observe(this.whyTitle.nativeElement);
   }
 
   @HostListener('window:resize')

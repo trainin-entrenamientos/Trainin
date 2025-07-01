@@ -26,6 +26,7 @@ export class PerfilComponent implements OnInit {
   fotoMostrar: string = 'imagenes/logo-trainin.svg';
   cargando: boolean = true;
   ultimosPlanesRealizados: HistorialPlanDTO[] = [];
+  ejerciciosDiariosCompletados: number = 0;
 
   constructor(
     private perfilService: PerfilService,
@@ -54,8 +55,8 @@ export class PerfilComponent implements OnInit {
         this.fotoMostrar = objeto.fotoDePerfil ?? this.fotoMostrar;
         this.logros = objeto.logros ?? [];
         this.cargando = false;
-        this.ultimosPlanesRealizados = objeto.planesCompletados ?? [];;
-        console.log(this.perfil);
+        this.ultimosPlanesRealizados = objeto.planesCompletados ?? [];
+        this.ejerciciosDiariosCompletados = objeto.ejerciciosDiariosCompletados ?? 0;
       },
       error: (err) => {
         manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el perfil del usuario`, '/planes');      },
