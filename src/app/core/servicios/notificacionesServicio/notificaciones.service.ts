@@ -1,33 +1,48 @@
 import { Injectable } from '@angular/core';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { BehaviorSubject, mergeMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage, Messaging } from 'firebase/messaging';
 
 @Injectable({ providedIn: 'root' })
 export class NotificacionesService {
-  private messageSub = new BehaviorSubject<any>(null);
-  public message$ = this.messageSub.asObservable();
+  private messaging: Messaging;
+  public message$ = new BehaviorSubject<any>(null);
   private baseUrl = environment.URL_BASE;
 
-  constructor(
-    private afMessaging: AngularFireMessaging,
-    private http: HttpClient
-  ) {
-    this.afMessaging.messages.subscribe((msg) => this.messageSub.next(msg));
+  constructor(private http: HttpClient) {
+    const app = initializeApp(environment.firebase);
+    this.messaging = getMessaging(app);
+
+    onMessage(this.messaging, payload => {
+      this.message$.next(payload);
+    });
   }
 
-  pedirPermisoYRegistrar(): void {
-    Notification.requestPermission().then((permission) => {
+  public pedirPermisoYRegistrar(): void {
+    Notification.requestPermission().then(permission => {
       if (permission !== 'granted') {
         console.warn('Notificaciones DENEGADAS');
         return;
       }
-      this.afMessaging.requestToken.subscribe({
-        next: (token) => {
-          if (token) this.enviarTokenAlBackend(token);
-        },
-        error: (err) => console.error('Error token FCM', err),
+
+      navigator.serviceWorker.getRegistration().then(swReg => {
+        if (!swReg) {
+          console.error('No hay Service Worker registrado para FCM');
+          return;
+        }
+
+        getToken(this.messaging, {
+          vapidKey: environment.firebase.vapidKey,
+          serviceWorkerRegistration: swReg
+        })
+        .then(token => {
+          if (token) {
+            this.enviarTokenAlBackend(token);
+          }
+        })
+        .catch(err => console.error('Error obteniendo token FCM', err));
       });
     });
   }

@@ -1,119 +1,114 @@
-/*import { ComponentFixture, TestBed } from '@angular/core/testing';
-/* 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ElementRef } from '@angular/core';
 import { TarjetasPlanesComponent } from './tarjetas-planes.component';
+import { of, throwError } from 'rxjs';
+import { Component } from '@angular/core';
+import { AuthService } from '../../../core/servicios/authServicio/auth.service';
+import { RutinaService } from '../../../core/servicios/rutinaServicio/rutina.service';
+import { LogroService } from '../../../core/servicios/logroServicio/logro.service';
+import { ToastrService } from 'ngx-toastr';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+// Fake component para que no falle el template
+@Component({
+  selector: 'app-boton-trainin',
+  template: '',
+  standalone: false
+})
+class FakeBotonTraininComponent {}
 
 describe('TarjetasPlanesComponent', () => {
   let component: TarjetasPlanesComponent;
   let fixture: ComponentFixture<TarjetasPlanesComponent>;
-  const fakeElement = { scrollWidth: 120, scrollHeight: 240, style: { transform: '' } };
+
+  const authServiceMock = {
+    getEmail: jasmine.createSpy().and.returnValue('test@correo.com')
+  };
+
+  const rutinaServiceMock = {
+    obtenerUltimaRutina: jasmine.createSpy().and.returnValue(
+      of({ objeto: { id: 1, tipoEntrenamiento: 'Fuerza', calorias: 100, tiempo: 1800, fechaRealizacion: new Date(), estado: 'Completada', foto: '' } })
+    )
+  };
+
+  const logroServiceMock = {
+    obtenerLogrosPorUsuario: jasmine.createSpy().and.returnValue(
+      of({ objeto: [{ id: 1, nombre: 'Logro 1', descripcion: '', imagen: '', obtenido: true, tipo: '', fechaObtencion: new Date() }] })
+    )
+  };
+
+  const toastrMock = {
+    error: jasmine.createSpy()
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TarjetasPlanesComponent]
+      declarations: [
+        TarjetasPlanesComponent,
+        FakeBotonTraininComponent // Declaramos el componente fake
+      ],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: RutinaService, useValue: rutinaServiceMock },
+        { provide: LogroService, useValue: logroServiceMock },
+        { provide: ToastrService, useValue: toastrMock }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA] // Usamos el CUSTOM_ELEMENTS_SCHEMA para suprimir el error
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(TarjetasPlanesComponent);
     component = fixture.componentInstance;
-    component.contenido = new ElementRef<any>(fakeElement);
+    fixture.detectChanges();
   });
 
-  it('Debería añadir un elemento nuevo al carrusel', () => {
-    const inicial = component.items.length;
-    component.nuevoItem = { tipo: 'texto', contenido: 'Hola Mundo' };
-    expect(component.items.length).toBe(inicial + 1);
-    expect(component.items[inicial]).toEqual({ tipo: 'texto', contenido: 'Hola Mundo' });
+  it('debería crearse correctamente', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('Debería poner el carrusel en movimiento y duplicar los ítems al iniciar', () => {
-    (window as any).innerWidth = 800;
-    spyOn((component as any).detectorDeCambios, 'detectChanges');
-
-    component.ngAfterViewInit();
-
-    expect(component.items.length).toBe(3 * 3);
-    expect(component.estaPausado).toBeFalse();
-    expect(component.posicionDeScroll).toBeCloseTo(-fakeElement.scrollWidth / 3 + component.velocidad, 5);
-    expect((component as any).detectorDeCambios.detectChanges).toHaveBeenCalled();
-    expect(fakeElement.style.transform).toContain('translateX');
+  it('debería llamar a obtenerUltimaRutina y obtenerLogros en ngOnInit', () => {
+    expect(authServiceMock.getEmail).toHaveBeenCalled();
+    expect(rutinaServiceMock.obtenerUltimaRutina).toHaveBeenCalledWith('test@correo.com');
+    expect(logroServiceMock.obtenerLogrosPorUsuario).toHaveBeenCalledWith('test@correo.com');
   });
 
-  it('Debería adaptar el carrusel al ancho del navegador', () => {
-    (window as any).innerWidth = 1200;
-    component.esModoHorizontal = false;
-    component.ajustarTamanio();
-    expect(component.esModoHorizontal).toBeFalse();
-
-    (window as any).innerWidth = 600;
-    component.ajustarTamanio();
-    expect(component.esModoHorizontal).toBeTrue();
+  it('debería actualizar cantidadLogros según la respuesta', (done) => {
+    logroServiceMock.obtenerLogrosPorUsuario.and.returnValue(
+      of({ objeto: [{ id: 1, nombre: 'Logro 1', descripcion: '', imagen: '', obtenido: true, tipo: '', fechaObtencion: new Date() }] })
+    );
+    component.obtenerLogros('test@correo.com');
+    fixture.detectChanges();
+    setTimeout(() => {
+      expect(component.cantidadLogros).toBe(1);
+      done();
+    }, 0);
   });
 
-  it('Debería permitir arrastrar el carrusel con el mouse', () => {
-    component.esModoHorizontal = false;
-
-    component.cuandoBajoElMouse({ clientX: 0, clientY: 50 } as MouseEvent);
-    expect(component.estaDeslizandose).toBeTrue();
-    expect(component.ultimaPosicion).toBe(50);
-    expect(component.seDeslizo).toBeFalse();
-
-    component.cuandoMuevoElMouse({ clientX: 0, clientY: 60 } as MouseEvent);
-    expect(component.aceleracion).toBe((60 - 50) * 0.2);
-    expect(component.seDeslizo).toBeTrue();
-    expect(component.ultimaPosicion).toBe(60);
-
-    component.cuandoSuboElMouse();
-    expect(component.estaDeslizandose).toBeFalse();
+  it('debería poner tieneRutina=false cuando no hay rutina', () => {
+    rutinaServiceMock.obtenerUltimaRutina.and.returnValue(of({ objeto: null }));
+    component.obtenerUltimaRutina('test@correo.com');
+    expect(component.tieneRutina).toBeFalse();
   });
 
-  it('Debería marcar y desmarcar un ítem al hacer click', () => {
-    component.seDeslizo = false;
-    component.seleccionarItem(2);
-    expect(component.indiceSeleccionado).toBe(0);
-    expect(component.estaPausado).toBeTrue();
-
-    component.seleccionarItem(5);
-    expect(component.indiceSeleccionado).toBeNull();
-    expect(component.estaPausado).toBeFalse();
+  it('debería manejar error en obtenerUltimaRutina y llamar a toastr.error', () => {
+    rutinaServiceMock.obtenerUltimaRutina.and.returnValue(throwError({ mensaje: 'Error X' }));
+    component.obtenerUltimaRutina('test@correo.com');
+    expect(toastrMock.error).toHaveBeenCalledWith('No existe una última rutina de entrenamiento. Error X');
   });
 
-  it('No debería agregar un elemento cuando el item no está definido', () => {
-    const count = component.items.length;
-    component.nuevoItem = undefined;
-    expect(component.items.length).toBe(count);
+  it('debería manejar error en obtenerLogrosPorUsuario y llamar a toastr.error', () => {
+    logroServiceMock.obtenerLogrosPorUsuario.and.returnValue(throwError({ mensaje: 'Error Y' }));
+    component.obtenerLogros('test@correo.com');
+    expect(toastrMock.error).toHaveBeenCalledWith('Error al obtener los logros del usuario. Error Y');
   });
 
-  it('Debería usar el ancho de la ventana del navegador al realizar la animación', () => {
-    (window as any).innerWidth = 1200;
-    component.estaPausado = false;
-    component.animacion();
-    expect(fakeElement.style.transform).toContain('translateY');
+  it('formatearTiempo debería devolver el formato correcto para menos de 1 hora', () => {
+    const resultado = component.formatearTiempo(125); // 2min 5sec
+    expect(resultado).toBe('02:05');
   });
 
-  it('Debería reiniciar la posición al inicio cuando se supera el tamaño del contenido', () => {
-    (window as any).innerWidth = 1200;
-    component.posicionDeScroll = 1;
-    component.estaPausado = false;
-    component.animacion();
-
-    const start = -fakeElement.scrollHeight / 3;
-    expect(component.posicionDeScroll).toBe(start);
+  it('formatearTiempo debería devolver el formato correcto para más de 1 hora', () => {
+    const resultado = component.formatearTiempo(3661); // 1h 1m 1s
+    expect(resultado).toBe('01:01:01');
   });
-
-  it('Debería mantener la posición si la animación está pausada', () => {
-    component.estaPausado = true;
-    spyOn(window, 'requestAnimationFrame');
-    component.animacion();
-    expect(window.requestAnimationFrame).toHaveBeenCalled();
-    expect(component.posicionDeScroll).toBe(0);
-  });
-
-  it('No debería cambiar la selección cuando el usuario arrastró el mouse antes de hacer click', () => {
-    component.seDeslizo = true;
-    component.indiceSeleccionado = null;
-    component.seleccionarItem(0);
-    expect(component.indiceSeleccionado).toBeNull();
-  });
-});*/
-
+});
