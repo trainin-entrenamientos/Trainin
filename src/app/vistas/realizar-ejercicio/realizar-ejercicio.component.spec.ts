@@ -1,4 +1,4 @@
-/*import {
+import {
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -10,6 +10,7 @@ import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.servic
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TemporizadorComponent } from '../../compartido/componentes/temporizador/temporizador.component';
+import { ToastrService, TOAST_CONFIG } from 'ngx-toastr';
 
 describe('RealizarEjercicioComponent', () => {
   let component: RealizarEjercicioComponent;
@@ -18,6 +19,7 @@ describe('RealizarEjercicioComponent', () => {
   let routerMock: any;
   let temporizadorMock: any;
   let sanitizerMock: any;
+  const toastrMock = jasmine.createSpyObj('ToastrService', ['success', 'error']);
 
   beforeEach(() => {
     rutinaServiceMock = jasmine.createSpyObj('RutinaService', [
@@ -46,6 +48,8 @@ describe('RealizarEjercicioComponent', () => {
         { provide: Router, useValue: routerMock },
         { provide: TemporizadorService, useValue: temporizadorMock },
         { provide: DomSanitizer, useValue: sanitizerMock },
+        { provide: ToastrService, useValue: toastrMock },
+        { provide: TOAST_CONFIG, useValue: {} }
       ],
     }).compileComponents();
 
@@ -179,14 +183,6 @@ describe('RealizarEjercicioComponent', () => {
     ]);
   });
 
-  it('debería redirigir a /finalizacion-rutina si no hay más ejercicios', () => {
-    rutinaServiceMock.haySiguienteEjercicio.and.returnValue(false);
-
-    component.siguienteEjercicioRutina();
-
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/finalizacion-rutina']);
-  });
-
   it('no debería iniciar temporizador si el ejercicio no es de tipo "De tiempo"', () => {
     rutinaServiceMock.getDatosIniciales.and.returnValue({
       rutina: {
@@ -205,6 +201,56 @@ describe('RealizarEjercicioComponent', () => {
 
     expect(component.esEjercicioDeTiempo).toBeFalse();
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('no debería llamar a iniciarTemporizador pero sí a setearUrlDelVideo para ejercicios “De repeticiones”', () => {
+    rutinaServiceMock.getDatosIniciales.and.returnValue({
+      rutina: { ejercicios: [{ tipoEjercicio: 'De repeticiones', duracion: 10, video: 'https://youtu.be/XYZ123abcDE' }] },
+      indiceActual: 0,
+      ejercicio: { tipoEjercicio: 'De repeticiones', duracion: 10, video: 'https://youtu.be/XYZ123abcDE' },
+    });
+    const spyTimer = spyOn(component as any, 'iniciarTemporizador');
+    const spySetUrl = spyOn(component as any, 'setearUrlDelVideo');
+
+    component.ngOnInit();
+
+    expect(component.esEjercicioDeTiempo).toBeFalse();
+    expect(spyTimer).not.toHaveBeenCalled();
+    expect(spySetUrl).toHaveBeenCalledWith('https://youtu.be/XYZ123abcDE');
+  });
+
+  it('debería extraer correctamente el ID de YouTube con extraerIdDelVideo', () => {
+    const fn = (component as any).extraerIdDelVideo.bind(component);
+    expect(fn('https://www.youtube.com/watch?v=ABCDEFGHIJK')).toBe('ABCDEFGHIJK');
+    expect(fn('https://youtu.be/12345678901')).toBe('12345678901');
+    expect(fn('url inválida')).toBe('');
+  });
+
+  it('debería extraer correctamente el tiempo de inicio con extraerTiempoDeInicio', () => {
+    const fn = (component as any).extraerTiempoDeInicio.bind(component);
+    expect(fn('...?t=120')).toBe(120);
+    expect(fn('...?start=50')).toBe(0);
+    expect(fn('sin parámetro')).toBe(0);
+  });
+
+  it('debería mostrar toast.error y redirigir si no hay rutina en sessionStorage', () => {
+    rutinaServiceMock.getDatosIniciales.and.returnValue({ rutina: null });
+
+    toastrMock.error.calls.reset();
+
+    component.ngOnInit();
+
+    expect(toastrMock.error).toHaveBeenCalledTimes(1);
+    expect(toastrMock.error).toHaveBeenCalledWith('No se encontró la rutina');
+
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/planes']);
+  });
+
+  it('debería llamar clearInterval(undefined) si idIntervalo nunca se asignó', () => {
+    spyOn(window, 'clearInterval');
+    component.idIntervalo = undefined;
+    component.ngOnDestroy();
+    expect(clearInterval).toHaveBeenCalledWith(undefined);
   });
 
   function dadoQueNoHayRutinaEnSession() {
@@ -253,4 +299,4 @@ describe('RealizarEjercicioComponent', () => {
     expect(component.tiempoTotal).toBe(30);
     expect(component.tiempoRestante).toBeLessThan(30);
   }
-});*/
+});

@@ -4,31 +4,19 @@
     <div class="form-container" *ngIf="!cargando && !seEnvioForm">
       <div class="form-layout">
         <div class="barra-pasos">
-          <div
-            *ngFor="let paso of pasos; let i = index"
-            class="paso-icono"
-            [class.completado]="i + 1 < currentStep"
-            [class.activo]="i + 1 === currentStep"
-          >
+          <div *ngFor="let paso of pasos; let i = index" class="paso-icono" [class.completado]="i + 1 < currentStep"
+            [class.activo]="i + 1 === currentStep">
             <div class="icono">
               <i [ngClass]="paso.icono"></i>
             </div>
           </div>
         </div>
-        <form
-          id="formularioEntrenamiento"
-          [formGroup]="formularioForm"
-          method="POST"
-          class="form-content"
-        >
+        <form id="formularioEntrenamiento" [formGroup]="formularioForm" method="POST" class="form-content">
           <div class="paso-informacion" *ngIf="currentStep === 1">
             <div class="form-header">
               <div class="text-center mb-2">Sección 1 de 4</div>
               <div class="progress">
-                <div
-                  class="progress-bar animated-progress"
-                  [style.width.%]="progresoVisual"
-                ></div>
+                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
               </div>
             </div>
 
@@ -43,67 +31,39 @@
                 <div class="mensajeErrorForm mb-3">
                   <label class="preguntaPeso">¿Cuál es tu peso actual?</label>
                   <span>
-                    <input
-                      type="number"
-                      name="pesoUsuario"
-                      class="form-completarInfo"
-                      formControlName="pesoUsuario"
-                    />kg.
+                    <input type="number" name="pesoUsuario" class="form-completarInfo"
+                      formControlName="pesoUsuario" />kg.
                   </span>
                   <div *ngIf="formularioForm.get('pesoUsuario')?.touched">
-                    <span
-                      class="campoError"
-                      *ngIf="
+                    <span class="campoError" *ngIf="
                         formularioForm.get('pesoUsuario')?.hasError('required')
-                      "
-                      >Ingresá tu
-                      <strong style="color: #13ff3a">peso</strong></span
-                    >
-                    <span
-                      class="campoError"
-                      *ngIf="
+                      ">Ingresá tu
+                      <strong style="color: #13ff3a">peso</strong></span>
+                    <span class="campoError" *ngIf="
                         formularioForm.get('pesoUsuario')?.hasError('min') ||
                         formularioForm.get('pesoUsuario')?.hasError('max')
-                      "
-                      >Ingresá un
-                      <strong style="color: #13ff3a">peso válido</strong></span
-                    >
+                      ">Ingresá un
+                      <strong style="color: #13ff3a">peso válido</strong></span>
                   </div>
                 </div>
                 <div class="mensajeErrorForm mb-3">
-                  <label class="preguntaAltura"
-                    >¿Cuál es tu altura actual?</label
-                  >
+                  <label class="preguntaAltura">¿Cuál es tu altura actual?</label>
                   <span>
-                    <input
-                      type="number"
-                      name="alturaUsuario"
-                      class="form-completarInfo"
-                      formControlName="alturaUsuario"
-                    />cm.
+                    <input type="number" name="alturaUsuario" class="form-completarInfo"
+                      formControlName="alturaUsuario" />cm.
                   </span>
                   <div *ngIf="formularioForm.get('alturaUsuario')?.touched">
-                    <span
-                      class="campoError"
-                      *ngIf="
+                    <span class="campoError" *ngIf="
                         formularioForm
                           .get('alturaUsuario')
                           ?.hasError('required')
-                      "
-                      >Ingresá tu
-                      <strong style="color: #13ff3a">altura</strong></span
-                    >
-                    <span
-                      class="campoError"
-                      *ngIf="
+                      ">Ingresá tu
+                      <strong style="color: #13ff3a">altura</strong></span>
+                    <span class="campoError" *ngIf="
                         formularioForm.get('alturaUsuario')?.hasError('min') ||
                         formularioForm.get('alturaUsuario')?.hasError('max')
-                      "
-                      >Ingresá una
-                      <strong style="color: #13ff3a"
-                        >altura válida</strong
-                      ></span
-                    >
+                      ">Ingresá una
+                      <strong style="color: #13ff3a">altura válida</strong></span>
                   </div>
                 </div>
               </div>
@@ -111,60 +71,34 @@
                 <h4 class="objetivo-titulo">¿Cuál es tu objetivo principal?</h4>
                 <p class="objetivo-subtitulo">Seleccioná una única opción</p>
 
-                <div
-                  *ngFor="let objetivo of opcionesObjetivo"
-                  class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2"
-                >
-                  <span>{{ objetivo.nombre }}</span>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="objetivo"
-                    [value]="objetivo.nombre"
-                    formControlName="objetivo"
-                  />
+                <div *ngFor="let objetivo of opcionesObjetivo"
+                  class="d-flex justify-content-between align-items-center text-white rounded px-3 py-2 mb-2">
+                  <input class="form-check-input" type="radio" name="objetivo" [value]="objetivo.nombre"
+                    formControlName="objetivo" />
+                  <span style="margin-left: 15px;">{{ objetivo.nombre }}</span>
                 </div>
 
-                <div
-                  *ngIf="
+                <div *ngIf="
                     formularioForm.get('objetivo')?.touched &&
                     formularioForm.get('objetivo')?.hasError('required')
-                  "
-                >
-                  <span class="px-3 py-2 mb-2"
-                    >Ingresá tu
+                  ">
+                  <span class="px-3 py-2 mb-2">Ingresá tu
                     <strong style="color: #13ff3a">objetivo</strong> para
-                    continuar</span
-                  >
+                    continuar</span>
                 </div>
               </div>
             </div>
 
-            <div
-              class="botones-atras-siguiente mt-4"
-              *ngIf="!editandoDesdeResumen"
-            >
-              <app-boton-trainin
-                clase="btn btn-anterior-trainin btn-custom"
-                (click)="irAPlanes()"
-                >Cancelar</app-boton-trainin
-              >
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-trainin btn-siguiente"
-                [disabled]="!esPasoActualValido()"
-                (click)="nextStep()"
-                >Siguiente</app-boton-trainin
-              >
+            <div class="botones-atras-siguiente mt-4" *ngIf="!editandoDesdeResumen">
+              <app-boton-trainin clase="btn btn-anterior-trainin btn-custom"
+                (click)="irAPlanes()">Cancelar</app-boton-trainin>
+              <app-boton-trainin type="button" clase="btn btn-trainin btn-siguiente" [disabled]="!esPasoActualValido()"
+                (click)="nextStep()">Siguiente</app-boton-trainin>
             </div>
 
             <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-              <app-boton-trainin
-                class="btn btn-custom btn-siguente"
-                [disabled]="!esPasoActualValido()"
-                (click)="volverAlResumen()"
-                >Volver al resumen</app-boton-trainin
-              >
+              <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()"
+                (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
             </div>
           </div>
 
@@ -172,10 +106,7 @@
             <div class="form-header">
               <div class="text-center mb-2">Sección 2 de 4</div>
               <div class="progress">
-                <div
-                  class="progress-bar animated-progress"
-                  [style.width.%]="progresoVisual"
-                ></div>
+                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
               </div>
             </div>
             <h4 class="text-white text-center mb-4">
@@ -183,30 +114,17 @@
             </h4>
 
             <div class="cards-container">
-              <label
-                class="flip-card mt-3"
-                *ngFor="let opcion of opcionesEntrenamiento"
-                [class.selected]="opcionSeleccionada === opcion.nombre"
-                (mouseenter)="hoverCard(opcion.nombre)"
-                (mouseleave)="leaveCard(opcion.nombre)"
-                (click)="seleccionarCard(opcion.nombre)"
-              >
-                <input
-                  type="radio"
-                  name="tipoEntrenamiento"
-                  [value]="opcion.id"
-                  hidden
-                />
+              <label class="flip-card mt-3" *ngFor="let opcion of opcionesEntrenamiento"
+                [class.selected]="opcionSeleccionada === opcion.nombre" (mouseenter)="hoverCard(opcion.nombre)"
+                (mouseleave)="leaveCard(opcion.nombre)" (click)="seleccionarCard(opcion.nombre)">
+                <input type="radio" name="tipoEntrenamiento" [value]="opcion.id" hidden />
 
-                <div
-                  class="flip-card-inner"
-                  [style.transform]="
+                <div class="flip-card-inner" [style.transform]="
                     hoveredCard === opcion.nombre &&
                     opcionSeleccionada !== opcion.nombre
                       ? 'rotateY(180deg)'
                       : 'none'
-                  "
-                >
+                  ">
                   <div class="flip-card-front">
                     <img [src]="opcion.imagen" [alt]="opcion.nombre" />
                     <p>{{ opcion.nombre }}</p>
@@ -219,38 +137,22 @@
             </div>
 
             <div class="botones-atras-siguiente" *ngIf="!editandoDesdeResumen">
-              <app-boton-trainin
-                type="button"
-                clase="btn-anterior-trainin btn btn-custom"
-                (click)="previousStep()"
-                >Anterior</app-boton-trainin
-              >
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-siguente btn-trainin"
-                [disabled]="!esPasoActualValido()"
-                (clickBoton)="nextStep()"
-                >Siguiente</app-boton-trainin
-              >
+              <app-boton-trainin type="button" clase="btn-anterior-trainin btn btn-custom"
+                (click)="previousStep()">Anterior</app-boton-trainin>
+              <app-boton-trainin type="button" clase="btn btn-siguente btn-trainin" [disabled]="!esPasoActualValido()"
+                (clickBoton)="nextStep()">Siguiente</app-boton-trainin>
             </div>
 
             <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-              <app-boton-trainin
-                class="btn btn-custom btn-siguente"
-                [disabled]="!esPasoActualValido()"
-                (click)="volverAlResumen()"
-                >Volver al resumen</app-boton-trainin
-              >
+              <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()"
+                (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
             </div>
           </div>
           <div class="paso-informacion" *ngIf="currentStep === 3">
             <div class="form-header">
               <div class="text-center mb-2">Sección 3 de 4</div>
               <div class="progress">
-                <div
-                  class="progress-bar animated-progress"
-                  [style.width.%]="progresoVisual"
-                ></div>
+                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
               </div>
             </div>
 
@@ -260,50 +162,30 @@
             <p class="equipamiento-subtitulo">Seleccioná una o más opciones</p>
 
             <div class="equipamiento-grid">
-              <div
-                *ngFor="let item of equipamientosOpciones"
-                class="equipamiento-item"
-                [class.selected]="estaSeleccionado(item)"
-                (click)="toggleEquipamiento(item)"
-              >
+              <div *ngFor="let item of equipamientosOpciones" class="equipamiento-item"
+                [class.selected]="estaSeleccionado(item)" (click)="toggleEquipamiento(item)">
                 <img [src]="item.imagen" [alt]="item.descripcion" />
                 <span>{{ item.descripcion }}</span>
               </div>
             </div>
             <br />
             <div class="botones-atras-siguiente" *ngIf="!editandoDesdeResumen">
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-custom btn-anterior-trainin"
-                (click)="previousStep()"
-                >Anterior</app-boton-trainin
-              >
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-siguente btn-trainin"
-                [disabled]="!esPasoActualValido()"
-                (clickBoton)="nextStep()"
-                >Siguiente</app-boton-trainin
-              >
+              <app-boton-trainin type="button" clase="btn btn-custom btn-anterior-trainin"
+                (click)="previousStep()">Anterior</app-boton-trainin>
+              <app-boton-trainin type="button" clase="btn btn-siguente btn-trainin" [disabled]="!esPasoActualValido()"
+                (clickBoton)="nextStep()">Siguiente</app-boton-trainin>
             </div>
 
             <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-              <app-boton-trainin
-                class="btn btn-custom btn-siguente"
-                [disabled]="!esPasoActualValido()"
-                (click)="volverAlResumen()"
-                >Volver al resumen</app-boton-trainin
-              >
+              <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()"
+                (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
             </div>
           </div>
           <div class="paso-informacion" *ngIf="currentStep === 4">
             <div class="form-header">
               <div class="text-center mb-2">Sección 4 de 4</div>
               <div class="progress">
-                <div
-                  class="progress-bar animated-progress"
-                  [style.width.%]="progresoVisual"
-                ></div>
+                <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
               </div>
             </div>
 
@@ -315,15 +197,8 @@
             </p>
             <div class="slider-scale-container mb-4">
               <div class="slider-wrapper">
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  class="custom-range"
-                  id="rangoExigencia"
-                  formControlName="nivelExigencia"
-                />
+                <input type="range" min="1" max="5" step="1" class="custom-range" id="rangoExigencia"
+                  formControlName="nivelExigencia" />
                 <div class="scale-track">
                   <div class="scale-fill" id="exigenciaFill"></div>
                   <div class="scale-point-container" style="left: 0%">
@@ -363,15 +238,8 @@
             </p>
             <div class="slider-scale-container">
               <div class="slider-wrapper">
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  class="custom-range"
-                  id="rangoDiasSemanales"
-                  formControlName="diasDisponibles"
-                />
+                <input type="range" min="1" max="5" step="1" class="custom-range" id="rangoDiasSemanales"
+                  formControlName="diasDisponibles" />
                 <div class="scale-track">
                   <div class="scale-fill" id="diasSemanalesFill"></div>
                   <div class="scale-point-container" style="left: 0%">
@@ -412,28 +280,13 @@
             </p>
 
             <div class="glass-radio-group" [formGroup]="formularioForm">
-              <input
-                type="radio"
-                id="tiempo1"
-                value="1"
-                formControlName="tiempoDisponible"
-              />
+              <input type="radio" id="tiempo1" value="1" formControlName="tiempoDisponible" />
               <label for="tiempo1">15 min.</label>
 
-              <input
-                type="radio"
-                id="tiempo2"
-                value="2"
-                formControlName="tiempoDisponible"
-              />
+              <input type="radio" id="tiempo2" value="2" formControlName="tiempoDisponible" />
               <label for="tiempo2">30 min.</label>
 
-              <input
-                type="radio"
-                id="tiempo3"
-                value="3"
-                formControlName="tiempoDisponible"
-              />
+              <input type="radio" id="tiempo3" value="3" formControlName="tiempoDisponible" />
               <label for="tiempo3">45 min.</label>
 
               <div class="glass-glider"></div>
@@ -448,28 +301,13 @@
             </p>
 
             <div class="glass-radio-group" [formGroup]="formularioForm">
-              <input
-                type="radio"
-                id="duracion1"
-                value="1"
-                formControlName="duracionPlan"
-              />
+              <input type="radio" id="duracion1" value="1" formControlName="duracionPlan" />
               <label for="duracion1">15 días</label>
 
-              <input
-                type="radio"
-                id="duracion2"
-                value="2"
-                formControlName="duracionPlan"
-              />
+              <input type="radio" id="duracion2" value="2" formControlName="duracionPlan" />
               <label for="duracion2">30 días</label>
 
-              <input
-                type="radio"
-                id="duracion3"
-                value="3"
-                formControlName="duracionPlan"
-              />
+              <input type="radio" id="duracion3" value="3" formControlName="duracionPlan" />
               <label for="duracion3">45 días</label>
 
               <div class="glass-glider"></div>
@@ -477,45 +315,27 @@
             <br />
 
             <div class="botones-atras-siguiente" *ngIf="!editandoDesdeResumen">
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-custom btn-anterior-trainin"
-                (click)="previousStep()"
-                >Anterior</app-boton-trainin
-              >
-              <app-boton-trainin
-                type="button"
-                clase="btn btn-siguente btn-trainin"
-                [disabled]="!esPasoActualValido()"
-                (clickBoton)="nextStep()"
-                >Siguiente</app-boton-trainin
-              >
+              <app-boton-trainin type="button" clase="btn btn-custom btn-anterior-trainin"
+                (click)="previousStep()">Anterior</app-boton-trainin>
+              <app-boton-trainin type="button" clase="btn btn-siguente btn-trainin" [disabled]="!esPasoActualValido()"
+                (clickBoton)="nextStep()">Siguiente</app-boton-trainin>
             </div>
             <div class="text-center mt-3" *ngIf="editandoDesdeResumen">
-              <app-boton-trainin
-                class="btn btn-custom btn-siguente"
-                [disabled]="!esPasoActualValido()"
-                (click)="volverAlResumen()"
-                >Volver al resumen</app-boton-trainin
-              >
+              <app-boton-trainin class="btn btn-custom btn-siguente" [disabled]="!esPasoActualValido()"
+                (click)="volverAlResumen()">Volver al resumen</app-boton-trainin>
             </div>
           </div>
           <div class="paso-informacion" *ngIf="currentStep === 5">
             <div class="text-center mb-2">Resumen del plan</div>
             <div class="progress mb-4">
-              <div
-                class="progress-bar animated-progress"
-                [style.width.%]="progresoVisual"
-              ></div>
+              <div class="progress-bar animated-progress" [style.width.%]="progresoVisual"></div>
             </div>
 
             <div class="resumen-container text-white">
               <div class="row">
                 <div class="columna-izquierda">
                   <div class="mb-3 text-white">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="titulo-subrayado mb-1">Datos físicos</h5>
                       <button class="btn btn-editar" (click)="irAPaso(1)">
                         <i class="fas fa-edit"></i>
@@ -533,9 +353,7 @@
                     </div>
                   </div>
                   <div class="text-white">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="titulo-subrayado mt-2">Objetivo</h5>
                       <button class="btn btn-editar" (click)="irAPaso(1)">
                         <i class="fas fa-edit"></i>
@@ -551,9 +369,7 @@
                   <br />
 
                   <div class="text-white">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="titulo-subrayado mt-2">
                         Frecuencia y Duración
                       </h5>
@@ -565,33 +381,33 @@
                       <p>
                         <strong>Exigencia:</strong>
                         {{
-                          traducirEscalaExigencia(
-                            formularioForm.get("nivelExigencia")?.value
-                          )
+                        traducirEscalaExigencia(
+                        formularioForm.get("nivelExigencia")?.value
+                        )
                         }}
                       </p>
                       <p>
                         <strong>Días por semana:</strong>
                         {{
-                          traducirDias(
-                            formularioForm.get("diasDisponibles")?.value
-                          )
+                        traducirDias(
+                        formularioForm.get("diasDisponibles")?.value
+                        )
                         }}
                       </p>
                       <p>
                         <strong>Minutos por día:</strong>
                         {{
-                          traducirMinutos(
-                            formularioForm.get("tiempoDisponible")?.value
-                          )
+                        traducirMinutos(
+                        formularioForm.get("tiempoDisponible")?.value
+                        )
                         }}
                       </p>
                       <p>
                         <strong>Duración del plan:</strong>
                         {{
-                          traducirDuracion(
-                            formularioForm.get("duracionPlan")?.value
-                          )
+                        traducirDuracion(
+                        formularioForm.get("duracionPlan")?.value
+                        )
                         }}
                       </p>
                     </div>
@@ -599,9 +415,7 @@
                 </div>
                 <div class="columna-derecha">
                   <div class="text-white">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="titulo-subrayado mt-2">
                         Tipo de Entrenamiento
                       </h5>
@@ -611,19 +425,13 @@
                     </div>
                     <div class="card-body mt-2">
                       <p>{{ opcionSeleccionada || "No seleccionado" }}</p>
-                      <img
-                        *ngIf="imagenEntrenamientoSeleccionado"
-                        [src]="imagenEntrenamientoSeleccionado"
-                        [alt]="opcionSeleccionada"
-                        style="max-width: 100px; height: auto"
-                      />
+                      <img *ngIf="imagenEntrenamientoSeleccionado" [src]="imagenEntrenamientoSeleccionado"
+                        [alt]="opcionSeleccionada" style="max-width: 100px; height: auto" />
                     </div>
                   </div>
                   <br />
                   <div class="text-white">
-                    <div
-                      class="card-header d-flex justify-content-between align-items-center"
-                    >
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="titulo-subrayado mt-2">Equipamiento</h5>
                       <button class="btn btn-editar" (click)="irAPaso(3)">
                         <i class="fas fa-edit"></i>
@@ -632,25 +440,17 @@
                     <div class="card-body mt-2">
                       <p>
                         {{
-                          equipamientos.length > 0
-                            ? equipamientos.join(", ")
-                            : "No seleccionado"
+                        equipamientos.length > 0
+                        ? equipamientos.join(", ")
+                        : "No seleccionado"
                         }}
                       </p>
                       <div class="d-flex flex-wrap gap-2 mt-2">
-                        <ng-container
-                          *ngFor="let item of equipamientosOpciones"
-                        >
-                          <img
-                            *ngIf="
+                        <ng-container *ngFor="let item of equipamientosOpciones">
+                          <img *ngIf="
                               equipamientos.includes(item.descripcion) &&
                               item.descripcion !== 'Ninguno'
-                            "
-                            [src]="item.imagen"
-                            [alt]="item.descripcion"
-                            class="rounded"
-                            style="max-width: 80px"
-                          />
+                            " [src]="item.imagen" [alt]="item.descripcion" class="rounded" style="max-width: 80px" />
                         </ng-container>
                       </div>
                     </div>
@@ -660,11 +460,8 @@
             </div>
 
             <div class="text-center mt-4">
-              <app-boton-trainin
-                type="button"
-                class="btn btn-custom btn-siguente-trainin"
-                (click)="enviarFormulario()"
-                >Finalizar
+              <app-boton-trainin type="button" class="btn btn-custom btn-siguente-trainin"
+                (click)="enviarFormulario()">Finalizar
               </app-boton-trainin>
             </div>
           </div>
@@ -672,10 +469,7 @@
       </div>
     </div>
 
-    <app-modal-plan-creado
-      *ngIf="mostrarModal && seEnvioForm"
-      (accionSeleccionada)="manejarAccion($event)"
-    >
+    <app-modal-plan-creado *ngIf="mostrarModal && seEnvioForm" (accionSeleccionada)="manejarAccion($event)">
     </app-modal-plan-creado>
   </main>
 </body>

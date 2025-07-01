@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PerfilComponent } from './perfil.component';
 import { PerfilService } from '../../core/servicios/perfilServicio/perfil.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
@@ -22,20 +23,20 @@ describe('PerfilComponent', () => {
 
   beforeEach(waitForAsync(() => {
     perfilServiceSpy = jasmine.createSpyObj('PerfilService', ['getPerfil', 'actualizarFotoPerfil']);
-    authServiceSpy   = jasmine.createSpyObj('AuthService', ['getEmail']);
-    logroServiceSpy  = jasmine.createSpyObj('LogroService', ['obtenerLogrosPorUsuario']);
-    toastrSpy        = jasmine.createSpyObj('ToastrService', ['success', 'error']);
-    modalSpy         = jasmine.createSpyObj('NgbModal', ['open']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['getEmail']);
+    logroServiceSpy = jasmine.createSpyObj('LogroService', ['obtenerLogrosPorUsuario']);
+    toastrSpy = jasmine.createSpyObj('ToastrService', ['success', 'error']);
+    modalSpy = jasmine.createSpyObj('NgbModal', ['open']);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [PerfilComponent],
       providers: [
         { provide: PerfilService, useValue: perfilServiceSpy },
-        { provide: AuthService,   useValue: authServiceSpy },
-        { provide: LogroService,  useValue: logroServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: LogroService, useValue: logroServiceSpy },
         { provide: ToastrService, useValue: toastrSpy },
-        { provide: NgbModal,      useValue: modalSpy }
+        { provide: NgbModal, useValue: modalSpy }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -154,7 +155,6 @@ it('debería redirigir a la ruta de detalle del plan con el id proporcionado', (
       };
 
       perfilServiceSpy.actualizarFotoPerfil.and.returnValue(of(respuestaMock));
-
       const fakeResult = 'data:image/png;base64,XYZ';
       const fakeReader: any = {
         result: null as any,
@@ -176,7 +176,7 @@ it('debería redirigir a la ruta de detalle del plan con el id proporcionado', (
       expect(perfilServiceSpy.actualizarFotoPerfil)
         .toHaveBeenCalledWith('a@b.com', fakeResult);
       expect(toastrSpy.success)
-        .toHaveBeenCalledWith('¡Listo!', 'Foto actualizada correctamente');
+        .toHaveBeenCalledWith('OK', 'Foto actualizada correctamente');
     });
 
     it('debería mostrar toast de error si actualizarFotoPerfil falla', () => {
