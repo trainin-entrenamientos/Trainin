@@ -45,7 +45,6 @@ export class DetallePlanComponent implements OnInit {
     this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
       next: (response: any) => {
         this.idUsuario = response.objeto.id;
-
         this.obtenerDetalleDelPlan(idPlan);
       },
       error: (err: any) => {
@@ -66,6 +65,7 @@ export class DetallePlanComponent implements OnInit {
             });
           });
           this.detallePlan = data.objeto;
+          console.log(this.detallePlan);
           this.idPlan = this.detallePlan?.id ?? 0;
           this.semanas = data.objeto.semanaRutinas || [];
           this.seleccionarPrimerRutinaActiva();

@@ -66,8 +66,7 @@ html {
   border-right: 1px solid #ffffff; 
 }
 .card.metric {
-  background-color: #0B1A1E; 
-  border: 1px solid #ffffff; 
+  background-color: #031C18; 
   border-radius: 1rem;
   height: 100%;
   color: #ffffff;
@@ -100,7 +99,6 @@ html {
 
 .card.achievements {
   background-color: #ffffff; 
-  border: 1px solid #ffffff; 
   border-radius: 1rem;
 }
 .card.achievements .card-header {
@@ -126,7 +124,6 @@ html {
 }
 .card.streak {
   background-color: #ffffff; 
-  border: 1px solid #ffffff; 
   border-radius: 1rem;
 }
 .card.streak .card-body {
@@ -147,6 +144,7 @@ html {
   border-radius: 1rem;
   color: #ffffff;
 }
+
 .completed-plans .card-body {
   padding: 1.5rem;
   text-align: center;

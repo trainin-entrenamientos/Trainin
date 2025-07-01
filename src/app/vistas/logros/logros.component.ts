@@ -25,6 +25,19 @@ export class LogrosComponent implements OnInit {
   filtroForm: FormGroup;
   email: string | null = null;
   cargando: boolean = false;
+  logrosTotales: number = 0;
+  logrosObtenidosTotales: number = 0;
+  tiposLogro = ['Bronce', 'Plata', 'Oro', 'Platino'] as const;
+
+  logrosPorTipo: Record<
+    (typeof this.tiposLogro)[number],
+    { total: number; obtenidos: number }
+  > = {
+    Bronce: { total: 0, obtenidos: 0 },
+    Plata: { total: 0, obtenidos: 0 },
+    Oro: { total: 0, obtenidos: 0 },
+    Platino: { total: 0, obtenidos: 0 },
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +67,7 @@ export class LogrosComponent implements OnInit {
 
     this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
       next: (respUser) => {
+        console.log(respUser.objeto)
         this.logrosObtenidos = respUser.objeto || [];
 
         this.logroService.obtenerTodosLosLogros().subscribe({
@@ -67,6 +81,19 @@ export class LogrosComponent implements OnInit {
                 this.logrosObtenidos.find((u) => u.id === l.id)?.fechaObtencion
               ),
             }));
+            this.logrosTotales = todos.length;
+            this.logrosObtenidosTotales = this.logrosObtenidos.length;
+
+            todos.forEach((logro) => {
+              const tipo = this.obtenerTipoDeImagen(logro.imagen);
+
+              if (this.logrosPorTipo[tipo]) {
+                this.logrosPorTipo[tipo].total++;
+                if (this.logrosObtenidos.some((l) => l.id === logro.id)) {
+                  this.logrosPorTipo[tipo].obtenidos++;
+                }
+              }
+            });
 
             this.cargando = false;
             this.aplicarFiltro();
@@ -91,6 +118,22 @@ export class LogrosComponent implements OnInit {
       this.aplicarFiltro();
     });
   }
+
+  obtenerTipoDeImagen(url: string): 'Bronce' | 'Plata' | 'Oro' | 'Platino' {
+    if (url.includes('bronce')) return 'Bronce';
+    if (url.includes('plata')) return 'Plata';
+    if (url.includes('oro')) return 'Oro';
+    if (url.includes('platino')) return 'Platino';
+    return 'Bronce';
+  }
+
+  logrosImagenes: Record<typeof this.tiposLogro[number], string> = {
+  Bronce: 'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-bronce.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLWJyb25jZS5wbmciLCJpYXQiOjE3NDg4MzU4NDEsImV4cCI6MTc4MDM3MTg0MX0.T6xMpSOBGUkyQRzc5Sf8ikzuySqaZabEhQJlPXq_47I',
+  Plata: 'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-plata.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRhLnBuZyIsImlhdCI6MTc0ODgzNTgyMywiZXhwIjoxNzgwMzcxODIzfQ.Td_Ee01KMa__uNFIUjKvMLhLVh9uvcTxhSCRqu4nTFM',
+  Oro: 'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-oro.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLW9yby5wbmciLCJpYXQiOjE3NDg4MzU4MDIsImV4cCI6MTc4MDM3MTgwMn0.qhu_fH-Y4C4PlUJZEcHSQlibhhDxdXcJa0cTSCWnK6k',
+  Platino: 'https://oljazaeheifqqzqlajwk.supabase.co/storage/v1/object/sign/imagenes/medalla-platino.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzExNTA4NjU1LWIzMDMtNGQyYy05NzUxLTQ0MDI0NzRmNmExNiJ9.eyJ1cmwiOiJpbWFnZW5lcy9tZWRhbGxhLXBsYXRpbm8ucG5nIiwiaWF0IjoxNzQ4ODM1Nzc1LCJleHAiOjE3ODAzNzE3NzV9.K1-12N87G86mmFutOCZyoGSSadpql2WNq9vfCEZLdwE',
+};
+
 
   private parsearFecha(fecha: string | Date | undefined): Date {
     if (!fecha) return new Date();
