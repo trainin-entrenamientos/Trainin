@@ -1,4 +1,4 @@
-/*import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, FormArray } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormAdminComponent } from './form-admin.component';
 import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 describe('FormAdminComponent', () => {
   let component: FormAdminComponent;
@@ -14,6 +15,7 @@ describe('FormAdminComponent', () => {
   let svcSpy: jasmine.SpyObj<EjercicioService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let activatedRouteStub: any;
+  let toastrSpy: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
     svcSpy = jasmine.createSpyObj('EjercicioService', [
@@ -24,6 +26,7 @@ describe('FormAdminComponent', () => {
       'editarEjercicio'
     ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    toastrSpy = jasmine.createSpyObj('ToastrService', ['error']);
     activatedRouteStub = {
       snapshot: { paramMap: { get: (_: string) => null } }
     };
@@ -35,6 +38,7 @@ describe('FormAdminComponent', () => {
         { provide: EjercicioService, useValue: svcSpy },
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: ToastrService, useValue: toastrSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -50,8 +54,8 @@ describe('FormAdminComponent', () => {
   it('Debería mostrar las categorías y grupos vacíos al crear un ejercicio nuevo', () => {
     const cats = ['A', 'B'];
     const grps = ['X', 'Y'];
-    svcSpy.obtenerCategorias.and.returnValue(of(cats));
-    svcSpy.obtenerGruposMusculares.and.returnValue(of(grps));
+    svcSpy.obtenerCategorias.and.returnValue(of({ objeto: cats } as any));
+    svcSpy.obtenerGruposMusculares.and.returnValue(of({ objeto: grps } as any));
     spyOn(component as any, 'cargarEjercicio');
 
     component.ngOnInit();
@@ -63,8 +67,8 @@ describe('FormAdminComponent', () => {
   it('Deberían cargarse los datos del ejercicio para su edición', () => {
     activatedRouteStub.snapshot.paramMap.get = (_: string) => '5';
     const cats: any[] = [], grps: any[] = [];
-    svcSpy.obtenerCategorias.and.returnValue(of(cats));
-    svcSpy.obtenerGruposMusculares.and.returnValue(of(grps));
+    svcSpy.obtenerCategorias.and.returnValue(of({ objeto: cats } as any));
+    svcSpy.obtenerGruposMusculares.and.returnValue(of({ objeto: grps } as any));
     const dto = {
       id: 5,
       nombre: 'Ej1',
@@ -79,8 +83,7 @@ describe('FormAdminComponent', () => {
       idsGrupoMuscular: [1, 3],
       idsCategorias: [4]
     };
-    svcSpy.obtenerEjercicioPorId.and.returnValue(of(dto));
-
+    svcSpy.obtenerEjercicioPorId.and.returnValue(of({ objeto: dto } as any));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -115,7 +118,7 @@ describe('FormAdminComponent', () => {
 
   it('Debería guardarse el ejercicio creado y volver al usuario al listado de ejercicios', fakeAsync(() => {
     component.isEdit = false;
-    svcSpy.crearEjercicio.and.returnValue(of(''));
+    svcSpy.crearEjercicio.and.returnValue(of({ mensaje: '', objeto: '' } as any));
     component.form.patchValue({
       nombre: 'Nueva',
       descripcion: 'Desc',
@@ -131,28 +134,32 @@ describe('FormAdminComponent', () => {
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/listarEjercicios']);
   }));
 
-  it('Debería devolver un error si falla la creación del ejercicio', fakeAsync(() => {
+  it('Debería mostrar un mensaje de error si falla la creación del ejercicio', fakeAsync(() => {
     component.isEdit = false;
     const err = new Error('fail');
     svcSpy.crearEjercicio.and.returnValue(throwError(() => err));
-    spyOn(console, 'error');
+
     component.form.patchValue({
       nombre: 'X',
       descripcion: 'Y',
       valorMet: 1,
       idTipoEjercicio: 1
     });
-    (component.form.get('idsGrupoMuscular') as FormArray).push(component['fb'].control(1));
-    (component.form.get('idsCategorias') as FormArray).push(component['fb'].control(1));
+    (component.form.get('idsGrupoMuscular') as FormArray)
+      .push(component['fb'].control(1));
+    (component.form.get('idsCategorias') as FormArray)
+      .push(component['fb'].control(1));
 
     component.submit();
     tick();
-    expect(console.error).toHaveBeenCalledWith('Error al guardar ejercicio:', err);
+
+    expect(toastrSpy.error).toHaveBeenCalledWith('Error al guardar ejercicio.');
+    expect(routerSpy.navigate).not.toHaveBeenCalled();
   }));
 
   it('Debería guardar los cambios de un ejercicio y volver al listado', fakeAsync(() => {
     component.isEdit = true;
-    svcSpy.editarEjercicio.and.returnValue(of(''));
+    svcSpy.editarEjercicio.and.returnValue(of({ mensaje: '', objeto: '' } as any));
     component.form.patchValue({
       id: 10,
       nombre: 'Edit',
@@ -179,4 +186,4 @@ describe('FormAdminComponent', () => {
       .toHaveBeenCalledWith('Error al cargar el ejercicio:', jasmine.any(Error));
   });
 
-});*/
+});

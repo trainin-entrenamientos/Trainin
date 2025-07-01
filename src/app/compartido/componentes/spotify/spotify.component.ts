@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { SpotifyService } from '../../../core/servicios/spotifyServicio/spotify.service';
 

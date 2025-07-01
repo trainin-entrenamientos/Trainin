@@ -1,11 +1,10 @@
-/*import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { AuthService } from '../../../core/servicios/authServicio/auth.service';
 import { HeaderComponent } from './header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { ToastrService, TOAST_CONFIG } from 'ngx-toastr';
 
 describe('HeaderComponent', () => {
@@ -15,12 +14,18 @@ describe('HeaderComponent', () => {
   let authSpy: jasmine.SpyObj<AuthService>;
   let toastrSpy: jasmine.SpyObj<ToastrService>;
   const eventsSubject = new Subject<any>();
-
+  let rolSubject: Subject<string>;
+  
   beforeEach(async () => {
+    rolSubject = new Subject<string>();
+
     authSpy = jasmine.createSpyObj('AuthService', [
       'estaAutenticado',
       'cerrarSesion',
-    ]);
+      'getRol'
+    ],
+      { rol$: rolSubject.asObservable() }
+    );
     toastrSpy = jasmine.createSpyObj('ToastrService', ['info']);
 
     await TestBed.configureTestingModule({
@@ -35,9 +40,8 @@ describe('HeaderComponent', () => {
     }).compileComponents();
 
     router = TestBed.inject(Router);
-    spyOnProperty(router, 'events', 'get').and.returnValue(
-      eventsSubject.asObservable()
-    );
+    
+    spyOnProperty(router, 'events', 'get').and.returnValue(eventsSubject.asObservable());
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
@@ -150,4 +154,30 @@ describe('HeaderComponent', () => {
       expect(component.enRutina).toBeTrue();
     });
   });
-});*/
+
+  it('Debería definir rol de administrador al recibir rol desde el servicio', () => {
+  rolSubject.next('Administrador');
+  expect(component.esAdministrador).toBeTrue();
+});
+
+  it('Debería mostrar el reproductor cuando hay token y el usuario está autenticado', () => {
+    spyOn(localStorage, 'getItem').and.returnValue('token');
+    authSpy.estaAutenticado.and.returnValue(true);
+    expect(component.estaLogueado()).toBeTrue();
+    expect(component.mostrarSpotify).toBeTrue();
+  });
+
+  it('Debería setear el rol esAdministrador llamando a getRol', () => {
+    authSpy.getRol.and.returnValue('Administrador');
+    component.obtenerRolUsuario();
+    expect(component.esAdministrador).toBeTrue();
+  });
+
+  it('Debería desactivar la sesión del administrador al cerrar sesión', () => {
+    component.esAdministrador = true;
+    component.cerrarSesion();
+    expect(authSpy.cerrarSesion).toHaveBeenCalled();
+    expect(component.esAdministrador).toBeFalse();
+  });
+
+});

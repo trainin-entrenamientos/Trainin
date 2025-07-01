@@ -1,20 +1,22 @@
-/*import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VerificarEmailComponent } from './verificar-email.component';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { VerificacionCorreoService } from '../../core/servicios/verificacionCorreoServicio/verificacion-correo.service';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
 
 describe('VerificarEmailComponent', () => {
   let component: VerificarEmailComponent;
   let fixture: ComponentFixture<VerificarEmailComponent>;
-  let verificacionServiceMock: any;
+  let svc: jasmine.SpyObj<VerificacionCorreoService>;
+  let toastrMock: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
-    verificacionServiceMock = {
-      confirmarEmail: jasmine.createSpy('confirmarEmail')
-    };
+    svc = jasmine.createSpyObj('VerificacionCorreoService', ['confirmarEmail']);
+    toastrMock = jasmine.createSpyObj('ToastrService', ['error']);
 
     await TestBed.configureTestingModule({
       declarations: [VerificarEmailComponent],
@@ -22,58 +24,62 @@ describe('VerificarEmailComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              paramMap: {
-                get: (key: string) => 'FAKE_TOKEN'
-              }
-            }
+            snapshot: { paramMap: { get: (_: string) => 'FAKE_TOKEN' } }
           }
         },
-        {
-          provide: VerificacionCorreoService,
-          useValue: verificacionServiceMock
-        }
+        { provide: VerificacionCorreoService, useValue: svc },
+        { provide: ToastrService, useValue: toastrMock }
       ],
-      schemas:  [NO_ERRORS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VerificarEmailComponent);
     component = fixture.componentInstance;
   });
 
-  it('debería extraer el token del parámetro de la ruta', () => {
-    verificacionServiceMock.confirmarEmail.and.returnValue(of({ activo: true }));
+  it('extrae token y llama al servicio con exito=true', () => {
+    svc.confirmarEmail.and.returnValue(of({
+      exito: true,
+      mensaje: 'Confirmación exitosa',
+      objeto: true
+    } as RespuestaApi<boolean>));
     fixture.detectChanges();
+
     expect(component.token).toBe('FAKE_TOKEN');
-    expect(verificacionServiceMock.confirmarEmail).toHaveBeenCalledWith('FAKE_TOKEN');
-  });
-
-  it('debería activar usuarioActivo si la respuesta es positiva', () => {
-    verificacionServiceMock.confirmarEmail.and.returnValue(of({ activo: true }));
-    fixture.detectChanges();
-
+    expect(svc.confirmarEmail).toHaveBeenCalledWith('FAKE_TOKEN');
     expect(component.usuarioActivo).toBeTrue();
-
-    const mensaje = fixture.debugElement.query(By.css('div')).nativeElement.textContent;
-    expect(mensaje).toContain('El usuario se encuentra activo');
   });
 
-  it('debería mantener usuarioActivo en false si la respuesta es negativa', () => {
-    verificacionServiceMock.confirmarEmail.and.returnValue(of({ activo: false }));
+  it('muestra mensaje “activo” en el template cuando exito=true', () => {
+    svc.confirmarEmail.and.returnValue(of({
+      exito: true,
+      mensaje: 'Confirmación exitosa',
+      objeto: true
+    } as RespuestaApi<boolean>));
+    fixture.detectChanges();
+
+    const texto = fixture.debugElement.query(By.css('div')).nativeElement.textContent;
+    expect(texto).toContain('El usuario se encuentra activo');
+  });
+
+  it('mantiene usuarioActivo=false y muestra “no activo” cuando exito=false', () => {
+    svc.confirmarEmail.and.returnValue(of({
+      exito: false,
+      mensaje: 'Confirmación exitosa',
+      objeto: true
+    } as RespuestaApi<boolean>));
     fixture.detectChanges();
 
     expect(component.usuarioActivo).toBeFalse();
-
-    const mensaje = fixture.debugElement.query(By.css('div')).nativeElement.textContent;
-    expect(mensaje).toContain('El usuario no se encuentra activo');
+    const texto = fixture.debugElement.query(By.css('div')).nativeElement.textContent;
+    expect(texto).toContain('El usuario no se encuentra activo');
   });
 
-  it('debería manejar error si el servicio falla', () => {
-    spyOn(console, 'error');
-    verificacionServiceMock.confirmarEmail.and.returnValue(throwError(() => new Error('Error')));
+  it('llama a manejarErrorSimple (toastr.error) si el servicio falla', () => {
+    svc.confirmarEmail.and.returnValue(throwError(() => new Error('fail')));
     fixture.detectChanges();
 
-    expect(console.error).toHaveBeenCalled();
+    expect(toastrMock.error).toHaveBeenCalledWith('No se pudo obtener el mail del usuario');
     expect(component.usuarioActivo).toBeFalse();
   });
-});*/
+});
