@@ -1,297 +1,375 @@
-// import {
-//   ComponentFixture,
-//   fakeAsync,
-//   TestBed,
-//   tick,
-// } from '@angular/core/testing';
-// import { InformacionEjercicioComponent } from './informacion-ejercicio.component';
-// import { Router } from '@angular/router';
-// import { of, throwError } from 'rxjs';
-// import { waitForAsync } from '@angular/core/testing';
-// import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
-// import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
-// import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
-// import { AuthService } from '../../core/servicios/authServicio/auth.service';
-// import { Rutina, Ejercicio } from '../../core/modelos/RutinaDTO';
-// import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
-// import { TemporizadorComponent } from '../../compartido/componentes/temporizador/temporizador.component';
+import { ComponentFixture, fakeAsync, TestBed, tick, } from '@angular/core/testing';
+import { InformacionEjercicioComponent } from './informacion-ejercicio.component';
+import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { RutinaService } from '../../core/servicios/rutinaServicio/rutina.service';
+import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
+import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { AuthService } from '../../core/servicios/authServicio/auth.service';
+import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
+import { Rutina, Ejercicio } from '../../core/modelos/RutinaDTO';
+import { TemporizadorComponent } from '../../compartido/componentes/temporizador/temporizador.component';
+import { ToastrService } from 'ngx-toastr';
+import * as ErroresToastr from '../../compartido/utilidades/errores-toastr';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
+import { Usuario } from '../../core/modelos/Usuario';
 
-// describe('InformacionEjercicioComponent', () => {
-//   let component: InformacionEjercicioComponent;
-//   let fixture: ComponentFixture<InformacionEjercicioComponent>;
-//   let rutinaServiceMock: jasmine.SpyObj<RutinaService>;
-//   let routerMock: jasmine.SpyObj<Router>;
-//   let temporizadorServiceMock: jasmine.SpyObj<TemporizadorService>;
-//   let usuarioServiceMock: jasmine.SpyObj<UsuarioService>;
-//   let authServiceMock: jasmine.SpyObj<AuthService>;
+describe('InformacionEjercicioComponent', () => {
+    let component: InformacionEjercicioComponent;
+    let fixture: ComponentFixture<InformacionEjercicioComponent>;
 
-//   beforeEach(() => {
-//     rutinaServiceMock = jasmine.createSpyObj('RutinaService', [
-//       'cargarDesdeSession',
-//       'getDatosIniciales',
-//       'getIndiceActual',
-//       'buscarNombreEjercicio',
-//     ]);
+    let rutinaServiceSpy: jasmine.SpyObj<RutinaService>;
+    let routerSpy: jasmine.SpyObj<Router>;
+    let temporizadorServiceSpy: jasmine.SpyObj<TemporizadorService>;
+    let usuarioServiceSpy: jasmine.SpyObj<UsuarioService>;
+    let authServiceSpy: jasmine.SpyObj<AuthService>;
+    let toastrSpy: jasmine.SpyObj<ToastrService>;
 
-//     rutinaServiceMock.getDatosIniciales.and.returnValue({
-//       rutina: {
-//         id: 0,
-//         numeroRutina: 0,
-//         duracionEstimada: 0,
-//         nombre: '',
-//         ejercicios: [],
-//         categoriaEjercicio: '',
-//         rutinasRealizadas: 0,
-//         caloriasQuemadas: 0,
-//       },
-//       ejercicios: [],
-//       indiceActual: 0,
-//       ejercicio: {} as Ejercicio,
-//       duracionDelEjercicio: '',
-//       repeticionesDelEjercicio: '',
-//       correccionPremium: false,
-//     });
+    beforeEach(async () => {
+        rutinaServiceSpy = jasmine.createSpyObj('RutinaService', [
+            'cargarDesdeSession',
+            'getDatosIniciales',
+            'buscarNombreEjercicio',
+            'getIndiceActual'
+        ]);
+        routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+        temporizadorServiceSpy = jasmine.createSpyObj('TemporizadorService', [
+            'estaCorriendoTiempo',
+            'continuar',
+            'accionesDePausa',
+            'formatearTiempo'
+        ]);
+        usuarioServiceSpy = jasmine.createSpyObj('UsuarioService', ['obtenerUsuarioPorEmail']);
+        authServiceSpy = jasmine.createSpyObj('AuthService', ['getEmail']);
+        toastrSpy = jasmine.createSpyObj('ToastrService', ['error']);
 
-//     rutinaServiceMock.getIndiceActual.and.returnValue(0);
-//     rutinaServiceMock.buscarNombreEjercicio.and.returnValue(
-//       NombreEjercicio.SENTADILLA
-//     );
+        await TestBed.configureTestingModule({
+            declarations: [InformacionEjercicioComponent],
+            providers: [
+                { provide: RutinaService, useValue: rutinaServiceSpy },
+                { provide: Router, useValue: routerSpy },
+                { provide: TemporizadorService, useValue: temporizadorServiceSpy },
+                { provide: UsuarioService, useValue: usuarioServiceSpy },
+                { provide: AuthService, useValue: authServiceSpy },
+                { provide: ToastrService, useValue: toastrSpy }
+            ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        }).compileComponents();
 
-//     routerMock = jasmine.createSpyObj('Router', ['navigate']);
-//     temporizadorServiceMock = jasmine.createSpyObj('TemporizadorService', [
-//       'estaCorriendoTiempo',
-//       'continuar',
-//       'accionesDePausa',
-//       'formatearTiempo',
-//       'obtenerSegundosTranscurridos',
-//     ]);
+        fixture = TestBed.createComponent(InformacionEjercicioComponent);
+        component = fixture.componentInstance;
+    });
 
-//     temporizadorServiceMock.obtenerSegundosTranscurridos.and.returnValue(0);
+    const mockEjercicio: Ejercicio = {
+        id: 1,
+        nombre: 'Press militar',
+        repeticiones: null,
+        series: null,
+        duracion: null,
+        imagen: '',
+        video: '',
+        descripcion: '',
+        tieneCorrecion: false,
+        categoria: [],
+        grupoMuscular: [],
+        correccionPremium: false,
+        tipoEjercicio: 'De tiempo',
+    };
+    const rutinaMock = {
+        id: 1,
+        numeroRutina: 1,
+        duracionEstimada: 2,
+        nombre: 'Rutina de prueba',
+        ejercicios: [{
+            id: 1,
+            nombre: 'Sentadillas',
+            repeticiones: 10,
+            series: 3,
+            duracion: 30,
+            imagen: '',
+            video: '',
+            descripcion: '',
+            tieneCorrecion: false,
+            categoria: [],
+            grupoMuscular: [],
+            correccionPremium: false,
+            tipoEjercicio: 'De tiempo'
+        }],
+        categoriaEjercicio: '',
+        rutinasRealizadas: 0,
+        caloriasQuemadas: 0,
+        numeroDeRutinaSemanal: 1,
+        cantidadDeRutinasTotales: 4,
+        cantidadDeRutinasPorSemana: 1,
+    };
 
-//     usuarioServiceMock = jasmine.createSpyObj('UsuarioService', [
-//       'obtenerUsuarioPorId',
-//     ]);
-//     usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
-//       of({ id: 4, nombre: 'Facundo' })
-//     );
+    it('debería crearse correctamente', () => {
+        expect(component).toBeTruthy();
+    });
 
-//     authServiceMock = jasmine.createSpyObj('AuthService', ['getEmail']);
-//     authServiceMock.getEmail.and.returnValue('facu@gmail.com');
+    it('debería cargar la rutina y datos correctamente si existe en sessionStorage', () => {
 
-//     TestBed.configureTestingModule({
-//       declarations: [InformacionEjercicioComponent, TemporizadorComponent],
-//       providers: [
-//         { provide: RutinaService, useValue: rutinaServiceMock },
-//         { provide: Router, useValue: routerMock },
-//         { provide: TemporizadorService, useValue: temporizadorServiceMock },
-//         { provide: UsuarioService, useValue: usuarioServiceMock },
-//         { provide: AuthService, useValue: authServiceMock },
-//       ],
-//     });
+        const datosInicialesMock = {
+            rutina: rutinaMock,
+            ejercicio: rutinaMock.ejercicios[0],
+            ejercicios: rutinaMock.ejercicios,
+            indiceActual: 0,
+            duracionDelEjercicio: '30 segundos',
+            repeticionesDelEjercicio: '10 repeticiones',
+            correccionPremium: false
+        };
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//     fixture = TestBed.createComponent(InformacionEjercicioComponent);
-//     component = fixture.componentInstance;
-//   });
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of({
+            exito: true,
+            mensaje: 'Usuario obtenido',
+            objeto: {
+                id: 1,
+                nombre: 'Leo',
+                apellido: 'Vilte',
+                email: 'leo@email.com',
+                contraseña: '1234',
+                esPremium: true,
+                caloriasTotales: 0,
+                altura: 175
+            }
+        }));
 
-//   it('debería redirigir si no hay rutina', () => {
-//     dadoQueNoHayRutina();
-//     cuandoSeEjecutaOnInit();
-//     entoncesDeberiaRedirigirAPlanes();
-//   });
+        component.ngOnInit();
 
-//   it('debería establecer datos iniciales si hay rutina', () => {
-//     dadoQueHayRutinaYEjercicio();
-//     cuandoSeEjecutaOnInit();
-//     entoncesDebeTenerDatosIniciales();
-//   });
+        expect(component.rutina).toEqual(rutinaMock);
+        expect(component.ejercicio).toEqual(rutinaMock.ejercicios[0]);
+        expect(component.duracionDelEjercicio).toBe('30 segundos');
+        expect(component.repeticionesDelEjercicio).toBe('10 repeticiones');
+        expect(component.indiceActual).toBe(0);
+        expect(component.esEjercicioDeTiempo).toBeTrue();
+    });
 
-//   it('debería establecer esUsuarioPremium en true si el usuario es premium', fakeAsync(() => {
-//     dadoQueHayRutinaYEjercicio();
-//     dadoQueElEmailEs('premium@gmail.com');
-//     dadoQueElUsuarioEsPremium();
-//     cuandoSeEjecutaOnInit();
-//     tick();
-//     fixture.detectChanges();
-//     entoncesDebeSerUsuarioPremium();
-//   }));
+    it('debería redirigir si no hay rutina (manejarErrorYRedirigir)', () => {
+        rutinaServiceSpy.getDatosIniciales.and.returnValue({
+            rutina: null,
+            ejercicio: mockEjercicio,
+            ejercicios: [],
+            indiceActual: 0,
+            duracionDelEjercicio: '',
+            repeticionesDelEjercicio: '',
+            correccionPremium: false,
+        });
 
-//   it('no debería establecer esUsuarioPremium en true si el usuario no es premium', fakeAsync(() => {
-//     dadoQueHayRutinaYEjercicio();
-//     dadoQueElEmailEs('nopremium@gmail.com');
-//     dadoQueElUsuarioNoEsPremium();
-//     cuandoSeEjecutaOnInit();
-//     tick();
-//     fixture.detectChanges();
-//     entoncesNoDebeSerUsuarioPremium();
-//   }));
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioNoPremium));
 
-//   it('debería manejar error al obtener usuario', fakeAsync(() => {
-//     dadoQueHayRutinaYEjercicio();
-//     dadoQueElEmailEs('error@gmail.com');
-//     dadoQueObtenerUsuarioFalla();
-//     cuandoSeEjecutaOnInit();
-//     tick();
-//     fixture.detectChanges();
-//     entoncesNoDebeTenerUsuario();
-//   }));
+        component.ngOnInit();
 
-//   it('debería obtener la clave del ejercicio de corrección si encuentra al ejercicio', () => {
-//     dadoQueEjercicioActualEs('sentadilla');
-//     rutinaServiceMock.buscarNombreEjercicio.and.returnValue(
-//       NombreEjercicio.SENTADILLA
-//     );
-//     entoncesClaveDeCorreccionDebeSer(NombreEjercicio.SENTADILLA);
-//   });
+        expect(toastrSpy.error).toHaveBeenCalledWith('No se pudo obtener la rutina');
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['/planes']);
+    });
 
-//   it('debería devolver un ejercicio "ERROR" si no encuentra la clave del ejercicio correcta', () => {
-//     dadoQueEjercicioActualEs('Inexistente');
-//     rutinaServiceMock.buscarNombreEjercicio.and.returnValue(null);
-//     entoncesClaveDeCorreccionDebeSer(NombreEjercicio.ERROR);
-//   });
+    it('debería asignar duración, repeticiones y ejercicio actual correctamente', () => {
+        const datosInicialesMock = {
+            rutina: rutinaMock,
+            ejercicio: rutinaMock.ejercicios[0],
+            ejercicios: rutinaMock.ejercicios,
+            indiceActual: 0,
+            duracionDelEjercicio: '30 segundos',
+            repeticionesDelEjercicio: '10 repeticiones',
+            correccionPremium: false
+        };
 
-//   it('no debería disminuir el tiempo si está pausado', fakeAsync(() => {
-//     dadoQueEstaPausadoConTiempo(10);
-//     cuandoIniciaCuentaRegresivaYAvanza(3000);
-//     entoncesTiempoRestanteDebeSer(10);
-//   }));
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//   it('debería avanzar a la vista de realizar ejercicio al finalizar temporizador', fakeAsync(() => {
-//     dadoQueEstaActivoConTiempo(2);
-//     cuandoIniciaCuentaRegresivaYAvanza(2100);
-//     entoncesDebeRedirigirARelizarEjercicio();
-//   }));
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioNoPremium));
 
-//   it('debería pausar y reanudar el temporizador al hacer click en botón de pausa', () => {
-//     dadoQueEstaCorriendo();
-//     cuandoHaceClickEnPausa();
-//     entoncesSePausaYLlamaAlServicio();
-//     cuandoHaceClickEnPausa();
-//     entoncesSeReanudaYLlamaAlServicio();
-//   });
+        component.ngOnInit();
 
-//   function dadoQueNoHayRutina() {
-//     rutinaServiceMock.getDatosIniciales.and.returnValue({
-//       rutina: null,
-//       indiceActual: 0,
-//       ejercicios: [],
-//       ejercicio: {} as Ejercicio,
-//       duracionDelEjercicio: '',
-//       repeticionesDelEjercicio: '',
-//       correccionPremium: false,
-//     });
-//   }
+        expect(component.ejercicio).toEqual(rutinaMock.ejercicios[0]);
+        expect(component.duracionDelEjercicio).toBe('30 segundos');
+        expect(component.repeticionesDelEjercicio).toBe('10 repeticiones');
+    });
+    it('debería activar esEjercicioDeTiempo si el tipo de ejercicio es "De tiempo"', () => {
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//   function dadoQueHayRutinaYEjercicio() {
-//     rutinaServiceMock.getDatosIniciales.and.returnValue({
-//       rutina: { duracionEstimada: 1 } as Rutina,
-//       ejercicio: { nombre: 'sentadilla' } as Ejercicio,
-//       indiceActual: 0,
-//       ejercicios: [],
-//       duracionDelEjercicio: '',
-//       repeticionesDelEjercicio: '',
-//       correccionPremium: false,
-//     });
-//     temporizadorServiceMock.formatearTiempo.and.returnValue('00:10');
-//   }
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioNoPremium));
 
-//   function dadoQueElEmailEs(email: string | null) {
-//     authServiceMock.getEmail.and.returnValue(email);
-//   }
+        component.ngOnInit();
 
-//   function dadoQueElUsuarioEsPremium() {
-//     usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
-//       of({ id: 1, nombre: 'Usuario Premium', esPremium: true })
-//     );
-//   }
+        expect(component.esEjercicioDeTiempo).toBeTrue();
+    });
 
-//   function dadoQueElUsuarioNoEsPremium() {
-//     usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
-//       of({ id: 1, nombre: 'Usuario Gratuito', esPremium: false })
-//     );
-//   }
+    it('debería llamar a usuarioService.obtenerUsuarioPorEmail con el email del authService', () => {
+        const mockEmail = 'test@correo.com';
 
-//   function dadoQueObtenerUsuarioFalla() {
-//     usuarioServiceMock.obtenerUsuarioPorEmail.and.returnValue(
-//       throwError(() => new Error('Error usuario'))
-//     );
-//   }
+        authServiceSpy.getEmail.and.returnValue(mockEmail);
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
 
-//   function dadoQueEjercicioActualEs(nombre: string) {
-//     component.ejercicio = { nombre } as Ejercicio;
-//     rutinaServiceMock.buscarNombreEjercicio.and.returnValue(
-//       NombreEjercicio[nombre as keyof typeof NombreEjercicio]
-//     );
-//   }
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//   function dadoQueEstaPausadoConTiempo(tiempo: number) {
-//     component.tiempoRestante = tiempo;
-//     component.estaPausado = true;
-//   }
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioNoPremium));
 
-//   function dadoQueEstaActivoConTiempo(tiempo: number) {
-//     component.tiempoRestante = tiempo;
-//     component.estaPausado = false;
-//   }
+        component.ngOnInit();
 
-//   function dadoQueEstaCorriendo() {
-//     component.estaPausado = false;
-//   }
+        expect(usuarioServiceSpy.obtenerUsuarioPorEmail).toHaveBeenCalledWith(mockEmail);
+    });
 
-//   function cuandoSeEjecutaOnInit() {
-//     component.ngOnInit();
-//   }
+    it('debería marcar como premium si el usuario lo es', () => {
+        authServiceSpy.getEmail.and.returnValue('premium@correo.com');
 
-//   function cuandoIniciaCuentaRegresivaYAvanza(ms: number) {
-//     component['iniciarCuentaRegresiva']();
-//     tick(ms);
-//     clearInterval(component['idIntervalo']);
-//   }
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//   function cuandoHaceClickEnPausa() {
-//     component.botonPausar();
-//   }
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioPremium))
 
-//   function entoncesDeberiaRedirigirAPlanes() {
-//     expect(routerMock.navigate).toHaveBeenCalledWith(['/planes']);
-//   }
+        component.ngOnInit();
 
-//   function entoncesDebeTenerDatosIniciales() {
-//     expect(component.rutina).toBeDefined();
-//     expect(component.ejercicio).toBeDefined();
-//   }
+        expect(component.esUsuarioPremium).toBeTrue();
+    });
 
-//   function entoncesDebeSerUsuarioPremium() {
-//     expect(component.esUsuarioPremium).toBeTrue();
-//   }
+    it('no debería marcar como premium si el usuario no lo es', () => {
+        authServiceSpy.getEmail.and.returnValue('normal@correo.com');
 
-//   function entoncesNoDebeSerUsuarioPremium() {
-//     expect(component.esUsuarioPremium).toBeFalse();
-//   }
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(false);
 
-//   function entoncesNoDebeTenerUsuario() {
-//     expect(component.usuario).toBeUndefined();
-//   }
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(respuestaApiUsuarioNoPremium));
 
-//   function entoncesClaveDeCorreccionDebeSer(clave: NombreEjercicio) {
-//     const resultado = component.claveEjercicioCorreccion();
-//     expect(resultado).toBe(clave);
-//   }
+        component.ngOnInit();
 
-//   function entoncesTiempoRestanteDebeSer(tiempo: number) {
-//     expect(component.tiempoRestante).toBe(tiempo);
-//   }
+        expect(component.esUsuarioPremium).toBeFalse();
+    });
 
-//   function entoncesDebeRedirigirARelizarEjercicio() {
-//     expect(routerMock.navigate).toHaveBeenCalledWith(['/realizar-ejercicio']);
-//   }
+    it('debería iniciar el temporizador y disminuir el tiempoRestante', fakeAsync(() => {
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
 
-//   function entoncesSePausaYLlamaAlServicio() {
-//     expect(component.estaPausado).toBeTrue();
-//     expect(temporizadorServiceMock.accionesDePausa).toHaveBeenCalledWith(true);
-//   }
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(true);
 
-//   function entoncesSeReanudaYLlamaAlServicio() {
-//     expect(component.estaPausado).toBeFalse();
-//     expect(temporizadorServiceMock.accionesDePausa).toHaveBeenCalledWith(false);
-//   }
-// });
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(usuarioMock));
+
+        component.ngOnInit();
+
+        component.tiempoRestante = 3;
+        tick(1000);
+        expect(component.tiempoRestante).toBe(2);
+
+        tick(1000);
+        expect(component.tiempoRestante).toBe(1);
+
+        tick(1000);
+        expect(component.tiempoRestante).toBe(0);
+
+        component.ngOnDestroy();
+    }));
+
+    it('debería redirigir a /realizar-ejercicio cuando el tiempo llega a 0', fakeAsync(() => {
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(true);
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(usuarioMock));
+
+        component.ngOnInit();
+        component.tiempoRestante = 1;
+
+        tick(1000);
+
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['/realizar-ejercicio']);
+        component.ngOnDestroy();
+    }));
+
+    it('no debería disminuir el tiempo si estaPausado es true', fakeAsync(() => {
+        rutinaServiceSpy.getDatosIniciales.and.returnValue(datosInicialesMock);
+        temporizadorServiceSpy.estaCorriendoTiempo.and.returnValue(true);
+        usuarioServiceSpy.obtenerUsuarioPorEmail.and.returnValue(of(usuarioMock));
+
+        component.ngOnInit();
+        component.tiempoRestante = 5;
+        component.estaPausado = true;
+
+        tick(3000);
+
+        expect(component.tiempoRestante).toBe(5);
+        component.ngOnDestroy();
+    }));
+
+    it('debería devolver clave válida si el nombre del ejercicio existe en el mapa', () => {
+        const nombreValido = 'Press militar';
+        const claveEsperada = NombreEjercicio.PRESS_MILITAR;
+
+        component.ejercicio = {
+            ...mockEjercicio,
+            nombre: nombreValido
+        };
+
+        rutinaServiceSpy.buscarNombreEjercicio.and.returnValue(claveEsperada);
+
+        const resultado = component.claveEjercicioCorreccion();
+
+        expect(resultado).toBe(claveEsperada);
+    });
+
+    it('debería devolver "ERROR" si el nombre del ejercicio no existe en el mapa', () => {
+        const nombreInvalido = 'Ejercicio inventado';
+
+        component.ejercicio = {
+            ...mockEjercicio,
+            nombre: nombreInvalido
+        };
+
+        rutinaServiceSpy.buscarNombreEjercicio.and.returnValue(null);
+
+        const resultado = component.claveEjercicioCorreccion();
+
+        expect(resultado).toBe(NombreEjercicio.ERROR);
+    });
+
+    const mockUsuarioPremium = {
+        id: 1,
+        nombre: 'Leo',
+        apellido: 'Vilte',
+        email: 'leo@email.com',
+        contraseña: '1234',
+        esPremium: true,
+        caloriasTotales: 0,
+        altura: 175
+    };
+
+    const mockUsuarioNoPremium = {
+        ...mockUsuarioPremium,
+        esPremium: false
+    };
+    const respuestaApiUsuarioPremium = {
+        exito: true,
+        mensaje: 'Usuario obtenido',
+        objeto: mockUsuarioPremium
+    };
+
+    const respuestaApiUsuarioNoPremium = {
+        exito: true,
+        mensaje: 'Usuario obtenido',
+        objeto: mockUsuarioNoPremium
+    };
+    const datosInicialesMock = {
+        rutina: rutinaMock,
+        ejercicio: mockEjercicio,
+        ejercicios: rutinaMock.ejercicios,
+        indiceActual: 0,
+        duracionDelEjercicio: '30 segundos',
+        repeticionesDelEjercicio: '10 repeticiones',
+        correccionPremium: false
+    };
+    const usuarioMock: RespuestaApi<Usuario> = {
+        exito: true,
+        mensaje: 'Usuario obtenido correctamente',
+        objeto: {
+            id: 1,
+            nombre: 'Leo',
+            apellido: 'Vilte',
+            email: 'leo@email.com',
+            contraseña: '1234',
+            esPremium: true,
+            caloriasTotales: 0,
+            altura: 175
+        }
+    };
+
+});

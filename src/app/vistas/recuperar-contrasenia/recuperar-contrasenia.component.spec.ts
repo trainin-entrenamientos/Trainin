@@ -6,7 +6,6 @@ import { RecuperarContraseniaComponent } from './recuperar-contrasenia.component
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 
-describe('RecuperarContraseniaComponent', () => {
   let component: RecuperarContraseniaComponent;
   let fixture: ComponentFixture<RecuperarContraseniaComponent>;
   let usuarioSpy: jasmine.SpyObj<UsuarioService>;

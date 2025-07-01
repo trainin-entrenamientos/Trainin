@@ -185,5 +185,5 @@ describe('FormAdminComponent', () => {
     expect(console.error)
       .toHaveBeenCalledWith('Error al cargar el ejercicio:', jasmine.any(Error));
   });
-
 });
+
