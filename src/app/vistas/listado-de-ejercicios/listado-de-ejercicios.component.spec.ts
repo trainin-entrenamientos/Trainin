@@ -96,7 +96,6 @@ describe('ListadoDeEjerciciosComponent', () => {
         expect(component.mostrarModalDeConfirmacion).toBeFalse();
     });
 
-    /*
     it('Debería quitar el ejercicio de la lista y cerrar el modal si la eliminación es exitosa', fakeAsync(() => {
         const resp: RespuestaApi<string> = {
             mensaje: 'ok',

@@ -41,6 +41,8 @@ describe('InicioComponent', () => {
     component.whyItem3            = { nativeElement: document.createElement('div') } as ElementRef;
     component.correctionSection   = { nativeElement: document.createElement('div') } as ElementRef;
     component.subscriptionSection = { nativeElement: document.createElement('div') } as ElementRef;
+    component.whySection          = { nativeElement: document.createElement('div') } as ElementRef;
+    component.whyTitle            = { nativeElement: document.createElement('div') } as ElementRef;
 
     const galleryRowEl = document.createElement('div');
     ['col-md-4', 'col-md-4', 'col-md-4'].forEach(cls => {
@@ -76,7 +78,7 @@ describe('InicioComponent', () => {
     );
     expect(carouselSpy).toHaveBeenCalledTimes(2);
 
-    expect(IOSpy).toHaveBeenCalledTimes(6);
+    expect(IOSpy).toHaveBeenCalledTimes(7);
 
     expect(observerCallbacks[0].options).toEqual({ threshold: 1.0 });
     expect(observerCallbacks[1].options).toEqual({ threshold: 0.3 });

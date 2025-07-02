@@ -18,6 +18,7 @@ const mockPlan = {
     tiempoEstimadoPlanMinutos: 100,
     semanasPlan: 1,
     diasPorSemanaPlan: 1,
+    descripcionEstadoPlan: 'Activo',
     semanaRutinas: [
       {
         numeroSemana: 1,

@@ -399,7 +399,7 @@ describe('EjercicioDiarioComponent', () => {
       component.intervaloCuentaAtras = setInterval(() => { }, 1000);
       component.intervaloTemporizador = setInterval(() => { }, 1000);
 
-      spyOn(window, 'clearInterval');
+      spyOn(window, 'clearInterval').and.callFake(() => {});
 
       fixture.destroy();
 

@@ -6,7 +6,6 @@ import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { PerfilDTO } from '../../core/modelos/PerfilDTO';
@@ -176,7 +175,7 @@ it('debería redirigir a la ruta de detalle del plan con el id proporcionado', (
       expect(perfilServiceSpy.actualizarFotoPerfil)
         .toHaveBeenCalledWith('a@b.com', fakeResult);
       expect(toastrSpy.success)
-        .toHaveBeenCalledWith('OK', 'Foto actualizada correctamente');
+        .toHaveBeenCalledWith('¡Listo!', 'Foto actualizada correctamente');
     });
 
     it('debería mostrar toast de error si actualizarFotoPerfil falla', () => {

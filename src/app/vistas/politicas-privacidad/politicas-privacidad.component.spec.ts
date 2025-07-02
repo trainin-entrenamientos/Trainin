@@ -50,8 +50,31 @@ describe('PoliticasPrivacidadComponent', () => {
   });
 
   it('debería mostrar correctamente los puntos de la lista en la sección "5. Compartir información"', () => {
-    const listItems = fixture.debugElement.queryAll(By.css('ul li'));
-    expect(listItems.length).toBeGreaterThan(0);
-    expect(listItems[0].nativeElement.textContent).toContain('Si la ley lo exige o ante requerimientos legales válidos');
-  });
+  const section5Header = fixture.debugElement.queryAll(By.css('h2'))
+    .find(h2 => h2.nativeElement.textContent.includes('5. Compartir información'));
+
+  expect(section5Header).toBeDefined();
+
+  if (!section5Header) {
+    fail('No se encontró el encabezado "5. Compartir información"');
+    return;
+  }
+
+  const section5Element = section5Header.nativeElement.parentElement;
+
+  const ulElement = section5Element.querySelector('ul');
+  expect(ulElement).toBeTruthy();
+
+  if (!ulElement) {
+    fail('No se encontró la lista <ul> en la sección 5');
+    return;
+  }
+
+  const listItems = ulElement.querySelectorAll('li');
+  expect(listItems.length).toBeGreaterThan(0);
+
+  expect(listItems[0].textContent).toContain('Si la ley lo exige o ante requerimientos legales válidos');
+});
+
+
 });
