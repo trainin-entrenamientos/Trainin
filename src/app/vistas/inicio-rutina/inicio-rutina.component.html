@@ -56,6 +56,10 @@
           (click)="selectEjercicio(i)"
         >
           <img [src]="ejercicio.imagen" [alt]="ejercicio.nombre" />
+          <div *ngIf="i === selectedEjercicioIndex" class="corner top-left"></div>
+          <div *ngIf="i === selectedEjercicioIndex" class="corner top-right"></div>
+          <div *ngIf="i === selectedEjercicioIndex" class="corner bottom-left"></div>
+          <div *ngIf="i === selectedEjercicioIndex" class="corner bottom-right"></div>
         </div>
       </div>
 

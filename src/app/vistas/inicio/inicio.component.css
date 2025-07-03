@@ -71,6 +71,13 @@ body {
   margin: 0 auto;
 }
 
+/* IMAGE HERO FOTO
+.carousel-item img{
+  width: 650px;
+  max-width: 650px;
+  height: 650px;
+}*/
+
 .section-title {
   display: table;
   margin: 0 auto 2.5rem;
@@ -670,7 +677,7 @@ body {
     from 0deg,
     rgba(19,255,58,0.2),
     transparent 40%,
-    rgba(19,255,58,0.2) 80%,
+    rgba(19,255,58,0.2) 50%,
     transparent
   );
   filter: blur(120px);

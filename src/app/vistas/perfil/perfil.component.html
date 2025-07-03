@@ -81,11 +81,13 @@
 
       <div class="row text-center stats-row mb-4" *ngIf="perfil">
         <div class="col-4">
-          <h2>{{ perfil.peso }}<small class="text-muted-white"> kg</small></h2>
+          <h4 *ngIf="perfil.peso==null">Peso no registrado</h4>
+          <h2 *ngIf="perfil.peso!=null">{{ perfil.peso }}<small class="text-muted-white"> kg</small></h2>
           <p>Peso</p>
         </div>
         <div class="col-4">
-          <h2>
+          <h4 *ngIf="perfil.altura==null">Altura no registrada</h4>
+          <h2 *ngIf="perfil.altura!=null">
             {{ perfil.altura }}<small class="text-muted-white"> cm</small>
           </h2>
           <p>Altura</p>
@@ -132,9 +134,9 @@
           </div>
         </div>
       </div>
-      <a class="sin-subrayado" routerLink="/logros">
+      <a class="sin-subrayado" >
         <div class="row mb-5" id="informacionUsuario">
-          <div class="col-12 col-md-6 mb-3">
+          <div routerLink="/logros" class="col-12 col-md-6 mb-3">
             <div class="card achievements h-100">
               <div class="card-header">Mis logros</div>
               <ul class="list-group list-group-flush">

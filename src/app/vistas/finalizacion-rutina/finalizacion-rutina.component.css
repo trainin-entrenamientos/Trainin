@@ -205,7 +205,7 @@ body {
   transform: translateX(0) scale(1);
   opacity: 1;
   z-index: 2;
-  border: #13FF3A 2px solid;
+  border: 0;
 }
 
 .card.izquierda {
@@ -503,6 +503,67 @@ body {
   display: none
 }
 
+@keyframes fadeInCorner {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutCorner {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.corner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 10px solid #13ff3a;
+  z-index: 3;
+  pointer-events: none;
+  animation: fadeInCorner 0.3s ease forwards;
+}
+
+.corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+}
+
+.corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+}
+
+
 @media (max-width: 1480px) {
 
   .carrusel-muscular{
@@ -672,6 +733,12 @@ body {
 }
   .cards {
   height: 400px;
+}
+
+.corner {
+  width: 30px;
+  height: 30px;
+  border: 6px solid #13ff3a;
 }
 
 }

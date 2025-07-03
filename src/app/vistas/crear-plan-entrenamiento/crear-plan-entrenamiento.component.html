@@ -114,26 +114,41 @@
             </h4>
 
             <div class="cards-container">
-              <label class="flip-card mt-3" *ngFor="let opcion of opcionesEntrenamiento"
-                [class.selected]="opcionSeleccionada === opcion.nombre" (mouseenter)="hoverCard(opcion.nombre)"
-                (mouseleave)="leaveCard(opcion.nombre)" (click)="seleccionarCard(opcion.nombre)">
-                <input type="radio" name="tipoEntrenamiento" [value]="opcion.id" hidden />
+             <label
+  class="flip-card mt-3"
+  *ngFor="let opcion of opcionesEntrenamiento"
+  [class.selected]="opcionSeleccionada === opcion.nombre"
+  (mouseenter)="hoverCard(opcion.nombre)"
+  (mouseleave)="leaveCard(opcion.nombre)"
+  (click)="seleccionarCard(opcion.nombre)"
+>
+  <input type="radio" name="tipoEntrenamiento" [value]="opcion.id" hidden />
 
-                <div class="flip-card-inner" [style.transform]="
-                    hoveredCard === opcion.nombre &&
-                    opcionSeleccionada !== opcion.nombre
-                      ? 'rotateY(180deg)'
-                      : 'none'
-                  ">
-                  <div class="flip-card-front">
-                    <img [src]="opcion.imagen" [alt]="opcion.nombre" />
-                    <p>{{ opcion.nombre }}</p>
-                  </div>
-                  <div class="flip-card-back">
-                    <p>{{ opcion.descripcion }}</p>
-                  </div>
-                </div>
-              </label>
+  <div *ngIf="opcionSeleccionada === opcion.nombre">
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
+  </div>
+
+  <div
+    class="flip-card-inner"
+    [style.transform]="
+      hoveredCard === opcion.nombre && opcionSeleccionada !== opcion.nombre
+        ? 'rotateY(180deg)'
+        : 'none'
+    "
+  >
+    <div class="flip-card-front">
+      <img [src]="opcion.imagen" [alt]="opcion.nombre" />
+      <p>{{ opcion.nombre }}</p>
+    </div>
+    <div class="flip-card-back">
+      <p>{{ opcion.descripcion }}</p>
+    </div>
+  </div>
+</label>
+
             </div>
 
             <div class="botones-atras-siguiente" *ngIf="!editandoDesdeResumen">
@@ -162,12 +177,22 @@
             <p class="equipamiento-subtitulo">Seleccioná una o más opciones</p>
 
             <div class="equipamiento-grid">
-              <div *ngFor="let item of equipamientosOpciones" class="equipamiento-item"
-                [class.selected]="estaSeleccionado(item)" (click)="toggleEquipamiento(item)">
-                <img [src]="item.imagen" [alt]="item.descripcion" />
-                <span>{{ item.descripcion }}</span>
-              </div>
-            </div>
+  <div
+    *ngFor="let item of equipamientosOpciones"
+    class="equipamiento-item"
+    [class.selected]="estaSeleccionado(item)"
+    (click)="toggleEquipamiento(item)"
+  >
+    <img [src]="item.imagen" [alt]="item.descripcion" />
+    <span>{{ item.descripcion }}</span>
+
+    <div *ngIf="estaSeleccionado(item)" class="corner top-left"></div>
+    <div *ngIf="estaSeleccionado(item)" class="corner top-right"></div>
+    <div *ngIf="estaSeleccionado(item)" class="corner bottom-left"></div>
+    <div *ngIf="estaSeleccionado(item)" class="corner bottom-right"></div>
+  </div>
+</div>
+
             <br />
             <div class="botones-atras-siguiente" *ngIf="!editandoDesdeResumen">
               <app-boton-trainin type="button" clase="btn btn-custom btn-anterior-trainin"

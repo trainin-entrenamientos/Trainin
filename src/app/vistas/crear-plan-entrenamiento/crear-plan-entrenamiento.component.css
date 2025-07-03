@@ -369,9 +369,48 @@ input[type="radio"].form-check-input:focus {
   font-size: 0.9rem;
 }
 .flip-card.selected {
-  border: 2px solid #13ff3a;
-  border-radius: 12px;
+  border: none;
+  position: relative;
 }
+
+
+.flip-card.selected .corner {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #13ff3a;
+  z-index: 3;
+}
+
+.flip-card.selected .corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.flip-card.selected .corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.flip-card.selected .corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+}
+
+.flip-card.selected .corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+}
+
 .slider-scale-container {
   display: flex;
   align-items: center;
@@ -424,8 +463,45 @@ input[type="radio"].form-check-input:focus {
   border-radius: 5px;
 }
 .equipamiento-item.selected {
-  border: 2px solid #13ff3a;
+  position: relative;
 }
+
+.equipamiento-item.selected .corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #13ff3a;
+  z-index: 3;
+}
+
+.equipamiento-item.selected .corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.equipamiento-item.selected .corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.equipamiento-item.selected .corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+}
+
+.equipamiento-item.selected .corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+}
+
 
 .btn-editar i {
   color: white;
@@ -615,6 +691,20 @@ input[type="radio"].form-check-input:focus {
   background-color: #13ff3a;
 }
 
+@keyframes fadeInCorner {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.corner {
+  animation: fadeInCorner 0.3s ease-out;
+}
 
 @media screen and (max-width: 1480px) {
   .cards-container {
