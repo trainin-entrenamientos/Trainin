@@ -3,7 +3,7 @@
     <div class="correccion-postura-container">
       <div class="left">
         <div class="info-ejercicio">
-          <h2>Práctica: {{ nombreEjercicio }}</h2>
+          <h2>Práctica {{ nombreEjercicio }}</h2>
           <hr />
         </div>
 
@@ -18,12 +18,12 @@
           >
           </iframe>
         </div>
-
+        <br>
         <div class="repeticiones-pc">
           <p>
             Repeticiones Actuales: {{ repeticionesActuales }} /
             {{ repeticionesEvaluacion }}
-          </p>
+          </p><br>
           <div class="contenedor-circulos">
             <div class="circulo"></div>
             <div class="circulo"></div>
@@ -38,7 +38,7 @@
             type="button"
             class="btn-trainin"
             (click)="volver()"
-            >Volver a la Rutina</app-boton-trainin
+            >Volver</app-boton-trainin
           >
           <app-boton-trainin
             type="button"
@@ -46,7 +46,7 @@
             (click)="finalizarPractica()"
             [disabled]="ultimoPorcentaje < 60 && reintentos < maxReintentos"
             data-tooltip="Debés aprobar antes de continuar"
-            >Continuar Rutina</app-boton-trainin
+            >Continuar</app-boton-trainin
           >
         </div>
 

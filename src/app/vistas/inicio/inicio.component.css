@@ -672,48 +672,44 @@ body {
 .hero-section::before {
   content: "";
   position: absolute;
-  inset: -20%;           
-  background: conic-gradient(
-    from 0deg,
-    rgba(19,255,58,0.2),
-    transparent 40%,
-    rgba(19,255,58,0.2) 50%,
-    transparent
+  inset: -30%;
+  background: radial-gradient(
+    circle,
+    rgba(19, 255, 58, 0.17) 10%,
+    
+    rgba(11, 26, 30, 0.85) 40%,
+    transparent 70%
   );
-  filter: blur(120px);
-  animation: rotateRing 30s linear infinite;
+  filter: blur(100px);
+  animation: energyWaves 10s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
 
 .hero-section::after {
   content: "";
   position: absolute;
-  top: 30%;
-  left: 15%;
-  width: 350px;
-  height: 350px;
-  background: rgba(19,255,58,0.12);
-  filter: blur(100px);
-  border-radius: 50%;
-  animation: blobDrift 22s ease-in-out infinite;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(0, 6, 12, 0) 0%, #00060C 100%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
-.hero-section .blob-two {
-  position: absolute;
-  bottom: 20%;
-  right: 10%;
-  width: 300px;
-  height: 300px;
-  background: rgba(0,29,61,0.2);
-  filter: blur(80px);
-  border-radius: 50%;
-  animation: blobDrift 25s ease-in-out infinite reverse;
-  pointer-events: none;
-  z-index: 0;
-}
 
 .hero-section > .container {
   position: relative;
@@ -724,10 +720,36 @@ body {
   to { transform: rotate(360deg); }
 }
 
+@keyframes energyWaves {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
 @keyframes blobDrift {
   0%   { transform: translate(0, 0) scale(1); }
   25%  { transform: translate(100px, -50px) scale(1.1); }
   50%  { transform: translate(-80px, 80px) scale(0.9); }
   75%  { transform: translate(50px, 60px) scale(1.05); }
   100% { transform: translate(0, 0) scale(1); }
+}
+
+.hero-blend-top {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, rgba(0, 6, 12, 0) 0%, #00060C 100%);
+  pointer-events: none;
+  z-index: 1;
 }

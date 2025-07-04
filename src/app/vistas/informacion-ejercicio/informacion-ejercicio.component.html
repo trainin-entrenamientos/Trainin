@@ -51,36 +51,32 @@
           </div>
         </div>
 
-        <div class="contenedor-ejercicio d-flex align-items-center">
-          <div class="ejercicio-box" [class.expandido]="mostrarDescripcion">
-            <div
-              class="imagen-con-borde"
-              [class.expandida]="mostrarDescripcion"
-            >
-              <div class="imagen-ejercicio" id="image-wrapper">
-                <img [src]="ejercicio?.imagen" alt="Ejercicio" />
-              </div>
-              <div
-                class="descripcion-ejercicio"
-                [class.visible]="mostrarDescripcion"
-              >
-                <button class="btn-volver" (click)="mostrarDescripcion = false">
-                  <i class="fas fa-arrow-left"></i>
-                </button>
+   <div class="imagen-con-borde" [class.expandida]="mostrarDescripcion">
+  <div class="esquinas">
+    <div class="corner-top-right"></div>
+    <div class="corner-bottom-right"></div>
+  </div>
 
-                <h5>¿Cómo se realiza?</h5>
-                <p>{{ ejercicio?.descripcion }}</p>
-              </div>
-            </div>
-          </div>
-          <button
-            class="btn-info me-3"
-            *ngIf="!mostrarDescripcion"
-            (click)="mostrarDescripcion = true"
-          >
-            <i class="fas fa-info-circle"></i>
-          </button>
-        </div>
+  <div class="imagen-ejercicio" id="image-wrapper">
+    <img [src]="ejercicio?.imagen" alt="Ejercicio" />
+    <button
+      class="btn-info-icono"
+      (click)="mostrarDescripcion = true"
+      *ngIf="!mostrarDescripcion"
+    >
+      <i class="fas fa-info-circle"></i>
+    </button>
+  </div>
+
+  <div class="descripcion-ejercicio" [class.visible]="mostrarDescripcion">
+    <button class="btn-volver" (click)="mostrarDescripcion = false">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h5>¿Cómo se realiza?</h5>
+    <p>{{ ejercicio?.descripcion }}</p>
+  </div>
+</div>
+
 
         <div
           *ngIf="!ejercicio?.correccionPremium && ejercicio?.tieneCorrecion"
