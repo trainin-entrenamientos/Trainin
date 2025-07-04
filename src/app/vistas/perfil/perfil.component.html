@@ -182,9 +182,13 @@
                 <h2 class="mb-1">{{this.perfil?.ejerciciosDiariosCompletados}}</h2>
                 <p class="card-text text-uppercase mb-0">
                   Ejercicios diarios completados
-                </p>
-                <small class="text-muted-white"
+                </p> 
+            
+                <small *ngIf="ejerciciosDiariosCompletados>1" class="text-muted-white"
                   >Lo estás haciendo muy bien, seguí así</small
+                >
+                <small *ngIf="ejerciciosDiariosCompletados==0" class="text-muted-white"
+                  >Comenzá a entrenar con TRAININ</small
                 >
               </div>
             </div>
