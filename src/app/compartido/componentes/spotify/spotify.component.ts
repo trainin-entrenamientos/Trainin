@@ -73,7 +73,6 @@ export class SpotifyComponent implements OnInit, OnDestroy {
     });
 
     this.player.addListener('ready', ({ device_id }: any) => {
-      console.log('Reproductor listo con ID:', device_id);
       
       this.ngZone.run(() => {
         this.isReady = true;
@@ -86,7 +85,6 @@ export class SpotifyComponent implements OnInit, OnDestroy {
     });
 
     this.player.addListener('not_ready', ({ device_id }: any) => {
-      console.log('Device ID has gone offline', device_id);
       this.ngZone.run(() => {
         this.isReady = false;
       });
@@ -124,7 +122,6 @@ export class SpotifyComponent implements OnInit, OnDestroy {
 
     this.player.connect().then((success: boolean) => {
       if (success) {
-        console.log('Conectado al reproductor de Spotify');
       } else {
         console.error('No se pudo conectar al reproductor');
       }
@@ -145,13 +142,11 @@ export class SpotifyComponent implements OnInit, OnDestroy {
 
       if (state.paused) {
         this.player.resume().then(() => {
-          console.log('Reproducción reanudada');
         }).catch((error: any) => {
           console.error('Error reanudando reproducción:', error);
         });
       } else {
         this.player.pause().then(() => {
-          console.log('Reproducción pausada');
         }).catch((error: any) => {
           console.error('Error pausando reproducción:', error);
         });
@@ -182,7 +177,6 @@ export class SpotifyComponent implements OnInit, OnDestroy {
 
     try {
       const data = await this.spotifyService.getCurrentPlayback(this.token);
-      console.log('Canción actual:', data);
     } catch (err) {
       console.error('Error obteniendo canción actual:', err);
     }

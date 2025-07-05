@@ -70,7 +70,6 @@ export class RealizarEjercicioComponent {
 
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
-        this.rutinaService.avanzarAlSiguienteEjercicio();
         this.siguienteEjercicioRutina();
       }
     }, 1000);
