@@ -52,8 +52,12 @@ describe('HeaderComponent', () => {
     eventsSubject.next(
       new NavigationEnd(1, '/informacion-ejercicio', '/informacion-ejercicio')
     );
+    fixture.detectChanges();
+
     expect(component.enRutina).toBeTrue();
     eventsSubject.next(new NavigationEnd(2, '/home', '/home'));
+    fixture.detectChanges();
+
     expect(component.enRutina).toBeFalse();
   });
 
@@ -157,6 +161,7 @@ describe('HeaderComponent', () => {
 
   it('Debería definir rol de administrador al recibir rol desde el servicio', () => {
   rolSubject.next('Administrador');
+  fixture.detectChanges();
   expect(component.esAdministrador).toBeTrue();
 });
 
