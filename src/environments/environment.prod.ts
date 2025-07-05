@@ -12,6 +12,6 @@ export const environment = {
   },
   spotify: {
     clientId: 'dbaa742e9e6f4f3aa345f3e0d609aaf2',
-    redirectUri: 'http://127.0.0.1:4200/callback'
+    redirectUri: 'https://trainin-puce.vercel.app/callback'
   }
 };
