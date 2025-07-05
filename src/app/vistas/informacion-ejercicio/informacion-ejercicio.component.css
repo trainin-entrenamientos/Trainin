@@ -195,33 +195,35 @@ h4{
   align-items: center;
   display: flex;
 }
-.ejercicio-box.expandido .imagen-con-borde {
-  transform: translateX(-100px);
-  transition: transform 0.4s ease;
-  justify-content: space-around;
-  align-items: center;
-  display: flex;
-}
 
 .imagen-con-borde {
-  display: flex;            
-  flex-direction: row;     
-  align-items: flex-start;
-  border: 2px solid #13FF3A;
-  border-radius: 0.5rem;
   position: relative;
-  transition: all 0.4s ease;
-  width: 100%;
-  overflow: hidden;  
-  margin-bottom: 1.5rem;
+  border: none !important;
+  border-radius: 10px;
+  padding: 10px;
+  align-self: center;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+  margin-bottom: 50px;
 }
 
 .imagen-con-borde img{
-  max-width: 300px;
+  width: 100%;
+  height: 450px;
+  max-width: 450px;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .imagen-con-borde.expandida {
   max-width: 1200px;
+  gap:40px;
+  display: flex;
+  flex-direction: row;
 }
 
 .descripcion-ejercicio {
@@ -234,7 +236,6 @@ h4{
   padding: 0;
   flex-shrink: 0;
   width: 0;
-
   color: #fff;
   align-self: center;
   white-space: pre-line;
@@ -267,20 +268,79 @@ h4{
   }
 }
 
-.btn-info {
-  margin: 1rem;
-  font-size: 2rem;
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  align-self: center;
+.esquinas {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
 }
 
-.btn-info:hover {
+.esquinas::before,
+.esquinas::after,
+.esquinas .corner-top-right,
+.esquinas .corner-bottom-right {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #13FF3A;
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.esquinas::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.esquinas::after {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.esquinas .corner-top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.esquinas .corner-bottom-right {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.esquinas .corner-top-right,
+.esquinas .corner-bottom-right {
+  transition: transform 0.5s ease;
+}
+
+.imagen-con-borde.expandida .corner-top-right,
+.imagen-con-borde.expandida .corner-bottom-right {
+  transform: translateX(var(--desplazamiento-info));
+}
+
+.btn-info-icono {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: #00060C;
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn-info-icono:hover {
   transform: scale(1.2);
-  color: #13FF3A;
+    color: #13FF3A;
 }
 
 .btn-volver {
@@ -314,13 +374,21 @@ h4{
   margin: 0 0.5rem !important;
 }
 
+
 @media (min-width: 768px) and (max-width: 1050.98px) {
-   .ejercicio-box.expandido .imagen-con-borde {
-    transform: none !important; 
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+ .imagen-ejercicio{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-ejercicio img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .preview-timer .btn-outline-success {
     border-color: #13FF3A;
     color: #13FF3A;
@@ -341,13 +409,7 @@ h4{
     right: 0.5rem;
   }
 
-  .ejercicio-box.expandido {
-    width: 100%;
-    margin-left: 0;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+  
 
   .imagen-con-borde {
     flex-direction: column;
@@ -427,12 +489,7 @@ h4{
     flex-direction: column !important;
   }
 
-  .ejercicio-box {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
+ 
 
   .ejercicio-box.expandido {
     width: 100%;

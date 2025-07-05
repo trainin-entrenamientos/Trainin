@@ -35,6 +35,7 @@ body {
   height: auto;
   max-height: 90vh;
   overflow: hidden;
+  gap: 45px;
 }
 
 .left,
