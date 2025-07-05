@@ -48,7 +48,7 @@ describe('OlvidasteContraseniaComponent', () => {
     tick();
     expect(component.cargando).toBeFalse();
     expect(toastrSpy.success).toHaveBeenCalledWith(
-      'Si existe una cuenta, recibirás un email para recuperarla.',
+      'Se ha enviado un correo para recuperar tu contraseña.',
       'Correo enviado'
     );
   }));
@@ -70,7 +70,7 @@ describe('OlvidasteContraseniaComponent', () => {
     component.onSubmit();
     tick();
     expect(toastrSpy.error).toHaveBeenCalledWith(
-      'No se pudo enviar el email. Intente nuevamente'
+      'No se encontró una cuenta para el correo electrónico proporcionado.'
     );
     expect(component.cargando).toBeFalse();
   }));

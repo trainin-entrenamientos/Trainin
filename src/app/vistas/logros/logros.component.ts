@@ -68,15 +68,15 @@ export class LogrosComponent implements OnInit {
     this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
       next: (respUser) => {
         console.log(respUser.objeto)
-        this.logrosObtenidos = respUser.objeto || [];
+        this.logrosObtenidos = respUser.objeto;
 
         this.logroService.obtenerTodosLosLogros().subscribe({
           next: (respAll) => {
             const todos: LogroDTO[] = respAll.objeto || [];
-
+            console.log(respAll.objeto);
             this.todosLosLogros = todos.map((l) => ({
               ...l,
-              obtenido: this.logrosObtenidos.some((u) => u.id === l.id),
+              obtenido: this.logrosObtenidos.some((u) => u.nombre === l.nombre),
               fechaObtencion: this.parsearFecha(
                 this.logrosObtenidos.find((u) => u.id === l.id)?.fechaObtencion
               ),
@@ -89,7 +89,7 @@ export class LogrosComponent implements OnInit {
 
               if (this.logrosPorTipo[tipo]) {
                 this.logrosPorTipo[tipo].total++;
-                if (this.logrosObtenidos.some((l) => l.id === logro.id)) {
+                if (this.logrosObtenidos.some((l) => l.nombre === logro.nombre)) {
                   this.logrosPorTipo[tipo].obtenidos++;
                 }
               }

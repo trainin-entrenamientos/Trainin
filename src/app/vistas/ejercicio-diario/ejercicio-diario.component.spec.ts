@@ -28,7 +28,7 @@ describe('EjercicioDiarioComponent', () => {
     id: 1,
     nombre: 'Ejercicio Test',
     descripcion: '1) Primer paso del ejercicio 2) Segundo paso del ejercicio 3) Tercer paso',
-    video: 'https://www.youtube.com/watch?v=testVideoId',
+    video: 'https://www.youtube.com/watch?v=testVideoId?autoplay=1&loop=1&playlist=${videoIdTest}',
     imagen: 'test-image.jpg',
     tiempo: 120,
     repeticiones: 10,
@@ -192,7 +192,7 @@ describe('EjercicioDiarioComponent', () => {
       component.obtenerEjercicioDiario();
 
       expect(sanitizerSpy.bypassSecurityTrustResourceUrl)
-        .toHaveBeenCalledWith('https://www.youtube.com/embed/testVideoId?autoplay=1');
+        .toHaveBeenCalledWith('https://www.youtube.com/embed/testVideoId?autoplay=1&loop=1&playlist=testVideoId');
     });
 
     it('debería procesar URL de YouTube (formato corto)', () => {
@@ -209,7 +209,7 @@ describe('EjercicioDiarioComponent', () => {
       component.obtenerEjercicioDiario();
 
       expect(sanitizerSpy.bypassSecurityTrustResourceUrl)
-        .toHaveBeenCalledWith('https://www.youtube.com/embed/testVideoId?autoplay=1');
+        .toHaveBeenCalledWith('https://www.youtube.com/embed/testVideoId?autoplay=1&loop=1&playlist=testVideoId');
     });
 
     it('debería manejar el caso de email null', () => {

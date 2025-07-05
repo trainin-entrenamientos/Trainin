@@ -46,14 +46,14 @@ export class OlvidasteContraseniaComponent implements OnInit {
           this.cargando = false;
           if (res.exito) {
             this.toastr.success(
-              'Si existe una cuenta, recibirás un email para recuperarla.',
+              'Se ha enviado un correo para recuperar tu contraseña.',
               'Correo enviado'
             );
           }
         },
         error: (err) => {
           this.cargando = false;
-          manejarErrorSimple(this.toastr, 'No se pudo enviar el email. Intente nuevamente');
+          manejarErrorSimple(this.toastr, 'No se encontró una cuenta para el correo electrónico proporcionado.');
         }
       });
   }

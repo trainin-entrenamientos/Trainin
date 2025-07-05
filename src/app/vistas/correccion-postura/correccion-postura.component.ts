@@ -84,7 +84,7 @@ export class CorreccionPosturaComponent implements OnInit, AfterViewInit, OnDest
           let rawVideoUrl: string = entradaEjercicio.video.trim();
           if (rawVideoUrl.includes('watch?v=')) {
             const videoId = rawVideoUrl.split('watch?v=')[1].split('&')[0];
-            rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            rawVideoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`;
           }
           this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(rawVideoUrl);
         } else {
