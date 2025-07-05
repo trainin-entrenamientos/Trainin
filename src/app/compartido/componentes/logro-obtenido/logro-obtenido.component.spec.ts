@@ -51,23 +51,7 @@ describe('LogroObtenidoComponent', () => {
     expect(component.obtenerNivelDesdeImagen('otra-cosa.png')).toBe('default');
   });
 
-  /*it('Debería mostrar y luego ocultar el logro después de transcurrir los tiempos establecidos', fakeAsync(() => {
-    const audioStub = jasmine.createSpyObj('Audio', ['play']);
-    component['sonidoLogro'] = audioStub;
-    component.mostrarLogro('Test', 'medalla-oro');
-    expect(component.logrosVisibles.length).toBe(1);
-    expect(audioStub.play).toHaveBeenCalled();
-
-    let logro = component.logrosVisibles[0];
-    expect(logro.visible).toBeTrue();
-    expect(logro.nivel).toBe('oro');
-
-    tick(6000);
-    expect(component.logrosVisibles[0].visible).toBeFalse();
-
-    tick(500);
-    expect(component.logrosVisibles.length).toBe(0);
-  }));*/
+  
 
   it('Debería iniciar notificaciones y desaparecerlas al destruir el componente', () => {
     component.ngOnInit();

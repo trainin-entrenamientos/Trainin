@@ -370,7 +370,7 @@ li{
 @media (max-width: 576px) {
 
 .header-container {
-    justify-content: flex-start; /* Alinea a la izquierda en móviles para mejor legibilidad */
+    justify-content: flex-start; 
     padding-inline: 1rem;
   }
   .flecha {

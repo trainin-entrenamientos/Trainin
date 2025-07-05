@@ -40,7 +40,7 @@
 
 a.btn-trainin {
   text-decoration: none;
-  display: inline-block; /* para que respete el hover y el padding */
+  display: inline-block;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 

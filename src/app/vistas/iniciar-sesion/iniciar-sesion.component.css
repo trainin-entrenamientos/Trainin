@@ -160,7 +160,7 @@ body {
 
   
 }
-/* Tablet */
+
 @media (max-width: 768px) {
   body{
       height: 83vh;
