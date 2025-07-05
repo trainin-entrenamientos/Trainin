@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+}
+
+main,
+html {
+  font-family: "Merriweather Sans", sans-serif;
+  background-color: #00060c;
+  font-style: normal;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.loader {
+  height: 90vh;
+  background-color: #00060C;
+}
+
+.forgot-password-section {
+  padding: 3rem 0;
+}
+
+.section-title {
+  display: table;
+  margin: 0 auto 2.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  border-bottom: 4px solid #13FF3A;
+  padding-bottom: 0.25rem;
+  text-align: center;
+}
+
+.forgot-password-card {
+  background-color: #0B1A1E;
+  width: 75%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.trainin-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #FFF;
+  color: #FFF;
+  width: 100%;
+  padding: 0.5rem 0;
+  transition: border-color 0.2s;
+}
+
+.trainin-input:hover,
+.trainin-input:focus {
+  border-bottom-color: #13FF3A;
+  outline: none;
+}
+
+.input-container {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.input-container i {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  color: #FFF;
+}
+
+.input-container label {
+  position: absolute;
+  left: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0B1A1E;
+  color: #777;
+  padding: 0 0.25rem;
+  transition: transform 0.2s, color 0.2s, font-size 0.2s;
+  pointer-events: none;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+  transform: translateY(-150%) scale(0.85);
+  color: #13FF3A;
+  font-size: 0.85rem;
+}
+
+.text-error {
+  color: #FFF;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.container{
+  align-items: center;
+}
+
+app-boton-trainin .btn-trainin {
+  width: auto;
+  padding: 0.75rem 2rem;
+}
+
+@media (max-width: 767px) {
+  .section-title {
+    font-size: 2.3rem;
+    border-bottom: none;
+    text-decoration: underline #13FF3A 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  .forgot-password-card {
+    width: 85%;
+    padding: 1.5rem;
+  }
+
+  .text-error {
+    font-size: 0.8rem;
+  }
+
+  app-boton-trainin .btn-trainin {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .forgot-password-card {
+    width: 60%;
+  }
+}

@@ -50,17 +50,17 @@
   .card-image {
     flex: 0 0 40%;
     position: relative;
-    min-height: 200px;
     background: #0B1A1E ;
   }
 
-  .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-  }
+ .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 
   .card-texto {
     flex: 1;
@@ -147,28 +147,29 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 600px) {
-  .card-feature {
-    flex-direction: column;
-  }
-
-  .card-image {
-    flex: 1 1 auto;
-    height: 180px;
-  }
-
-  .card-texto {
-    padding: 1rem;
-  }
-}
-
 @media (max-width: 1024px) {
+ .premium-container .card-title {
+    font-size: 1.6rem;
+  }
+
+  .premium-container .card-desc {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+
+  .price p {
+    font-size: 2rem;
+  }
+
+  .premium-container p {
+    font-size: 1rem;
+  }
   .premium-container {
     padding: 0 1rem;
   }
 
   .section-title {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     margin-bottom: 2rem;
   }
 
@@ -177,48 +178,56 @@
   }
 
   .card-feature {
-    display: flex;
+    flex-direction: column; 
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
     height: auto;
-    margin: 0 auto 2rem auto;
+    margin-bottom: 2rem;
   }
 
-  .card-image {
-    flex: 1 1 auto;
-    height: 180px;
+  
+ .premium-container .card-feature {
+    height: auto;
+    margin: 0 auto 1.2rem auto;
   }
 
-  .card-texto {
-    padding: 1rem;
+  .premium-container .card-feature .card-image {
+    width: 100%;
+    height: 340px; 
   }
 
-  .card-title {
-    font-size: 1.8rem;
-  }
-
-  .card-desc {
-    font-size: 1.2rem;
+  .premium-container .card-feature .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .price p {
     font-size: 2rem;
-    margin: 2rem 0;
   }
 
   :host ::ng-deep app-boton-trainin a.premium-btn,
   :host ::ng-deep app-boton-trainin button.premium-btn {
-    transform: scale(1.2);
+    transform: scale(1.15);
   }
 
   :host ::ng-deep app-boton-trainin a.premium-btn:hover,
   :host ::ng-deep app-boton-trainin button.premium-btn:hover {
-    transform: scale(1.4);
+    transform: scale(1.25);
+  }
+}
+@media (max-width: 815px) {
+ .premium-container .card-title {
+    font-size: 1.4rem;
+  }
+
+  .premium-container .card-desc {
+    font-size: 1.0rem;
+    line-height: 1.2;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .premium-container {
     padding: 0 0.5rem;
   }
@@ -233,42 +242,31 @@
     gap: 1.2rem;
   }
 
-  .premium-container .card-feature {
-    display: flex !important;
-    flex-direction: column-reverse !important;
-    height: auto !important;
-    margin: 0 auto 1.2rem auto !important;
+   .premium-container .card-feature {
+    flex-direction: column-reverse;
+    height: auto;
+    margin: 0 auto 1.2rem auto;
   }
 
   .premium-container .card-feature .card-image {
-    flex: 1 1 auto !important;
-    height: 140px !important;
+    width: 100%;
+    height: 340px; 
   }
 
   .premium-container .card-feature .card-image img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: top !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .premium-container .card-feature .card-texto {
-    padding: 0.8rem 1rem !important;
-  }
-
-  .premium-container .card-feature .card-title {
-    font-size: 1.4rem !important;
-    margin-bottom: 0.4rem !important;
-  }
-
-  .premium-container .card-feature .card-desc {
-    font-size: 1rem !important;
-    line-height: 1.3 !important;
+    padding: 0.8rem 1rem ;
   }
 
   .premium-container img {
-    width: 100% !important;
-    height: auto !important;
+    width: 100% ;
+    height: auto ;
   }
 
   .premium-container .price {
@@ -277,7 +275,7 @@
   }
 
   .premium-container .price p {
-    font-size: 1.6rem !important;
+    font-size: 1.6rem ;
   }
 
   :host ::ng-deep app-boton-trainin a.premium-btn,
@@ -295,4 +293,51 @@
   :host ::ng-deep app-boton-trainin button.premium-btn:hover {
     transform: scale(1.1) !important;
   }
+
+  .card-feature {
+    flex-direction: column;
+  }
+
+  .card-texto {
+    padding: 1rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .premium-container .card-feature {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    height: auto;
+  }
+
+  .premium-container .card-feature .card-image {
+    flex-grow: 1;
+    max-height: 100%; /* que se expanda según el texto */
+    width: 100%;
+    display: flex;
+  }
+
+  .premium-container .card-feature .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .premium-container .card-feature .card-texto {
+    padding: 1rem;
+  }
+
+   .premium-container .price p {
+    font-size: 1.1rem ;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .premium-container .card-feature .card-image {
+    max-height: 150px;
+  }
+
 }

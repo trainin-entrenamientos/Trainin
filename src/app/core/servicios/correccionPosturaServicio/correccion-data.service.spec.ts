@@ -17,7 +17,7 @@ describe('CorreccionDataService', () => {
   it('Debería cargar los datos del ejercicio desde sessionStorage si hay un JSON válido al crear el servicio', () => {
     const datos: DatosEjercicio[] = [
       { nombre: 'ej1', maxPorcentaje: 10, reintentos: 1 },
-      { nombre: 'ej2', maxPorcentaje: 20, reintentos: 2 }
+      { nombre: 'ej2', maxPorcentaje: 20, reintentos: 2 },
     ];
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
 
@@ -35,13 +35,23 @@ describe('CorreccionDataService', () => {
   it('Debería registrar un nuevo ejercicio y persistirlo en sessionStorage', () => {
     service.registrarResultado('ej1', 50, 1);
 
-    const almacenado: DatosEjercicio[] = JSON.parse(sessionStorage.getItem(STORAGE_KEY)!);
-    expect(almacenado).toEqual([{ nombre: 'ej1', maxPorcentaje: 50, reintentos: 1 }]);
-    expect(service.obtenerPorEjercicio('ej1')).toEqual({ nombre: 'ej1', maxPorcentaje: 50, reintentos: 1 });
+    const almacenado: DatosEjercicio[] = JSON.parse(
+      sessionStorage.getItem(STORAGE_KEY)!
+    );
+    expect(almacenado).toEqual([
+      { nombre: 'ej1', maxPorcentaje: 50, reintentos: 1 },
+    ]);
+    expect(service.obtenerPorEjercicio('ej1')).toEqual({
+      nombre: 'ej1',
+      maxPorcentaje: 50,
+      reintentos: 1,
+    });
   });
 
   it('Debería actualizar los reintentos y no cambiar el porcentaje máximo si el nuevo porcentaje es menor', () => {
-    const inicial: DatosEjercicio[] = [{ nombre: 'ej1', maxPorcentaje: 80, reintentos: 1 }];
+    const inicial: DatosEjercicio[] = [
+      { nombre: 'ej1', maxPorcentaje: 80, reintentos: 1 },
+    ];
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(inicial));
     service = new CorreccionDataService();
 
@@ -52,7 +62,9 @@ describe('CorreccionDataService', () => {
   });
 
   it('Debería actualizar el máximo porcentaje si el nuevo porcentaje es mayor', () => {
-    const inicial: DatosEjercicio[] = [{ nombre: 'ej1', maxPorcentaje: 80, reintentos: 1 }];
+    const inicial: DatosEjercicio[] = [
+      { nombre: 'ej1', maxPorcentaje: 80, reintentos: 1 },
+    ];
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(inicial));
     service = new CorreccionDataService();
 

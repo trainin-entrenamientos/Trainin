@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-nosotros',
   standalone: false,
   templateUrl: './nosotros.component.html',
-  styleUrl: './nosotros.component.css'
+  styleUrl: './nosotros.component.css',
 })
-export class NosotrosComponent {
-
-}
+export class NosotrosComponent {}

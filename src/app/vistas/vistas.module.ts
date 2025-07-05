@@ -7,7 +7,6 @@ import { PreguntasFrecuentesComponent } from './preguntas-frecuentes/preguntas-f
 import { TerminosCondicionesComponent } from './terminos-condiciones/terminos-condiciones.component';
 import { CrearPlanEntrenamientoComponent } from './crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { CompartidoModule } from '../compartido/compartido.module';
-
 import { InicioRutinaComponent } from './inicio-rutina/inicio-rutina.component';
 import { FinalizacionRutinaComponent } from './finalizacion-rutina/finalizacion-rutina.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -27,9 +26,15 @@ import { VerificarEmailComponent } from './verificar-email/verificar-email.compo
 import { LogrosComponent } from './logros/logros.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
+import { ErrorComponent } from './error/error.component';
+import { ListadoDeEjerciciosComponent } from './listado-de-ejercicios/listado-de-ejercicios.component';
+import { FormAdminComponent } from './form-admin/form-admin.component';
+import { EjercicioDiarioComponent} from './ejercicio-diario/ejercicio-diario.component';
+import { HistorialPlanesComponent } from './historial-planes/historial-planes.component';
+import { RecuperarContraseniaComponent } from './recuperar-contrasenia/recuperar-contrasenia.component';
+import { OlvidasteContraseniaComponent } from './olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
 
 @NgModule({
-
   declarations: [
     PlanesComponent,
     PoliticasPrivacidadComponent,
@@ -52,7 +57,14 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     LogrosComponent,
     PerfilComponent,
     PagoExitosoComponent,
-  ],
+    ErrorComponent,
+    ListadoDeEjerciciosComponent,
+    FormAdminComponent,
+    EjercicioDiarioComponent,
+    HistorialPlanesComponent,
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
+    ],
 
   imports: [
     CommonModule,
@@ -61,7 +73,7 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     ReactiveFormsModule,
     CompartidoModule,
     NgbTooltipModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   exports: [
     PlanesComponent,
@@ -72,7 +84,9 @@ import { PagoExitosoComponent } from './pago-exitoso/pago-exitoso.component';
     FinalizacionRutinaComponent,
     InicioComponent,
     PerfilComponent,
-    PlanPremiumComponent
-  ]
+    PlanPremiumComponent,
+    OlvidasteContraseniaComponent,
+    RecuperarContraseniaComponent
+  ],
 })
-export class VistasModule { }
+export class VistasModule {}

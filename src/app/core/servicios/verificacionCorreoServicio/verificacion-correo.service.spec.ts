@@ -1,41 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } 
-  from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { VerificacionCorreoService } from './verificacion-correo.service';
 import { environment } from '../../../../environments/environment';
-
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
+ 
 describe('VerificacionCorreoService', () => {
   let service: VerificacionCorreoService;
   let httpMock: HttpTestingController;
-  const baseUrl = `${environment.URL_BASE}/usuario/confirmarEmail/`;
-
+  const apiUrl = `${environment.URL_BASE}/usuario/activar/`;
+ 
+  const mockRespuesta: RespuestaApi<boolean> = {
+    exito: true,
+    mensaje: 'Activado correctamente',
+    objeto: true
+  };
+ 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [VerificacionCorreoService]
+      imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(VerificacionCorreoService);
     httpMock = TestBed.inject(HttpTestingController);
   });
-
+ 
   afterEach(() => {
     httpMock.verify();
   });
-
-  it('Debería crearse correctamente el servicio de verificación de correo', () => {
+ 
+  it('debería crearse', () => {
     expect(service).toBeTruthy();
   });
-
-  it('Debería confirmar la cuenta de correo de un usuario con el token proporcionado', () => {
-    const fakeToken = 'abc123';
-    const mockResponse = { success: true };
-
-    service.confirmarEmail(fakeToken).subscribe(resp => {
-      expect(resp).toEqual(mockResponse);
+ 
+  it('confirmarEmail debería hacer GET y devolver RespuestaApi<boolean>', () => {
+    const token = 'abc123';
+ 
+    service.confirmarEmail(token).subscribe(res => {
+      expect(res).toEqual(mockRespuesta);
     });
-
-    const req = httpMock.expectOne(baseUrl + fakeToken);
+ 
+    const req = httpMock.expectOne(`${apiUrl}${token}`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
+    req.flush(mockRespuesta);
   });
 });

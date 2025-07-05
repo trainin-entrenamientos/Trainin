@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Logro } from '../../modelos/LogroDTO';
+import { LogroDTO } from '../../modelos/LogroDTO';
+import { RespuestaApi } from '../../modelos/RespuestaApiDTO';
  
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,18 @@ export class LogroService {
 
   constructor(private http: HttpClient) { }
 
-  mostrarLogro(logro: Logro) {
+  mostrarLogro(logro: LogroDTO) {
     const nombre= logro.nombre;
     const imagen= logro.imagen;
     
     this.logroSubject.next({ nombre, imagen });
   }
 
-   obtenerLogrosPorUsuario(email:string | null): Observable<any> {
-      return this.http.get(`${this.baseUrl}/usuario/obtenerLogros/${email}`);
+   obtenerLogrosPorUsuario(email:string | null): Observable<RespuestaApi<LogroDTO[]>> {
+      return this.http.get<RespuestaApi<LogroDTO[]>>(`${this.baseUrl}/usuario/obtenerLogros/${email}`);
     }
 
-   obtenerTodosLosLogros(): Observable<any> {
-      return this.http.get(`${this.baseUrl}/logro/obtenerLogros`);
+   obtenerTodosLosLogros(): Observable<RespuestaApi<LogroDTO[]>> {
+      return this.http.get<RespuestaApi<LogroDTO[]>>(`${this.baseUrl}/logro/obtener`);
     }
 }

@@ -10,12 +10,15 @@ describe('TemporizadorComponent', () => {
 
   beforeEach(async () => {
     timerSpy = jasmine.createSpyObj('TemporizadorService', [
-      'pausar', 'continuar', 'obtenerSegundosTranscurridos', 'estaCorriendoTiempo'
+      'pausar',
+      'continuar',
+      'obtenerSegundosTranscurridos',
+      'estaCorriendoTiempo',
     ]);
 
     await TestBed.configureTestingModule({
       declarations: [TemporizadorComponent],
-      providers: [{ provide: TemporizadorService, useValue: timerSpy }]
+      providers: [{ provide: TemporizadorService, useValue: timerSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TemporizadorComponent);
@@ -25,7 +28,7 @@ describe('TemporizadorComponent', () => {
   it('Debería detener el contador cuando el temporizador cambia a pausado', () => {
     component.estaPausado = true;
     component.ngOnChanges({
-      estaPausado: new SimpleChange(false, true, false)
+      estaPausado: new SimpleChange(false, true, false),
     });
     expect(timerSpy.pausar).toHaveBeenCalled();
   });
@@ -33,7 +36,7 @@ describe('TemporizadorComponent', () => {
   it('Debería reanudar el contador cuando se quita la pausa', () => {
     component.estaPausado = false;
     component.ngOnChanges({
-      estaPausado: new SimpleChange(true, false, false)
+      estaPausado: new SimpleChange(true, false, false),
     });
     expect(timerSpy.continuar).toHaveBeenCalled();
   });

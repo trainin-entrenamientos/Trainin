@@ -11,6 +11,8 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+    max-height: 300vh;
 }
 
 
@@ -84,11 +86,15 @@ body {
   align-self: center;
 }
 
+.columna-datos small, h3{
+  font-size: 25px;  
+}
+
 .timerYPausa {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1.2rem;
   position: absolute;
   top: 0;
   left: 0;

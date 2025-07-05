@@ -1,46 +1,130 @@
 <header>
   <nav class="d-flex justify-content-between align-items-center">
-    <div>
-      <a 
+    <div *ngIf="esAdministrador">
+      <a
+        class="logo"
+        [routerLink]="esAdministrador ? '/listarEjercicios' : null"
+        (click)="navegarSiCorresponde($event)"
+      >
+        <img
+          src="imagenes/logo-trainin.svg"
+          alt="TRAININ Logo"
+          class="img-fluid d-none d-md-block"
+        />
+        <img
+          src="imagenes/TRAININ-LOGO-FO.svg"
+          alt="TRAININ Logo Mobile"
+          class="img-fluid d-block d-md-none"
+        />
+      </a>
+    </div>
+    <div *ngIf="!esAdministrador">
+      <a
         class="logo"
         [routerLink]="obtenerRutaLogo()"
         (click)="navegarSiCorresponde($event)"
       >
-        <img src="imagenes/logo-trainin.svg" alt="TRAININ Logo" class="img-fluid d-none d-md-block" />
-        <img src="imagenes/TRAININ-LOGO-FO.svg" alt="TRAININ Logo Mobile" class="img-fluid d-block d-md-none" />
+        <img
+          src="imagenes/logo-trainin.svg"
+          alt="TRAININ Logo"
+          class="img-fluid d-none d-md-block"
+        />
+        <img
+          src="imagenes/TRAININ-LOGO-FO.svg"
+          alt="TRAININ Logo Mobile"
+          class="img-fluid d-block d-md-none"
+        />
       </a>
-
     </div>
 
-    <div>
-<button *ngIf="enRutina" class="boton-finalizar-rutina" (click)="abrirModalFinalizarRutina()">Salir</button>
+    <div *ngIf="!esAdministrador">
+      <button
+        *ngIf="enRutina"
+        class="boton-finalizar-rutina"
+        (click)="abrirModalFinalizarRutina()"
+      >
+        Salir
+      </button>
 
       <ng-container *ngIf="!enRutina">
-        <a routerLink="/premium" routerLinkActive="router-link-active" class="text-white me-3" id="aHover">Premium</a>
-        <a routerLink="/nosotros" class="text-white me-3" id="aHover">Nosotros</a>
+        <a
+          routerLink="/premium"
+          routerLinkActive="router-link-active"
+          class="text-white me-3"
+          id="aHover"
+          >Premium</a
+        >
+        <a routerLink="/nosotros" class="text-white me-3" id="aHover"
+          >Nosotros</a
+        >
 
         <ng-container *ngIf="estaLogueado(); else noLogueado">
-          <a id="userDropdown" class="dropdown-toggle" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            id="userDropdown"
+            class="dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <i class="fas fa-user me-1"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <ul
+            class="dropdown-menu dropdown-menu-end dropdown-menu-dark"
+            aria-labelledby="userDropdown"
+          >
             <li><a class="dropdown-item" routerLink="/perfil">Perfil</a></li>
             <li><a class="dropdown-item" routerLink="/logros">Logros</a></li>
-            <li><a class="dropdown-item" (click)="onClickCerrarSesion($event)">Cerrar sesión</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/historial-planes"
+                >Historial</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="onClickCerrarSesion($event)"
+                >Cerrar sesión</a
+              >
+            </li>
           </ul>
         </ng-container>
 
         <ng-template #noLogueado>
-          <a routerLink="/iniciar-sesion" class="text-white me-3" id="aHover">Iniciar sesión</a>
+          <a routerLink="/iniciar-sesion" class="text-white me-3" id="aHover"
+            >Iniciar sesión</a
+          >
         </ng-template>
       </ng-container>
     </div>
-  </nav>
-  <app-modal-salir-de-rutina
-  [visible]="mostrarModalSalirRutina"
-  (onConfirm)="confirmarSalidaRutina()"
-  (onCancel)="cancelarSalidaRutina()"
-></app-modal-salir-de-rutina>
 
+    <div *ngIf="esAdministrador">
+      <a
+        id="userDropdownAdmin"
+        class="dropdown-toggle text-white"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="fas fa-user me-1"></i>
+      </a>
+      <ul
+        class="dropdown-menu dropdown-menu-end dropdown-menu-dark"
+        aria-labelledby="userDropdown"
+      >
+        <li>
+          <a class="dropdown-item" (click)="onClickCerrarSesion($event)"
+            >Cerrar sesión</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <app-modal-salir-de-rutina [visible]="mostrarModalSalirRutina" (onConfirm)="confirmarSalidaRutina()"
+    (onCancel)="cancelarSalidaRutina()"></app-modal-salir-de-rutina>
+  <ng-container *ngIf="mostrarSpotify">
+    <div class="position-absolute start-50 top-50 spotify-overlay" (click)="$event.stopPropagation()">
+      <app-spotify></app-spotify>
+    </div>
+  </ng-container>
 </header>
+

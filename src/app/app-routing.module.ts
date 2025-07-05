@@ -12,7 +12,6 @@ import { NosotrosComponent } from './vistas/nosotros/nosotros.component';
 import { PlanPremiumComponent } from './vistas/plan-premium/plan-premium.component';
 import { CalibracionCamaraComponent } from './vistas/calibracion-camara/calibracion-camara.component';
 import { CorreccionPosturaComponent } from './vistas/correccion-postura/correccion-postura.component';
-
 import { PlanesComponent } from './vistas/planes/planes.component';
 import { CrearPlanEntrenamientoComponent } from './vistas/crear-plan-entrenamiento/crear-plan-entrenamiento.component';
 import { InicioRutinaComponent } from './vistas/inicio-rutina/inicio-rutina.component';
@@ -23,8 +22,17 @@ import { InformacionEjercicioComponent } from './vistas/informacion-ejercicio/in
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { VerificarEmailComponent } from './vistas/verificar-email/verificar-email.component';
 import { LogrosComponent } from './vistas/logros/logros.component';
-import { authGuard } from './core/guardias/auth.guard';
+import { authGuard } from './core/guardias/auth/auth.guard';
 import { PagoExitosoComponent } from './vistas/pago-exitoso/pago-exitoso.component';
+import { ErrorComponent } from './vistas/error/error.component';
+import { FormAdminComponent } from './vistas/form-admin/form-admin.component';
+import { ListadoDeEjerciciosComponent } from './vistas/listado-de-ejercicios/listado-de-ejercicios.component';
+import { adminGuard } from './core/guardias/admin/admin.guard';
+import { EjercicioDiarioComponent } from './vistas/ejercicio-diario/ejercicio-diario.component';
+import { HistorialPlanesComponent } from './vistas/historial-planes/historial-planes.component';
+import { CallbackComponent } from './compartido/componentes/callback/callback.component';
+import { OlvidasteContraseniaComponent } from './vistas/olvidaste-tu-contrasenia/olvidaste-tu-contrasenia.component';
+import { RecuperarContraseniaComponent } from './vistas/recuperar-contrasenia/recuperar-contrasenia.component';
 
 const routes: Routes = [
   {
@@ -34,104 +42,80 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'inicio',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
 
       {
         path: 'inicio',
-        component: InicioComponent
+        component: InicioComponent,
       },
       {
         path: 'iniciar-sesion',
-        component: IniciarSesionComponent
+        component: IniciarSesionComponent,
       },
       {
         path: 'registro',
-        component: RegistroComponent
+        component: RegistroComponent,
       },
       {
         path: 'terminos-condiciones',
-        component: TerminosCondicionesComponent
+        component: TerminosCondicionesComponent,
       },
       {
         path: 'politicas-privacidad',
-        component: PoliticasPrivacidadComponent
+        component: PoliticasPrivacidadComponent,
       },
       {
         path: 'preguntas-frecuentes',
-        component: PreguntasFrecuentesComponent
+        component: PreguntasFrecuentesComponent,
       },
       {
         path: 'nosotros',
-        component: NosotrosComponent
+        component: NosotrosComponent,
       },
       {
         path: 'premium',
-        component: PlanPremiumComponent
+        component: PlanPremiumComponent,
       },
-      {
-        path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
-      },
-      {
-        path: 'verificar-email/:token',
-        component: VerificarEmailComponent
-      },
-      {
-        path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
-      },
-
       {
         path: 'planes',
         component: PlanesComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'formulario-crear-plan',
         component: CrearPlanEntrenamientoComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'inicio-rutina/:PlanId',
         component: InicioRutinaComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'finalizacion-rutina',
         component: FinalizacionRutinaComponent,
-        canActivate: [authGuard]
-      },
-       {
-        path: 'registro',
-        component: RegistroComponent
-      },
-      {
-        path: 'inicio',
-        component: InicioComponent
-      },
-      {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
+        canActivate: [authGuard],
       },
       {
         path: 'calibracion-camara/:ejercicio',
-        component: CalibracionCamaraComponent
+        component: CalibracionCamaraComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'detalle-plan/:PlanId',
         component: DetallePlanComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'realizar-ejercicio',
         component: RealizarEjercicioComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'informacion-ejercicio',
         component: InformacionEjercicioComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'verificar-email/:token',
@@ -139,33 +123,77 @@ const routes: Routes = [
       },
       {
         path: 'correccion-postura/:ejercicio',
-        component: CorreccionPosturaComponent
+        component: CorreccionPosturaComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'logros',
         component: LogrosComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
       },
       {
         path: 'perfil',
-        component: PerfilComponent
+        component: PerfilComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'pago-exitoso',
         component: PagoExitosoComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'error',
+        component: ErrorComponent,
+      },
+      {
+        path: 'listarEjercicios',
+        component: ListadoDeEjerciciosComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'crear',
+        component: FormAdminComponent,
+      },
+      {
+        path: 'editar/:id',
+        component: FormAdminComponent,
+      },
+      {
+        path: 'eliminar/:id',
+        component: FormAdminComponent,
+      },
+      {
+        path: 'ejercicio-diario',
+        component: EjercicioDiarioComponent,
+      },
+      {
+        path: 'historial-planes',
+        component: HistorialPlanesComponent
+      },
+      {
+       path: 'callback',
+       component: CallbackComponent 
+      },
+      {
+        path: 'olvidaste-tu-contrasenia',
+        component: OlvidasteContraseniaComponent,
+      },
+      { 
+        path: 'recuperar-contrasenia/:token/:email',
+        component: RecuperarContraseniaComponent 
       }
-    ]
+    ],
   },
   {
     path: '**',
-    redirectTo: '/inicio',
-    pathMatch: 'full'
+    redirectTo: '/error',
+    pathMatch: 'full',
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

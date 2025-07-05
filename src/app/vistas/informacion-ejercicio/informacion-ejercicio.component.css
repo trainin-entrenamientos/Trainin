@@ -2,6 +2,8 @@ main {
   background-color: #00060C;
   margin: 0;
   display: flex;
+  min-height: 100vh;
+  max-height: 300vh;
   flex-direction: column;
 }
 
@@ -31,14 +33,6 @@ main {
   justify-content: center
 }
 
-.exercise-image img {
-  width: 100%;
-  border-radius: 0.5rem;
-  height: 30vh;
-  object-fit: contain;
-  background-color: black;
-  display: block;
-}
 
 .preview-timer small {
   font-size: 0.9rem;
@@ -53,12 +47,13 @@ main {
 }
 
 .preview-timer .progress {
-  width: 80%;
+  width: 65%;
   margin: 0 auto;
   height: 8px;
   background-color: #fff !important;
   border-radius: 4px;
   overflow: hidden;
+  margin-top: 1.3rem;
 }
 .preview-timer .progress-bar {
   background-color: #13FF3A !important;
@@ -148,13 +143,6 @@ main {
     flex-direction: column;
 }
 
-.preview-timer{
-    display: flex;    
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 @keyframes pulse-red {
   0%   { color: #fff; }
   50%  { color: #F24130 ; }
@@ -204,49 +192,55 @@ h4{
   width: 1200px;
   justify-content: center;
   margin-left: 200px;
-}
-.ejercicio-box.expandido .imagen-con-borde {
-  transform: translateX(-100px);
-  transition: transform 0.4s ease;
+  align-items: center;
+  display: flex;
 }
 
 .imagen-con-borde {
-  display: flex;
-  align-items: flex-start;
-  border: 2px solid #13FF3A;
-  border-radius: 0.5rem;
-  padding: 10px;
   position: relative;
-  transition: all 0.4s ease;
-  width: auto;
-  max-width: 700px;
-  overflow: hidden;
-  background-color: #0B1A1E;
+  border: none !important;
+  border-radius: 10px;
+  padding: 10px;
+  align-self: center;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+  margin-bottom: 50px;
 }
 
 .imagen-con-borde img{
-  max-width: 600px;
+  width: 100%;
+  height: 450px;
+  max-width: 450px;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .imagen-con-borde.expandida {
-  width: 100%;
   max-width: 1200px;
+  gap:40px;
+  display: flex;
+  flex-direction: row;
 }
 
 .descripcion-ejercicio {
   position: relative;
   margin-left: 1rem;
-  max-width: 0;
+  max-width: 100%;
   opacity: 0;
   overflow: hidden;
   transition: max-width 0.5s ease, opacity 0.5s ease;
   padding: 0;
   flex-shrink: 0;
   width: 0;
-  margin-top: 2rem;
   color: #fff;
   align-self: center;
+  white-space: pre-line;
 }
+
 .descripcion-ejercicio p {
   font-style: italic;
 }
@@ -255,7 +249,11 @@ h4{
   max-width: 400px;
   width: 400px;
   opacity: 1;
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 3rem;
 }
 
 .descripcion-ejercicio {
@@ -270,21 +268,79 @@ h4{
   }
 }
 
-
-.btn-info {
-  margin: 1rem;
-  font-size: 2rem;
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  align-self: center;
+.esquinas {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
 }
 
-.btn-info:hover {
+.esquinas::before,
+.esquinas::after,
+.esquinas .corner-top-right,
+.esquinas .corner-bottom-right {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #13FF3A;
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.esquinas::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.esquinas::after {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.esquinas .corner-top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.esquinas .corner-bottom-right {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.esquinas .corner-top-right,
+.esquinas .corner-bottom-right {
+  transition: transform 0.5s ease;
+}
+
+.imagen-con-borde.expandida .corner-top-right,
+.imagen-con-borde.expandida .corner-bottom-right {
+  transform: translateX(var(--desplazamiento-info));
+}
+
+.btn-info-icono {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: #00060C;
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn-info-icono:hover {
   transform: scale(1.2);
-  color: #13FF3A;
+    color: #13FF3A;
 }
 
 .btn-volver {
@@ -305,11 +361,34 @@ h4{
 
 }
 
+.preview-timer {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.preview-timer h3,
+.preview-timer #countdown {
+  margin: 0 0.5rem !important;
+}
+
 
 @media (min-width: 768px) and (max-width: 1050.98px) {
-   .ejercicio-box.expandido .imagen-con-borde {
-    transform: none !important; 
-  }
+ .imagen-ejercicio{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-ejercicio img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .preview-timer .btn-outline-success {
     border-color: #13FF3A;
     color: #13FF3A;
@@ -318,7 +397,6 @@ h4{
     padding: 0.5rem 1.5rem;
     font-size: 0.9rem;
   }
-
   
   .preview-timer .btn-outline-success:hover {
     background-color: #13FF3A;
@@ -331,11 +409,7 @@ h4{
     right: 0.5rem;
   }
 
-  .ejercicio-box.expandido {
-    width: 100%;
-    margin-left: 0;
-    justify-content: center;
-  }
+  
 
   .imagen-con-borde {
     flex-direction: column;
@@ -343,20 +417,14 @@ h4{
     height: 95%;
   }
   .imagen-con-borde.expandida {
-   
     height: 100%;
   }
-
-  .imagen-con-borde img {
-    max-width: 100%;
-    height: auto;
-  }
+ 
   .btn-info{
     padding: 0;
     margin:0;
     margin-top: 10px;
-  
-    font-size: 3rem;
+
   }
 
   .descripcion-ejercicio.visible {
@@ -368,9 +436,11 @@ h4{
 
 }
 
-
 @media (max-width: 767.98px) {
 
+  .practicar{
+    margin-top: 2rem;
+  }
     .titulo-ejercicio {
     font-size: 1.5rem;
   }
@@ -394,6 +464,9 @@ h4{
 }
    .ejercicio-box.expandido .imagen-con-borde {
     transform: none !important; 
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
  body{
     text-align: center;
@@ -409,26 +482,21 @@ h4{
   .col-12.col-md-5 {
     margin-top: 1rem;
   }
-  .exercise-image img {
-    max-height: 200px;
-    object-fit: contain;
-  }
+ 
    .contenedor-ejercicio {
     margin: 0;
     padding: 0;
+    flex-direction: column !important;
   }
 
-  .ejercicio-box {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
+ 
 
   .ejercicio-box.expandido {
     width: 100%;
     margin-left: 0;
     justify-content: center;
+    align-items: center;
+    display: flex;
   }
 
   .imagen-con-borde {
@@ -443,23 +511,17 @@ h4{
    margin-bottom: 20px;
   }
 
-  .imagen-con-borde img {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-  }
-
   .descripcion-ejercicio.visible {
     max-width: 100%;
     width: 100%;
     padding: 1rem;
     text-align: left;
-    margin-left: 0;
+    margin-left: 3rem;
   }
 
   .btn-info {
-    align-self: center;
-    margin: 1rem 0;
+    margin: 0 auto 0 auto !important;
+    align-self: center !important;
   }
 
   .btn-volver {
@@ -476,5 +538,58 @@ h4{
     font-size: 1.5rem;
   }
 }
+
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  .titulo-ejercicio {
+    font-size: 1.8rem !important;
+  }
+
+  .ejercicio-box {
+    max-width: 90% !important;
+    margin: 0 auto !important;
+  }
+
+  .imagen-con-borde {
+    max-width: 500px !important;
+    margin-bottom: 1rem !important;
+  }
+  .imagen-con-borde img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .descripcion-ejercicio.visible {
+    max-width: 400px !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    margin-left: 1rem !important;
+  }
+
+  .btn-info {
+    font-size: 1.5rem !important;
+    margin: 0.5rem !important;
+  }
+
+  .preview-timer .display-4 {
+    font-size: 2rem !important;
+  }
+  .practicar {
+    margin-top: 1rem !important;
+  }
+}
+
+@media (max-width: 1050.98px) and (min-width: 768px) {
+  .contenedor-ejercicio {
+    flex-direction: column !important;
+  }
+  .btn-info {
+    margin: 1rem auto 0 auto !important;
+    order: 1 !important;
+    align-self: center !important;
+  }
+}
+
+
+
 
 

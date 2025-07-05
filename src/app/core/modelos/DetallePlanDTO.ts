@@ -37,4 +37,5 @@ export interface PlanCompleto {
   semanasPlan: number;
   diasPorSemanaPlan: number;
   semanaRutinas: SemanaRutina[];
+  descripcionEstadoPlan:string;
 }

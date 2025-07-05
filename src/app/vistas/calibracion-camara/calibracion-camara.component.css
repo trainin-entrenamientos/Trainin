@@ -11,12 +11,10 @@ html {
   height: 85vh;
 }
 
-
-
 .calibracion-camara-container {
   max-width: 100%;
   min-height: 70vh;
-  margin: 25px ;
+  margin: 25px;
   padding: 40px 45px;
   border-radius: 15px;
   display: flex;
@@ -44,12 +42,25 @@ html {
   justify-content: center;
 }
 
+.left p {
+  position: relative;
+  padding-left: 30px;
+  text-align: left;
+}
+
+.left p::before {
+  content: "✔️";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .right {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #0B1A1E;
+  background-color: #0b1a1e;
   border-radius: 20px;
   padding: 10px;
   min-height: 60vh;
@@ -77,7 +88,7 @@ html {
 .right-bottom {
   width: 100%;
   height: 10vh;
-  background-color: #0B1A1E;
+  background-color: #0b1a1e;
   border-top: #13ff3a 0.1px solid;
   text-align: center;
   display: flex;
@@ -147,26 +158,26 @@ p {
   font-style: italic;
 }
 
-.botones-acciones{
+.botones-acciones {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
   gap: 1rem;
 }
-.btn-trainin{
+.btn-trainin {
   font-size: 0.9rem;
 }
 @media screen and (max-width: 1480px) {
-  .btn-trainin{
-  font-size: 0.7rem;
-}
+  .btn-trainin {
+    font-size: 0.7rem;
+  }
 }
 
 @media screen and (max-width: 1024px) {
- html,
+  html,
   body {
-    height: 110vh;
+    height: 125vh;
     margin: 0;
     padding: 0;
     padding-top: 20px;
@@ -285,7 +296,7 @@ p {
     min-height: 6vh;
     height: auto;
     padding: 5px;
-    background-color: #0B1A1E;
+    background-color: #0b1a1e;
     border-top: #13ff3a 0.1px solid;
     text-align: center;
     display: flex;
@@ -315,8 +326,7 @@ p {
     display: none;
   }
 
-    .btn-trainin{
-  font-size: 0.6rem;
+  .btn-trainin {
+    font-size: 0.6rem;
+  }
 }
-}
-

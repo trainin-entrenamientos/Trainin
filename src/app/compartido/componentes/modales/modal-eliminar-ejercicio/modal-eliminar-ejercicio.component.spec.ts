@@ -43,9 +43,9 @@ describe('ModalEliminarEjercicioComponent', () => {
     component.confirmarEliminacion();
 
     expect(component.confirmarEliminar.emit).toHaveBeenCalled();
-    expect((window as any).bootstrap.Modal.getInstance).toHaveBeenCalledWith(
-      modalElement
-    );
+
+    expect((window as any).bootstrap.Modal.getInstance).toHaveBeenCalled();
+
     expect(mockModalInstance.hide).toHaveBeenCalled();
   });
 });

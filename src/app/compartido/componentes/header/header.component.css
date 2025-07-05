@@ -30,26 +30,26 @@ nav a {
   text-decoration: none;
 }
 
-#aHover:hover{
+#aHover:hover {
   text-decoration: underline;
   text-decoration-color: #13ff3a;
-  color: #FFFFFF;
+  color: #ffffff;
   transform: scale(1.1);
 }
-.dropdown-toggle{
-  color:white;
+.dropdown-toggle {
+  color: white;
 }
-.dropdown-toggle:hover{
-  color:#13ff3a;
+.dropdown-toggle:hover {
+  color: #13ff3a;
 }
 .dropdown-toggle:active,
 .dropdown.show > .dropdown-toggle {
   color: #13ff3a;
 }
 
-.boton-finalizar-rutina{
-   color: #000;
-  background-color: #13FF3A;
+.boton-finalizar-rutina {
+  color: #000;
+  background-color: #13ff3a;
   font-weight: 700;
   border-radius: 50px;
   padding: 0.75rem 2rem;
@@ -58,11 +58,11 @@ nav a {
 }
 
 .boton-finalizar-rutina:hover {
-  background-color: #11E835;
+  background-color: #11e835;
   transform: scale(1.05);
 }
 
-nav img:hover{
+nav img:hover {
   transform: scale(1.1);
 }
 
@@ -72,6 +72,15 @@ nav img:hover{
 
 .user-icon {
   cursor: pointer;
+}
+
+nav.position-relative {
+
+}
+
+.spotify-overlay {
+  transform: translate(-50%, -50%) !important;
+  z-index: 1000;
 }
 
 @media screen and (max-width: 1366px) {
@@ -89,3 +98,87 @@ nav img:hover{
     padding: 10px 0;
   }
 }
+
+.dropdown-menu {
+  background-color: #00060c !important;
+  border: 1px solid #222 !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  min-width: 8rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.dropdown-item {
+  color: #ccc !important;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #13ff3a !important;
+  color: #000 !important;
+}
+
+.dropdown-divider {
+  border-color: #333 !important;
+}
+
+.dropdown-toggle {
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.dropdown-item.active {
+  background-color: #005500 !important;
+  color: #fff !important;
+}
+
+@media (max-width: 1024px) {
+  .spotify-overlay {
+    top: 50%;           
+    width: 260px;    
+  }
+  .widget-spotify {
+    padding: 0.25rem 0.6rem;
+    height: 44px;
+    gap: 0.75rem;
+  }
+  .control-btn {
+    font-size: 1.1rem;
+  }
+  .play-btn {
+    font-size: 1.4rem;
+    padding: 0.18rem;
+  }
+}
+@media (max-width: 480px) {
+
+  .spotify-overlay {
+    top: 60% !important;
+    left: 50% !important;
+    width: 180px !important;
+    max-width: 180px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .spotify-overlay app-spotify {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .widget-spotify {
+    padding: 0.1rem 0.25rem !important;
+    gap: 0.3rem !important;
+    height: 28px !important;
+  }
+  .widget-spotify .control-btn {
+    font-size: 0.7rem !important;
+  }
+  .widget-spotify .play-btn {
+    font-size: 0.9rem !important;
+    padding: 0.1rem !important;
+  }
+}
+

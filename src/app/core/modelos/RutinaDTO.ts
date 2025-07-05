@@ -30,6 +30,9 @@ export interface Rutina {
   categoriaEjercicio: string;
   rutinasRealizadas: number;
   caloriasQuemadas: number;
+  numeroDeRutinaSemanal: number;
+  cantidadDeRutinasTotales: number;
+  cantidadDeRutinasPorSemana: number;
 }
 
 export interface Categoria{

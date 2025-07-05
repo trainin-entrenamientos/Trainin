@@ -5,24 +5,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center; 
-    min-height: 85vh;
+    min-height: 100vh;
+    max-height: 300vh;
   }
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-
-  body,
-  html {
-    font-family: "Merriweather Sans", sans-serif;
-    background-color: #00060c;
-    font-style: normal;
-    font-weight: 400;
-    color: #fff;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
   }
 
   .fa-arrow-left{
@@ -32,6 +21,25 @@
   .fa-arrow-left:hover{
     color:#13ff3a;
   }
+
+  .realizada{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+
+  .logo img{
+  width: 30vw;
+  max-width: 300px;
+  min-width: 150px;
+  align-self: center;
+  margin-bottom: 50px;
+}
+
+
 
   .rutina-card {
     background-color: #00060c;
@@ -43,7 +51,9 @@
     margin: 0 auto;
     align-items: center;
     justify-content: start;
-    margin-top: 40px;
+    margin-top: 8vh;
+    margin-bottom: 4vh;
+    height: 100%;
   }
 
   .cerrar-rutina {
@@ -58,64 +68,92 @@
     color: #13ff3a;
   }
 
-  .contenedor-carrusel{
-    width: 100%;
-    max-width: 800px;
-    position: relative;
-  }
+  .contenedor-carrusel {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 30px;
+  position: relative;
+}
 
   .carrusel-con-flechas {
     position: relative;
     display: flex;
   }
 
-  .cards {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    height: 450px;
-  }
+ .cards {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 60vh;
+  max-height: 550px;
+  margin-bottom: 30px;
+}
 
   .card {
-    position: absolute;
-    width: 80%;
-    height: 40vh;
-    border-radius: 10px;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    cursor: pointer;
-    opacity: 0.4;
-    z-index: 0;
-    background-color: #0B1A1E;
-    color: white;
-    margin: 1rem;
-  }
+  position: absolute;
+  height: 100%;
+  width: 40vw;
+  max-width: 500px;
+  border-radius: 10px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  cursor: pointer;
+  opacity: 0.4;
+  z-index: 0;
+}
 
-  .card img {
-    width: 100%;
-    height: 30vh; 
-    object-fit: contain;
-    background-color: black; 
-    display: block;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+.card img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: white;
+}
 
-  }
+.card.centro {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+  border-radius: 0;
+  border: 0;
+}
 
+.card.izquierda {
+  transform: translateX(-40%) scale(0.8);
+}
 
-  .card.centro {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-    z-index: 2;
-    border: #13FF3A 1px solid;
-  }
+.card.derecha {
+  transform: translateX(40%) scale(0.8);
+}
 
-  .card.izquierda {
-    transform: translateX(-40%) scale(0.8);
-  }
+.flecha-izquierda,
+.flecha-derecha {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  .card.derecha {
-    transform: translateX(40%) scale(0.8);
-  }
+.flecha-izquierda {
+  left: 125px;
+}
+
+.flecha-derecha {
+  right: 125px;
+}
+
+.flecha-izquierda:hover,
+.flecha-derecha:hover {
+  color: #13ff3a;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 
   .nombre-ejercicio{
     text-align: center;
@@ -124,15 +162,7 @@
     margin-top: 1rem;
     margin-bottom: 0.5rem;
   }
-  .grupo-muscular{
-    text-align: center;
-    font-style: italic;
-    padding-bottom: 15px;
-  }
-  .titulo-grupo-muscular{
-    font-size: 1rem;
-
-  }
+  
   .duracion-rutina-texto{
     margin-bottom: 15px;
   }
@@ -142,206 +172,210 @@
     align-items: center;
     gap: 20px;
   }
-  .flecha-izquierda,
-  .flecha-derecha {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    color: white;
-    cursor: pointer;
-    z-index: 10;
-    padding: 10px;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, color 0.3s ease;
+ 
+@keyframes fadeInCorner {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
   }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-  .flecha-izquierda {
-    left: -30px;
+@keyframes fadeOutCorner {
+  from {
+    opacity: 1;
+    transform: scale(1);
   }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
 
-  .flecha-derecha {
-    right: -30px;
-  }
+.corner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 10px solid #13ff3a;
+  z-index: 3;
+  pointer-events: none;
+  animation: fadeInCorner 0.3s ease forwards;
+}
 
-  .flecha-izquierda:hover,
-  .flecha-derecha:hover {
-    color: #13ff3a;
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+.corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+}
+
+.corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+}
+
 
 
   @media (max-width: 1308px) {
    
-    body{
-      min-height: 80vh;
-    }
   .contenedor-carrusel{
-    max-width: 480px;
-    position: relative;
-  }
-  .card {
     width: 100%;
-    height: 350px;
+    position: relative;
+    margin-bottom: 2rem;
   }
-  .cards {
-  height: 420px;
   }
+  @media (max-width: 890px) {
 
-  .flecha-derecha{
-  right: -50px;
+  .corner {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #13ff3a;
+}
+  .rutina-card{
+    margin-bottom: 5.3vh;
   }
-  .flecha-izquierda{
-    left: -50px;
-  }
-  }
-  @media (max-width: 790px) {
-  .flecha-derecha{
-  right: -35px;
-  }
-  .flecha-izquierda{
-    left: -35px;
-  }}
-
-  @media (max-width: 790px) {
-  
   .text-center{
     font-size: 1.2rem;
-    
-  }
-  .nombre-ejercicio{
-    font-size: 0.8rem;
   }
   .text-center .fs-5 .fst-italic .mb-4{
     font-size: 0.5rem;
   }
-
   .nombre-ejercicio{
     font-size: 1rem;
-    margin-top: 1rem;
+    margin-top: 8rem;
   }
-  .grupo-muscular{
-    font-size: 0.5rem;
-  }
-  .titulo-grupo-muscular{
-    font-size: 0.7rem;
-  }
-  .flecha-derecha{
-  right: 25px;
-  }
-  .flecha-izquierda{
-    left: 25px;
-  }
-  .card {
-    width: 72%;
-  }
-
   .btn-trainin {
     font-size: 10px;
   }
-  }
- 
-  @media (max-width: 550px) {
-    body{
-      height: 55vh;
-    }
-    .rutina-card{
-      height: 40vh;
-       justify-content: start;
-      margin-top: -90px;
-    }
-.contenedor-carrusel{
-    max-width: 380px;
-    position: relative;
-  }
-  .boton-iniciar{
-    margin-bottom: 40px;
-  }
- .nombre-ejercicio{
-    font-size: 0.6rem;
-  }
-.card img {
-    height: 20vh; 
-  }
- .contenedor-carrusel {
-    align-self: center;
-    margin-bottom: 40px;
-    height: 30vh;
-    width: 30vh;
-  }
-    .rutina-card{
-      height: 40vh;
-    }
- 
   .card {
-    width: 82%;
-    height: 255px;
+    height: 355px;
   }
   .cards {
   height: 250px;
   }
+  .contenedor-carrusel {
+    align-self: center;
+  }
 
-  .flecha-derecha{
-  right: -45px;
+   .realizada h2{
+    font-size: 1.2rem;
   }
-  .flecha-izquierda{
-    left: -45px;
+  .realizada h3{
+    font-size: 1rem;
   }
+
+  .logo img{
+  width: 200px;
+  align-self: center;
+  margin-bottom: 50px;
+  display: block;
+  
+}
   }
-@media (max-width: 400px) {
-    body{
-      height: 55vh;
-    }
+ 
+  @media (max-width: 600px) {
     .rutina-card{
-      height: 40vh;
-       justify-content: start;
-      margin-top: -90px;
+      height: 68vh;
     }
-.contenedor-carrusel{
-    max-width: 380px;
-    position: relative;
+    .boton-iniciar{
+    margin-top: 55px;
   }
-  .boton-iniciar{
-    margin-bottom: 40px;
-  }
- .nombre-ejercicio{
+  .logo img{
+  width: 200px;
+  align-self: center;
+  margin-bottom: 50px;
+  display: block;
+}
+   .nombre-ejercicio{
     font-size: 0.6rem;
-  }
-.card img {
-    height: 20vh; 
+    margin-top: 0;
+    margin-bottom: 0px;
   }
  .contenedor-carrusel {
     align-self: center;
-    margin-bottom: 40px;
-    height: 30vh;
-    width: 30vh;
+    height: 25vh;
+    width: 25vh;
   }
-    .rutina-card{
-      height: 40vh;
-    }
- 
+  .card {
+    width: 80%;
+    height: 255px;
+  }
+  .cards {
+  height: 250px;
+  margin-bottom: 20px;
+  }
+
+  .flecha-izquierda {
+  left: -50px;
+  top: 125px;
+}
+
+.flecha-derecha {
+  right: -50px;
+  top: 125px;
+
+  
+}
+  .realizada h2{
+    font-size: 1rem;
+  }
+  .realizada h3{
+    font-size: 0.8rem;
+  }
+  }
+@media (max-width: 400px) {
+
+.text-center{
+    font-size: 1rem;
+  }
+  .duracion-rutina-texto{
+    font-size: 0.7rem;
+  }
+
+  .boton-iniciar{
+    margin-bottom: 40px;
+    margin-top: 25px;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+ .nombre-ejercicio{
+    margin-top: 0px;
+    font-size: 0.6rem;
+  }
+
+ .contenedor-carrusel {
+    align-self: center;
+    height: 30vh;
+    width: 20vh;
+    margin-bottom: 0px;
+  }
+     
   .card {
     width: 82%;
     height: 225px;
   }
   .cards {
   height: 250px;
+  margin-bottom: 0px;
   }
 
-  .flecha-derecha{
-  right: -45px;
   }
-  .flecha-izquierda{
-    left: -45px;
-  }
-  }
-
-@media (max-width: 375px) and (max-height: 667px) {
-.card {
-    width: 82%;
-    height: 205px;
-  }
-  .cards {
-  height: 250px;
-  }
-}

@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamientoServicio/plan-entrenamiento.service';
 import { Usuario } from '../../core/modelos/Usuario';
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercicio.service';
+import { SpotifyService } from '../../core/servicios/spotifyServicio/spotify.service';
+
 
 @Component({
   selector: 'app-planes',
@@ -13,6 +18,9 @@ import { PlanCompleto } from '../../core/modelos/DetallePlanDTO';
   styleUrl: './planes.component.css',
 })
 export class PlanesComponent {
+    eliminar(arg0: number) {
+        throw new Error('Method not implemented.');
+    }
   idUsuario: number = 1;
   planEntrenamiento: any[] = [];
   usuario?: Usuario;
@@ -25,61 +33,80 @@ export class PlanesComponent {
   planAEliminarId: number | null = null;
   mostrarModal: boolean = false;
   detallePlan: PlanCompleto | undefined;
+  pantallaChica: boolean = window.innerWidth <= 1080;
+  imagenPlan: string = '';
+
+  EjercicioDiarioDisponible: boolean = false;
+  nombreEjercicioDiario: string = '';
+  ejercicioService: EjercicioService;
 
 
   constructor(
     planEntrenamientoService: PlanEntrenamientoService,
     UsuarioService: UsuarioService,
     authService: AuthService,
-    router: Router
+    router: Router,
+    private toastr: ToastrService,
+    ejercicioService: EjercicioService,
+    private spotifyService: SpotifyService
   ) {
     this.planEntrenamientoService = planEntrenamientoService;
     this.usuarioService = UsuarioService;
     this.authService = authService;
     this.router = router;
+    this.ejercicioService = ejercicioService;
   }
 
   ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.obtenerUsuario();
+    this.verificarDisponibilidadDeEjercicioDiario();
   }
 
   obtenerPlanEntrenamiento(id: number): void {
     this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
-      next: (planObtenido: any) => {
-        this.planEntrenamiento = Array.isArray(planObtenido) ? planObtenido : [];
+      next: (planObtenido) => {
+        this.planEntrenamiento = planObtenido.objeto;
         setTimeout(() => {
           this.cargando = false;
         }, 500);
+        if(this.planEntrenamiento.length === 0) {
+           this.planEntrenamiento = [];
+           this.cargando = false;
+        }
       },
       error: (err: any) => {
-        this.planEntrenamiento = [];
-         this.cargando = false;
-        console.error('No existen planes de entrenamiento', err);
-      }
+        manejarErrorYRedirigir(this.toastr, this.router, "Error al obtener los planes de entrenamiento", '/inicio');
+      },
     });
   }
+
+  tipoPlanAImagen: { [key: string]: string } = {
+    'Cuerpo completo': '/imagenes/cuerpo-completo.png',
+    'Cardio': '/imagenes/cardio.png',
+    'Tren superior': '/imagenes/tren-superior.png',
+    'Tren inferior': '/imagenes/tren-inferior.png',
+  };
 
   obtenerUsuario(): void {
-    this.usuarioService.obtenerUsuarioPorId(this.email).subscribe({
-      next: (usuarioObtenido: any) => {
-        this.usuario = usuarioObtenido;
-        this.idUsuario = usuarioObtenido.id;
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
+      next: (response: any) => {
+        this.usuario = response.objeto;
+        this.idUsuario = response.objeto.id;
         this.obtenerPlanEntrenamiento(this.idUsuario);
-        
       },
       error: (err: any) => {
-        console.error('Error al obtener el usuario:', err);
-      }
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener al usuario`, '/inicio');
+      },
     });
   }
 
- calcularPorcentajeProgreso(plan: any): string {
-  if (!plan) return '0%';
-  const progreso = plan.cantidadRutinasHechas ?? 0;
-  const total = plan.cantidadRutinas ?? 1;
-  return `${((progreso / total) * 100).toFixed(2)}%`;
-}
+  calcularPorcentajeProgreso(plan: any): string {
+    if (!plan) return '0%';
+    const progreso = plan.cantidadRutinasHechas ?? 0;
+    const total = plan.cantidadRutinas ?? 1;
+    return `${((progreso / total) * 100).toFixed(2)}%`;
+  }
 
   irAlPlan(idPlan: number, estado: string): void {
     if (estado === 'Realizada hoy') {
@@ -89,41 +116,73 @@ export class PlanesComponent {
     this.router.navigate(['/inicio-rutina', idPlan]);
   }
 
-
   confirmarEliminacion(id: number): void {
-  this.planAEliminarId = id;
-  this.mostrarModal = true;
-}
-
-cancelarEliminacion(): void {
-  this.planAEliminarId = null;
-  this.mostrarModal = false;
-}
-
-eliminarPlanConfirmado(): void {
-  if (this.planAEliminarId !== null) {
-    this.desactivarPlan(this.planAEliminarId);
-    this.planAEliminarId = null;
+    this.planAEliminarId = id;
+    this.mostrarModal = true;
   }
-  this.mostrarModal = false;
-}
 
-desactivarPlan(idPlan: number): void {
-    this.planEntrenamientoService.desactivarPlanPorId(idPlan, this.idUsuario).subscribe({
+  cancelarEliminacion(): void {
+    this.planAEliminarId = null;
+    this.mostrarModal = false;
+  }
+
+  eliminarPlanConfirmado(): void {
+    if (this.planAEliminarId !== null) {
+      this.desactivarPlan(this.planAEliminarId);
+      this.planAEliminarId = null;
+    }
+    this.mostrarModal = false;
+  }
+
+  verificarDisponibilidadDeEjercicioDiario(): void {
+
+    if (!this.email) {
+      this.EjercicioDiarioDisponible = false;
+      this.nombreEjercicioDiario = '';
+      return;
+    }
+
+    this.ejercicioService.obtenerEjercicioDiario(this.email).subscribe({
       next: (response) => {
-        console.log('Plan desactivado:', response);
-        this.obtenerPlanEntrenamiento(this.idUsuario);
+        if (response.objeto) {
+          this.EjercicioDiarioDisponible = true;
+          this.nombreEjercicioDiario = response.objeto?.nombre;
+        } else {
+          this.EjercicioDiarioDisponible = false;
+          this.nombreEjercicioDiario = '';
+        }
       },
-      error: (err) => {
-        console.error('Error al desactivar el plan:', err);
+      error: (err: any) => {
+        console.warn('Error al verificar el ejercicio diario:', err);
+        this.EjercicioDiarioDisponible = false;
       }
     });
-  };
-
-
-  irAlDetalleDelPlan(idPlan: number):void{
-       this.router.navigate(['/detalle-plan', idPlan]);
   }
- 
 
+
+  desactivarPlan(idPlan: number): void {
+    this.planEntrenamientoService
+      .desactivarPlanPorId(idPlan, this.idUsuario)
+      .subscribe({
+        next: (response) => {
+          this.obtenerPlanEntrenamiento(this.idUsuario);
+        },
+        error: (err) => {
+          manejarErrorSimple(this.toastr, `Error al desactivar el plan`);
+        },
+      });
+  }
+
+  iniciarSesionConSpotify() {
+    this.spotifyService.loginWithSpotify();
+  }
+
+  irAlDetalleDelPlan(idPlan: number): void {
+    this.router.navigate(['/detalle-plan', idPlan]);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.pantallaChica = event.target.innerWidth <= 1080;
+  }
 }

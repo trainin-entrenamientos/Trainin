@@ -5,7 +5,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 80.2vh;
+  min-height: 100vh;
+  max-height: 300vh;
 }
 
 * {
@@ -14,19 +15,6 @@ body {
   box-sizing: border-box;
 }
 
-body,
-html {
-  font-family: "Merriweather Sans", sans-serif;
-  background-color: #00060c;
-  font-style: normal;
-  font-weight: 400;
-  color: #fff;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-
 #ctn-ejercicios {
   gap: 3rem;
 }
@@ -34,47 +22,59 @@ html {
 .image-placeholder {
   background-color: #666;
 }
+.contenedor-carrusel-ejercicios {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-right: 175px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.contenedor-carrusel-ejercicios.shifted {
+  transform: translateX(100px); 
+}
 
 .rutina-card {
+  height: auto;
   background-color: #00060c;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   color: white;
   padding-left: 4em;
   padding-right: 4em;
   margin: 0 auto;
-  min-height: 60vh;
   width: 100%;
-
-}
-
-.informacion-rutina i {
-  font-size: 40px;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .contenedor-ejercicios-realizados-y-finalizar-rutina {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 100%;
   transition: width 0.3s ease;
 }
 
 .rutina-card.expandido .contenedor-ejercicios-realizados-y-finalizar-rutina {
-  width: 60%;
+  width: 100%;
 }
 
 .nombre-ejercicio {
   color: white;
   text-align: center;
+  font-size: 25px;
 }
 
 .mensaje-finalizacion {
   text-align: center;
-  margin-bottom: 30px;
 }
 
 .ejercicios-realizados {
@@ -166,7 +166,7 @@ html {
   }
 }
 
-.contenedor-carrusel {
+  .contenedor-carrusel {
   width: 100%;
   max-width: 1200px;
   margin-bottom: 30px;
@@ -179,11 +179,12 @@ html {
   position: relative;
   height: 450px;
   margin-bottom: 30px;
+  margin-top: 45px;
 }
 
-.card {
+  .card {
   position: absolute;
-  width: 60%;
+  width: 40%;
   height: 100%;
   border-radius: 10px;
   transition: transform 0.4s ease, opacity 0.4s ease;
@@ -197,16 +198,14 @@ html {
   height: 100%;
   object-fit: contain;
   border-radius: 10px;
-  background-color: #00060C;
+  background-color: white;
 }
-
-
 
 .card.centro {
   transform: translateX(0) scale(1);
   opacity: 1;
   z-index: 2;
-  border: #13FF3A 2px solid;
+  border: 0;
 }
 
 .card.izquierda {
@@ -217,10 +216,11 @@ html {
   transform: translateX(40%) scale(0.8);
 }
 
+
 .flecha-izquierda,
 .flecha-derecha {
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   font-size: 2rem;
   color: white;
@@ -232,11 +232,11 @@ html {
 }
 
 .flecha-izquierda {
-  left: -30px;
+  left: 125px;
 }
 
 .flecha-derecha {
-  right: -30px;
+  right: 125px;
 }
 
 .flecha-izquierda:hover,
@@ -255,15 +255,17 @@ html {
   width: 10%;
   min-width: 60px;
   align-items: center;
-
 }
 
 .informacion-rutina.expandido {
-  width: 40%;
+  width: 50%;
   align-items: stretch;
-
+  height: 30rem;
 }
 
+.informacion-rutina i {
+  font-size: 40px;
+}
 .iconos-laterales {
   display: flex;
   flex-direction: column;
@@ -321,6 +323,7 @@ html {
   display: flex;
   justify-content: center;
   background-color: #06131C;
+  
 }
 
 .estadisticas-texto {
@@ -342,7 +345,9 @@ html {
 .carrusel-muscular button {
   margin-bottom: 30px;
 }
-
+.nombre-ejercicio-muscular{
+  font-size: 23px;
+}
 
 .cerrar-btn {
   position: absolute;
@@ -375,13 +380,43 @@ html {
 
 
 .carrusel-muscular {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 2rem; 
+}
+
+.flecha-izquierda-muscular,
+.flecha-derecha-muscular {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 50%;
+  z-index: 2;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.flecha-izquierda-muscular {
+  left: 0;
+}
+
+.flecha-derecha-muscular {
+  right: 0;
+}
+
+.flecha-izquierda-muscular:hover,
+.flecha-derecha-muscular:hover {
+  background-color: rgba(19, 255, 58, 0.2);
+  color: #13FF3A;
 }
 
 .contenedor-grupos-musculares {
@@ -468,18 +503,92 @@ html {
   display: none
 }
 
+@keyframes fadeInCorner {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutCorner {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.corner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 10px solid #13ff3a;
+  z-index: 3;
+  pointer-events: none;
+  animation: fadeInCorner 0.3s ease forwards;
+}
+
+.corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top: none;
+  border-right: none;
+}
+
+.corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top: none;
+  border-left: none;
+}
+
+
 @media (max-width: 1480px) {
+
+  .carrusel-muscular{
+    padding-top: 0;
+  }
   .rutina-card {
     flex-direction: column;
     width: 95%;
     align-items: center;
-    margin: 0 auto;
+    padding-left: 4em;
+    padding-right: 4em;
   }
-
+  .contenedor-carrusel-ejercicios{
+      margin-right: 0;
+  }
+   .contenedor-carrusel-ejercicios.shifted {
+    transform: none !important;
+    margin-left: 0 !important;
+  }
   .boton-finalizar-pc {
     display: none;
   }
-
+  .musculos-trabajados-texto{
+      margin-bottom: 0;
+  }
   div .boton-finalizar-mobile {
     display: flex;
     justify-content: center;
@@ -501,11 +610,20 @@ html {
     margin-bottom: 2rem;
   }
 
+
+.informacion-rutina.expandido {
+  width: 50%;
+  align-items: stretch;
+  height: 40rem;
+}
+
   .informacion-rutina {
     flex-direction: column;
     width: 100%;
     order: 2;
+    
   }
+
 
   .iconos-laterales.expandido {
     border-top-right-radius: 20px;
@@ -513,7 +631,7 @@ html {
     border-bottom-left-radius: 0px;
     border: #13FF3A 2px solid;
     border-bottom: none;
-    height: 100%;
+    max-height: 100px;
     width: 100%;
     justify-content: center;
   }
@@ -526,6 +644,7 @@ html {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     width: auto;
+    height: auto;
   }
 
   .iconos-laterales i {
@@ -547,6 +666,7 @@ html {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 20px;
     border-left: #13FF3A 2px solid;
+    height: 500px;
   }
 
   .cerrar-btn {
@@ -569,14 +689,21 @@ html {
   .musculos-trabajados-texto {
     font-size: 1.2rem;
   }
-
-  .informacion-rutina {
-    height: 20%;
-  }
+.nombre-ejercicio-muscular{
+  font-size: 18px;
+}
 
   .informacion-rutina.expandido {
-    height: 20%;
-  }
+    width: 80%;
+    height: 30rem;
+}
+.flecha-izquierda {
+  left: 55px;
+}
+
+.flecha-derecha {
+  right: 55px;
+}
 
   .grupo-muscular img {
     height: 150px;
@@ -600,17 +727,63 @@ html {
     font-size: 1.2rem;
   }
 
+   .card {
+  width: 60%;
+
+}
+  .cards {
+  height: 400px;
+}
+
+.corner {
+  width: 30px;
+  height: 30px;
+  border: 6px solid #13ff3a;
+}
+
+}
+
+@media (max-width:600px){
+.flecha-izquierda {
+  left: -25px;
+}
+
+.flecha-derecha {
+  right: -25px;
+}
+  .card {
+  width: 80%;
+}
+  .cards {
+  height: 300px;
+}
+
   .lista-estadisticas li i {
     font-size: 1rem;
   }
 
   .lista-estadisticas li span {
-    font-size: 1rem;
+    font-size: 0.76rem;
   }
-
 }
 
-@media (max-width: 640px) {
+
+@media (max-width: 480px) {
+
+.flecha-izquierda {
+  left: 5px;
+}
+
+.flecha-derecha {
+  right: 5px;
+}
+   .card {
+  width: 60%;
+
+}
+   .contenido-derecho {
+    height: 350px;
+  }
   .mensaje-finalizacion {
     font-size: 1.2rem;
   }
@@ -621,7 +794,7 @@ html {
   }
 
   .informacion-rutina.expandido {
-    width: 100%;
+    width: 70%;
   }
 
   .contenedor-carrusel {
@@ -663,6 +836,17 @@ html {
 
 }
 
+@media (max-width: 420px) {
+
+ .lista-estadisticas li i {
+    font-size: 1rem;
+  }
+
+  .lista-estadisticas li span {
+    font-size: 0.6rem;
+  }
+
+}
 
 
 .feedback-modal {
@@ -693,11 +877,11 @@ html {
   cursor: pointer;
   position: relative;
   font-size: 1.1rem;
-  font-family: "Arial", sans-serif;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 1px;
   display: inline-block;
+  font-family: 'Merriweather Sans', sans-serif;
 }
 
 .button.text-hover .actual-text {
@@ -717,16 +901,19 @@ html {
 .button.verde .hover-text {
   color: #13ff3a;
   border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.amarillo .hover-text {
-  color: #ffc107;
-  border-right: 4px solid #ffc107;
+  color: #13ff3a;
+  border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.rojo .hover-text {
-  color: #e53935;
-  border-right: 4px solid #e53935;
+  color: #13ff3a;
+  border-right: 4px solid #13ff3a;
+  transform: scale(1.05);
 }
 
 .button.text-hover:hover {
@@ -755,4 +942,10 @@ html {
 .body-modal-color {
   background-color: #06131C;
   color: #fff;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
 }

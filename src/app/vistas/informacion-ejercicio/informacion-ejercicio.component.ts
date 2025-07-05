@@ -7,6 +7,8 @@ import { TemporizadorService } from '../../core/servicios/temporizadorServicio/t
 import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
+import { ToastrService } from 'ngx-toastr';
+import { manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 
 @Component({
   selector: 'app-informacion-ejercicio',
@@ -15,8 +17,6 @@ import { NombreEjercicio } from '../../compartido/enums/nombre-ejercicio.enum';
   styleUrl: './informacion-ejercicio.component.css',
 })
 export class InformacionEjercicioComponent {
- 
-
   rutina: Rutina | null = null;
   indiceActual: number = 0;
   ejercicio: Ejercicio | null = null;
@@ -39,61 +39,58 @@ export class InformacionEjercicioComponent {
     private router: Router,
     private temporizadorService: TemporizadorService,
     private usuarioServicio: UsuarioService,
-    private authServicio: AuthService
+    private authServicio: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.rutinaService.cargarDesdeSession();
+    this.obtenerUsuario();
+    const datos = this.rutinaService.getDatosIniciales();
 
-  this.rutinaService.cargarDesdeSession();
-  this.obtenerUsuario();
-  const datos = this.rutinaService.getDatosIniciales();
-
-  if (!datos.rutina) {
-    console.error('No se encontró la rutina. Redirigiendo...');
-    this.router.navigate(['/planes']);
-    return;
-  }
-  this.rutina = datos.rutina;
-  this.ejercicio = datos.ejercicio;
-    if(this.ejercicio.tipoEjercicio === "De tiempo"){
-    this.esEjercicioDeTiempo=true;
+    if (!datos.rutina) {
+      manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener la rutina`, '/planes');
+      return;
     }
-  this.indiceActual = datos.indiceActual;
-  this.duracionDelEjercicio = datos.duracionDelEjercicio;
-  this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
-  this.tiempoRestante = this.traducirDuracionEstimada(this.rutina.duracionEstimada);
-  this.iniciarCuentaRegresiva();
-  this.temporizadorService.estaCorriendoTiempo() && this.temporizadorService.continuar();
-
-}
-
+    this.rutina = datos.rutina;
+    this.ejercicio = datos.ejercicio;
+    if (this.ejercicio.tipoEjercicio === 'De tiempo') {
+      this.esEjercicioDeTiempo = true;
+    }
+    this.indiceActual = datos.indiceActual;
+    this.duracionDelEjercicio = datos.duracionDelEjercicio;
+    this.repeticionesDelEjercicio = datos.repeticionesDelEjercicio;
+    this.tiempoRestante = this.traducirDuracionEstimada(
+    this.rutina.duracionEstimada
+    );
+    this.iniciarCuentaRegresiva();
+    this.temporizadorService.estaCorriendoTiempo() &&
+      this.temporizadorService.continuar();
+  }
 
   obtenerUsuario() {
-    this.usuarioServicio.obtenerUsuarioPorId(this.authServicio.getEmail()).subscribe({
-      next: (usuario) => {
-        if (!usuario) {
-          console.error('Usuario no encontrado. Redirigiendo...');
-          this.router.navigate(['/ruta-de-error-o-plan']);
-          return;
-        }
-        this.esUsuarioPremium = usuario.esPremium;
-      },
-      error: (error) => {
-        console.error('Error al obtener el usuario:', error);
-        this.router.navigate(['/ruta-de-error-o-plan']);
-      }
-    });
+    this.usuarioServicio
+      .obtenerUsuarioPorEmail(this.authServicio.getEmail())
+      .subscribe({
+        next: (usuario) => {
+          this.esUsuarioPremium = usuario.objeto.esPremium;
+        },
+        error: (error) => {
+            manejarErrorYRedirigir(this.toastr, this.router, "No se pudo obtener al usuario" , '/informacion-ejercicio');
+        },
+      });
   }
 
   claveEjercicioCorreccion(): NombreEjercicio {
-  const clave = this.rutinaService.buscarNombreEjercicio(this.ejercicio?.nombre);
-  if (clave === null) {
-    console.warn("Nombre de ejercicio inválido.");
-    return NombreEjercicio.ERROR;
-  }else{
-  return clave;
+    const clave = this.rutinaService.buscarNombreEjercicio(
+      this.ejercicio?.nombre
+    );
+    if (clave === null) {
+      return NombreEjercicio.ERROR;
+    } else {
+      return clave;
+    }
   }
-}
 
   ngOnDestroy(): void {
     clearInterval(this.idIntervalo);
@@ -110,18 +107,17 @@ export class InformacionEjercicioComponent {
     }
   }
 
- botonPausar(): void {
-  this.estaPausado = !this.estaPausado;
-  this.temporizadorService.accionesDePausa(this.estaPausado);
-}
-
+  botonPausar(): void {
+    this.estaPausado = !this.estaPausado;
+    this.temporizadorService.accionesDePausa(this.estaPausado);
+  }
 
   private iniciarCuentaRegresiva(): void {
     this.idIntervalo = setInterval(() => {
       if (!this.estaPausado && this.tiempoRestante > 0) {
         this.tiempoRestante--;
       }
-  
+
       if (this.tiempoRestante <= 0) {
         clearInterval(this.idIntervalo);
         this.router.navigate(['/realizar-ejercicio']);
@@ -133,22 +129,22 @@ export class InformacionEjercicioComponent {
     return this.temporizadorService.formatearTiempo(this.tiempoRestante);
   }
 
-   get mensajeCuentaRegresiva(): string {
+  get mensajeCuentaRegresiva(): string {
     if (this.rutinaService.getIndiceActual() === 0) {
-      return '¡Comenzamos en ';
+      return 'Comenzamos en ';
     } else {
-      return `Descanso. Continuá con el ejercicio ${
-        this.ejercicio?.nombre ?? ''
-      } en:`;
+      return `Descanso. Continuá con tu entrenamiento en:`;
     }
   }
 
-    get esAdvertencia(): boolean {
+  get esAdvertencia(): boolean {
     return this.tiempoRestante <= 5;
   }
 
   get porcentajeDelProgreso(): number {
-  const tiempoTotal = this.traducirDuracionEstimada(this.rutina?.duracionEstimada ?? 1);
-  return ((tiempoTotal - this.tiempoRestante) / tiempoTotal) * 100;
-}
+    const tiempoTotal = this.traducirDuracionEstimada(
+      this.rutina?.duracionEstimada ?? 1
+    );
+    return ((tiempoTotal - this.tiempoRestante) / tiempoTotal) * 100;
+  }
 }

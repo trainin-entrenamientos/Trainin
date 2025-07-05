@@ -5,7 +5,8 @@ html {
   font-style: normal;
   font-weight: 400;
   color: #fff;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 300vh; 
   display: flex;
   flex-direction: column;
   margin: 0 !important;
@@ -15,19 +16,61 @@ html {
 .contenedor-semana {
   max-width: 600px;
 }
-
+.container{
+  margin-bottom: 1rem;
+}
 .semana-header {
-  color: #00ff00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #13ff3a;
   background-color: #06131c;
+  border-top-left-radius: 20px;   
+  border-top-right-radius: 20px;
+  padding: 15px;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; 
+  margin-bottom: 1rem;
+  width: 100%;
+  position: relative;
 }
 
+.flecha {
+  color: white;
+  font-size: 2rem; 
+  cursor: pointer;
+  user-select: none;
+}
+
+.titulo {
+  font-weight: 600;
+  margin: 0;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  flex-grow: 1; 
+}
+
+.duracion-rutina{
+  margin-bottom: 0;
+  text-align: center;
+  font-style: italic;
+}
 .semana-label {
   font-size: x-large;
 }
 
 .semana-dias {
-  background-color: #0B1A1E ;
+  background-color: #0B1A1E;
+  overflow: hidden;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
+
 
 .dia-semana {
   min-width: 100px;
@@ -39,41 +82,20 @@ html {
   font-weight: 400;
   flex-grow: 1;
   flex-shrink: 0;
-  color: white;
 }
 
 .dia-semana.activo {
-  background-color: #00ff00;
+  background-color: #13ff3a;
   color: black;
 }
 
 .detalle-plan-section {
-  max-width: 1200px;
+  width: 100%;
   margin-inline: auto;
-  background-color: #0B1A1E ;
-  padding: 1.5rem;
   border-radius: 1.5rem;
   color: white;
 }
-img{
-   height: 120px;
-  width: 100%;
-  background-color: #00060c;
-  object-fit: contain;
-}
-.image-placeholder {
-  font-size: 1rem;
-}
 
-.subrayado-grup-musc {
-  border: 1px solid #13ff3a;
-  background-color: #13ff3a;
-}
-
-.card-ejercicio {
-  text-align: center;
-  width: 180px;
-}
 
 .fa-chevron-left,
 .fa-chevron-right {
@@ -92,7 +114,7 @@ img{
 }
 
 .dia-semana:hover {
-  background-color: #00ff00;
+  background-color: #13ff3a;
   transform: scale(1.05);
   color:#00060c
 }
@@ -105,13 +127,294 @@ img{
 .btn-iniciar-rutina:hover{
   transform: scale(1.05);
 }
+.texto-rutina-realizada {
+  border: 2px solid #13FF3A;
+  color: white;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  font-size: 1rem; 
+  display: inline-block;
+  background-color: transparent;
+}
+
+
+.imagen-ejercicio {
+  height: 80%;
+  width: 100%;
+  object-fit: contain;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+  background-color: white;
+}
+
+.nombre-ejercicio {
+  height: 20%;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #0B1A1E;
+  color: white;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+
+.card:hover .imagen-ejercicio {
+  display: none;
+}
+
+.subrayado-grup-musc {
+  border: 1px solid #13ff3a;
+  background-color: #13ff3a;
+}
+.ejercicios-data {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1rem;
+  width: 100%;
+  align-self:center;
+  align-items: center;
+}
+
+
+.card-ejercicio.container {
+  flex: 1 1 clamp(180px, 20vw, 300px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.card-ejercicio {
+  text-align: center;
+}
+.card {
+  position: relative;
+  width: 265px;
+  height: 350px;
+  margin: 0 auto;
+  background: #06131c;
+  border-radius: 15px;
+}
+
+.face {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: height 0.5s ease;
+}
+
+
+.face.back {
+  box-sizing: border-box;
+  color:white;
+  padding-top: 10px;
+  margin-bottom: 25px;
+}
+
+
+.face.back .desc {
+  background-color: #eee;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+}
+.desc{
+  font-size: 25px;
+  border-bottom:#13ff3a 1px solid;
+  margin-bottom: 2px;
+}
+
+.face.front {
+  transition: 0.5s;
+  color:white;
+}
+.borde-inferior-izq,
+.borde-inferior-der,
+.bordes-inferiores {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.card:hover .face.front {
+  height: 60px;
+  background-color: #13FF3A;
+  color:black;
+    bottom: 1px;
+}
+
+.card:hover .face.front .nombre-ejercicio {
+  background-color: #13ff3a;
+  color: black;
+  border-bottom: none;
+}
+
+
+.face.front {
+  background-color: #0B1A1E;
+  border-radius: 15px;
+  
+}
+
+@media (max-width: 1386px){
+
+.nombre-ejercicio{
+  font-size: 15px;
+}
+
+.ejercicios-data{
+  flex-wrap: nowrap;
+}
+
+.card {
+  width: 220px;
+  height: 320px;
+  
+}
+
+.desc{
+  font-size: 20px;
+  
+}
+li{
+    font-size: 15px;
+}
+}
+
+
+@media (max-width: 1236px){
+
+.nombre-ejercicio{
+  font-size: 15px;
+}
+
+.card {
+  width: 180px;
+  height: 280px;
+}
+
+.desc{
+  font-size: 18px;
+}
+li{
+    font-size: 14px;
+}
+}
+
+@media (max-width: 1046px){
+
+  .card-ejercicio.container{
+    margin-bottom: 50px;
+  }
+
+.nombre-ejercicio{
+  font-size: 15px;
+}
+
+.ejercicios-data{
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 260px;
+  height: 260px;
+}
+.content{
+  margin-top: 20px;
+
+}
+.desc{
+  font-size: 18px;
+}
+li{
+    font-size: 14px;
+}
+}
+
+@media (max-width: 768px){
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .semana-label {
+    font-size: 1.2rem;
+  }
+
+  .dia-semana {
+    font-size: 1.2rem;
+  }
+}
 
 @media (max-width: 576px) {
+
+.header-container {
+    justify-content: flex-start; /* Alinea a la izquierda en móviles para mejor legibilidad */
+    padding-inline: 1rem;
+  }
+  .flecha {
+    font-size: 1.5rem;
+  }
+  .titulo {
+    font-size: 1.25rem;
+    flex-grow: 0;
+  }
   h1 {
     font-size: 1.2rem;
   }
 
   i.fa-arrow-left {
     font-size: 1.1rem;
+  }
+    h1 {
+    font-size: 1.2rem;
+  }
+
+  .semana-label {
+    font-size: 1rem;
+  }
+
+  .dia-semana {
+    font-size: 1rem;
+    height: 50px;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h1 {
+    font-size: 1rem;
+  }
+
+  .semana-label {
+    font-size: 0.9rem;
+  }
+
+  .dia-semana {
+    font-size: 0.9rem;
+    height: 45px;
+    min-width: 70px;
   }
 }

@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  Renderer2,
-  ElementRef,
-} from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Equipamiento } from '../../compartido/interfaces/Equipamiento';
 import { TipoEntrenamiento } from '../../compartido/interfaces/TipoEntrenamiento';
@@ -12,6 +6,12 @@ import { PlanEntrenamientoService } from '../../core/servicios/planEntrenamiento
 import { AuthService } from '../../core/servicios/authServicio/auth.service';
 import { Router } from '@angular/router';
 import { LogroService } from '../../core/servicios/logroServicio/logro.service';
+import { Usuario } from '../../core/modelos/Usuario';
+import { UsuarioService } from '../../core/servicios/usuarioServicio/usuario.service';
+import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { PlanCreadoDTO } from '../../core/modelos/PlanCreadoDTO';
+
 
 @Component({
   selector: 'app-crear-plan-entrenamiento',
@@ -21,16 +21,22 @@ import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 })
 export class CrearPlanEntrenamientoComponent {
   currentStep: number = 1;
-  totalSteps: number = 6;
+  totalSteps: number = 5;
   editandoDesdeResumen: boolean = false;
   formularioForm: FormGroup;
   opcionesEntrenamiento: TipoEntrenamiento[] = [];
   equipamientosOpciones: Equipamiento[] = [];
   planIdCreado: number | undefined;
   mostrarModal: boolean = false;
-  cargando: boolean = false;
-  seEnvioForm:boolean=false;
-
+  cargando: boolean = true;
+  seEnvioForm: boolean = false;
+  progresoVisual = 20;
+  usuario?: Usuario;
+  email: string | null = null;
+  esPremium?: boolean;
+  cantidadPlanes?: number = 0;
+  planEntrenamiento: any[] = [];
+  idUsuario: number = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -39,12 +45,15 @@ export class CrearPlanEntrenamientoComponent {
     private planDeEntrenamientoService: PlanEntrenamientoService,
     private authService: AuthService,
     private router: Router,
-    private logroService: LogroService
+    private logroService: LogroService,
+    private usuarioService: UsuarioService,
+    private planEntrenamientoService: PlanEntrenamientoService,
+    private toastr: ToastrService
   ) {
     this.formularioForm = this.fb.group({
       pesoUsuario: [
         null,
-        [Validators.required, Validators.min(35), Validators.max(220)],
+        [Validators.required, Validators.min(35), Validators.max(300)],
       ],
       alturaUsuario: [
         null,
@@ -62,11 +71,48 @@ export class CrearPlanEntrenamientoComponent {
   equipamientos: string[] = [];
   minutos: string = '';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.email = this.authService.getEmail();
+    this.obtenerUsuario();
+  }
+
+  obtenerUsuario(): void {
+    this.usuarioService.obtenerUsuarioPorEmail(this.email).subscribe({
+      next: (usuarioObtenido: any) => {
+        this.usuario = usuarioObtenido.objeto;
+        this.idUsuario = usuarioObtenido.objeto.id;
+        this.esPremium = this.usuario?.esPremium;
+        this.obtenerPlanEntrenamiento(this.idUsuario);
+      },
+      error: (err: any) => {
+          manejarErrorYRedirigir(this.toastr, this.router, `${err.error.mensaje}`, '/planes');
+      },
+    });
+  }
+
+  obtenerPlanEntrenamiento(id: number): void {
+    this.planEntrenamientoService!.getPlanesDeEntrenamiento(id).subscribe({
+      next: (planObtenido) => {
+        this.cantidadPlanes = planObtenido.objeto.length;
+        if (this.esPremium === true && (this.cantidadPlanes ?? 0) >= 4) {
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste 4 planes de entrenamiento.', '/planes');
+        }
+        if (this.esPremium === false && (this.cantidadPlanes ?? 0) >= 1) {
+          manejarErrorYRedirigir(this.toastr, this.router, 'No podes acceder a esta funcionalidad. Ya creaste un plan de entrenamiento.', '/planes');
+        }
+        this.cargando = false;
+      },
+      error: () => {
+        this.planEntrenamiento = [];
+        this.cargando = false;
+        manejarErrorYRedirigir(this.toastr, this.router, `No se pudo obtener el plan de entrenamiento`, '/planes');
+      },
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.currentStep === 5) {
+      if (this.currentStep === 4) {
         this.configurarSliders();
       }
     });
@@ -75,41 +121,42 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   nextStep(): void {
-       if (!this.esPasoActualValido()) {
+    if (!this.esPasoActualValido()) {
       this.marcarCamposDelPasoComoTocados(this.currentStep);
       return;
     }
 
     if (this.currentStep < this.totalSteps) {
-      this.currentStep++;
-      if (this.currentStep === this.totalSteps) {
-        this.cargarResumen();
-      }
+      this.progresoVisual = (this.currentStep + 1) * 20;
 
-      if (this.currentStep === 5) {
-        setTimeout(() => this.configurarSliders(), 0);
-      }
+      setTimeout(() => {
+        this.currentStep++;
+
+        if (this.currentStep === this.totalSteps) {
+          this.cargarResumen();
+        }
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
     }
   }
-
 
   marcarCamposDelPasoComoTocados(paso: number): void {
     const controles: string[] = [];
 
     switch (paso) {
       case 1:
-        controles.push('pesoUsuario', 'alturaUsuario');
+        controles.push('pesoUsuario', 'alturaUsuario', 'objetivo');
         break;
       case 2:
-        controles.push('objetivo');
-        break;
-      case 3:
         controles.push('tipoEntrenamiento');
         break;
-      case 4:
+      case 3:
         controles.push('equipamientos');
         break;
-      case 5:
+      case 4:
         controles.push(
           'nivelExigencia',
           'diasDisponibles',
@@ -126,27 +173,39 @@ export class CrearPlanEntrenamientoComponent {
 
   previousStep(): void {
     if (this.currentStep > 1) {
-      this.currentStep--;
+      this.progresoVisual = (this.currentStep - 1) * 20;
 
-      if (this.currentStep === 5) {
-        setTimeout(() => this.configurarSliders(), 0);
-      }
+      setTimeout(() => {
+        this.currentStep--;
+
+        if (this.currentStep === 4) {
+          setTimeout(() => this.configurarSliders(), 0);
+        }
+      }, 200);
     }
   }
 
   irAPaso(numero: number): void {
-    this.currentStep = numero;
-    this.editandoDesdeResumen = true;
+    this.progresoVisual = numero * 20;
 
-    if (this.currentStep === 5) {
-      setTimeout(() => this.configurarSliders(), 0);
-    }
+    setTimeout(() => {
+      this.currentStep = numero;
+      this.editandoDesdeResumen = true;
+
+      if (this.currentStep === 4) {
+        setTimeout(() => this.configurarSliders(), 0);
+      }
+    }, 200);
   }
 
   volverAlResumen(): void {
-    this.currentStep = this.totalSteps;
-    this.editandoDesdeResumen = false;
-    this.cargarResumen();
+    this.progresoVisual = this.totalSteps * 20;
+
+    setTimeout(() => {
+      this.currentStep = this.totalSteps;
+      this.editandoDesdeResumen = false;
+      this.cargarResumen();
+    }, 200);
   }
 
   esPasoActualValido(): boolean {
@@ -154,15 +213,14 @@ export class CrearPlanEntrenamientoComponent {
       case 1:
         return (
           !!this.formularioForm.get('pesoUsuario')?.valid &&
-          !!this.formularioForm.get('alturaUsuario')?.valid
+          !!this.formularioForm.get('alturaUsuario')?.valid &&
+          !!this.formularioForm.get('objetivo')?.valid
         );
       case 2:
-        return !!this.formularioForm.get('objetivo')?.valid;
-      case 3:
         return !!this.formularioForm.get('tipoEntrenamiento')?.valid;
-      case 4:
+      case 3:
         return !!this.formularioForm.get('equipamientos')?.valid;
-      case 5:
+      case 4:
         return (
           !!this.formularioForm.get('nivelExigencia')?.valid &&
           !!this.formularioForm.get('diasDisponibles')?.valid &&
@@ -259,34 +317,23 @@ export class CrearPlanEntrenamientoComponent {
   obtenerOpcionesEntrenamiento(): void {
     this.planDeEntrenamientoService
       .obtenerOpcionesEntrenamiento()
-      .subscribe((tiposEntrenamiento: any[]) => {
-        this.opcionesEntrenamiento = tiposEntrenamiento;
+      .subscribe((respuesta) => {
+        this.opcionesEntrenamiento = respuesta.objeto;
       });
   }
 
   obtenerEquipamiento(): void {
     this.planDeEntrenamientoService
       .obtenerEquipamiento()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
-      });
-  }
-
-  obtenerObjetivos(): void {
-    this.planDeEntrenamientoService
-      .obtenerObjetivos()
-      .subscribe((equipamientos: any[]) => {
-        this.equipamientosOpciones = equipamientos;
+      .subscribe((respuesta: any) => {
+        this.equipamientosOpciones = respuesta.objeto;
       });
   }
 
   opcionesObjetivo = [
-    { id: 1, nombre: 'Reducir grasa corporal – Bajar de peso' },
-    { id: 2, nombre: 'Tonificar el cuerpo – Mejorar la apariencia muscular' },
-    { id: 3, nombre: 'Ganar masa muscular – Aumentar fuerza' },
-    { id: 4, nombre: 'Mejorar la flexibilidad y movilidad' },
-    { id: 5, nombre: 'Mantenerme activo/a y con energía cada día' },
-    { id: 6, nombre: 'Combatir el sedentarismo' },
+    { id: 1, nombre: 'Mejorar la flexibilidad y movilidad' },
+    { id: 2, nombre: 'Mantenerme activ@ y con energía cada día' },
+    { id: 3, nombre: 'Combatir el sedentarismo' },
   ];
 
   opcionSeleccionada: string | null = null;
@@ -417,7 +464,7 @@ export class CrearPlanEntrenamientoComponent {
     this.setTexto('resumenDuracionPlan', this.traducirDuracion(duracion));
   }
 
-  private getInputValueById(id: string): string {
+  public getInputValueById(id: string): string {
     const input = this.el.nativeElement.querySelector(
       `#${id}`
     ) as HTMLInputElement;
@@ -476,45 +523,50 @@ export class CrearPlanEntrenamientoComponent {
   }
 
   enviarFormulario() {
-    this.cargando=true;
+    this.cargando = true;
     if (this.formularioForm.valid) {
       this.planDeEntrenamientoService
-        .crearPlanEntrenamiento({
-          ...this.formularioForm.value,
-          email: this.authService.getEmail(),
-          
+        .crearPlanEntrenamiento({...this.formularioForm.value, email: this.authService.getEmail(),
         })
-        
         .subscribe(
           (response) => {
-            this.planIdCreado = response.planId;
-            if (response.logro) {
-              this.logroService.mostrarLogro(response.logro);
+            if (response.objeto.planId) {
+              this.planIdCreado = response.objeto.planId;
+              if (response.objeto.logro) {
+                this.logroService.mostrarLogro(response.objeto.logro);
+              }
             }
             this.cargando = false;
-            this.seEnvioForm=true;
+            this.seEnvioForm = true;
             this.mostrarModal = true;
           },
           (error) => {
-            console.error('Error al crear el plan de entrenamiento:', error);
+           manejarErrorYRedirigir(this.toastr, this.router, "No se pudo crear el plan de entrenamiento", '/planes');
           }
         );
     } else {
-      console.log('El formulario no es válido');
+      manejarErrorSimple(this.toastr, 'El formulario no es válido');
     }
   }
 
   manejarAccion(tipo: 'detalle' | 'iniciar') {
-  if (!this.planIdCreado) {
-    console.error('No hay un ID de plan creado.');
-    return;
+    if (!this.planIdCreado) {
+      manejarErrorSimple(this.toastr, 'No hay un ID de plan creado.');
+      return;
+    }
+
+    if (tipo === 'detalle') {
+      this.router.navigate(['/detalle-plan', this.planIdCreado]);
+    } else if (tipo === 'iniciar') {
+      this.router.navigate(['/inicio-rutina', this.planIdCreado]);
+    }
   }
 
-  if (tipo === 'detalle') {
-    this.router.navigate(['/detalle-plan', this.planIdCreado]);
-  } else if (tipo === 'iniciar') {
-    this.router.navigate(['/inicio-rutina', this.planIdCreado]);
-  }
-}
-
+  pasos = [
+    { nombre: 'Datos', icono: 'fas fa-user' },
+    { nombre: 'Entrenamiento', icono: 'fas fa-dumbbell' },
+    { nombre: 'Equipamiento', icono: 'fas fa-box-open' },
+    { nombre: 'Duración', icono: 'fas fa-hourglass-half' },
+    { nombre: 'Resumen', icono: 'fas fa-list-alt' },
+  ];
 }
