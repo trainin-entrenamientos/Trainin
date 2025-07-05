@@ -499,9 +499,9 @@ export class CrearPlanEntrenamientoComponent {
 
   protected traducirMinutos(valor: string): string {
     const mapa: Record<string, string> = {
-      '1': '≈15 min.',
-      '2': '≈30 min.',
-      '3': '≈45 min.',
+      '1': '15 min.',
+      '2': '30 min.',
+      '3': '45 min.',
     };
     return mapa[valor] || 'No especificado';
   }
