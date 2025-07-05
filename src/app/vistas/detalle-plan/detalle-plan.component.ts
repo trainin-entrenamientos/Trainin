@@ -65,7 +65,6 @@ export class DetallePlanComponent implements OnInit {
             });
           });
           this.detallePlan = data.objeto;
-          console.log(this.detallePlan);
           this.idPlan = this.detallePlan?.id ?? 0;
           this.semanas = data.objeto.semanaRutinas || [];
           this.seleccionarPrimerRutinaActiva();

@@ -67,13 +67,11 @@ export class LogrosComponent implements OnInit {
 
     this.logroService.obtenerLogrosPorUsuario(this.email).subscribe({
       next: (respUser) => {
-        console.log(respUser.objeto)
         this.logrosObtenidos = respUser.objeto;
 
         this.logroService.obtenerTodosLosLogros().subscribe({
           next: (respAll) => {
             const todos: LogroDTO[] = respAll.objeto || [];
-            console.log(respAll.objeto);
             this.todosLosLogros = todos.map((l) => ({
               ...l,
               obtenido: this.logrosObtenidos.some((u) => u.nombre === l.nombre),

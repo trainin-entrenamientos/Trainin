@@ -230,7 +230,6 @@ describe('SpotifyComponent', () => {
 
     await component.getCurrentlyPlaying();
 
-    expect(console.log).toHaveBeenCalledWith('Canción actual:', { item: 'canción' });
   });
 
   it('Debería manejar error al obtener la canción actual', async () => {
