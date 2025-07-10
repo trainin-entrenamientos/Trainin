@@ -9,6 +9,7 @@ import { EjercicioService } from '../../core/servicios/EjercicioServicio/ejercic
 import { TemporizadorService } from '../../core/servicios/temporizadorServicio/temporizador.service';
 import { manejarErrorSimple, manejarErrorYRedirigir } from '../../compartido/utilidades/errores-toastr';
 import { ToastrService } from 'ngx-toastr';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
 @Component({
   selector: 'app-ejercicio-diario',
   templateUrl: './ejercicio-diario.component.html',
@@ -41,7 +42,8 @@ export class EjercicioDiarioComponent implements OnInit {
     private ejercicioService: EjercicioService,
     private temporizadorService: TemporizadorService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private logroService: LogroService,
   ) {}
 
   ngOnInit(): void {
@@ -156,6 +158,9 @@ terminarEjercicioDiario() {
 
   this.ejercicioService.marcarEjercicioDiarioRealizado(this.email).subscribe({
     next: (response: any) => {
+      if(response.objeto){
+        this.logroService.mostrarLogro(response.objeto)
+      }
       this.router.navigate(['/planes']);
     },
     error: (err: any) => {
