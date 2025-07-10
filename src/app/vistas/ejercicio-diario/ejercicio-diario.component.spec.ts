@@ -12,6 +12,8 @@ import { EjercicioDiarioDTO } from '../../core/modelos/EjercicioDiarioDTO';
 import { RespuestaApi } from '../../core/modelos/RespuestaApiDTO';
 import { Usuario } from '../../core/modelos/Usuario';
 import { ToastrService } from 'ngx-toastr';
+import { LogroService } from '../../core/servicios/logroServicio/logro.service';
+import { LogroDTO } from '../../core/modelos/LogroDTO';
 
 describe('EjercicioDiarioComponent', () => {
   let component: EjercicioDiarioComponent;
@@ -23,6 +25,8 @@ describe('EjercicioDiarioComponent', () => {
   let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
   let routerSpy: jasmine.SpyObj<Router>;
   let toastrSpy: jasmine.SpyObj<ToastrService>;
+  
+  let logroServiceSpy = jasmine.createSpyObj('LogroService', ['mostrarLogro']);
 
   const mockEjercicioDiario: EjercicioDiarioDTO = {
     id: 1,
@@ -55,6 +59,15 @@ describe('EjercicioDiarioComponent', () => {
     mensaje: 'Ejercicio obtenido correctamente',
     objeto: mockEjercicioDiario
   };
+  const mockLogroDTO: LogroDTO = {
+  id: 1,
+  nombre: 'Logro Test',
+  descripcion: 'Completaste tu primer ejercicio diario',
+  imagen: 'logro-test.jpg',
+  obtenido: true,
+  tipo: 'Progreso',
+  fechaObtencion: new Date()
+};
 
   beforeEach(async () => {
     const toastrSpyObj = jasmine.createSpyObj('ToastrService', ['error']);
@@ -71,6 +84,7 @@ describe('EjercicioDiarioComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [EjercicioDiarioComponent],
       providers: [
+        { provide: LogroService, useValue: logroServiceSpy },
         { provide: AuthService, useValue: authSpy },
         { provide: UsuarioService, useValue: usuarioSpy },
         { provide: EjercicioService, useValue: ejercicioSpy },
@@ -83,7 +97,7 @@ describe('EjercicioDiarioComponent', () => {
 
     fixture = TestBed.createComponent(EjercicioDiarioComponent);
     component = fixture.componentInstance;
-
+    logroServiceSpy = TestBed.inject(LogroService) as jasmine.SpyObj<LogroService>;
     authServiceSpy = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     usuarioServiceSpy = TestBed.inject(UsuarioService) as jasmine.SpyObj<UsuarioService>;
     ejercicioServiceSpy = TestBed.inject(EjercicioService) as jasmine.SpyObj<EjercicioService>;
@@ -102,7 +116,7 @@ describe('EjercicioDiarioComponent', () => {
     ejercicioServiceSpy.marcarEjercicioDiarioRealizado.and.returnValue(of({
       exito: true,
       mensaje: 'Ejercicio marcado como realizado',
-      objeto: 'success'
+      objeto: mockLogroDTO,
     })
     );
     temporizadorServiceSpy.formatearTiempo.and.returnValue('02:00');
