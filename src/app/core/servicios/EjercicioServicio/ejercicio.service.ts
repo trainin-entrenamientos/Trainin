@@ -8,6 +8,7 @@ import { CategoriaEjercicioDTO } from '../../modelos/CategoriaEjercicioDTO';
 import { GrupoMuscular } from '../../modelos/DetallePlanDTO';
 import { GrupoMuscularDTO } from '../../modelos/GrupoMuscularDTO';
 import { EjercicioDiarioDTO } from '../../modelos/EjercicioDiarioDTO';
+import { LogroDTO } from '../../modelos/LogroDTO';
 
 @Injectable({ providedIn: 'root' })
 export class EjercicioService {
@@ -58,8 +59,8 @@ export class EjercicioService {
     return this.http.get<RespuestaApi<EjercicioDiarioDTO>>(`${this.apiUrl}/diario/${email}`)
   }
 
-   marcarEjercicioDiarioRealizado(emailUsuario: string): Observable<RespuestaApi<string>> {
-    return this.http.get<RespuestaApi<string>>(`${this.apiUrl}/DiarioCompletado/${emailUsuario}`);
+   marcarEjercicioDiarioRealizado(emailUsuario: string): Observable<RespuestaApi<LogroDTO>> {
+    return this.http.get<RespuestaApi<LogroDTO>>(`${this.apiUrl}/DiarioCompletado/${emailUsuario}`);
   }
 
 }
