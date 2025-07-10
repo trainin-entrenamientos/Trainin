@@ -69,12 +69,12 @@
   width: 100%;
 
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* relieve */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); 
   margin: 8px;
   transition: box-shadow 0.3s ease;
 }
 
-/* Efecto al pasar el mouse (opcional) */
+
 .spotify-player:hover {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.75);
 }
